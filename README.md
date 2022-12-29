@@ -48,7 +48,7 @@ RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 ### Create collection
 
 ```python
-from raindropio import API, Collection
+from raindroppy.api import API, Collection
 api = API(raindrop_access_token)
 
 c = Collection.create(api, title="Sample collection")
@@ -58,7 +58,7 @@ print(c.title)
 ### Search bookmarks from Unsorted collection.
 
 ```python
-from raindropio import API, CollectionRef, Raindrop
+from raindroppy.api import API, CollectionRef, Raindrop
 api = API(raindrop_access_token)
 
 page = 0

@@ -6,13 +6,17 @@ authors = ["Peter Borocz <680893+PBorocz@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+python-dotenv = "^0.21.0"
+requests-oauthlib = "^1.3.1"
+python-dateutil = "^2.8.2"
+jashin = ">=0.0.6"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
 PySnooper = "^1.1.1"
 python-language-server = "^0.36.2"
 pre-commit = "^2.21.0"
 ruff = "^0.0.200"
+pytest = "7.2.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -2,9 +2,7 @@
 
 Python wrapper for [raindrop.io API](https://developer.raindrop.io/).
 
-This is a _fork_ of [https://github.com/atsuoishimoto/python-raindropio](python-raindropio) from [https://github.com/atsuoishimoto](Atsuo Ishimoto).
-
-I needed a few additions and desired a simple terminal-based UI for interactive work with Raindrop itself.
+This is a fork of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto). I needed a few additions and desired a simple terminal-based UI for interactive work with Raindrop itself.
 
 ## Requirements
 
@@ -13,7 +11,7 @@ I needed a few additions and desired a simple terminal-based UI for interactive 
 
 ## Install
 
-Until I understand how to "package" and distribute to PyPI, please use directly from this repo. Ultimately, you'll be able to:
+Until we learn how to "package" and distribute to PyPI, please use directly from this repo. Ultimately, you'll be able to:
 
 ```shell
 pip3 install raindroppy
@@ -27,17 +25,22 @@ poetry add raindroppy
 
 ## Setup
 
-You must register your application at https://app.raindrop.io/settings/integrations.
+You need an API token from Raindrop.io to use this package. 
 
-### Register & Create a API token at [https://app.raindrop.io/settings/integrations](app.draindrop.api/settings/integrations)
+- Register & create a token:
 
-### Save your API Token into your environment.
+    - Go to [app.draindrop.api/settings/integrations](https://app.raindrop.io/settings/integrations) and "+ create new app".
 
-We use python-dotenv so a simple .env (or .envrc) file containing an entry for RAINDROP_TOKEN will suffice:
+    - Give it a descriptive name and then select the app you just created. 
+
+    - Select "Create test token" and copy the token provided.
+
+- Save your token into your environment:
+
+    - We use python-dotenv so a simple .env (or .envrc) file containing an entry for your token will suffice:
 
 ```
-# -*- mode: yaml;-*-
-RAINDROP_TOKEN=790db7cf-aSample-API-Token.01234567890-abcdefghf
+RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 ```
 
 ## API Usage

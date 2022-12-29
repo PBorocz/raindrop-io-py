@@ -1,0 +1,9 @@
+fail_fast: true
+repos:
+- repo: local
+  hooks:
+  - id: system
+    name: ruff
+    entry: ./.venv/bin/ruff --fix raindroppy/
+    pass_filenames: false
+    language: system

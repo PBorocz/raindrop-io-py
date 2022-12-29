@@ -49,7 +49,7 @@ RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
 ```python
 from raindropio import API, Collection
-api = API(raidrop_access_token)
+api = API(raindrop_access_token)
 
 c = Collection.create(api, title="Sample collection")
 print(c.title)
@@ -59,7 +59,7 @@ print(c.title)
 
 ```python
 from raindropio import API, CollectionRef, Raindrop
-api = API(raidrop_access_token)
+api = API(raindrop_access_token)
 
 page = 0
 while (items:=Raindrop.search(api, collection=CollectionRef.Unsorted, page=page)):
@@ -71,6 +71,4 @@ while (items:=Raindrop.search(api, collection=CollectionRef.Unsorted, page=page)
 
 ## License
 
-Copyright 2022 Peter Borocz
-
-See LICENSE for detail.
+Copyright (c) 2022 Peter Borocz. See LICENSE for details.

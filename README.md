@@ -45,11 +45,19 @@ RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
 ## API Usage
 
+Two simple examples, for more, see raindroppy/api/samples directory.
+
 ### Create collection
 
 ```python
+import os
+from dotenv import load_dotenv
+
 from raindroppy.api import API, Collection
-api = API(raindrop_access_token)
+
+load_dotenv()
+
+api = API(os.environ["RAINDROP_TOKEN"])
 
 c = Collection.create(api, title="Sample collection")
 print(c.title)
@@ -58,8 +66,14 @@ print(c.title)
 ### Search bookmarks from Unsorted collection.
 
 ```python
+import os
+from dotenv import load_dotenv
+
 from raindroppy.api import API, CollectionRef, Raindrop
-api = API(raindrop_access_token)
+
+load_dotenv()
+
+api = API(os.environ["RAINDROP_TOKEN"])
 
 page = 0
 while (items:=Raindrop.search(api, collection=CollectionRef.Unsorted, page=page)):

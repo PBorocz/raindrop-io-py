@@ -1,3 +1,4 @@
+"""All abstract data types to interact with Raindrop's API."""
 from __future__ import annotations
 
 import datetime
@@ -32,6 +33,9 @@ __all__ = [
 
 
 class AccessLevel(enum.IntEnum):
+
+    """Map the Access levels defined by Raindrop's API."""
+
     readonly = 1
     collaborator_read = 2
     collaborator_write = 3
@@ -39,6 +43,9 @@ class AccessLevel(enum.IntEnum):
 
 
 class View(enum.Enum):
+
+    """Map the names of the views for Raindrop's API."""
+
     list = "list"
     simple = "simple"
     grid = "grid"
@@ -46,6 +53,9 @@ class View(enum.Enum):
 
 
 class CollectionRef(DictModel):
+
+    """Abstract data type for a Raindrop Collection reference."""
+
     Unsorted: ClassVar[CollectionRef]
     Trash: ClassVar[CollectionRef]
 
@@ -57,14 +67,16 @@ CollectionRef.Trash = CollectionRef({"$id": -1})
 
 
 class UserRef(DictModel):
-    """Represents reference to :class:`User` object. """
+
+    """Represents reference to :class:`User` object."""
 
     #: (:class:`int`) The id of the :class:`User`.
     id = ItemAttr[int](name="$id")
 
 
 class Access(DictModel):
-    """Represents Access control of Collections"""
+
+    """Represents Access control of Collections."""
 
     #: (:class:`UserRef`) The user for this permission.
     level = ItemAttr(AccessLevel)
@@ -74,7 +86,8 @@ class Access(DictModel):
 
 
 class Collection(DictModel):
-    """Represents Collection"""
+
+    """Represents a concrete Rainbow Collection."""
 
     #: (:class:`int`) The id of the collection.
     id = ItemAttr[int](name="_id")
@@ -98,7 +111,7 @@ class Collection(DictModel):
 
     @classmethod
     def get_roots(cls, api: API) -> Sequence[Collection]:
-        """Get root collections"""
+        """Get root collections."""
         URL = "https://api.raindrop.io/rest/v1/collections"
         ret = api.get(URL)
         items = ret.json()["items"]
@@ -106,6 +119,7 @@ class Collection(DictModel):
 
     @classmethod
     def get_childrens(cls, api: API) -> Sequence[Collection]:
+        """Get the "child" collections (ie. all below 'root' level)."""
         URL = "https://api.raindrop.io/rest/v1/collections/childrens"
         ret = api.get(URL)
         items = ret.json()["items"]
@@ -113,6 +127,7 @@ class Collection(DictModel):
 
     @classmethod
     def get(cls, api: API, id: int) -> Collection:
+        """Primary call to return a Raindrop collection based on it's id."""
         URL = f"https://api.raindrop.io/rest/v1/collection/{id}"
         item = api.get(URL).json()["item"]
         return cls(item)
@@ -128,7 +143,7 @@ class Collection(DictModel):
         parent: Optional[int] = None,
         cover: Optional[Sequence[str]] = None,
     ) -> Collection:
-
+        """Create a new Raindrop collection."""
         args: Dict[str, Any] = {}
         if view is not None:
             args["view"] = view
@@ -160,7 +175,7 @@ class Collection(DictModel):
         parent: Optional[int] = None,
         cover: Optional[Sequence[str]] = None,
     ) -> Collection:
-
+        """Update all specified attributes of an existing Raindrop collection."""
         args: Dict[str, Any] = {}
         if expanded is not None:
             args["expanded"] = expanded
@@ -183,11 +198,15 @@ class Collection(DictModel):
 
     @classmethod
     def remove(cls, api: API, id: int) -> None:
+        """Remove/delete a Raindrop collection."""
         URL = f"https://api.raindrop.io/rest/v1/collection/{id}"
         api.delete(URL, json={})
 
 
 class RaindropType(enum.Enum):
+
+    """Map the types of Raindrop bookmarks possible (ie. what type of content they hold)."""
+
     link = "link"
     article = "article"
     image = "image"
@@ -197,7 +216,8 @@ class RaindropType(enum.Enum):
 
 
 class Raindrop(DictModel):
-    """Raindrop"""
+
+    """Core class of a Raindrop bookmark 'item'."""
 
     id = ItemAttr[int](name="_id")
     collection = ItemAttr(CollectionRef)
@@ -222,6 +242,7 @@ class Raindrop(DictModel):
 
     @classmethod
     def get(cls, api: API, id: int) -> Raindrop:
+        """Primary call to return a Raindrop bookmark based on it's id."""
         URL = f"https://api.raindrop.io/rest/v1/raindrop/{id}"
         item = api.get(URL).json()["item"]
         return cls(item)
@@ -245,7 +266,7 @@ class Raindrop(DictModel):
         excerpt: Optional[str] = None,
         title: Optional[str] = None,
     ) -> Raindrop:
-
+        """Create a new Raindrop bookmark."""
         args: Dict[str, Any] = {
             "link": link,
         }
@@ -303,7 +324,7 @@ class Raindrop(DictModel):
         title: Optional[str] = None,
         link: Optional[str] = None,
     ) -> Raindrop:
-
+        """Update all specified attributes of an existing Raindrop bookmark."""
         args: Dict[str, Any] = {}
         if pleaseParse:
             args["pleaseParse"] = {}
@@ -343,6 +364,7 @@ class Raindrop(DictModel):
 
     @classmethod
     def remove(cls, api: API, id: int) -> None:
+        """Remove/delete a Raindrop bookmark."""
         URL = f"https://api.raindrop.io/rest/v1/raindrop/{id}"
         api.delete(URL, json={})
 
@@ -357,7 +379,7 @@ class Raindrop(DictModel):
         tag: Optional[str] = None,
         important: Optional[bool] = None,
     ) -> List[Raindrop]:
-
+        """Search for bookmarks in the specified collection with key word, tag or importance parms."""
         args: List[Dict[str, Any]] = []
         if word is not None:
             args.append({"key": "word", "val": word})
@@ -381,6 +403,7 @@ class Raindrop(DictModel):
         content_type: str,
         collection: CollectionRef = CollectionRef.Unsorted,
     ) -> Raindrop:
+        """Create a new bookmark for a 'file'-based bookmark item."""
         URL = "https://api.raindrop.io/rest/v1/raindrop/file"
 
         # Per update to API documentation by Rustem Mussabekov on 2022-11-29, these are the
@@ -393,6 +416,9 @@ class Raindrop(DictModel):
 
 
 class BrokenLevel(enum.Enum):
+
+    """Enumerate user levels."""
+
     basic = "basic"
     default = "default"
     strict = "strict"
@@ -400,11 +426,17 @@ class BrokenLevel(enum.Enum):
 
 
 class FontColor(enum.Enum):
+
+    """Enumerate user display themes available."""
+
     sunset = "sunset"
     night = "night"
 
 
 class UserConfig(DictModel):
+
+    """Abstract data type defining a Raindrop user's configuration."""
+
     broken_level = ItemAttr(BrokenLevel)
     font_color = ItemAttr[Optional[FontColor]](FontColor, default=None)
     font_size = ItemAttr[int]()
@@ -413,6 +445,9 @@ class UserConfig(DictModel):
 
 
 class Group(DictModel):
+
+    """Abstract data type defining a Raindrop user group."""
+
     title = ItemAttr[str]()
     hidden = ItemAttr[bool]()
     sort = ItemAttr[int]()
@@ -420,13 +455,17 @@ class Group(DictModel):
 
 
 class UserFiles(DictModel):
+
+    """Abstract data type defining a file associated with a user (?)."""
+
     used = ItemAttr[int]()
     size = ItemAttr[int]()
     lastCheckPoint = ItemAttr(dateparse)
 
 
 class User(DictModel):
-    """User"""
+
+    """User."""
 
     id = ItemAttr[int](name="_id")
     config = ItemAttr(UserConfig)
@@ -441,19 +480,22 @@ class User(DictModel):
 
     @classmethod
     def get(cls, api: API) -> User:
+        """Get all the information about a specific Raindrop user."""
         URL = "https://api.raindrop.io/rest/v1/user"
         user = api.get(URL).json()["user"]
         return cls(user)
 
 
 class Tag(DictModel):
+
     """Represents existing Tags, either all or just a specific collection."""
 
     tag = ItemAttr[str]()
     count = ItemAttr[int]()
 
     @classmethod
-    def get(cls, api: API, collection_id: int = None) -> User:
+    def get(cls, api: API, collection_id: int = None) -> list[Tag]:
+        """Get all the tags currently defined in a specific Raindrop collection."""
         URL = "https://api.raindrop.io/rest/v1/tags"
         if collection_id:
             URL += "/" + str(collection_id)

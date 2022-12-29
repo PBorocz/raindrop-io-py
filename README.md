@@ -4,6 +4,8 @@ Python wrapper for [raindrop.io API](https://developer.raindrop.io/).
 
 This is a fork of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto). I needed a few additions and desired a simple terminal-based UI for interactive work with Raindrop itself.
 
+This is NOT ready for use yet! We're still learning the foibles of creating a repository for public use.
+
 ## Requirements
 
 - Requires Python 3.10 or later.

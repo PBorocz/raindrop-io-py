@@ -25,9 +25,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.ruff]
 line-length = 120
 
-# Enable Pyflakes `E` and `F` codes by default.
-select = ["E", "F"]
-ignore = []
+select = ["E", "F", "W", "I", "D"]
+ignore = ["D211", "D213"]
 
 # Exclude a variety of commonly ignored directories.
 exclude = [

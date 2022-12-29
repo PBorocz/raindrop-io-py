@@ -1,3 +1,4 @@
+"""Primary API interface."""
 from __future__ import annotations
 
 import datetime
@@ -11,14 +12,15 @@ from requests_oauthlib import OAuth2Session
 
 
 def create_oauth2session(*args: Any, **kwargs: Any) -> OAuth2Session:
+    """Utility method to use requests obo oauth credential handling."""
     session = OAuth2Session(*args, **kwargs)
-
     #    session.register_compliance_hook("access_token_response", update_expires)
     #    session.register_compliance_hook("refresh_token_response", update_expires)
     return session
 
 
 class API:
+
     """Provides communication to the Raindrop.io API server.
 
     :param token: An access token for authorization.
@@ -40,29 +42,32 @@ class API:
         client_secret: Optional[str] = None,
         token_type: str = "Bearer",
     ) -> None:
+        """Instantiate an API connection to Raindrop using the credentials provided."""
         self.token = token
         self.client_id = client_id
         self.client_secret = client_secret
         self.token_type = token_type
-
         self.session = None
 
         self.open()
 
     def __enter__(self) -> API:
+        """If we don't have an active session open yet, open one!."""
         if not self.session:
             self.open()
-
         return self
 
     def __exit__(self, type, value, traceback) -> None:  # type: ignore
+        """Once we're done with this API's scope, close the connection off."""
         self.close()
 
     def open(self) -> None:
+        """Open an new connection to Raindrop."""
         self.close()
         self.session = self._create_session()
 
     def close(self) -> None:
+        """Close an existing Raindrop connection."""
         if self.session:
             self.session.close()
             self.session = None
@@ -139,7 +144,7 @@ class API:
     def get(
         self, url: str, params: Optional[Dict[Any, Any]] = None
     ) -> requests.models.Response:
-        """Send a GET request
+        """Send a GET request.
 
         :param url: The url to send request
         :type url: str
@@ -150,7 +155,6 @@ class API:
         :return: :class:`requests.Response` object
         :rtype: :class:`requests.Response`
         """
-
         assert self.session
         ret = self.session.get(url, headers=self._request_headers(), params=params)
         self._on_resp(ret)
@@ -158,6 +162,7 @@ class API:
         return ret
 
     def put(self, url: str, json: Any = None) -> requests.models.Response:
+        """Low-level call to perform a PUT method against our present connection."""
         json = self._to_json(json)
 
         assert self.session
@@ -166,7 +171,7 @@ class API:
         return ret
 
     def put_file(self, url: str, path: Path, data: dict, files: dict) -> requests.models.Response:
-        """Upload a file by a PUT request
+        """Upload a file by a PUT request.
 
         :param url: The url to send request to
         :type url: str
@@ -191,6 +196,7 @@ class API:
         return ret
 
     def post(self, url: str, json: Any = None) -> requests.models.Response:
+        """Low-level call to perform a POST method against our present connection."""
         json = self._to_json(json)
 
         assert self.session
@@ -199,6 +205,7 @@ class API:
         return ret
 
     def delete(self, url: str, json: Any = None) -> requests.models.Response:
+        """Low-level call to perform a DELETE method against our present connection."""
         json = self._to_json(json)
 
         assert self.session

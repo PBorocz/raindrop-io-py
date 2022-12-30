@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "raindroppy"
 version = "0.1.0"
-description = ""
+description = "API and terminal-based CLI for Raindrop.io bookmark manager"
 authors = ["Peter Borocz <680893+PBorocz@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
@@ -27,40 +27,33 @@ target-version = ['py310']
 line-length = 120
 
 select = ["E", "F", "W", "I", "D"]
-ignore = ["D211", "D213"]
 
-# Exclude a variety of commonly ignored directories.
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "venv",
+# PEP8 Convention
+# For more info, see: https://github.com/charliermarsh/ruff#does-ruff-support-numpy--or-google-style-docstrings
+ignore = [
+    "D203",
+    "D212",
+    "D213",
+    "D214",
+    "D215",
+    "D404",
+    "D405",
+    "D406",
+    "D407",
+    "D408",
+    "D409",
+    "D410",
+    "D411",
+    "D413",
+    "D415",
+    "D416",
+    "D417",
 ]
-per-file-ignores = {}
-
-# Allow unused variables when underscore-prefixed.
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 # Assume Python 3.10.*
 target-version = "py310"
 
 [tool.ruff.mccabe]
-# Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
 
 [build-system]

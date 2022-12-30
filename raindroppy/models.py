@@ -33,7 +33,6 @@ __all__ = [
 
 
 class AccessLevel(enum.IntEnum):
-
     """Map the Access levels defined by Raindrop's API."""
 
     readonly = 1
@@ -43,7 +42,6 @@ class AccessLevel(enum.IntEnum):
 
 
 class View(enum.Enum):
-
     """Map the names of the views for Raindrop's API."""
 
     list = "list"
@@ -53,7 +51,6 @@ class View(enum.Enum):
 
 
 class CollectionRef(DictModel):
-
     """Abstract data type for a Raindrop Collection reference."""
 
     Unsorted: ClassVar[CollectionRef]
@@ -67,7 +64,6 @@ CollectionRef.Trash = CollectionRef({"$id": -1})
 
 
 class UserRef(DictModel):
-
     """Represents reference to :class:`User` object."""
 
     #: (:class:`int`) The id of the :class:`User`.
@@ -75,7 +71,6 @@ class UserRef(DictModel):
 
 
 class Access(DictModel):
-
     """Represents Access control of Collections."""
 
     #: (:class:`UserRef`) The user for this permission.
@@ -86,7 +81,6 @@ class Access(DictModel):
 
 
 class Collection(DictModel):
-
     """Represents a concrete Rainbow Collection."""
 
     #: (:class:`int`) The id of the collection.
@@ -204,7 +198,6 @@ class Collection(DictModel):
 
 
 class RaindropType(enum.Enum):
-
     """Map the types of Raindrop bookmarks possible (ie. what type of content they hold)."""
 
     link = "link"
@@ -216,7 +209,6 @@ class RaindropType(enum.Enum):
 
 
 class Raindrop(DictModel):
-
     """Core class of a Raindrop bookmark 'item'."""
 
     id = ItemAttr[int](name="_id")
@@ -416,7 +408,6 @@ class Raindrop(DictModel):
 
 
 class BrokenLevel(enum.Enum):
-
     """Enumerate user levels."""
 
     basic = "basic"
@@ -426,7 +417,6 @@ class BrokenLevel(enum.Enum):
 
 
 class FontColor(enum.Enum):
-
     """Enumerate user display themes available."""
 
     sunset = "sunset"
@@ -434,7 +424,6 @@ class FontColor(enum.Enum):
 
 
 class UserConfig(DictModel):
-
     """Abstract data type defining a Raindrop user's configuration."""
 
     broken_level = ItemAttr(BrokenLevel)
@@ -445,7 +434,6 @@ class UserConfig(DictModel):
 
 
 class Group(DictModel):
-
     """Abstract data type defining a Raindrop user group."""
 
     title = ItemAttr[str]()
@@ -455,7 +443,6 @@ class Group(DictModel):
 
 
 class UserFiles(DictModel):
-
     """Abstract data type defining a file associated with a user (?)."""
 
     used = ItemAttr[int]()
@@ -464,7 +451,6 @@ class UserFiles(DictModel):
 
 
 class User(DictModel):
-
     """User."""
 
     id = ItemAttr[int](name="_id")
@@ -487,7 +473,6 @@ class User(DictModel):
 
 
 class Tag(DictModel):
-
     """Represents existing Tags, either all or just a specific collection."""
 
     tag = ItemAttr[str]()

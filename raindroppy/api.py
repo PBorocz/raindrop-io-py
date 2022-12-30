@@ -20,7 +20,6 @@ def create_oauth2session(*args: Any, **kwargs: Any) -> OAuth2Session:
 
 
 class API:
-
     """Provides communication to the Raindrop.io API server.
 
     :param token: An access token for authorization.

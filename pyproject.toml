@@ -17,10 +17,11 @@ python-language-server = "^0.36.2"
 pre-commit = "^2.21.0"
 ruff = "^0.0.200"
 pytest = "7.2.0"
+black = "^22.12.0"
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.black]
+line-length = 120
+target-version = ['py310']
 
 [tool.ruff]
 line-length = 120
@@ -61,3 +62,7 @@ target-version = "py310"
 [tool.ruff.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

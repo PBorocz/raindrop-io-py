@@ -4,7 +4,7 @@ from dotenv import load_env
 from flask import Flask, redirect, render_template_string, request
 from werkzeug import Response
 
-from raindroppy.api import *
+from raindroppy import *
 
 load_env()
 

@@ -1,6 +1,6 @@
 import os
 
-from raindroppy.api import *
+from raindroppy import *
 
 api = API(os.environ["RAINDROP_TOKEN"])
 

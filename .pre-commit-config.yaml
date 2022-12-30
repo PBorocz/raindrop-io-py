@@ -1,5 +1,14 @@
 fail_fast: true
 repos:
+
+- repo: local
+  hooks:
+  - id: system
+    name: black
+    entry: ./.venv/bin/black raindroppy/
+    pass_filenames: false
+    language: system
+
 - repo: local
   hooks:
   - id: system

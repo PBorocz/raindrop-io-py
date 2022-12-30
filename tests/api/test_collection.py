@@ -1,7 +1,7 @@
 import datetime
 from unittest.mock import patch
 
-from raindroppy.api import API, Collection, View
+from raindroppy import API, Collection, View
 
 collection = {
     "_id": 1000,
@@ -24,7 +24,7 @@ collection = {
 
 def test_get_roots() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.OAuth2Session.request") as m:
         m.get().json.return_value = {"items": [collection]}
         for c in Collection.get_roots(api):
             assert c.id == 1000
@@ -52,7 +52,7 @@ def test_get_roots() -> None:
 
 def test_get_childrens() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.OAuth2Session.request") as m:
         m.get().json.return_value = {"items": [collection]}
         for c in Collection.get_childrens(api):
             assert c.id == 1000
@@ -60,7 +60,7 @@ def test_get_childrens() -> None:
 
 def test_get() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": collection}
         c = Collection.get(api, 1000)
         assert c.id == 1000
@@ -68,7 +68,7 @@ def test_get() -> None:
 
 def test_update() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": collection}
         title = str(datetime.datetime.now())
         c = Collection.update(api, id=1000, title=title, view=View.list)
@@ -77,7 +77,7 @@ def test_update() -> None:
 
 def test_create() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": collection}
         c = Collection.create(api, title="abcdef")
         assert c.id == 1000
@@ -85,7 +85,7 @@ def test_create() -> None:
 
 def test_delete() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.OAuth2Session.request") as m:
         Collection.remove(api, id=1000)
         assert m.call_args[0] == (
             "DELETE",

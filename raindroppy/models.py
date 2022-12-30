@@ -408,7 +408,7 @@ class Raindrop(DictModel):
 
         # Per update to API documentation by Rustem Mussabekov on 2022-11-29, these are the
         # relevant arguments to create a new Raindrop with a file as it's body instead of a link:
-        data = {"collectionId" : str(collection.id)}
+        data = {"collectionId": str(collection.id)}
         files = {"file": (path.name, open(path, "rb"), content_type)}
 
         results = api.put_file(URL, path, data, files).json()

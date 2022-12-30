@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from raindroppy.api import Tag, API
+from raindroppy import Tag, API
 
 load_dotenv()
 api = API(os.environ["RAINDROP_TOKEN"])

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from raindroppy.api import *
+from raindroppy import *
 
 load_dotenv()
 api = API(os.environ["RAINDROP_TOKEN"])

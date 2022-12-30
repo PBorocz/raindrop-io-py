@@ -1,4 +1,4 @@
-# raindroppy
+# RaindropPY
 
 Python wrapper for [raindrop.io API](https://developer.raindrop.io/).
 

@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from raindroppy.api import API, Tag, Collection
+from raindroppy import API, Tag, Collection
 
 tag = {
     "tag": "a Sample Tag",
@@ -10,7 +10,7 @@ tag = {
 
 def test_get() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"items": [tag]}
 
         tags = Tag.get(api)

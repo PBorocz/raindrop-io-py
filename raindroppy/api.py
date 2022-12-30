@@ -105,9 +105,7 @@ class API:
         if isinstance(obj, datetime.datetime):
             return obj.isoformat()
 
-        raise TypeError(
-            f"Object of type {obj.__class__.__name__} " f"is not JSON serializable"
-        )
+        raise TypeError(f"Object of type {obj.__class__.__name__} " f"is not JSON serializable")
 
     def _to_json(self, obj: Any) -> Optional[str]:
         if obj is not None:
@@ -141,9 +139,7 @@ class API:
             "Content-Type": "application/json",
         }
 
-    def get(
-        self, url: str, params: Optional[Dict[Any, Any]] = None
-    ) -> requests.models.Response:
+    def get(self, url: str, params: Optional[Dict[Any, Any]] = None) -> requests.models.Response:
         """Send a GET request.
 
         :param url: The url to send request

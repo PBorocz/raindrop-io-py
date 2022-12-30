@@ -4,7 +4,15 @@ repos:
 - repo: local
   hooks:
   - id: system
-    name: black
+    name: Run Tests
+    entry: ./.venv/bin/python -m pytest
+    pass_filenames: false
+    language: system
+
+- repo: local
+  hooks:
+  - id: system
+    name: Run Black
     entry: ./.venv/bin/black raindroppy/
     pass_filenames: false
     language: system
@@ -12,7 +20,7 @@ repos:
 - repo: local
   hooks:
   - id: system
-    name: ruff
+    name: Run Ruff
     entry: ./.venv/bin/ruff --fix raindroppy/
     pass_filenames: false
     language: system

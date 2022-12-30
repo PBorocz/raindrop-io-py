@@ -1,3 +1,6 @@
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
 # RaindropPY
 
 Python wrapper for [raindrop.io API](https://developer.raindrop.io/).
@@ -27,29 +30,32 @@ poetry add raindroppy
 
 ## Setup
 
-You need an API token from Raindrop.io to use this package. 
+You need to create an integration "app" on Raindrop.io to receive API token(s) to use this package.
 
-- Register & create a token:
+- Go to [app.draindrop.api/settings/integrations](https://app.raindrop.io/settings/integrations) and "+ create new app".
 
-    - Go to [app.draindrop.api/settings/integrations](https://app.raindrop.io/settings/integrations) and "+ create new app".
+- Give it a descriptive name and then select the app you just created. 
 
-    - Give it a descriptive name and then select the app you just created. 
+- For testing, select "Create test token" and copy the token provided.
 
-    - Select "Create test token" and copy the token provided.
+- For production use, copy the CLIENT_ID and CLIENT_SECRET tokens provided.
 
-- Save your token into your environment:
+- Save your token(s) into your environment:
 
     - We use python-dotenv so a simple .env (or .envrc) file containing an entry for your token will suffice:
 
 ```
-RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
+RAINDROP_TEST_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
+# or
+RAINDROP_CLIENT_ID=1234567890-abcdefgh-1234567890
+RAINDROP_CLIENT_SECRET=abcdefgh-1234567890-abcdefgh
 ```
 
-## API Usage
+## API Usage & Examples
 
 Two simple examples, for more, see raindroppy/api/samples directory.
 
-### Create collection
+### Create a collection
 
 ```python
 import os
@@ -59,10 +65,10 @@ from raindroppy.api import API, Collection
 
 load_dotenv()
 
-api = API(os.environ["RAINDROP_TOKEN"])
+api = API(os.environ["RAINDROP_TEST_TOKEN"])
 
 c = Collection.create(api, title="Sample collection")
-print(c.title)
+print(f"{c.title=})
 ```
 
 ### Search bookmarks from Unsorted collection.
@@ -75,16 +81,26 @@ from raindroppy.api import API, CollectionRef, Raindrop
 
 load_dotenv()
 
-api = API(os.environ["RAINDROP_TOKEN"])
+api = API(os.environ["RAINDROP_TEST_TOKEN"])
 
 page = 0
-while (items:=Raindrop.search(api, collection=CollectionRef.Unsorted, page=page)):
+while (items := Raindrop.search(api, collection=CollectionRef.Unsorted, page=page)):
     print(page)
     for item in items:
-        print(item.title)
+        print(f"{item.title=}")
     page += 1
 ```
+
+## Acknowledgements
+
+ - [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto).
+
 
 ## License
 
 Copyright (c) 2022 Peter Borocz. See LICENSE for details.
+
+
+## Feedback
+
+If you have any feedback, please reach out to peter.borocz at gmail.com.

@@ -18,5 +18,5 @@ test:
     python -m pytest
 
 # Run our pre-commit checks manually
-pre-commit:
-    pre-commit run --all-files
+pre-commit *args:
+    pre-commit run --all-files {{args}}

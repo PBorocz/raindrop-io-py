@@ -1,7 +1,5 @@
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-
-# RaindropPY
+# RaindropPY [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
 Python wrapper for [raindrop.io API](https://developer.raindrop.io/).
 
@@ -16,7 +14,7 @@ This is NOT ready for use yet! We're still learning the foibles of creating a re
 
 ## Install
 
-Until we learn how to "package" and distribute to PyPI, please use directly from this repo. Ultimately, you'll be able to:
+Until we learn how to "package" and distribute to PyPI, please use directly from this repo. _Ultimately_, you'll be able to:
 
 ```shell
 pip3 install raindroppy

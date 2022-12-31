@@ -1,33 +1,35 @@
-# type: ignore
+"""List all the collections associated with the token provided"""
 import os
 
-from raindroppy import *
+from dotenv import load_dotenv
 
-api = API(os.environ["RAINDROP_TOKEN"])
+from raindroppy.api import API, Collection
 
+load_dotenv()
 
-def print_collection(c):
-    print("------------------------------")
-    print("id", c.id)
-    print("access", c.access.level, c.access.draggable)
-    print("collaborators", c.collaborators)
-    print("color", c.color)
-    print("count", c.count)
-    print("cover", c.cover)
-    print("created", c.created)
-    print("expanded", c.expanded)
-    print("lastUpdate", c.lastUpdate)
-    print("parent", c.parent)
-    print("public", c.public)
-    print("sort", c.sort)
-    print("title", c.title)
-    print("user", c.user)
-    print("view", c.view)
+RAINDROP = API(os.environ["RAINDROP_TOKEN"])
 
+def _print(c: Collection) -> None:
+    print("---------------------------------------------------")
+    print("id:               ", c.id)
+    print("title:            ", c.title)
+    print("user:             ", c.user.id)
+    print("collaborators:    ", c.collaborators)
+    print("public:           ", c.public)
+    print("access.level:     ", c.access.level.value)
+    print("access.draggable: ", c.access.draggable)
+    print("color:            ", c.color)
+    print("count:            ", c.count)
+    print("cover:            ", c.cover)
+    print("parent:           ", c.parent)
+    print("sort:             ", c.sort)
+    print("view:             ", c.view.value)
+    print("expanded:         ", c.expanded)
+    print("lastUpdate:       ", c.lastUpdate)
+    print("created:          ", c.created)
 
-for c in Collection.get_roots(api):
-    print_collection(c)
-
-print("---- children")
-for c in Collection.get_childrens(api):
-    print_collection(c)
+# Note: we don't distinguish here between "root" and "child"
+# collections, using the convenience method that collapses the two
+# into a single list:
+for collection in Collection.get_collections(RAINDROP):
+    _print(collection)

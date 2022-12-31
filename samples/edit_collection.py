@@ -1,13 +1,27 @@
+"""Create, update and delete a Collection"""
 import os
 
-from raindroppy import *
+from dotenv import load_dotenv
 
-api = API(os.environ["RAINDROP_TOKEN"])
+from raindroppy.api import API, Collection
 
-c = Collection.create(api, title="abcdef")
-print(c.title)
+load_dotenv()
 
-c = Collection.update(api, id=c.id, title="12345")
-print(c.title)
+RAINDROP = API(os.environ["RAINDROP_TOKEN"])
 
-Collection.remove(api, id=c.id)
+# Create a new collection..
+title = "abcdef"
+print(f"Creating collection: '{title}'...", flush=True, end="")
+c = Collection.create(RAINDROP, title=title)
+print("Done.")
+
+# Update it's title (amongst other possibilities)
+title = "12345"
+print(f"Updating collection: '{title}'...", flush=True, end="")
+c = Collection.update(RAINDROP, id=c.id, title=title)
+print("Done.")
+
+# Cleanup
+print(f"Removing collection: '{title}'...", flush=True, end="")
+Collection.remove(RAINDROP, id=c.id)
+print("Done.")

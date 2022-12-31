@@ -48,8 +48,8 @@ def approved() -> str:
         token,
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
-    ) as api:
-        collections = Collection.get_roots(api)
+    ) as RAINDROP:
+        collections = Collection.get_roots(RAINDROP)
 
     return render_template_string(COLLECTIONS, collections=collections)
 

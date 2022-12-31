@@ -47,7 +47,7 @@ class View(enum.Enum):
     list = "list"
     simple = "simple"
     grid = "grid"
-    masonly = "masonry"
+    masonry = "masonry"
 
 
 class CollectionRef(DictModel):
@@ -118,6 +118,11 @@ class Collection(DictModel):
         ret = api.get(URL)
         items = ret.json()["items"]
         return [cls(item) for item in items]
+
+    @classmethod
+    def get_collections(cls, api: API) -> Sequence[Collection]:
+        """Get *BOTH* the "root" and "child" collections."""
+        return cls.get_roots(api) + cls.get_childrens(api)
 
     @classmethod
     def get(cls, api: API, id: int) -> Collection:
@@ -205,7 +210,7 @@ class RaindropType(enum.Enum):
     image = "image"
     video = "video"
     document = "document"
-    audio = "audi"
+    audio = "audio"
 
 
 class Raindrop(DictModel):
@@ -258,7 +263,7 @@ class Raindrop(DictModel):
         excerpt: Optional[str] = None,
         title: Optional[str] = None,
     ) -> Raindrop:
-        """Create a new Raindrop bookmark."""
+        """Create a new link-type Raindrop bookmark."""
         args: Dict[str, Any] = {
             "link": link,
         }
@@ -383,7 +388,6 @@ class Raindrop(DictModel):
         params = {"search": json.dumps(args), "perpage": perpage, "page": page}
 
         URL = f"https://api.raindrop.io/rest/v1/raindrops/{collection.id}"
-
         results = api.get(URL, params=params).json()
         return [cls(item) for item in results["items"]]
 
@@ -395,7 +399,7 @@ class Raindrop(DictModel):
         content_type: str,
         collection: CollectionRef = CollectionRef.Unsorted,
     ) -> Raindrop:
-        """Create a new bookmark for a 'file'-based bookmark item."""
+        """Create a new file-type Raindrop bookmark."""
         URL = "https://api.raindrop.io/rest/v1/raindrop/file"
 
         # Per update to API documentation by Rustem Mussabekov on 2022-11-29, these are the
@@ -480,9 +484,15 @@ class Tag(DictModel):
 
     @classmethod
     def get(cls, api: API, collection_id: int = None) -> list[Tag]:
-        """Get all the tags currently defined, either across all collections or only in a specific one."""
+        """Get all the tags currently defined, either in a specific collections or across all collections."""
         URL = "https://api.raindrop.io/rest/v1/tags"
         if collection_id:
             URL += "/" + str(collection_id)
         items = api.get(URL).json()["items"]
         return [cls(item) for item in items]
+
+    @classmethod
+    def remove(cls, api: API, tags: Sequence[str]) -> None:
+        """Remove/delete one or more tags."""
+        URL = "https://api.raindrop.io/rest/v1/tags"
+        api.delete(URL, json={})

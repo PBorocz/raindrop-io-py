@@ -6,11 +6,11 @@ from beaupy import confirm, console, prompt, select, select_multiple
 from beaupy.spinners import DOTS, Spinner
 from command_upload import do_upload
 from models import RaindropState, UploadRequest
-from raindropio import api
-from utilities import get_existing_state
+from utilities import get_current_state
+
+from raindroppy.api import API
 
 CURSOR_STYLE = "red"
-DEFAULT_DIR = Path("~/Downloads/Raindrop").expanduser()
 
 
 def _read_files(path_: Path) -> list[Path]:
@@ -21,37 +21,47 @@ def _read_files(path_: Path) -> list[Path]:
 
 def _prompt_for_upload(raindrop_state, files) -> Optional[UploadRequest]:
     """Prompt for an upload and return request or None (if not confirmed)."""
+    # Gather parameters for upload
     upload_request = UploadRequest()
-    upload_request.file_path = select(files, cursor_style=CURSOR_STYLE)
+    upload_request.file_path = select(files)
     upload_request.title = prompt("Title:", initial_value=upload_request.file_path.stem)
-    upload_request.collection = select(list(raindrop_state.collections), cursor_style=CURSOR_STYLE)
-    upload_request.tags = select_multiple(list(raindrop_state.tags), cursor_style=CURSOR_STYLE)
+    upload_request.collection = select(list(raindrop_state.collections))
+    upload_request.tags = select_multiple(list(raindrop_state.tags))
 
-    # Print summary and confirm if OK
-    console.print(f"Uploading file  : {upload_request.file_path.name}")
-    console.print(f"With title      : {upload_request.title}")
-    console.print(f"To collection   : {upload_request.collection}")
-    console.print(f"With tags       : {upload_request.tags}")
+    # Print summary for user confirmation
+    console.print(f"File to upload : {upload_request.file_path.name}")
+    console.print(f"With title     : {upload_request.title}")
+    console.print(f"To collection  : {upload_request.collection}")
+    console.print(f"With tags      : {upload_request.tags}")
+
+    # Are we good to go?
     if confirm("\nIs this correct?"):
         return upload_request
     return None
 
 
-def do_add(api: api.API) -> None:
-    """UI Controller for adding any number of bookmarks from the terminal."""
+def do_add(api: API, dir_path: Path, debug: bool = False) -> None:
+    """UI Controller for adding any number of file-based bookmarks from the terminal."""
     # Read the current set of collections and tags available.
-    raindrop_state: RaindropState = get_existing_state(api, casefold=False)
+    raindrop_state: RaindropState = get_current_state(api, casefold=False, debug=debug)
 
-    # Read the set of files available for upload
-    files: list[Path] = _read_files(DEFAULT_DIR)
+    # Read the set of files available for upload from the directory specified.
+    files: list[Path] = _read_files(dir_path.expanduser())
 
     while True:
         if upload_request := _prompt_for_upload(raindrop_state, files):
 
-            spinner = Spinner(DOTS, "Uploading to Raindrop...")
-            spinner.start()
+            msg = "Uploading to Raindrop..."
+            if debug:
+                console.print(msg)
+            else:
+                spinner = Spinner(DOTS, msg)
+                spinner.start()
+
             count_uploaded: int = do_upload(api, upload_request, validate=False)
-            spinner.stop()
+
+            if not debug:
+                spinner.stop()
 
             msg: str = "Successfully uploaded!" if count_uploaded == 1 else "Sorry, something didn't work..."
             console.print(msg)

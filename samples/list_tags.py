@@ -2,12 +2,13 @@ import os
 
 from dotenv import load_dotenv
 
-from raindroppy import Tag, API
+from raindroppy.api import API, Tag
 
 load_dotenv()
-api = API(os.environ["RAINDROP_TOKEN"])
 
-tags = Tag.get(api)
+RAINDROP = API(os.environ["RAINDROP_TOKEN"])
+
+tags = Tag.get(RAINDROP)
 
 print(f"{'Tag':10s} {'Count'}")
 print(f"{'='*10} {'='*5:}")

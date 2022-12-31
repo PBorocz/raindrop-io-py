@@ -1,4 +1,4 @@
-"""Primary API interface."""
+"""Low-level API interface to Raindrop, no application semantics, mostly core HTTP verbs."""
 from __future__ import annotations
 
 import datetime

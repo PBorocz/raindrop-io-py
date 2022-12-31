@@ -2,7 +2,7 @@ import datetime
 from pathlib import Path
 from unittest.mock import patch
 
-from raindroppy import API, Raindrop, RaindropType
+from raindroppy.api import API, Raindrop, RaindropType
 
 raindrop = {
     "_id": 2000,
@@ -28,7 +28,7 @@ raindrop = {
 
 def test_get() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": raindrop}
 
         c = Raindrop.get(api, 2000)
@@ -54,7 +54,7 @@ def test_get() -> None:
 
 def test_search() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"items": [raindrop]}
 
         found = Raindrop.search(api)
@@ -63,7 +63,7 @@ def test_search() -> None:
 
 def test_create() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": raindrop}
         item = Raindrop.create(api, link="https://example.com")
         assert item.id == 2000
@@ -71,7 +71,7 @@ def test_create() -> None:
 
 def test_update() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": raindrop}
         item = Raindrop.update(api, id=2000, link="https://example.com")
         assert item.id == 2000
@@ -79,7 +79,7 @@ def test_update() -> None:
 
 def test_remove() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.api.OAuth2Session.request") as m:
         Raindrop.remove(api, id=2000)
 
         assert m.call_args[0] == (
@@ -90,7 +90,7 @@ def test_remove() -> None:
 
 def test_upload() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.api.OAuth2Session.request") as m:
         upload = Raindrop.upload(api, Path(__file__), content_type="text/plain")
 
         assert m.call_args[0] == (

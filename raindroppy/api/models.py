@@ -475,12 +475,12 @@ class User(DictModel):
 class Tag(DictModel):
     """Represents existing Tags, either all or just a specific collection."""
 
-    tag = ItemAttr[str]()
+    tag = ItemAttr[str](name="_id")
     count = ItemAttr[int]()
 
     @classmethod
     def get(cls, api: API, collection_id: int = None) -> list[Tag]:
-        """Get all the tags currently defined in a specific Raindrop collection."""
+        """Get all the tags currently defined, either across all collections or only in a specific one."""
         URL = "https://api.raindrop.io/rest/v1/tags"
         if collection_id:
             URL += "/" + str(collection_id)

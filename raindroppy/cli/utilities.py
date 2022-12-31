@@ -1,10 +1,11 @@
 """Miscellaneous Raindrop utilities used across the CLI."""
 from beaupy.spinners import DOTS, Spinner
 from models import RaindropState
-from raindropio import Collection, CollectionRef, Tags, api
+
+from raindroppy.api import API, Collection, CollectionRef, Tag
 
 
-def find_or_add_collection(api, collection_name: str) -> CollectionRef:
+def find_or_add_collection(api: API, collection_name: str) -> CollectionRef:
     """Find existing (or add new) Raindrop collection.
 
     Return the ID associated with the collection with specified
@@ -16,33 +17,35 @@ def find_or_add_collection(api, collection_name: str) -> CollectionRef:
             return collection
 
     # Doesn't exist, create it!
-    print("Creating!")
     return Collection.create(api, title=collection_name)
 
 
-def get_existing_state(api: api.API, casefold=True) -> RaindropState:
-    """Return the current state of the Raindrop environment.
+def get_current_state(api: API, casefold: bool = True, debug: bool = False) -> RaindropState:
+    """Return the current state of the Raindrop environment (ie. current collections and tags available)."""
 
-    Specifically: the current list of collections and tags available.
-    """
-
-    def _cf(string: str) -> str:
+    def _cf(casefold: bool, string: str) -> str:
         if casefold:
             return string.casefold()
         return string
 
-    spinner = Spinner(DOTS, "Getting current state of Raindrop environment...")
-    spinner.start()
+    msg = "Getting current state of Raindrop environment..."
+    if debug:
+        print(msg)
+    else:
+        spinner = Spinner(DOTS, msg)
+        spinner.start()
 
     # What collections do we currently have on Raindrop?
-    collections: set[str] = set([_cf(root.title) for root in Collection.get_roots(api)])
-    collections.union([_cf(child.title) for child in Collection.get_childrens(api)])
+    collections: set[str] = set([_cf(casefold, root.title) for root in Collection.get_roots(api)])
+    collections.union([_cf(casefold, child.title) for child in Collection.get_childrens(api)])
 
-    # What tags we currently have available on Raindrop?
-    tags: set[str] = set([_cf(tag.tag) for tag in Tags.get(api)])
+    # What tags we currently have available on Raindrop across *all* collections?
+    tags: set[str] = set([_cf(casefold, tag.tag) for tag in Tag.get(api)])
+
+    if not debug:
+        spinner.stop()
+
     raindrop_state = RaindropState(collections=list(sorted(collections)), tags=list(sorted(tags)))
-
-    spinner.stop()
     raindrop_state._print()
 
     return raindrop_state

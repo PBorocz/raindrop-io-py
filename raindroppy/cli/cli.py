@@ -1,35 +1,36 @@
-#!/usr/bin/env py
+#!/usr/bin/env python
 """Entry point for primary CLI interaction.."""
 import os
 import sys
+from pathlib import Path
 
 import fire
 from beaupy import console
 from dotenv import load_dotenv
 from loguru import logger as log
-from raindropio import API
 
-from .command_add import do_add
-from .command_upload import do_upload
+from raindroppy.api import API
+from raindroppy.cli.command_add import do_add
+from raindroppy.cli.command_upload import do_upload
 
 load_dotenv()
 
-API = API(os.environ["RAINDROP_TOKEN"])
+RAINDROP = API(os.environ["RAINDROP_TOKEN"])
 
 
-def add() -> None:
+def add(debug: bool = False, dir_path: str = "~/Downloads") -> None:
     """Interactively upload a file to create a new bookmark."""
-    do_add(API)
+    do_add(RAINDROP, dir_path=Path(dir_path), debug=debug)
 
 
-def upload(upload_toml: str = None):
+def upload(upload_toml: str = None, debug: bool = False):
     """Bulk upload one or more files based on a TOML file specification."""
-    do_upload(API, upload_toml=upload_toml, validate=True)
+    do_upload(RAINDROP, upload_toml=upload_toml, validate=True, debug=debug)
 
 
 if __name__ == "__main__":
 
-    # Setup logging...
+    # Setup logging (which may or may not be used)
     log.remove()
     log.add(
         sys.stderr,
@@ -44,4 +45,4 @@ if __name__ == "__main__":
             "upload": upload,
         }
     )
-    console.print("\nThanks/Gracias/Merci/Danka/ありがとう/спасибо/Köszönöm!")
+    console.print("Thanks/Gracias/Merci/Danka/ありがとう/спасибо/Köszönöm\n")

@@ -1,7 +1,7 @@
 import datetime
 from unittest.mock import patch
 
-from raindroppy import API, User, BrokenLevel, View
+from raindroppy.api import API, User, BrokenLevel, View
 
 user = {
     "_id": 1000,
@@ -41,7 +41,7 @@ user = {
 
 def test_get() -> None:
     api = API("dummy")
-    with patch("raindroppy.api.OAuth2Session.request") as m:
+    with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"user": user}
         c = User.get(api)
 

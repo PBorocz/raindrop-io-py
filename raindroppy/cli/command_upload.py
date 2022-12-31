@@ -1,19 +1,14 @@
 """Bulk upload one or more files to create new file-based bookmark on Raindrop."""
-import os
 import sys
 from pathlib import Path
 from time import sleep
 
-from dotenv import load_dotenv
 from loguru import logger as log
 from models import RaindropState, UploadRequest
-from raindropio import API, Raindrop, api
-from toml import load
-from utilities import find_or_add_collection, get_existing_state
+from tomli import load
+from utilities import find_or_add_collection, get_current_state
 
-load_dotenv()
-
-API = API(os.environ["RAINDROP_TOKEN"])
+from raindroppy.api import API, Raindrop
 
 CONTENT_TYPES = {
     ".pdf": "application/pdf",
@@ -54,13 +49,13 @@ def _validate_request(raindrop_state: RaindropState, request: UploadRequest) -> 
     return True
 
 
-def _upload(request: dict, interstitial: int = 1) -> bool:
+def _upload(api: API, request: UploadRequest, interstitial: int = 1, debug: bool = False) -> bool:
 
     # Get (or create) the collection
-    collection = find_or_add_collection(API, request.collection)
+    collection = find_or_add_collection(api, request.collection)
 
     # Push it up!
-    raindrop = Raindrop.upload(API, request.file_path, CONTENT_TYPES.get(request.file_path.suffix), collection)
+    raindrop = Raindrop.upload(api, request.file_path, CONTENT_TYPES.get(request.file_path.suffix), collection)
 
     # Do we need to set any other attributes on the newly created entry?
     args = {}
@@ -69,7 +64,7 @@ def _upload(request: dict, interstitial: int = 1) -> bool:
     if request.tags:
         args["tags"] = request.tags
     if args:
-        raindrop = Raindrop.update(API, raindrop.id, **args)
+        raindrop = Raindrop.update(api, raindrop.id, **args)
 
     # Be nice to raindrop.io!
     if interstitial:
@@ -87,7 +82,7 @@ def _map_to_request(entry: dict) -> UploadRequest:
 
 
 def do_upload(
-    api: api.API, upload_request: UploadRequest = None, upload_toml: str = None, validate: bool = True
+    api: API, upload_request: UploadRequest = None, upload_toml: str = None, validate: bool = True, debug: bool = False
 ) -> int:
     """Controller for uploading file(s) based on TOML file.
 
@@ -108,9 +103,9 @@ def do_upload(
 
     # If requested, filter down to only valid entries:
     if validate:
-        raindrop_state: RaindropState = get_existing_state(api)
-        requests = [req for req in requests if _validate_request(raindrop_state, req)]
+        raindrop_state: RaindropState = get_current_state(api)
+        requests: list[UploadRequest] = [req for req in requests if _validate_request(raindrop_state, req)]
         if not requests:
             return 0
 
-    return sum([_upload(request) for request in requests])
+    return sum([_upload(api, request, debug) for request in requests])

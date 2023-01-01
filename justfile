@@ -12,22 +12,22 @@ cli *args:
 ################################################################################
 # Development support...
 ################################################################################
+# Run local unit tests (fast, no connection or Raindrop.io configuration required)
+test:
+    python -m pytest
+
 # Run samples against live Raindrop environment (assumes RAINDROP_TOKEN in env!)
 samples:
     # Listed in order of complexity, list_* are read-only, rest make changes.
-    python samples/list_authorised_user.py
-    python samples/list_collections.py
-    python samples/list_tags.py
-    python samples/create_collection.py
-    python samples/edit_collection.py
-    python samples/create_raindrop_file.py
-    python samples/create_raindrop_link.py
-    python samples/edit_raindrop.py
-    python samples/search_raindrop.py
-
-# Test
-test:
-    python -m pytest
+    python examples/list_authorised_user.py
+    python examples/list_collections.py
+    python examples/list_tags.py
+    python examples/create_collection.py
+    python examples/edit_collection.py
+    python examples/create_raindrop_file.py
+    python examples/create_raindrop_link.py
+    python examples/edit_raindrop.py
+    python examples/search_raindrop.py
 
 # Run our pre-commit checks manually
 pre-commit *args:

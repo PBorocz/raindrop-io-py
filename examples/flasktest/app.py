@@ -1,10 +1,21 @@
+"""Sample minimal Flask app demonstrating oAuth credential handling."""
+#
+# Note: per Raindrop's API documentation, if you're only accessing
+# your own Raindrop environment, you do not need to do this, the
+# simple "TEST_TOKEN" approach is completely sufficient.
+#
+# If you're building tools allowing other people to access THEIR
+# Raindrop environment, you'll need to use the oAuth approach.
+#
+# Ref: https://developer.raindrop.io/v1/authentication/token
+#
 import os
 
 from dotenv import load_env
 from flask import Flask, redirect, render_template_string, request
 from werkzeug import Response
 
-from raindroppy import *
+from raindroppy.api import API, create_oauth2session
 
 load_env()
 
@@ -44,12 +55,8 @@ def approved() -> str:
         include_client_id=True,
     )
 
-    with API(
-        token,
-        client_id=CLIENT_ID,
-        client_secret=CLIENT_SECRET,
-    ) as RAINDROP:
-        collections = Collection.get_roots(RAINDROP)
+    with API(token, client_id=CLIENT_ID, client_secret=CLIENT_SECRET) as CNXN:
+        collections = Collection.get_roots(CNXN)
 
     return render_template_string(COLLECTIONS, collections=collections)
 

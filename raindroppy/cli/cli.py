@@ -15,17 +15,17 @@ from raindroppy.cli.command_upload import do_upload
 
 load_dotenv()
 
-RAINDROP = API(os.environ["RAINDROP_TOKEN"])
+CNXN = API(os.environ["RAINDROP_TOKEN"])
 
 
 def add(debug: bool = False, dir_path: str = "~/Downloads") -> None:
     """Interactively upload a file to create a new bookmark."""
-    do_add(RAINDROP, dir_path=Path(dir_path), debug=debug)
+    do_add(CNXN, dir_path=Path(dir_path), debug=debug)
 
 
 def upload(upload_toml: str = None, debug: bool = False):
     """Bulk upload one or more files based on a TOML file specification."""
-    do_upload(RAINDROP, upload_toml=upload_toml, validate=True, debug=debug)
+    do_upload(CNXN, upload_toml=upload_toml, validate=True, debug=debug)
 
 
 if __name__ == "__main__":

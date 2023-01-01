@@ -17,7 +17,7 @@ test:
     python -m pytest
 
 # Run samples against live Raindrop environment (assumes RAINDROP_TOKEN in env!)
-samples:
+examples:
     # Listed in order of complexity, list_* are read-only, rest make changes.
     python examples/list_authorised_user.py
     python examples/list_collections.py

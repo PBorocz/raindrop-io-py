@@ -11,7 +11,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     # Create a new Raindrop..
     link="https://www.python.org/"
     print(f"Creating Raindrop: '{link}'...", flush=True, end="")
-    raindrop = Raindrop.create(api, link=link, tags=["abc", "def"])
+    raindrop = Raindrop.create_link(api, link=link, tags=["abc", "def"])
     print(f"Done, title is {raindrop.title}.")
 
     # Update it's title (amongst other possibilities)

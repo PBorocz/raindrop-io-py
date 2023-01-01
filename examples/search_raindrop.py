@@ -24,7 +24,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     title = "Our Benevolent Dictators Creation"
     print(f"Creating sample Raindrop...", flush=True, end="")
     try:
-        raindrop = Raindrop.create(api, link=link, title=title, tags=['abc', 'def'])
+        raindrop = Raindrop.create_link(api, link=link, title=title, tags=['abc', 'def'])
         print(f"Done.")
         print(f"{raindrop.id=}")
     except Exception(exc):

@@ -14,7 +14,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     path_, content_type = Path(__file__), "text/plain"
     print(f"Creating Raindrop of: '{path_.name}'...", flush=True, end="")
     try:
-        raindrop = Raindrop.upload(api, path_, content_type)
+        raindrop = Raindrop.create_file(api, path_, content_type)
         print("Done.")
         print(f"{raindrop.id=}")
     except Exception(exc):

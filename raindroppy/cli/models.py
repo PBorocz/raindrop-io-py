@@ -19,10 +19,10 @@ class RaindropState:
 
 
 @dataclass
-class UploadRequest:
-    """Encapsulate parameters required to perform an upload and create a file-based bookmark."""
+class CreateRequest:
+    """Encapsulate parameters required to create a file-based Raindrop bookmark."""
 
-    file_path: Path = None  # Path to file to be uploaded, eg. /home/me/Documents/foo.pdf
+    file_path: Path = None  # Path to file to be created, eg. /home/me/Documents/foo.pdf
     title: str = None  # Bookmark title on Raindrop, eg. "Please Store Me"
-    collection: str = None  # Name of collection to store bookmark, eg. "My Uploaded Documents"
+    collection: str = None  # Name of collection to store bookmark, eg. "My Documents"
     tags: list[str] = None  # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]

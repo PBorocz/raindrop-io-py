@@ -17,7 +17,7 @@ def find_or_add_collection(api: API, collection_name: str) -> CollectionRef:
             return collection
 
     # Doesn't exist, create it!
-    return Collection.create(api, title=collection_name)
+    return Collection.create_link(api, title=collection_name)
 
 
 def get_current_state(api: API, casefold: bool = True, debug: bool = False) -> RaindropState:

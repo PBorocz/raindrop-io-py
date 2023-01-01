@@ -14,7 +14,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     title = f"TEST Collection ({getuser()}@{datetime.now():%Y-%m-%dT%H:%M:%S})"
     print(f"Creating collection: '{title}'...", flush=True, end="")
     try:
-        collection = Collection.create(api, title=title)
+        collection = Collection.create_link(api, title=title)
         print(f"Done, {collection.id=}.")
     except Exception(exc):
         print(f"Sorry, unable to create collection! {exc}")

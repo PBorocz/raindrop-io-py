@@ -58,11 +58,8 @@ A full suite of examples are provided in the examples directory, here's are two 
 
 ```python
 import os
-
 from dotenv import load_dotenv
-
 from raindroppy.api import API, Collection
-
 load_dotenv()
 
 with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
@@ -74,11 +71,8 @@ with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
 
 ```python
 import os
-
 from dotenv import load_dotenv
-
 from raindroppy.api import API, CollectionRef, Raindrop
-
 load_dotenv()
 
 with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:

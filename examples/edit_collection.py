@@ -12,7 +12,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     # Create a new collection..
     title = "abcdef"
     print(f"Creating collection: '{title}'...", flush=True, end="")
-    c = Collection.create(api, title=title)
+    c = Collection.create_link(api, title=title)
     print("Done.")
 
     # Update it's title (amongst other possibilities)

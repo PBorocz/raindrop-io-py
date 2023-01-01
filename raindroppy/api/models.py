@@ -245,7 +245,7 @@ class Raindrop(DictModel):
         return cls(item)
 
     @classmethod
-    def create(
+    def create_link(
         cls,
         api: API,
         link: str,
@@ -300,6 +300,25 @@ class Raindrop(DictModel):
         URL = "https://api.raindrop.io/rest/v1/raindrop"
         item = api.post(URL, json=args).json()["item"]
         return cls(item)
+
+    @classmethod
+    def create_file(
+        cls,
+        api: API,
+        path: Path,
+        content_type: str,
+        collection: CollectionRef = CollectionRef.Unsorted,
+    ) -> Raindrop:
+        """Create a new file-based Raindrop bookmark."""
+        URL = "https://api.raindrop.io/rest/v1/raindrop/file"
+
+        # Per update to API documentation by Rustem Mussabekov on 2022-11-29, these are the
+        # relevant arguments to create a new Raindrop with a file as it's body instead of a link:
+        data = {"collectionId": str(collection.id)}
+        files = {"file": (path.name, open(path, "rb"), content_type)}
+
+        results = api.put_file(URL, path, data, files).json()
+        return cls(results["item"])
 
     @classmethod
     def update(
@@ -390,25 +409,6 @@ class Raindrop(DictModel):
         URL = f"https://api.raindrop.io/rest/v1/raindrops/{collection.id}"
         results = api.get(URL, params=params).json()
         return [cls(item) for item in results["items"]]
-
-    @classmethod
-    def upload(
-        cls,
-        api: API,
-        path: Path,
-        content_type: str,
-        collection: CollectionRef = CollectionRef.Unsorted,
-    ) -> Raindrop:
-        """Create a new file-type Raindrop bookmark."""
-        URL = "https://api.raindrop.io/rest/v1/raindrop/file"
-
-        # Per update to API documentation by Rustem Mussabekov on 2022-11-29, these are the
-        # relevant arguments to create a new Raindrop with a file as it's body instead of a link:
-        data = {"collectionId": str(collection.id)}
-        files = {"file": (path.name, open(path, "rb"), content_type)}
-
-        results = api.put_file(URL, path, data, files).json()
-        return cls(results["item"])
 
 
 class BrokenLevel(enum.Enum):

@@ -7,13 +7,11 @@ from raindroppy.api import API, Raindrop
 
 load_dotenv()
 
-LINK = "https://www.python.org/"
-TITLE = "Benevolent Dictator's Creation"
-
 with API(os.environ["RAINDROP_TOKEN"]) as api:
+    link, title = "https://www.python.org/", "Benevolent Dictator's Creation"
     try:
-        print(f"Creating Raindrop to: '{LINK}' with title: '{TITLE}'...", flush=True, end="")
-        raindrop = Raindrop.create(api, link=LINK, title=TITLE, tags=["abc", "def"])
+        print(f"Creating Raindrop to: '{link}' with title: '{title}'...", flush=True, end="")
+        raindrop = Raindrop.create(api, link=link, title=title, tags=["abc", "def"])
         print(f"Done.")
         print(f"{raindrop.id=}")
     except Exception(exc):
@@ -24,6 +22,6 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     # look it up through any Raindrop mechanism (ie. app, url etc.),
     # otherwise, we clean up after ourselves.
     if True:
-        print(f"Removing raindrop: '{TITLE}'...", flush=True, end="")
+        print(f"Removing raindrop: '{title}'...", flush=True, end="")
         Raindrop.remove(api, id=raindrop.id)
         print("Done.")

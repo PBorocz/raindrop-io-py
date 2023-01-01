@@ -7,7 +7,6 @@ from raindroppy.api import API, Collection
 
 load_dotenv()
 
-
 with API(os.environ["RAINDROP_TOKEN"]) as api:
 
     # Create a new collection..

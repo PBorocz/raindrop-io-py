@@ -8,7 +8,6 @@ from raindroppy.api import API, Raindrop
 
 load_dotenv()
 
-
 with API(os.environ["RAINDROP_TOKEN"]) as api:
     # Create new raindrop of this actual file. Note that Raindrop only supports a
     # small set of file types, see https://help.raindrop.io/files for details.

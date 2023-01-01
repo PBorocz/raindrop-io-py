@@ -10,12 +10,11 @@ from raindroppy.api import API, Collection
 
 load_dotenv()
 
-
 with API(os.environ["RAINDROP_TOKEN"]) as api:
-    TITLE = f"TEST Collection ({getuser()}@{datetime.now():%Y-%m-%dT%H:%M:%S})"
-    print(f"Creating collection: '{TITLE}'...", flush=True, end="")
+    title = f"TEST Collection ({getuser()}@{datetime.now():%Y-%m-%dT%H:%M:%S})"
+    print(f"Creating collection: '{title}'...", flush=True, end="")
     try:
-        collection = Collection.create(api, title=TITLE)
+        collection = Collection.create(api, title=title)
         print(f"Done, {collection.id=}.")
     except Exception(exc):
         print(f"Sorry, unable to create collection! {exc}")
@@ -25,6 +24,6 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     # look it up through any Raindrop mechanism (ie. app, url etc.),
     # otherwise, we clean up after ourselves.
     if True:
-        print(f"Removing collection: '{TITLE}'...", flush=True, end="")
+        print(f"Removing collection: '{title}'...", flush=True, end="")
         Collection.remove(api, id=collection.id)
         print("Done.")

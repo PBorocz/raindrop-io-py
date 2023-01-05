@@ -3,11 +3,11 @@ import sys
 from pathlib import Path
 from time import sleep
 
+from api import API, Raindrop
+from cli.models import get_current_state
 from models import CreateRequest, RaindropState
 from tomli import load
-from utilities import find_or_add_collection, get_current_state
-
-from raindroppy.api import API, Raindrop
+from utilities import find_or_add_collection
 
 CONTENT_TYPES = {
     ".pdf": "application/pdf",

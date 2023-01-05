@@ -161,6 +161,17 @@ six = "*"
 termcolor = "*"
 
 [[package]]
+name = "humanize"
+version = "4.4.0"
+description = "Python humanize utilities"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+tests = ["freezegun", "pytest", "pytest-cov"]
+
+[[package]]
 name = "identify"
 version = "2.5.11"
 description = "File identification library for Python"
@@ -566,7 +577,7 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "009d7eff5add5e53becdd26bb7800d5ded7dfda1ba32af00b3920e70c53e5c31"
+content-hash = "48f7773bcfa691113dad6e55a7dac292770a11ed7e4a893e2d301624c19e2c90"
 
 [metadata.files]
 attrs = []
@@ -592,6 +603,7 @@ emoji = []
 exceptiongroup = []
 filelock = []
 fire = []
+humanize = []
 identify = []
 idna = []
 iniconfig = [

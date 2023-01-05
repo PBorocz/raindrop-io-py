@@ -13,6 +13,7 @@ jashin = ">=0.0.6"
 fire = "^0.5.0"
 beaupy = "^3.1.1"
 tomli = "^2.0.1"
+humanize = "^4.4.0"
 
 [tool.poetry.dev-dependencies]
 PySnooper = "^1.1.1"

@@ -2,6 +2,7 @@
 import os
 from dataclasses import dataclass
 from datetime import datetime
+from enum import Enum
 from pathlib import Path
 
 from api import API, Collection, Tag, User
@@ -56,6 +57,12 @@ def get_current_state(api: API, casefold: bool = True, verbose: bool = False) ->
     )
 
 
+################################################################################
+class RaindropType(Enum):
+    URL = 1
+    FILE = 2
+
+
 @dataclass
 class CreateRequest:
     """Encapsulate parameters required to create a *file*-based Raindrop bookmark."""
@@ -65,10 +72,12 @@ class CreateRequest:
     tags: list[str] = None  # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
 
     # One of the following needs to be specified:
-    url: str = None  # URL of link-based Raindrop to create
-    file_path: Path = None  # Path to file to be created, eg. /home/me/Documents/foo.pdf
+    type_: RaindropType = RaindropType.URL
+    url: str = None  # *URL* of link-based Raindrop to create.
+    file_path: Path = None  # *Path* to file to be created, eg. /home/me/Documents/foo.pdf
 
 
+################################################################################
 class CLI:
     """Command-line interface controller."""
 
@@ -80,7 +89,7 @@ class CLI:
         self.loop()
 
     def loop(self):
-        """Infinite loop."""
+        """Menu/event loop."""
         Config.raise_on_interrupt = True
 
         while 1:
@@ -93,8 +102,7 @@ class CLI:
                 self.create()
 
             elif action == "Exit":
-                # We're done; Say Goodnight, Gracie!
-                break
+                break  # Say Goodnight, Gracie!
 
             elif action == "Status":
                 self.status()
@@ -102,7 +110,7 @@ class CLI:
         console.print("\nThanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n")
 
     def add(self, debug: bool = False) -> None:
-        """Interactively create a new file-based Raindrop bookmark."""
+        """Interactively create a new Raindrop bookmark (for either link or files)"""
         from cli.commands.add import do_add
 
         do_add(self, debug=debug)

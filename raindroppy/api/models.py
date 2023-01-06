@@ -176,21 +176,9 @@ class Collection(DictModel):
     ) -> Collection:
         """Update all specified attributes of an existing Raindrop collection."""
         args: Dict[str, Any] = {}
-        if expanded is not None:
-            args["expanded"] = expanded
-        if view is not None:
-            args["view"] = view
-        if title is not None:
-            args["title"] = title
-        if sort is not None:
-            args["sort"] = sort
-        if public is not None:
-            args["public"] = public
-        if parent is not None:
-            args["parent"] = parent
-        if cover is not None:
-            args["cover"] = cover
-
+        for attr in ["expanded", "view", "title", "sort", "public", "parent", "cover"]:
+            if value := locals().get(attr) is not None:
+                args[attr] = value
         URL = f"https://api.raindrop.io/rest/v1/collection/{id}"
         item = api.put(URL, json=args).json()["item"]
         return Collection(item)
@@ -264,38 +252,30 @@ class Raindrop(DictModel):
         title: Optional[str] = None,
     ) -> Raindrop:
         """Create a new link-type Raindrop bookmark."""
-        args: Dict[str, Any] = {
-            "link": link,
-        }
+        args: Dict[str, Any] = {"link": link}
         if pleaseParse:
             args["pleaseParse"] = {}
-        if created is not None:
-            args["created"] = created
-        if lastUpdate is not None:
-            args["lastUpdate"] = lastUpdate
-        if order is not None:
-            args["order"] = order
-        if important is not None:
-            args["important"] = important
-        if tags is not None:
-            args["tags"] = tags
-        if media is not None:
-            args["media"] = media
-        if cover is not None:
-            args["cover"] = cover
+        for attr in [
+            "created",
+            "lastUpdate",
+            "order",
+            "important",
+            "tags",
+            "media",
+            "cover",
+            "html",
+            "excerpt",
+            "title",
+            "type",
+        ]:
+            if value := locals().get(attr) is not None:
+                args[attr] = value
+
         if collection is not None:
             if isinstance(collection, (Collection, CollectionRef)):
                 args["collection"] = {"$id": collection.id}
             else:
                 args["collection"] = {"$id": collection}
-        if type is not None:
-            args["type"] = type
-        if html is not None:
-            args["html"] = html
-        if excerpt is not None:
-            args["excerpt"] = excerpt
-        if title is not None:
-            args["title"] = title
 
         URL = "https://api.raindrop.io/rest/v1/raindrop"
         item = api.post(URL, json=args).json()["item"]
@@ -341,38 +321,31 @@ class Raindrop(DictModel):
         link: Optional[str] = None,
     ) -> Raindrop:
         """Update all specified attributes of an existing Raindrop bookmark."""
+
+        # Setup args to be sent to Raindrop..
         args: Dict[str, Any] = {}
         if pleaseParse:
             args["pleaseParse"] = {}
-        if created is not None:
-            args["created"] = created
-        if lastUpdate is not None:
-            args["lastUpdate"] = lastUpdate
-        if order is not None:
-            args["order"] = order
-        if important is not None:
-            args["important"] = important
-        if tags is not None:
-            args["tags"] = tags
-        if media is not None:
-            args["media"] = media
-        if cover is not None:
-            args["cover"] = cover
+        for attr in [
+            "created",
+            "lastUpdate",
+            "order",
+            "important",
+            "tags",
+            "media",
+            "cover",
+            "html",
+            "excerpt",
+            "title",
+            "type",
+        ]:
+            if value := locals().get(attr) is not None:
+                args[attr] = value
         if collection is not None:
             if isinstance(collection, (Collection, CollectionRef)):
                 args["collection"] = collection.id
             else:
                 args["collection"] = collection
-        if type is not None:
-            args["type"] = type
-        if html is not None:
-            args["html"] = html
-        if excerpt is not None:
-            args["excerpt"] = excerpt
-        if title is not None:
-            args["title"] = title
-        if link is not None:
-            args["link"] = link
 
         URL = f"https://api.raindrop.io/rest/v1/raindrop/{id}"
         item = api.put(URL, json=args).json()["item"]

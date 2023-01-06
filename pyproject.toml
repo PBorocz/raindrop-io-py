@@ -22,10 +22,32 @@ pre-commit = "^2.21.0"
 ruff = "^0.0.200"
 pytest = "7.2.0"
 black = "^22.12.0"
+flake8 = "^6.0.0"
+ssort = "^0.11.6"
+isort = "^5.11.4"
 
 [tool.black]
 line-length = 120
 target-version = ['py310']
+exclude = '''
+(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.mypy_cache
+    | \.pytest_cache
+    | \.tox
+    | \.venv
+    | _vm
+    | python-venv
+    | dist
+    | build
+    | _build
+)
+'''
+
+[tool.isort]
+profile = "black"
+skip = [".venv"]
 
 [tool.ruff]
 line-length = 120

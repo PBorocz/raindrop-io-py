@@ -50,27 +50,6 @@ class API:
 
         self.open()
 
-    def __enter__(self) -> API:
-        """If we don't have an active session open yet, open one!."""
-        if not self.session:
-            self.open()
-        return self
-
-    def __exit__(self, type, value, traceback) -> None:  # type: ignore
-        """Once we're done with this API's scope, close the connection off."""
-        self.close()
-
-    def open(self) -> None:
-        """Open an new connection to Raindrop."""
-        self.close()
-        self.session = self._create_session()
-
-    def close(self) -> None:
-        """Close an existing Raindrop connection."""
-        if self.session:
-            self.session.close()
-            self.session = None
-
     def _create_session(self) -> OAuth2Session:
         extra: Optional[Dict[str, Any]]
         if self.client_id and self.client_secret:
@@ -96,6 +75,17 @@ class API:
             auto_refresh_url=self.URL_REFRESH,
             token_updater=update_token,
         )
+
+    def open(self) -> None:
+        """Open an new connection to Raindrop."""
+        self.close()
+        self.session = self._create_session()
+
+    def close(self) -> None:
+        """Close an existing Raindrop connection."""
+        if self.session:
+            self.session.close()
+            self.session = None
 
     def _json_unknown(self, obj: Any) -> Any:
         if isinstance(obj, enum.Enum):
@@ -207,3 +197,13 @@ class API:
         ret = self.session.delete(url, headers=self._request_headers(), data=json)
         self._on_resp(ret)
         return ret
+
+    def __enter__(self) -> API:
+        """If we don't have an active session open yet, open one!."""
+        if not self.session:
+            self.open()
+        return self
+
+    def __exit__(self, type, value, traceback) -> None:  # type: ignore
+        """Once we're done with this API's scope, close the connection off."""
+        self.close()

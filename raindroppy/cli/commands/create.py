@@ -4,8 +4,8 @@ from pathlib import Path
 from time import sleep
 
 from api import API, Raindrop
-from cli.models import get_current_state
-from models import CreateRequest, RaindropState
+from cli.models import CLI, get_current_state
+from models import CreateRequest, RaindropState, RaindropType
 from tomli import load
 from utilities import find_or_add_collection
 
@@ -48,12 +48,14 @@ def _validate_request(raindrop_state: RaindropState, request: CreateRequest) -> 
     return True
 
 
-def _create(api: API, request: CreateRequest, interstitial: int = 1, debug: bool = False) -> bool:
-    """FIXME."""
-    # Get (or create) the collection
-    collection = find_or_add_collection(api, request.collection)
+def _create_url(api: API, request: CreateRequest, collection) -> bool:
+    """Create a standard URL based Raindrop."""
+    Raindrop.create_link(api, link=request.url, title=request.title, tags=request.tags, collection=request.collection)
+    return True
 
-    # Push it up!
+
+def _create_file(api: API, request: CreateRequest, collection) -> bool:
+    """Create a FILE-based Raindrop."""
     raindrop = Raindrop.create_file(api, request.file_path, CONTENT_TYPES.get(request.file_path.suffix), collection)
 
     # Do we need to set any other attributes on the newly created entry?
@@ -65,47 +67,70 @@ def _create(api: API, request: CreateRequest, interstitial: int = 1, debug: bool
     if args:
         raindrop = Raindrop.update(api, raindrop.id, **args)
 
-    # Be nice to raindrop.io!
+    return True
+
+
+def _create(api: API, request: CreateRequest, interstitial: int = 1, debug: bool = False) -> bool:
+    """Controller for creating either URL or File-based Raindrops."""
+
+    # Get (or create) the collection
+    collection = find_or_add_collection(api, request.collection)
+
+    # Push it up depending on the Raindrop "type" to be created
+    if request.type_ == RaindropType.URL:
+        create_method = _create_url
+    elif request.type_ == RaindropType.FILE:
+        create_method = _create_file
+    else:
+        raise RuntimeError(f"Sorry, invalid RaindropType encountered: '{request.type_}'")
+
+    # Push it up!
+    create_method(api, request, collection)
+
+    # be nice to raindrop.io and wait a bit..
     if interstitial:
         sleep(interstitial)
     return True
 
 
 def CreateRequestFactory(entry: dict) -> CreateRequest:
-    """FIXME."""
+    """Return an new instance of CreateRequest based on an inbound dict (eg. from toml)."""
     return CreateRequest(
-        file_path=Path(entry.get("file_path")),
-        collection=entry.get("collection"),
         title=entry.get("title"),
+        collection=entry.get("collection"),
         tags=entry.get("tags"),
+        type_=RaindropType.FILE,
+        file_path=Path(entry.get("file_path")),
     )
 
 
 def do_create(
-    api: API, create_request: CreateRequest = None, create_toml: str = None, validate: bool = True, debug: bool = False
+    cli: CLI, create_request: CreateRequest = None, request_toml: str = None, validate: bool = True, debug: bool = False
 ) -> int:
-    """Controller for creating Raindrops in bulk based on a TOML file.
+    """Controller for creating Raindrops based either on a bulk basis from a TOML file or a directly provided request.
 
     File includes specification of what file(s) to load and with what attributes.
     """
-    if not create_request and not create_toml:
-        raise RuntimeError("Sorry, at least one of 'create_toml' or 'create_request' arguments are required!")
+    if not create_request and not request_toml:
+        raise RuntimeError("Sorry, at least one of 'request_toml' or 'create_request' arguments are required!")
 
     # Build the list of items to processed, either as provided directly or from a file..
-    if create_toml:
-        fp_config = Path(create_toml)
+    if request_toml:
+        fp_config = Path(request_toml)
         if not fp_config.exists():
-            sys.stderr.write(f"Sorry, unable to find create_toml file: '{fp_config}'\n")
+            sys.stderr.write(f"Sorry, unable to find request_toml file: '{fp_config}'\n")
             sys.exit(1)
-        requests: list[CreateRequest] = [CreateRequestFactory(entry) for entry in load(create_toml).get("requests", [])]
+        requests: list[CreateRequest] = [
+            CreateRequestFactory(entry) for entry in load(request_toml).get("requests", [])
+        ]
     else:
         requests: list[CreateRequest] = [create_request]
 
     # If requested, filter down to only valid entries:
     if validate:
-        raindrop_state: RaindropState = get_current_state(api)
+        raindrop_state: RaindropState = get_current_state(cli.api)
         requests: list[CreateRequest] = [req for req in requests if _validate_request(raindrop_state, req)]
         if not requests:
             return 0
 
-    return sum([_create(api, request, debug) for request in requests])
+    return sum([_create(cli.api, request, debug) for request in requests])

@@ -4,23 +4,39 @@ repos:
 - repo: local
   hooks:
   - id: system
-    name: Run Black
-    entry: ./.venv/bin/black raindroppy/
+    name: Running Tests
+    entry: .venv/bin/python -m pytest
     pass_filenames: false
     language: system
 
 - repo: local
   hooks:
   - id: system
-    name: Run Ruff
-    entry: ./.venv/bin/ruff --fix raindroppy/
+    name: Running flake8
+    entry: .venv/bin/flake8 raindroppy/
     pass_filenames: false
     language: system
 
 - repo: local
   hooks:
   - id: system
-    name: Run Tests
-    entry: ./.venv/bin/python -m pytest
+    name: Running ssort
+    entry: .venv/bin/ssort raindroppy/
+    pass_filenames: false
+    language: system
+
+- repo: local
+  hooks:
+  - id: system
+    name: Running isort
+    entry: .venv/bin/isort raindroppy/
+    pass_filenames: false
+    language: system
+
+- repo: local
+  hooks:
+  - id: system
+    name: Running Black
+    entry: .venv/bin/black raindroppy/
     pass_filenames: false
     language: system

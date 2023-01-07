@@ -4,7 +4,7 @@ from pathlib import Path
 from time import sleep
 
 from api import API, Raindrop
-from cli.models import CLI, get_current_state
+from cli.models import CLI
 from models import CreateRequest, RaindropState, RaindropType
 from tomli import load
 from utilities import find_or_add_collection
@@ -128,8 +128,7 @@ def do_create(
 
     # If requested, filter down to only valid entries:
     if validate:
-        raindrop_state: RaindropState = get_current_state(cli.api)
-        requests: list[CreateRequest] = [req for req in requests if _validate_request(raindrop_state, req)]
+        requests: list[CreateRequest] = [req for req in requests if _validate_request(cli.state, req)]
         if not requests:
             return 0
 

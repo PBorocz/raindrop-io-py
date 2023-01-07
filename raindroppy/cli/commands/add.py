@@ -6,7 +6,8 @@ from beaupy import confirm, console, prompt, select, select_multiple
 from beaupy.spinners import DOTS, Spinner
 from cli.commands.create import do_create
 from cli.models import CLI
-from models import CreateRequest, RaindropState, RaindropType, get_current_state
+from models import CreateRequest, RaindropState, RaindropType
+from prompt_toolkit.shortcuts import radiolist_dialog
 
 CURSOR_STYLE = "red"
 
@@ -17,25 +18,22 @@ def _read_files(path_: Path) -> list[Path]:
     return list(path_.glob("*.pdf"))
 
 
-def _prompt_for_request(
-    raindrop_state: RaindropState, type_: RaindropType, dir_path: Optional[Path]
-) -> Optional[CreateRequest]:
+def _prompt_for_request(cli: CLI, type_: RaindropType, dir_path: Optional[Path]) -> Optional[CreateRequest]:
     """Gather prompts necessary to create either type of Raindrop, return request or None (if not confirmed)."""
     create_request = CreateRequest()
 
     # Prompts differ whether or not we're creating a file or link-based Raindrop.
     if type_ == RaindropType.URL:
-        create_request.url = prompt("URL:")
-        create_request.title = prompt("Title:")
+        create_request.url = cli.session.prompt("URL:")
+        create_request.title = cli.session.prompt("Title:")
     elif type_ == RaindropType.FILE:
-        # Read the set of files available from the directory provided
         files: list[Path] = _read_files(dir_path.expanduser())
         create_request.file_path = select(files)
         create_request.title = prompt("Title:", initial_value=create_request.file_path.stem)
 
     # These are the same across raindrop types:
-    create_request.collection = select(list(raindrop_state.collections))
-    create_request.tags = select_multiple(list(raindrop_state.tags))
+    # create_request.collection = select(list(raindrop_state.get_collection_titles()))
+    # create_request.tags = select_multiple(list(raindrop_state.tags))
 
     if type_ == RaindropType.URL:
         console.print(f"URL           : {create_request.url}")
@@ -100,20 +98,20 @@ def _prompt_for_request(
 #     return None
 
 
-def _do_add(cli: CLI, type_: RaindropType, debug: bool = False, dir_path: str = "~/Downloads") -> None:
+def _do_add(cli: CLI, type_: RaindropType, dir_path: str = "~/Downloads") -> None:
     """UI Controller for adding any number of link or file bookmarks from the terminal."""
-    if create_request := _prompt_for_request(cli.state, type_, dir_path):
+    if create_request := _prompt_for_request(cli, type_, dir_path):
         msg = "Pushing to Raindrop..."
-        if debug:
-            console.print(msg)
-        else:
-            spinner = Spinner(DOTS, msg)
-            spinner.start()
+        # if debug:
+        #     console.print(msg)
+        # else:
+        spinner = Spinner(DOTS, msg)
+        spinner.start()
 
         count_done: int = do_create(cli, create_request, validate=False)
 
-        if not debug:
-            spinner.stop()
+        # if not debug:
+        spinner.stop()
 
         msg: str = "Success!" if count_done == 1 else "Sorry, something didn't work..."
         console.print(msg)
@@ -121,15 +119,19 @@ def _do_add(cli: CLI, type_: RaindropType, debug: bool = False, dir_path: str = 
 
 def do_add(cli: CLI, debug: bool = False) -> None:
     """Top-level UI Controller for adding bookmarks from the terminal."""
-    while True:
-        response = select(["Add a URL", "Add a File", "(done)"])
-        if "done" in response:
-            break
 
-        cli.state: RaindropState = get_current_state(cli.api, casefold=False)
-        if "url" in response.casefold():
-            type_ = RaindropType.URL
-        elif "file" in response.casefold():
-            type_ = RaindropType.FILE
+    response = cli.session.prompt("Add a link or url based Raindrop?: ", default="url")
+    if response.casefold().startswith("u"):
+        type_ = RaindropType.URL
+    elif response.casefold().startswith("l"):
+        type_ = RaindropType.FILE
 
-        _do_add(cli, type_)
+    _do_add(cli, type_)
+
+    # options = ("Add a URL", "Add a File", "(done)")
+    # while True:
+    #     response = select(options)
+    #     elif response in options[-1]:
+    #         break
+
+    #     cli.state: RaindropState = get_current_state(cli.api, casefold=False)

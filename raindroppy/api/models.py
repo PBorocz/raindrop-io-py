@@ -31,6 +31,9 @@ __all__ = [
     "View",
 ]
 
+# Base URL
+URL = "https://api.raindrop.io/rest/v1/{path}"
+
 
 class AccessLevel(enum.IntEnum):
     """Map the Access levels defined by Raindrop's API."""
@@ -106,16 +109,14 @@ class Collection(DictModel):
     @classmethod
     def get_roots(cls, api: API) -> Sequence[Collection]:
         """Get root collections."""
-        URL = "https://api.raindrop.io/rest/v1/collections"
-        ret = api.get(URL)
+        ret = api.get(URL.format(path="collections"))
         items = ret.json()["items"]
         return [cls(item) for item in items]
 
     @classmethod
     def get_childrens(cls, api: API) -> Sequence[Collection]:
         """Get the "child" collections (ie. all below 'root' level)."""
-        URL = "https://api.raindrop.io/rest/v1/collections/childrens"
-        ret = api.get(URL)
+        ret = api.get(URL.format(path="collections/childrens"))
         items = ret.json()["items"]
         return [cls(item) for item in items]
 
@@ -127,8 +128,8 @@ class Collection(DictModel):
     @classmethod
     def get(cls, api: API, id: int) -> Collection:
         """Primary call to return a Raindrop collection based on it's id."""
-        URL = f"https://api.raindrop.io/rest/v1/collection/{id}"
-        item = api.get(URL).json()["item"]
+        url = URL.format(path=f"collections/{id}")
+        item = api.get(url).json()["item"]
         return cls(item)
 
     @classmethod
@@ -157,8 +158,8 @@ class Collection(DictModel):
         if cover is not None:
             args["cover"] = cover
 
-        URL = "https://api.raindrop.io/rest/v1/collection"
-        item = api.post(URL, json=args).json()["item"]
+        url = URL.format(path="collection")
+        item = api.post(url, json=args).json()["item"]
         return Collection(item)
 
     @classmethod
@@ -179,15 +180,14 @@ class Collection(DictModel):
         for attr in ["expanded", "view", "title", "sort", "public", "parent", "cover"]:
             if value := locals().get(attr) is not None:
                 args[attr] = value
-        URL = f"https://api.raindrop.io/rest/v1/collection/{id}"
-        item = api.put(URL, json=args).json()["item"]
+        url = URL.format(path=f"collection/{id}")
+        item = api.put(url, json=args).json()["item"]
         return Collection(item)
 
     @classmethod
     def remove(cls, api: API, id: int) -> None:
         """Remove/delete a Raindrop collection."""
-        URL = f"https://api.raindrop.io/rest/v1/collection/{id}"
-        api.delete(URL, json={})
+        api.delete(URL.format(path=f"collection/{id}"), json={})
 
 
 class RaindropType(enum.Enum):
@@ -228,8 +228,7 @@ class Raindrop(DictModel):
     @classmethod
     def get(cls, api: API, id: int) -> Raindrop:
         """Primary call to return a Raindrop bookmark based on it's id."""
-        URL = f"https://api.raindrop.io/rest/v1/raindrop/{id}"
-        item = api.get(URL).json()["item"]
+        item = api.get(URL.format(path=f"{id}")).json()["item"]
         return cls(item)
 
     @classmethod
@@ -237,38 +236,38 @@ class Raindrop(DictModel):
         cls,
         api: API,
         link: str,
-        pleaseParse: bool = True,
-        created: Optional[datetime.datetime] = None,
-        lastUpdate: Optional[datetime.datetime] = None,
-        order: Optional[int] = None,
-        important: Optional[bool] = None,
-        tags: Optional[Sequence[str]] = None,
-        media: Optional[Sequence[Dict[str, Any]]] = None,
-        cover: Optional[str] = None,
         collection: Optional[Union[Collection, CollectionRef, int]] = None,
-        type: Optional[str] = None,
-        html: Optional[str] = None,
+        cover: Optional[str] = None,
+        created: Optional[datetime.datetime] = None,
         excerpt: Optional[str] = None,
+        html: Optional[str] = None,
+        important: Optional[bool] = None,
+        lastUpdate: Optional[datetime.datetime] = None,
+        media: Optional[Sequence[Dict[str, Any]]] = None,
+        order: Optional[int] = None,
+        pleaseParse: bool = True,
+        tags: Optional[Sequence[str]] = None,
         title: Optional[str] = None,
+        type: Optional[str] = None,
     ) -> Raindrop:
         """Create a new link-type Raindrop bookmark."""
         args: Dict[str, Any] = {"link": link}
         if pleaseParse:
             args["pleaseParse"] = {}
         for attr in [
-            "created",
-            "lastUpdate",
-            "order",
-            "important",
-            "tags",
-            "media",
             "cover",
-            "html",
+            "created",
             "excerpt",
+            "html",
+            "important",
+            "lastUpdate",
+            "media",
+            "order",
+            "tags",
             "title",
             "type",
         ]:
-            if value := locals().get(attr) is not None:
+            if value := locals().get(attr):
                 args[attr] = value
 
         if collection is not None:
@@ -277,8 +276,8 @@ class Raindrop(DictModel):
             else:
                 args["collection"] = {"$id": collection}
 
-        URL = "https://api.raindrop.io/rest/v1/raindrop"
-        item = api.post(URL, json=args).json()["item"]
+        url = URL.format(path="raindrop")
+        item = api.post(url, json=args).json()["item"]
         return cls(item)
 
     @classmethod
@@ -290,14 +289,14 @@ class Raindrop(DictModel):
         collection: CollectionRef = CollectionRef.Unsorted,
     ) -> Raindrop:
         """Create a new file-based Raindrop bookmark."""
-        URL = "https://api.raindrop.io/rest/v1/raindrop/file"
+        url = URL.format(path="raindrop/file")
 
         # Per update to API documentation by Rustem Mussabekov on 2022-11-29, these are the
         # relevant arguments to create a new Raindrop with a file as it's body instead of a link:
         data = {"collectionId": str(collection.id)}
         files = {"file": (path.name, open(path, "rb"), content_type)}
 
-        results = api.put_file(URL, path, data, files).json()
+        results = api.put_file(url, path, data, files).json()
         return cls(results["item"])
 
     @classmethod
@@ -347,15 +346,14 @@ class Raindrop(DictModel):
             else:
                 args["collection"] = collection
 
-        URL = f"https://api.raindrop.io/rest/v1/raindrop/{id}"
-        item = api.put(URL, json=args).json()["item"]
+        url = URL.format(path="raindrop/{id}")
+        item = api.put(url, json=args).json()["item"]
         return cls(item)
 
     @classmethod
     def remove(cls, api: API, id: int) -> None:
         """Remove/delete a Raindrop bookmark."""
-        URL = f"https://api.raindrop.io/rest/v1/raindrop/{id}"
-        api.delete(URL, json={})
+        api.delete(URL.format(path=f"raindrop/{id}"), json={})
 
     @classmethod
     def search(
@@ -379,8 +377,8 @@ class Raindrop(DictModel):
 
         params = {"search": json.dumps(args), "perpage": perpage, "page": page}
 
-        URL = f"https://api.raindrop.io/rest/v1/raindrops/{collection.id}"
-        results = api.get(URL, params=params).json()
+        url = URL.format(path=f"raindrops/{collection.id}")
+        results = api.get(url, params=params).json()
         return [cls(item) for item in results["items"]]
 
 
@@ -444,8 +442,7 @@ class User(DictModel):
     @classmethod
     def get(cls, api: API) -> User:
         """Get all the information about a specific Raindrop user."""
-        URL = "https://api.raindrop.io/rest/v1/user"
-        user = api.get(URL).json()["user"]
+        user = api.get(URL.format(path="user")).json()["user"]
         return cls(user)
 
 
@@ -458,14 +455,13 @@ class Tag(DictModel):
     @classmethod
     def get(cls, api: API, collection_id: int = None) -> list[Tag]:
         """Get all the tags currently defined, either in a specific collections or across all collections."""
-        URL = "https://api.raindrop.io/rest/v1/tags"
+        url = URL.format(path="tags")
         if collection_id:
-            URL += "/" + str(collection_id)
-        items = api.get(URL).json()["items"]
+            url += "/" + str(collection_id)
+        items = api.get(url).json()["items"]
         return [cls(item) for item in items]
 
     @classmethod
     def remove(cls, api: API, tags: Sequence[str]) -> None:
         """Remove/delete one or more tags."""
-        URL = "https://api.raindrop.io/rest/v1/tags"
-        api.delete(URL, json={})
+        api.delete(URL.format(path="tags"), json={})

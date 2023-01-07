@@ -379,6 +379,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "pyfiglet"
+version = "0.8.post1"
+description = "Pure-python FIGlet implementation"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pyflakes"
 version = "3.0.1"
 description = "passive checker of Python programs"
@@ -658,7 +666,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "c361dfd26ceacee43f08e32fa363eafc91e1ede6074ba4683fabe885659686e6"
+content-hash = "ce10db903e910485dfc74a8cfb289d3a0d25f3acaa051ade2a8f66a503505b04"
 
 [metadata.files]
 attrs = []
@@ -722,6 +730,10 @@ pluggy = [
 pre-commit = []
 prompt-toolkit = []
 pycodestyle = []
+pyfiglet = [
+    {file = "pyfiglet-0.8.post1-py2.py3-none-any.whl", hash = "sha256:d555bcea17fbeaf70eaefa48bb119352487e629c9b56f30f383e2c62dd67a01c"},
+    {file = "pyfiglet-0.8.post1.tar.gz", hash = "sha256:c6c2321755d09267b438ec7b936825a4910fec696292139e664ca8670e103639"},
+]
 pyflakes = []
 pygments = []
 pysnooper = []

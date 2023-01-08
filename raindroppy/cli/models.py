@@ -4,33 +4,22 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
+from typing import TypeVar
 
 from api import API, Collection, Tag, User
-
-# from beaupy import Config, DefaultKeys, console, select
-from prompt_toolkit import PromptSession
-
-# from beaupy.spinners import DOTS, Spinner
-from prompt_toolkit.history import FileHistory
+from beaupy import Config, DefaultKeys, console, select
+from beaupy.spinners import DOTS, Spinner
 from pyfiglet import Figlet
-from rich.console import Console
-from rich.spinner import Spinner
-
-# from yakh.key import Keys
+from yakh.key import Keys
 
 # Yay and thou shall give us Emacs...
-# DefaultKeys.down.append(Keys.CTRL_N)
-# DefaultKeys.up.append(Keys.CTRL_P)
-# DefaultKeys.escape.append(Keys.CTRL_Q)
+DefaultKeys.down.append(Keys.CTRL_N)
+DefaultKeys.up.append(Keys.CTRL_P)
+DefaultKeys.escape.append(Keys.CTRL_Q)
+Config.raise_on_interrupt = True
 
 
-def _italic(str_):
-    return f"[italic]{str_}[/italic]"
-
-
-INTRODUCTION = f"""Welcome to RaindropPY! {_italic('Ctrl-D')} or {_italic('.exit')}/{_italic('.quit')} to exit, {_italic('.help')} for help."""
-GOODBYE = """\n[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"""
-PROMPT = "> "
+RaindropState = TypeVar("RaindropState")  # In py3.11, we'll be able to do 'from typing import Self' instead
 
 
 @dataclass
@@ -38,10 +27,11 @@ class RaindropState:
     """Encapsulate all aspects for current state of the Raindrop environment."""
 
     api: API
+    created: datetime
     user: User
-    collections: list[Collection]
-    tags: list[str]
-    last_refresh: datetime
+    collections: list[Collection] = None
+    tags: list[str] = None
+    refreshed: datetime = None
 
     def get_collection_titles(self):
         return sorted([collection.title for collection in self.collections])
@@ -52,53 +42,67 @@ class RaindropState:
                 return collection
         return None
 
-    @classmethod
-    def refresh(cls, casefold: bool = True, verbose: bool = False):
-        """Return the current state of the Raindrop environment (ie. current collections and tags available)."""
+    def refresh(self, casefold: bool = True, verbose: bool = True) -> bool:
+        """Refresh the current state of this Raindrop environment (ie. current collections and tags available)."""
 
         def _cf(casefold: bool, string: str) -> str:
             if casefold:
                 return string.casefold()
             return string
 
-        # if verbose:
-        #     msg = "Logging into Raindrop..."
-        #     spinner = Spinner(DOTS, msg)
-        #     spinner.start()
+        if verbose:
+            msg = "Refreshing Raindrop Status..."
+            spinner = Spinner(DOTS, msg)
+            spinner.start()
+
+        # What collections do we currently have on Raindrop?
+        collections: list[Collection] = [root for root in Collection.get_roots(self.api)]
+        collections.extend([child for child in Collection.get_childrens(self.api)])
+        self.collections = sorted(collections, key=lambda collection: getattr(collection, "title", ""))
+
+        # What tags we currently have available on Raindrop across
+        # *all* collections? (use set to get rid of potential
+        # duplicates)
+        tags: set[str] = set([_cf(casefold, tag.tag) for tag in Tag.get(self.api)])
+        self.tags = list(sorted(tags))
+        self.refreshed = datetime.utcnow()
+
+        if verbose:
+            spinner.stop()
+
+        return True
+
+    @classmethod
+    def factory(verbose: bool = True) -> RaindropState:
+        """Factory to log into Raindrop and return a new Raindrop State instance."""
+
+        if verbose:
+            msg = "Logging into Raindrop..."
+            spinner = Spinner(DOTS, msg)
+            spinner.start()
 
         # Setup our connection to Raindrop
         api: API = API(os.environ["RAINDROP_TOKEN"])
 
-        # if verbose:
-        #     spinner.stop()
-
-        # if verbose:
-        #     msg = "Getting current state of Raindrop environment..."
-        #     spinner = Spinner(DOTS, msg)
-        #     spinner.start()
-
         # What user are we currently defined "for"?
         user = User.get(api)
 
-        # What collections do we currently have on Raindrop?
-        collections: list[Collection] = [root for root in Collection.get_roots(api)]
-        collections.extend([child for child in Collection.get_childrens(api)])
+        if verbose:
+            spinner.stop()
 
-        # What tags we currently have available on Raindrop across *all* collections?
-        tags: set[str] = set([_cf(casefold, tag.tag) for tag in Tag.get(api)])
+        state = RaindropState(api=api, user=user, created=datetime.utcnow())
 
-        # if verbose:
-        #     spinner.stop()
+        # And, do our first refresh.
+        state.refresh()
 
-        return RaindropState(
-            api=api, user=user, collections=collections, tags=list(sorted(tags)), last_refresh=datetime.utcnow()
-        )
+        return state
 
 
 ################################################################################
 class RaindropType(Enum):
-    URL = 1
-    FILE = 2
+    URL = 1  # Create interactively a URL-based Raindrop.
+    FILE = 2  # Create interactively a file-based Raindrop.
+    BULK = 3  # Get parameters to bulk load Raindrops from a file.
 
 
 @dataclass
@@ -114,15 +118,19 @@ class CreateRequest:
     url: str = None  # *URL* of link-based Raindrop to create.
     file_path: Path = None  # *Path* to file to be created, eg. /home/me/Documents/foo.pdf
 
-
-def get_user_history_path():
-    history_path = Path("~/.config/raindroppy").expanduser()
-    history_path.mkdir(parents=True, exist_ok=True)
-
-    history_file = history_path / Path(".cli_history")
-    if not history_file.exists():
-        open(history_file, "a").close()
-    return history_file
+    def __str__(self):
+        return_ = list()
+        if self.title:
+            return_.append(f"Title      : {self.title}")
+        if self.url:
+            return_.append(f"URL        : {self.url}")
+        if self.file_path:
+            return_.append(f"File       : {self.file_path}")
+        if self.collection:
+            return_.append(f"Collection : {self.collection}")
+        if self.tags:
+            return_.append(f"Tag(s)     : {self.tags}")
+        return "\n".join(return_)
 
 
 ################################################################################
@@ -131,61 +139,58 @@ class CLI:
 
     def __init__(self):
         """Setup connection to Raindrop and run the ui event loop."""
-        self.console = Console()
-        self.session = PromptSession(history=FileHistory(get_user_history_path()))
+        self.console = console
         self.state: RaindropState = None
         self.loop()
+
+    def new_screen(self):
+        self.console.clear()
+        text_intro = "Welcome to RaindropPY!"
+        self.console.print(Figlet(font="standard").renderText("Raindrop-PY"))
+        self.console.print(text_intro)
 
     def loop(self):
         """Menu/event loop."""
 
-        # Config.raise_on_interrupt = True
-        print(Figlet(font="standard").renderText("Raindrop-PY"))
-        self.console.print(INTRODUCTION)
+        def _italic(str_):
+            return f"[italic]{str_}[/italic]"
+
+        text_goodbye = """\n[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"""
+
+        self.new_screen()
 
         # Setup our connection *after* displaying the banner.
-        self.console.print("Connecting to Raindrop...", end="")
-        self.state = RaindropState.refresh()
-        self.console.print("Done")
+        self.state = RaindropState.factory()
+
+        commands = {"Add": self.add, "Show": self.show, ".Refresh": self.refresh, "Exit": None}
 
         while True:
             try:
-                response = self.session.prompt(PROMPT)
+                response = select(list(commands.keys()))
+                method = commands.get(response)
+                if method is None:
+                    self.console.print(text_goodbye)  # We're done..
+                    break
+                method()
             except (KeyboardInterrupt, EOFError):
-                self.console.print(GOODBYE)
+                self.console.print(text_goodbye)
                 break
-
-            if response.lower() in (".exit", ".quit"):
-                self.console.print(GOODBYE)
-                break
-
-            if response:  # As Ahhhnold would say...DOO EET!
-                self.execute(response)
-
-    def execute(self, response: str) -> None:
-        if response.casefold() == "add":
-            self.add()
-
-        elif response.casefold() == "create":
-            self.create()
-
-        elif response.casefold() == "status":
-            self.status()
 
     def add(self, debug: bool = False) -> None:
-        """Interactively create a new Raindrop bookmark (for either link or files)"""
+        """Interactively create one or more new Raindrop bookmarks."""
         from cli.commands.add import do_add
 
-        do_add(self, debug=debug)
+        do_add(self)
+        self.new_screen()
 
-    def create(self, create_toml: str = None, debug: bool = False):
-        """Bulk create one or more Raindrops based on a TOML file specification."""
-        from cli.commands.create import do_create
+    def show(self, debug: bool = False) -> None:
+        """Display selected statistics about our environment."""
+        from cli.commands.show import do_show
 
-        do_create(self, create_toml=create_toml, validate=True, debug=debug)
+        do_show(self)
+        self.new_screen()
 
-    def status(self, create_toml: str = None, debug: bool = False):
-        """Display the more recent status of our connection with Raindrop."""
-        from cli.commands.status import do_status
-
-        do_status(self)
+    def refresh(self, debug: bool = False) -> None:
+        """Refresh the current connection status"""
+        self.state.refresh()
+        self.new_screen()

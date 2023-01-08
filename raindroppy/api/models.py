@@ -346,7 +346,7 @@ class Raindrop(DictModel):
             else:
                 args["collection"] = collection
 
-        url = URL.format(path="raindrop/{id}")
+        url = URL.format(path=f"raindrop/{id}")
         item = api.put(url, json=args).json()["item"]
         return cls(item)
 

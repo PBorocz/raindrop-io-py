@@ -4,17 +4,11 @@ from pathlib import Path
 from time import sleep
 
 from api import API, Raindrop
+from cli.commands import CONTENT_TYPES
 from cli.models import CLI
 from models import CreateRequest, RaindropState, RaindropType
 from tomli import load
 from utilities import find_or_add_collection
-
-CONTENT_TYPES = {
-    ".pdf": "application/pdf",
-    ".py": "text/plain",
-    ".txt": "text/plain",
-    ".org": "text/plain",
-}
 
 
 def _validate_request(raindrop_state: RaindropState, request: CreateRequest) -> bool:
@@ -48,15 +42,15 @@ def _validate_request(raindrop_state: RaindropState, request: CreateRequest) -> 
     return True
 
 
-def _create_url(api: API, request: CreateRequest, collection) -> bool:
+def _create_url(api: API, request: CreateRequest) -> bool:
     """Create a standard URL based Raindrop."""
-    Raindrop.create_link(api, link=request.url, title=request.title, tags=request.tags, collection=request.collection)
+    Raindrop.create_link(api, request.url, title=request.title, tags=request.tags, collection=request.collection)
     return True
 
 
-def _create_file(api: API, request: CreateRequest, collection) -> bool:
+def _create_file(api: API, request: CreateRequest) -> bool:
     """Create a FILE-based Raindrop."""
-    raindrop = Raindrop.create_file(api, request.file_path, CONTENT_TYPES.get(request.file_path.suffix), collection)
+    raindrop = Raindrop.create_file(api, request.file_path, CONTENT_TYPES.get(request.file_path.suffix))
 
     # Do we need to set any other attributes on the newly created entry?
     args = {}
@@ -73,8 +67,9 @@ def _create_file(api: API, request: CreateRequest, collection) -> bool:
 def _create(api: API, request: CreateRequest, interstitial: int = 1, debug: bool = False) -> bool:
     """Controller for creating either URL or File-based Raindrops."""
 
-    # Get (or create) the collection
-    collection = find_or_add_collection(api, request.collection)
+    # Get (or create) the collection (changing the representation in
+    # the request from a string to a collection object)
+    request.collection = find_or_add_collection(api, request.collection)
 
     # Push it up depending on the Raindrop "type" to be created
     if request.type_ == RaindropType.URL:
@@ -85,7 +80,7 @@ def _create(api: API, request: CreateRequest, interstitial: int = 1, debug: bool
         raise RuntimeError(f"Sorry, invalid RaindropType encountered: '{request.type_}'")
 
     # Push it up!
-    create_method(api, request, collection)
+    create_method(api, request)
 
     # be nice to raindrop.io and wait a bit..
     if interstitial:
@@ -132,4 +127,4 @@ def do_create(
         if not requests:
             return 0
 
-    return sum([_create(cli.api, request, debug) for request in requests])
+    return sum([_create(cli.state.api, request, debug) for request in requests])

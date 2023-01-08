@@ -3,9 +3,9 @@ import os
 import sys
 from datetime import datetime
 from getpass import getuser
-from pathlib import Path
 
 from dotenv import load_dotenv
+
 from raindroppy.api import API, Collection
 
 load_dotenv()
@@ -16,7 +16,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     try:
         collection = Collection.create_link(api, title=title)
         print(f"Done, {collection.id=}.")
-    except Exception(exc):
+    except Exception as exc:
         print(f"Sorry, unable to create collection! {exc}")
         sys.exit(1)
 

@@ -1,42 +1,41 @@
 fail_fast: true
 repos:
 
+################################################################################
 - repo: local
   hooks:
   - id: system
-    name: Running Tests
+    name: Running tests
     entry: .venv/bin/python -m pytest
     pass_filenames: false
     language: system
 
+################################################################################
+- repo: https://github.com/bwhmather/ssort
+  rev: v0.11.6
+  hooks:
+    - id: ssort
+      name: Running ssort
+
+################################################################################
+- repo: https://github.com/pycqa/isort
+  rev: 5.11.2
+  hooks:
+    - id: isort
+      name: Running isort
+
+################################################################################
+- repo: https://github.com/psf/black
+  rev: 5d0d5936db2ed7a01c50a374e32753e1afe9cc71
+  hooks:
+  - id: black
+    name: Running black
+
+################################################################################
 - repo: local
   hooks:
   - id: system
     name: Running flake8
     entry: .venv/bin/flake8 raindroppy/
-    pass_filenames: false
-    language: system
-
-- repo: local
-  hooks:
-  - id: system
-    name: Running ssort
-    entry: .venv/bin/ssort raindroppy/
-    pass_filenames: false
-    language: system
-
-- repo: local
-  hooks:
-  - id: system
-    name: Running isort
-    entry: .venv/bin/isort raindroppy/
-    pass_filenames: false
-    language: system
-
-- repo: local
-  hooks:
-  - id: system
-    name: Running Black
-    entry: .venv/bin/black raindroppy/
     pass_filenames: false
     language: system

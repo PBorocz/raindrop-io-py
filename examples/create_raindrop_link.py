@@ -1,5 +1,6 @@
 """Create a new link-based Raindrop into the Unsorted collection"""
 import os
+import sys
 
 from dotenv import load_dotenv
 
@@ -12,9 +13,9 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     try:
         print(f"Creating Raindrop to: '{link}' with title: '{title}'...", flush=True, end="")
         raindrop = Raindrop.create_link(api, link=link, title=title, tags=["abc", "def"])
-        print(f"Done.")
+        print("Done.")
         print(f"{raindrop.id=}")
-    except Exception(exc):
+    except Exception as exc:
         print(f"Sorry, unable to create Raindrop! {exc}")
         sys.exit(1)
 

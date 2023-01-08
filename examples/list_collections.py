@@ -7,6 +7,7 @@ from raindroppy.api import API, Collection
 
 load_dotenv()
 
+
 def _print(c: Collection) -> None:
     print("---------------------------------------------------")
     print("id:               ", c.id)
@@ -25,6 +26,7 @@ def _print(c: Collection) -> None:
     print("expanded:         ", c.expanded)
     print("lastUpdate:       ", c.lastUpdate)
     print("created:          ", c.created)
+
 
 # Note: we don't distinguish here between "root" and "child"
 # collections, using the convenience method that collapses the two

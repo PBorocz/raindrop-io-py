@@ -2,10 +2,7 @@ from unittest.mock import patch
 
 from raindroppy.api import API, Tag
 
-TAG = {
-    "_id": "a Sample Tag",
-    "count": 1
-}
+TAG = {"_id": "a Sample Tag", "count": 1}
 
 
 def test_get() -> None:

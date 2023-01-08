@@ -15,7 +15,7 @@ from dotenv import load_env
 from flask import Flask, redirect, render_template_string, request
 from werkzeug import Response
 
-from raindroppy.api import API, create_oauth2session
+from raindroppy.api import API, Collection, create_oauth2session
 
 load_env()
 

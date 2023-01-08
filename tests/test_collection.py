@@ -1,7 +1,7 @@
 import datetime
 from unittest.mock import patch
 
-from raindroppy.api import API, Collection, View
+from raindroppy.api import API, AccessLevel, Collection, View
 
 collection = {
     "_id": 1000,
@@ -34,13 +34,9 @@ def test_get_roots() -> None:
             assert c.color is None
             assert c.count == 0
             assert c.cover == []
-            assert c.created == datetime.datetime(
-                2020, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc
-            )
+            assert c.created == datetime.datetime(2020, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc)
             assert c.expanded is False
-            assert c.lastUpdate == datetime.datetime(
-                2020, 1, 2, 0, 0, 0, tzinfo=datetime.timezone.utc
-            )
+            assert c.lastUpdate == datetime.datetime(2020, 1, 2, 0, 0, 0, tzinfo=datetime.timezone.utc)
             assert c.parent
             assert c.parent.id == 100
             assert c.public is False

@@ -1,5 +1,6 @@
 """Create a new file-based Raindrop into the Unsorted collection"""
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -17,7 +18,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
         raindrop = Raindrop.create_file(api, path_, content_type)
         print("Done.")
         print(f"{raindrop.id=}")
-    except Exception(exc):
+    except Exception as exc:
         print(f"Sorry, unable to create Raindrop! {exc}")
         sys.exit(1)
 

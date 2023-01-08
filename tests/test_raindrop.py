@@ -36,14 +36,10 @@ def test_get() -> None:
         assert c.id == 2000
         assert c.collection.id == -1
         assert c.cover == ""
-        assert c.created == datetime.datetime(
-            2020, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc
-        )
+        assert c.created == datetime.datetime(2020, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc)
         assert c.domain == "www.example.com"
         assert c.excerpt == "excerpt text"
-        assert c.lastUpdate == datetime.datetime(
-            2020, 1, 1, 1, 1, 1, tzinfo=datetime.timezone.utc
-        )
+        assert c.lastUpdate == datetime.datetime(2020, 1, 1, 1, 1, 1, tzinfo=datetime.timezone.utc)
         assert c.link == "https://www.example.com/"
         assert c.media == []
         assert c.tags == ["abc", "def"]

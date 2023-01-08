@@ -1,7 +1,7 @@
 import datetime
 from unittest.mock import patch
 
-from raindroppy.api import API, User, BrokenLevel, View
+from raindroppy.api import API, BrokenLevel, User, View
 
 user = {
     "_id": 1000,
@@ -56,9 +56,7 @@ def test_get() -> None:
         assert c.email_MD5 == "1111111111"
         assert c.files.size == 10000000000
         assert c.files.used == 0
-        assert c.files.lastCheckPoint == datetime.datetime(
-            2020, 1, 1, 2, 2, 2, tzinfo=datetime.timezone.utc
-        )
+        assert c.files.lastCheckPoint == datetime.datetime(2020, 1, 1, 2, 2, 2, tzinfo=datetime.timezone.utc)
         assert c.fullName == "test user"
         assert c.groups[0].hidden is False
         assert c.groups[0].sort == 0
@@ -66,6 +64,4 @@ def test_get() -> None:
         assert list(c.groups[0].collectionids) == [2000, 3000]
         assert c.password is True
         assert c.pro is True
-        assert c.registered == datetime.datetime(
-            2020, 1, 2, 1, 1, 1, tzinfo=datetime.timezone.utc
-        )
+        assert c.registered == datetime.datetime(2020, 1, 2, 1, 1, 1, tzinfo=datetime.timezone.utc)

@@ -13,8 +13,8 @@ def _show_status(cli: CLI) -> None:
     """UI Controller for displaying current status."""
     human_diff = naturaltime(datetime.utcnow() - cli.state.refreshed)
     cli.console.print(f"Active User : {cli.state.user.fullName}")
-    cli.console.print(f"Collections : {len(cli.state.collections):3d}")
-    cli.console.print(f"Tags        : {len(cli.state.tags):3d}")
+    cli.console.print(f"Collections : {len(cli.state.collections):,d}")
+    cli.console.print(f"Tags        : {len(cli.state.tags):,d}")
     cli.console.print(f"As Of       : {human_diff}")
 
 
@@ -55,16 +55,27 @@ def _show_tags(cli: CLI) -> None:
     cli.console.print(f"{'Total':{max_len}s} {total:,d}")
 
 
-def do_show(cli: CLI) -> None:
+def process(cli: CLI) -> None:
     """Top-level UI Controller for showing a set of statistics."""
     while True:
-        options = ["Connection", "Collections", "Tags", "(done)"]
-        response = select(options)
-        if "done" in response:
-            return None
-        elif response == options[0]:
+
+        options = [
+            "Show Status",
+            "Show All Collections",
+            "Show All Tags",
+            "Refresh Local Environment From Raindrop",
+            "(Back)",
+        ]
+
+        response = select(options, return_index=True)
+
+        if response == 0:
             _show_status(cli)
-        elif response == options[1]:
+        elif response == 1:
             _show_collections(cli)
-        elif response == options[2]:
+        elif response == 2:
             _show_tags(cli)
+        elif response == 3:
+            cli.state.refresh()
+        elif response == 4:
+            return None

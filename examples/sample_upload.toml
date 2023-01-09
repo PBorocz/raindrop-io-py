@@ -1,0 +1,11 @@
+[[requests]]
+collection = "Interesting PDFs"
+file_path = "/Users/me/Downloads/ToRaindrop/ASamplePDF.pdf"
+title = "A Nice, Descriptive Title"
+tags = ["aTag", "AnotherTag"]
+
+[[requests]]
+collection = "News"
+url = "https://washingtonpost.com"
+title = "Washington Post (Democracy Dies in Darkness)"
+tags = ["News", "Opinion"]

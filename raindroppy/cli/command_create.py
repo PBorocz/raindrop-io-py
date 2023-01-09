@@ -6,8 +6,9 @@ from typing import Optional
 from api import API, Raindrop
 from beaupy import confirm, prompt, select, select_multiple
 from beaupy.spinners import DOTS, Spinner
-from cli.commands import CONTENT_TYPES
-from cli.models import CLI, CreateRequest, RaindropType
+from cli import CONTENT_TYPES
+from cli.models import CreateRequest, RaindropType
+from cli.ui import CLI
 from tomli import load
 from utilities import find_or_add_collection
 
@@ -208,23 +209,28 @@ def _add_bulk(cli: CLI) -> None:
         return None
 
 
-def do_add(cli: CLI) -> None:
-    """Top-level UI Controller for adding bookmarks from the terminal."""
+def process(cli: CLI) -> None:
+    """Top-level UI Controller for adding bookmark(s) from the terminal."""
     while True:
-        options = ["Add a URL", "Add a File", "Bulk Add (from a file)", "Back"]
+        options = [
+            "Create a new URL-based Bookmark",
+            "Create a new File-based Bookmark",
+            "Create new Bookmarks from a bulk-upload File",
+            "(Back)",
+        ]
 
-        response = select(options)
+        response = select(options, return_index=True)
 
-        if response == options[0]:
+        if response == 0:
             type_ = RaindropType.URL
 
-        elif response == options[1]:
+        elif response == 1:
             type_ = RaindropType.FILE
 
-        elif response == options[2]:
+        elif response == 2:
             type_ = RaindropType.BULK
 
-        elif response == options[3]:
+        elif response == 3:
             return None
 
         else:

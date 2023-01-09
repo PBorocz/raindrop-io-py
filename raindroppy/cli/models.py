@@ -1,4 +1,4 @@
-"""Abstract data types to support Rainddrop CLI."""
+"""Abstract data types to support Raindrop CLI."""
 import os
 from dataclasses import dataclass
 from datetime import datetime
@@ -7,9 +7,8 @@ from pathlib import Path
 from typing import TypeVar, Union
 
 from api import API, Collection, Tag, User
-from beaupy import Config, DefaultKeys, console, select
+from beaupy import Config, DefaultKeys
 from beaupy.spinners import DOTS, Spinner
-from pyfiglet import Figlet
 from yakh.key import Keys
 
 # Yay and thou shall give us Emacs...
@@ -142,66 +141,3 @@ class CreateRequest:
         if self.tags:
             return_.append(f"Tag(s)     : {self.tags}")
         return "\n".join(return_)
-
-
-################################################################################
-class CLI:
-    """Command-line interface controller."""
-
-    def __init__(self):
-        """Setup connection to Raindrop and run the ui event loop."""
-        self.console = console
-        self.state: RaindropState = None
-        self.loop()
-
-    def new_screen(self):
-        self.console.clear()
-        text_intro = "Welcome to RaindropPY!"
-        self.console.print(Figlet(font="standard").renderText("Raindrop-PY"))
-        self.console.print(text_intro)
-
-    def loop(self):
-        """Menu/event loop."""
-
-        def _italic(str_):
-            return f"[italic]{str_}[/italic]"
-
-        text_goodbye = """\n[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"""
-
-        self.new_screen()
-
-        # Setup our connection *after* displaying the banner.
-        self.state = RaindropState.factory()
-
-        commands = {"Add": self.add, "Show": self.show, ".Refresh": self.refresh, "Exit": None}
-
-        while True:
-            try:
-                response = select(list(commands.keys()))
-                method = commands.get(response)
-                if method is None:
-                    self.console.print(text_goodbye)  # We're done..
-                    break
-                method()
-            except (KeyboardInterrupt, EOFError):
-                self.console.print(text_goodbye)
-                break
-
-    def add(self, debug: bool = False) -> None:
-        """Interactively create one or more new Raindrop bookmarks."""
-        from cli.commands.add import do_add
-
-        do_add(self)
-        self.new_screen()
-
-    def show(self, debug: bool = False) -> None:
-        """Display selected statistics about our environment."""
-        from cli.commands.show import do_show
-
-        do_show(self)
-        self.new_screen()
-
-    def refresh(self, debug: bool = False) -> None:
-        """Refresh the current connection status"""
-        self.state.refresh()
-        self.new_screen()

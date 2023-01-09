@@ -6,9 +6,13 @@
 
 Python wrapper for the raindrop.io bookmark manager [API](https://developer.raindrop.io/).
 
-This is probably ready for use yet! We're still learning the foibles of creating a repository for public use.
-
 This is a fork of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto). I needed a few additions and desired a simple terminal-based UI for interactive work with Raindrop itself.
+
+## Status
+
+As the API to Raindrop itself is based on a fork of an existing package, it's reasonably stable (as of this writing, only one minor change is envisioned)
+
+However, the command-line interface (CLI) is brand new and lacking tests. Thus, it's probably **NOT** ready for serious use yet. Similarly, real installation support will come when I learn the ins/outs of _package_ creation and distribution.
 
 ## Requirements
 

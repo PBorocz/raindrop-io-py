@@ -2,6 +2,7 @@
 from pathlib import Path
 from time import sleep
 from typing import Optional
+from urllib.parse import urlparse
 
 from api import API, Raindrop
 from beaupy import confirm, prompt, select, select_multiple
@@ -56,6 +57,19 @@ def _read_files(path_: Path) -> list[Path]:
     return list(path_.glob("*.pdf"))
 
 
+def _validate_url(url: str) -> Optional[str]:
+    """Validate the url provided, returning a message if invalid, None otherwise"""
+    if not url:
+        return "Sorry, you need to specify a valid URL, e.g. https://www.msn.com"
+    try:
+        parts = urlparse(url)
+        if all([parts.scheme, parts.netloc]):
+            return None
+    except ValueError:
+        pass
+    return f"Sorry, URL provided {url} isn't valid."
+
+
 def _prompt_for_request(
     cli: CLI, type_: RaindropType, dir_path: Optional[Path] = Path("~/Downloads/Raindrop")
 ) -> Optional[CreateRequest]:
@@ -67,7 +81,14 @@ def _prompt_for_request(
 
     # Prompts differ whether or not we're creating a file or link-based Raindrop.
     if request.type_ == RaindropType.URL:
-        request.url = prompt("What URL?:")
+
+        # Get a valid URL:
+        while True:
+            request.url = prompt("What URL?:")
+            if (msg := _validate_url(request.url)) is None:
+                break
+            cli.console.print(msg)
+
         request.title = prompt("What Title?:")
 
     elif request.type_ == RaindropType.FILE:
@@ -146,7 +167,9 @@ def _validate_request(cli: CLI, request: CreateRequest) -> bool:
 
     # Error Check: Validate the URL provided
     if request.url:
-        ...  # FIXME
+        if msg := _validate_url(request.url):
+            cli.console.print(msg)
+            return False
 
     # Error Check: Validate any tags associated with the request
     if request.tags:

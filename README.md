@@ -97,7 +97,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     print(f"Done, {collection.id=}.")
 ```
 
-### Search Bookmarks from the *Unsorted* Collection
+### Display Any Bookmarks from the *Unsorted* Raindrop Collection
 
 ```python
 import os

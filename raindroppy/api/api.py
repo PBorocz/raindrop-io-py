@@ -77,7 +77,7 @@ class API:
         )
 
     def open(self) -> None:
-        """Open an new connection to Raindrop."""
+        """Open a new connection to Raindrop."""
         self.close()
         self.session = self._create_session()
 
@@ -94,7 +94,7 @@ class API:
         if isinstance(obj, datetime.datetime):
             return obj.isoformat()
 
-        raise TypeError(f"Object of type {obj.__class__.__name__} " f"is not JSON serializable")
+        raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
 
     def _to_json(self, obj: Any) -> Optional[str]:
         if obj is not None:

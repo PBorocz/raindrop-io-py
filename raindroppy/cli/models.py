@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import TypeVar
+from typing import TypeVar, Union
 
 from api import API, Collection, Tag, User
 from beaupy import Config, DefaultKeys, console, select
@@ -109,14 +109,25 @@ class RaindropType(Enum):
 class CreateRequest:
     """Encapsulate parameters required to create a *file*-based Raindrop bookmark."""
 
-    title: str = None  # Bookmark title on Raindrop, eg. "Please Store Me"
-    collection: str = None  # Name of collection to store bookmark, eg. "My Documents"
+    type_: RaindropType = RaindropType.URL  # Only required attribute
+
+    title: str = None  # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
+    collection: Union[str, Collection] = None  # Name of collection (or real) to store bookmark, eg. "My Documents"
     tags: list[str] = None  # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
 
     # One of the following needs to be specified:
-    type_: RaindropType = RaindropType.URL
-    url: str = None  # *URL* of link-based Raindrop to create.
-    file_path: Path = None  # *Path* to file to be created, eg. /home/me/Documents/foo.pdf
+    url: str = None  # URL of link-based Raindrop to create.
+    file_path: Path = None  # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
+
+    def name(self) -> str:
+        """Return a user viewable name for request irrespective of type"""
+        if self.title:
+            return self.title
+        if self.type_ == RaindropType.URL and self.url:
+            return self.url
+        if self.type_ == RaindropType.FILE and self.file_path:
+            return self.file_path.name
+        return "-"
 
     def __str__(self):
         return_ = list()

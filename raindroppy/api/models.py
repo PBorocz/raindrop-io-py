@@ -175,10 +175,10 @@ class Collection(DictModel):
         parent: Optional[int] = None,
         cover: Optional[Sequence[str]] = None,
     ) -> Collection:
-        """Update all specified attributes of an existing Raindrop collection."""
+        """Update an existing Raindrop collection with any of the attribute values provided."""
         args: Dict[str, Any] = {}
         for attr in ["expanded", "view", "title", "sort", "public", "parent", "cover"]:
-            if value := locals().get(attr) is not None:
+            if (value := locals().get(attr)) is not None:
                 args[attr] = value
         url = URL.format(path=f"collection/{id}")
         item = api.put(url, json=args).json()["item"]
@@ -267,7 +267,7 @@ class Raindrop(DictModel):
             "title",
             "type",
         ]:
-            if value := locals().get(attr):
+            if (value := locals().get(attr)) is not None:
                 args[attr] = value
 
         if collection is not None:
@@ -291,8 +291,8 @@ class Raindrop(DictModel):
         """Create a new file-based Raindrop bookmark."""
         url = URL.format(path="raindrop/file")
 
-        # Per update to API documentation by Rustem Mussabekov on 2022-11-29, these are the
-        # relevant arguments to create a new Raindrop with a file as it's body instead of a link:
+        # Confirmed through communication with RustemM on 2022-11-29
+        # and subsequent update to API documentation.
         data = {"collectionId": str(collection.id)}
         files = {"file": (path.name, open(path, "rb"), content_type)}
 
@@ -319,7 +319,7 @@ class Raindrop(DictModel):
         title: Optional[str] = None,
         link: Optional[str] = None,
     ) -> Raindrop:
-        """Update all specified attributes of an existing Raindrop bookmark."""
+        """Update an existing Raindrop bookmark with any of the attribute values provided."""
 
         # Setup args to be sent to Raindrop..
         args: Dict[str, Any] = {}
@@ -338,7 +338,7 @@ class Raindrop(DictModel):
             "title",
             "type",
         ]:
-            if value := locals().get(attr) is not None:
+            if (value := locals().get(attr)) is not None:
                 args[attr] = value
         if collection is not None:
             if isinstance(collection, (Collection, CollectionRef)):

@@ -52,28 +52,61 @@ RAINDROP_CLIENT_SECRET=abcdefgh-1234567890-abcdefgh
 
 ## API Usage & Examples
 
-A full suite of examples are provided in the examples directory, here's are two simple ones:
+A full suite of examples are provided in the examples directory, here's are a few to give you some idea of the usage model:
 
-### Create a collection
+### Create a new Raindrop Bookmark from a URL
 
 ```python
 import os
+import sys
+
 from dotenv import load_dotenv
-from raindroppy.api import API, Collection
+
+from raindroppy.api import API, Raindrop
+
 load_dotenv()
 
-with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
-    c = Collection.create(api, title="Sample collection")
-    print(f"{c.title=})
+with API(os.environ["RAINDROP_TOKEN"]) as api:
+    link, title = "https://www.python.org/", "Our Benevolent Dictator's Creation"
+    print(f"Creating Raindrop to: '{link}' with title: '{title}'...", flush=True, end="")
+    
+    raindrop = Raindrop.create_link(api, link=link, title=title, tags=["abc", "def"])
+    print(f"Done, {raindrop.id=}")
 ```
 
-### Search bookmarks from the *Unsorted* collection
+### Create a Raindrop Collection
+
+```python
+import os
+import sys
+from datetime import datetime
+from getpass import getuser
+
+from dotenv import load_dotenv
+
+from raindroppy.api import API, Collection
+
+load_dotenv()
+
+with API(os.environ["RAINDROP_TOKEN"]) as api:
+    
+    title = f"TEST Collection ({getuser()}@{datetime.now():%Y-%m-%dT%H:%M:%S})"
+    print(f"Creating collection: '{title}'...", flush=True, end="")
+    
+    collection = Collection.create_link(api, title=title)
+    print(f"Done, {collection.id=}.")
+```
+
+### Search Bookmarks from the *Unsorted* Collection
 
 ```python
 import os
 from dotenv import load_dotenv
+
 from raindroppy.api import API, CollectionRef, Raindrop
+
 load_dotenv()
+
 
 with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
     page = 0

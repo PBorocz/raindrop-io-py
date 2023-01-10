@@ -1,5 +1,17 @@
 """Miscellaneous Raindrop utilities used across the CLI."""
+from pathlib import Path
+
 from api import API, Collection, CollectionRef
+
+
+def get_user_history_path():
+    history_path = Path("~/.config/raindroppy").expanduser()
+    history_path.mkdir(parents=True, exist_ok=True)
+
+    history_file = history_path / Path(".cli_history")
+    if not history_file.exists():
+        open(history_file, "a").close()
+    return history_file
 
 
 def find_or_add_collection(api: API, collection_name: str) -> CollectionRef:

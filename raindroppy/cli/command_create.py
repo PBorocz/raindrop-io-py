@@ -1,17 +1,26 @@
 """Add/Create a new file-based bookmark to Raindrop."""
 from pathlib import Path
 from time import sleep
-from typing import Optional
+from typing import Final, Optional
 from urllib.parse import urlparse
 
 from api import API, Raindrop
-from beaupy import confirm, prompt, select, select_multiple
-from beaupy.spinners import DOTS, Spinner
+from beaupy import confirm, prompt
 from cli import CONTENT_TYPES
+from cli.lui import LI
 from cli.models import CreateRequest, RaindropType
-from cli.ui import CLI
+from cli.spinners import ARC, Spinner
+from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.styles import Style
 from tomli import load
 from utilities import find_or_add_collection
+
+STYLE: Final = Style.from_dict(
+    {
+        "": "#00ff00",  # User input is green
+        "prompt": "#00ffff",  # Prompt is cyan
+    }
+)
 
 
 def _create_file(api: API, request: CreateRequest, debug: bool) -> bool:
@@ -70,8 +79,108 @@ def _validate_url(url: str) -> Optional[str]:
     return f"Sorry, URL provided {url} isn't valid."
 
 
+def __get_url(li: LI) -> Optional[str]:
+    prompt: Final = [
+        ("class:prompt", "create> url> url?> "),
+    ]
+    while True:
+        try:
+            response = li.session.prompt(prompt, style=STYLE)
+            if response == "?":
+                li.console.print("We need a valid URL here, eg. https://www.python.org")
+            elif response == "q":
+                return None
+            else:
+                if (msg := _validate_url(response)) is None:
+                    return response
+                else:
+                    li.console.print(msg)
+                    # And go back up for another try..
+        except (KeyboardInterrupt, EOFError):
+            return None
+
+
+def __get_title(li: LI) -> Optional[str]:
+    prompt: Final = [
+        ("class:prompt", "create> url> title?> "),
+    ]
+    while True:
+        try:
+            response = li.session.prompt(prompt, style=STYLE)
+            if response == "?":
+                li.console.print("We need a Bookmark title here, eg. 'This is an interesting bookmark'")
+            elif response == "q":
+                return None
+            else:
+                return response
+        except (KeyboardInterrupt, EOFError):
+            return None
+
+
+def __get_from_list(li: LI, prompt: str, options: list[str]) -> Optional[str]:
+    prompt: Final = [
+        ("class:prompt", f"create> url> {prompt}?> "),
+    ]
+    completer: Final = WordCompleter(options)
+    while True:
+        try:
+            response = li.session.prompt(
+                prompt, completer=completer, style=STYLE, complete_while_typing=True, enable_history_search=False
+            )
+            if response == "?":
+                li.console.print(", ".join(options))
+            else:
+                break
+        except (KeyboardInterrupt, EOFError):
+            return None
+    return response
+
+
+def __get_from_files(li: LI, options: list[Path]) -> Optional[str]:
+    prompt: Final = [
+        ("class:prompt", "create> url> file #?> "),
+    ]
+    names = [fp_.name for fp_ in options]
+    completer: Final = WordCompleter(names)
+    for ith, fp_ in enumerate(options):
+        li.console.print(f"{ith:2d} {fp_.name}")
+    while True:
+        try:
+            response = li.session.prompt(
+                prompt, completer=completer, style=STYLE, complete_while_typing=True, enable_history_search=False
+            )
+            if response == "?":
+                li.console.print(", ".join(options))
+            else:
+                break
+        except (KeyboardInterrupt, EOFError):
+            return None
+
+    return options[int(response)]
+
+
+def __get_confirmation(li: LI) -> bool:
+    prompt: Final = [
+        ("class:prompt", "\nIs this correct? "),
+    ]
+    options: Final = ["yes", "Yes", "No", "no"]
+    completer: Final = WordCompleter(options)
+    try:
+        response = li.session.prompt(
+            prompt, completer=completer, style=STYLE, complete_while_typing=True, enable_history_search=False
+        )
+        if response == "q":
+            return None
+        else:
+            if response.lower() in ["yes", "y", "ye"]:
+                return True
+            return False
+    except (KeyboardInterrupt, EOFError):
+        return False
+
+
 def _prompt_for_request(
-    cli: CLI, type_: RaindropType, dir_path: Optional[Path] = Path("~/Downloads/Raindrop")
+    li: LI, type_: RaindropType, dir_path: Optional[Path] = Path("~/Downloads/Raindrop")
 ) -> Optional[CreateRequest]:
     """Prompt for create new Raindrop request (either link or url).
 
@@ -81,66 +190,61 @@ def _prompt_for_request(
 
     # Prompts differ whether or not we're creating a file or link-based Raindrop.
     if request.type_ == RaindropType.URL:
-
-        # Get a valid URL:
-        while True:
-            request.url = prompt("What URL?:")
-            if (msg := _validate_url(request.url)) is None:
-                break
-            cli.console.print(msg)
-
-        request.title = prompt("What Title?:")
+        request.url = __get_url(li)
+        if request.url is None:
+            return None
 
     elif request.type_ == RaindropType.FILE:
-        files: dict[str, Path] = {path.name: path for path in _read_files(dir_path.expanduser())}
-        fn_selected = select(sorted(list(files.keys())))
-        request.file_path = files.get(fn_selected)
-        request.title = prompt("What Title?:", initial_value=request.file_path.stem)
+        files = _read_files(dir_path.expanduser())
+        request.file_path = __get_from_files(li, sorted(files, key=lambda fp_: fp_.name))
+
+    # Get a Title:
+    request.title = __get_title(li)
+    if request.title is None:
+        return None
 
     # These are the same across raindrop types:
-    request.collection = select(list(cli.state.get_collection_titles()))
-    request.tags = select_multiple(list(cli.state.tags))
+    request.collection = __get_from_list(li, "collection", list(li.state.get_collection_titles()))
+    if request.collection is None:
+        return None
 
-    # Confirm the values that we just received:
-    if request.type_ == RaindropType.URL:
-        cli.console.print(f"URL           : {request.url}")
-    elif request.type_ == RaindropType.FILE:
-        cli.console.print(f"File to send  : {request.file_path.name}")
-    cli.console.print(f"With title    : {request.title}")
-    cli.console.print(f"To collection : {request.collection}")
-    cli.console.print(f"With tags     : {request.tags}")
+    request.tags = __get_from_list(li, "tag(s)", list(li.state.tags))
+    if request.tags is None:
+        return None
 
-    if confirm("\nIs this correct?"):
+    # Confirm the values that we just received are good to go...
+    request.print(li.console.print)
+    if __get_confirmation(li):
         return request
     return None
 
 
 def _add_single(
-    cli: CLI, type_: RaindropType, request: CreateRequest = None, interstitial: int = 1, debug: bool = False
+    li: LI, type_: RaindropType, request: CreateRequest = None, interstitial: int = 1, debug: bool = False
 ) -> bool:
     """Create either a link or file-based Raindrop, if we don't have a request yet, get one."""
 
     assert type_ or request, "Sorry, either a RaindropType or an existing request is required"
     if not request:
-        request: CreateRequest = _prompt_for_request(cli, type_)
+        request: CreateRequest = _prompt_for_request(li, type_)
         if not request:
             return False  # User requested that we could still get out..
 
     # Convert from /name/ of collection user entered to an instance of
     # the Collection itself, creating a new one through the respective
     # API if necessary.
-    request.collection = find_or_add_collection(cli.state.api, request.collection)
+    request.collection = find_or_add_collection(li.state.api, request.collection)
 
     # Push it up!
     msg = f"Adding Raindrop -> {request.name()}..."
-    spinner = Spinner(DOTS, msg)
+    spinner = Spinner(ARC, msg)
     spinner.start()
 
     if request.type_ == RaindropType.URL:
-        _create_link(cli.state.api, request, debug)
+        _create_link(li.state.api, request, debug)
 
     elif request.type_ == RaindropType.FILE:
-        _create_file(cli.state.api, request, debug)
+        _create_file(li.state.api, request, debug)
 
     spinner.stop()
 
@@ -151,37 +255,37 @@ def _add_single(
     return True
 
 
-def _validate_request(cli: CLI, request: CreateRequest) -> bool:
+def _validate_request(li: LI, request: CreateRequest) -> bool:
     """Return True iff the request is valid."""
 
     # Error Check: Validate the existence of the specified file for
     if request.file_path:
         if not request.file_path.exists():
-            cli.console.print(f"Sorry, no file with name '{request.file_path}' exists.\n")
+            li.console.print(f"Sorry, no file with name '{request.file_path}' exists.\n")
             return False
 
         # Validate the file type
         if request.file_path.suffix not in CONTENT_TYPES:
-            cli.console.print(f"Sorry, file type {request.file_path.suffix} isn't yet supported by Raindrop.io.\n")
+            li.console.print(f"Sorry, file type {request.file_path.suffix} isn't yet supported by Raindrop.io.\n")
             return False
 
     # Error Check: Validate the URL provided
     if request.url:
         if msg := _validate_url(request.url):
-            cli.console.print(msg)
+            li.console.print(msg)
             return False
 
     # Error Check: Validate any tags associated with the request
     if request.tags:
         for tag in request.tags:
-            if tag.casefold() not in cli.state.tags:
-                cli.console.print(f"Sorry, {tag=} does not currently exist.\n")
+            if tag.casefold() not in li.state.tags:
+                li.console.print(f"Sorry, {tag=} does not currently exist.\n")
                 return False
 
     # Warning only: check for collection existence
     if request.collection:
-        if cli.state.find_collection(request.collection) is None:
-            cli.console.print(
+        if li.state.find_collection(request.collection) is None:
+            li.console.print(
                 f"Collection '{request.collection}' doesn't exist " "in Raindrop, we'll be adding it from scratch.\n"
             )
 
@@ -207,62 +311,64 @@ def RequestFactory(entry: dict) -> CreateRequest:
     return request
 
 
-def _add_bulk(cli: CLI) -> None:
+def _add_bulk(li: LI) -> None:
 
     while True:  # ie, until we get a valid file..
         fn_request: str = prompt("TOML Upload File", initial_value="./upload.toml")
         fp_request: Path = Path(fn_request)
         if not fp_request.exists():
-            cli.console.print(f"Sorry, unable to find request_toml file: '{fn_request}'\n")
+            li.console.print(f"Sorry, unable to find request_toml file: '{fn_request}'\n")
             continue
 
         with open(fp_request, "rb") as fh_request:
             requests: list[CreateRequest] = [RequestFactory(entry) for entry in load(fh_request).get("requests", [])]
 
         # Filter down to only valid entries:
-        requests: list[CreateRequest] = [req for req in requests if _validate_request(cli, req)]
+        requests: list[CreateRequest] = [req for req in requests if _validate_request(li, req)]
         if not requests:
-            cli.console.print("Sorry, no valid requests found.\n")
+            li.console.print("Sorry, no valid requests found.\n")
             break
 
         # Confirm that we're good to go and add these requests..
         if confirm(f"\nReady to create {len(requests)} valid requests, Ok?"):
-            return sum([_add_single(cli, None, request) for request in requests])
+            return sum([_add_single(li, None, request) for request in requests])
 
         return None
 
 
-def process(cli: CLI) -> None:
+def process(li: LI) -> None:
     """Top-level UI Controller for adding bookmark(s) from the terminal."""
     while True:
-        options = [
-            "Create a new URL-based Bookmark",
-            "Create a new File-based Bookmark",
-            "Create new Bookmarks from a bulk-upload File",
-            "(Back)",
+        create_prompt: Final = [
+            ("class:prompt", "create> "),
         ]
+        create_options: Final = [
+            "file",
+            "url",
+            "bulk",
+            "back",
+        ]
+        create_completer: Final = WordCompleter(create_options)
 
-        response = select(options, return_index=True)
+        while True:
+            try:
+                response = li.session.prompt(
+                    create_prompt,
+                    completer=create_completer,
+                    style=STYLE,
+                    complete_while_typing=True,
+                    enable_history_search=False,
+                )
 
-        if response == 0:
-            type_ = RaindropType.URL
-
-        elif response == 1:
-            type_ = RaindropType.FILE
-
-        elif response == 2:
-            type_ = RaindropType.BULK
-
-        elif response == 3:
-            return None
-
-        else:
-            cli.console.print("Sorry, invalid response received!")
-
-        if type_ in (RaindropType.URL, RaindropType.FILE):
-            # Add a *single* Raindrop bookmark
-            _add_single(cli, type_)
-
-        elif type_ in (RaindropType.BULK,):
-            # Add any number of Raindrop bookmarks from a file specification
-            _add_bulk(cli)
+                if response.casefold() in ("back",):
+                    return None
+                elif response.casefold() == "bulk":
+                    _add_bulk(li)
+                elif response.casefold() == "file":
+                    _add_single(li, RaindropType.FILE)
+                elif response.casefold() == "url":
+                    _add_single(li, RaindropType.URL)
+                else:
+                    li.console.print(f"Sorry, must be one of {', '.join(create_options)}.")
+            except (KeyboardInterrupt, EOFError):
+                return None

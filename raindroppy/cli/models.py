@@ -4,18 +4,20 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import TypeVar, Union
+from typing import Callable, TypeVar, Union
 
 from api import API, Collection, Tag, User
 from beaupy import Config, DefaultKeys
-from beaupy.spinners import DOTS, Spinner
+from cli.spinners import ARC, Spinner
+
+# from beaupy.spinners import ARCS, Spinner
 from yakh.key import Keys
 
 # Yay and thou shall give us Emacs...
-DefaultKeys.down.append(Keys.CTRL_N)
-DefaultKeys.up.append(Keys.CTRL_P)
-DefaultKeys.escape.append(Keys.CTRL_Q)
-Config.raise_on_interrupt = True
+# DefaultKeys.down.append(Keys.CTRL_N)
+# DefaultKeys.up.append(Keys.CTRL_P)
+# DefaultKeys.escape.append(Keys.CTRL_Q)
+# Config.raise_on_interrupt = True
 
 
 RaindropState = TypeVar("RaindropState")  # In py3.11, we'll be able to do 'from typing import Self' instead
@@ -41,7 +43,7 @@ class RaindropState:
                 return collection
         return None
 
-    def refresh(self, casefold: bool = True, verbose: bool = True) -> bool:
+    def refresh(self, li, casefold: bool = True, verbose: bool = True) -> bool:
         """Refresh the current state of this Raindrop environment (ie. current collections and tags available)."""
 
         def _cf(casefold: bool, string: str) -> str:
@@ -51,7 +53,7 @@ class RaindropState:
 
         if verbose:
             msg = "Refreshing Raindrop Status..."
-            spinner = Spinner(DOTS, msg)
+            spinner = Spinner(ARC, msg, 20)
             spinner.start()
 
         # What collections do we currently have on Raindrop?
@@ -72,12 +74,12 @@ class RaindropState:
         return True
 
     @classmethod
-    def factory(verbose: bool = True) -> RaindropState:
+    def factory(cls, li, verbose: bool = True) -> RaindropState:
         """Factory to log into Raindrop and return a new Raindrop State instance."""
 
         if verbose:
             msg = "Logging into Raindrop..."
-            spinner = Spinner(DOTS, msg)
+            spinner = Spinner(ARC, msg, 20)
             spinner.start()
 
         # Setup our connection to Raindrop
@@ -92,7 +94,7 @@ class RaindropState:
         state = RaindropState(api=api, user=user, created=datetime.utcnow())
 
         # And, do our first refresh.
-        state.refresh()
+        state.refresh(li)
 
         return state
 
@@ -127,6 +129,16 @@ class CreateRequest:
         if self.type_ == RaindropType.FILE and self.file_path:
             return self.file_path.name
         return "-"
+
+    def print(self, print_method: Callable) -> None:
+        """Print to the current callable"""
+        if self.type_ == RaindropType.URL:
+            print_method(f"URL           : {self.url}")
+        elif self.type_ == RaindropType.FILE:
+            print_method(f'File to send  : "{self.file_path}"')
+        print_method(f"With title    : {self.title}")
+        print_method(f"To collection : {self.collection}")
+        print_method(f"With tags     : {self.tags}")
 
     def __str__(self):
         return_ = list()

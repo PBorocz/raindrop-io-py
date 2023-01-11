@@ -1,7 +1,7 @@
 """Display help"""
-from cli.lui import LI
+from cli._cli import CLI
 
 
-def process(li: LI) -> None:
+def process(cli: CLI) -> None:
     """Display help"""
-    li.console.print("Help is here, never fear!")
+    cli.console.print("Help is here, never fear!")

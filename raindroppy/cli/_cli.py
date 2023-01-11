@@ -13,12 +13,11 @@ from cli.models import RaindropState
 
 
 ################################################################################
-class LI:
+class CLI:
     """Command-line interface controller."""
 
-    def __init__(self, local: bool = True):
+    def __init__(self):
         """Setup connection to Raindrop and run the ui event loop."""
-        self.local = local
         self.console = Console()
         self.session = PromptSession(history=FileHistory(get_user_history_path()))
         self.state: RaindropState = None
@@ -37,13 +36,13 @@ class LI:
         self.console.print(text_intro)
 
     def loop(self):
-        """Menu/event loop."""
+        """Menu/event loop, top level Prompts"""
 
         text_goodbye = "\n[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"
 
         self.banner()
 
-        # Setup our connection *after* displaying the banner.
+        # Setup our connection to Raindrop *after* displaying the banner.
         self.state = RaindropState.factory(self)
 
         options = ["search", "create", "manage", "exit"]
@@ -62,32 +61,22 @@ class LI:
 
                 if response.casefold() in ("exit", "bye", "quit", "."):
                     raise KeyboardInterrupt
+
                 elif response.casefold() in ("?",):
                     self.console.print(options_as_help(options))
+                    continue
+
                 elif response.casefold() in ("help",):
-                    self.help()
+                    from cli.command_help import process
+
                 elif response.casefold() == "create":
-                    self.create()
+                    from cli.command_create import process
+
                 elif response.casefold() == "manage":
-                    self.manage()
+                    from cli.command_manage import process
+
+                process(self)
+
             except (KeyboardInterrupt, EOFError):
                 self.console.print(text_goodbye)
                 break
-
-    def help(self, debug: bool = False) -> None:
-        """Display help"""
-        from cli.command_help import process
-
-        process(self)
-
-    def create(self, debug: bool = False) -> None:
-        """Interactively create one or more new Raindrop bookmarks."""
-        from cli.command_create import process
-
-        process(self)
-
-    def manage(self, debug: bool = False) -> None:
-        """Connection environment related functions."""
-        from cli.command_manage import process
-
-        process(self)

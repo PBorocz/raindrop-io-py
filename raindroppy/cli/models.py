@@ -10,6 +10,7 @@ from api import API, Collection, Tag, User
 from cli.spinner import Spinner
 
 RaindropState = TypeVar("RaindropState")  # In py3.11, we'll be able to do 'from typing import Self' instead
+CreateRequest = TypeVar("CreateRequest")  # "
 
 
 @dataclass
@@ -32,7 +33,7 @@ class RaindropState:
                 return collection
         return None
 
-    def refresh(self, li, casefold: bool = True, verbose: bool = True) -> bool:
+    def refresh(self, cli, casefold: bool = True, verbose: bool = True) -> bool:
         """Refresh the current state of this Raindrop environment (ie. current collections and tags available)."""
 
         def _cf(casefold: bool, string: str) -> str:
@@ -58,7 +59,7 @@ class RaindropState:
         return True
 
     @classmethod
-    def factory(cls, li, verbose: bool = True) -> RaindropState:
+    def factory(cls, cli, verbose: bool = True) -> RaindropState:
         """Factory to log into Raindrop and return a new Raindrop State instance."""
 
         msg = "Logging into Raindrop..."
@@ -71,7 +72,7 @@ class RaindropState:
         state = RaindropState(api=api, user=user, created=datetime.utcnow())
 
         # And, do our first refresh.
-        state.refresh(li)
+        state.refresh(cli)
 
         return state
 
@@ -116,6 +117,31 @@ class CreateRequest:
         print_method(f"With title    : {self.title}")
         print_method(f"To collection : {self.collection}")
         print_method(f"With tags     : {self.tags}")
+
+    @classmethod
+    def factory(cls, entry: dict) -> CreateRequest:
+        """Return an new instance of CreateRequest based on an inbound dict, ie. from toml."""
+        request: CreateRequest = CreateRequest(
+            collection=entry.get("collection"),
+            tags=entry.get("tags"),
+        )
+
+        # Depending on the population of 2 attributes, we conclude
+        # what type of Raindrop we're creating, ie. a standard
+        # link/url-based one or a "file"-based one.
+        if entry.get("file_path"):
+            request.type_ = RaindropType.FILE
+            request.file_path = Path(entry.get("file_path"))
+
+            # Get default title from the file name if we don't have a
+            # title provided in the inbound dict:
+            request.title = entry.get("title", request.file_path.stem)
+        elif entry.get("url"):
+            request.type_ = RaindropType.URL
+            request.url = entry.get("url")
+            request.title = entry.get("title")
+
+        return request
 
     def __str__(self):
         return_ = list()

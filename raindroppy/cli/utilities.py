@@ -1,5 +1,7 @@
 """Miscellaneous Raindrop utilities used across the CLI."""
 from pathlib import Path
+from typing import Optional
+from urllib.parse import urlparse
 
 from api import API, Collection, CollectionRef
 
@@ -27,3 +29,22 @@ def find_or_add_collection(api: API, collection_name: str) -> CollectionRef:
 
     # Doesn't exist, create it!
     return Collection.create_link(api, title=collection_name)
+
+
+def validate_url(url: str) -> Optional[str]:
+    """Validate the url provided, returning a message if invalid, None otherwise"""
+    if not url:
+        return "Sorry, you need to specify a valid URL, e.g. https://www.msn.com"
+    try:
+        parts = urlparse(url)
+        if all([parts.scheme, parts.netloc]):
+            return None
+    except ValueError:
+        pass
+    return f"Sorry, URL provided {url} isn't valid."
+
+
+def validate_site(url: str) -> Optional[str]:
+    """Validate that the url provided actually goes to a live site, return message if not."""
+    return None
+    # FIXME!!

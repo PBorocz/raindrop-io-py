@@ -9,10 +9,11 @@ from utilities import find_or_add_collection
 
 from api import API, Raindrop
 from cli import CONTENT_TYPES, PROMPT_STYLE, cli_prompt, options_as_help
-from cli._cli import CLI
-from cli.models import CreateRequest, RaindropType
-from cli.spinner import Spinner
-from cli.utilities import validate_site, validate_url
+
+from ._cli import CLI
+from .models import CreateRequest, RaindropType
+from .spinner import Spinner
+from .utilities import validate_site, validate_url
 
 
 def _create_file(api: API, request: CreateRequest) -> bool:

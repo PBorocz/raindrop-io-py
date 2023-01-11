@@ -1,5 +1,5 @@
 """Display help"""
-from cli._cli import CLI
+from ._cli import CLI
 
 
 def process(cli: CLI) -> None:

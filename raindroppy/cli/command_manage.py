@@ -2,18 +2,24 @@
 from datetime import datetime
 from typing import Final
 
+from _cli import CLI
 from humanize import naturaltime
 from prompt_toolkit.completion import WordCompleter
 
 from api.models import Collection, CollectionRef
 from cli import PROMPT_STYLE, cli_prompt, options_as_help
-from cli._cli import CLI
+
+
+def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:
+    """Return the total number of Raindrops *associated with named collections*"""
+    return sum([collection.count for collection in collections if collection.count])
 
 
 def _show_status(cli: CLI) -> None:
     """UI Controller for displaying current status."""
     human_diff = naturaltime(datetime.utcnow() - cli.state.refreshed)
     cli.console.print(f"Active User : {cli.state.user.fullName}")
+    cli.console.print(f"Raindrops   : {get_total_raindrops(cli.state.collections):,d}")
     cli.console.print(f"Collections : {len(cli.state.collections):,d}")
     cli.console.print(f"Tags        : {len(cli.state.tags):,d}")
     cli.console.print(f"As Of       : {human_diff}")
@@ -25,9 +31,6 @@ def _show_collections(cli: CLI) -> None:
 
     def get_longest(collections: list[Collection, CollectionRef]) -> int:
         return max([len(collection.title) for collection in collections if collection.title])
-
-    def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:
-        return sum([collection.count for collection in collections if collection.count])
 
     max_len = get_longest(cli.state.collections) + 1
     total = get_total_raindrops(cli.state.collections)

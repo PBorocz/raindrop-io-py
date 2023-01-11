@@ -7,18 +7,7 @@ from pathlib import Path
 from typing import Callable, TypeVar, Union
 
 from api import API, Collection, Tag, User
-from beaupy import Config, DefaultKeys
-from cli.spinners import ARC, Spinner
-
-# from beaupy.spinners import ARCS, Spinner
-from yakh.key import Keys
-
-# Yay and thou shall give us Emacs...
-# DefaultKeys.down.append(Keys.CTRL_N)
-# DefaultKeys.up.append(Keys.CTRL_P)
-# DefaultKeys.escape.append(Keys.CTRL_Q)
-# Config.raise_on_interrupt = True
-
+from cli.spinner import Spinner
 
 RaindropState = TypeVar("RaindropState")  # In py3.11, we'll be able to do 'from typing import Self' instead
 
@@ -51,25 +40,20 @@ class RaindropState:
                 return string.casefold()
             return string
 
-        if verbose:
-            msg = "Refreshing Raindrop Status..."
-            spinner = Spinner(ARC, msg, 20)
-            spinner.start()
+        msg = "Refreshing Raindrop Status..."
+        with Spinner(msg):
 
-        # What collections do we currently have on Raindrop?
-        collections: list[Collection] = [root for root in Collection.get_roots(self.api)]
-        collections.extend([child for child in Collection.get_childrens(self.api)])
-        self.collections = sorted(collections, key=lambda collection: getattr(collection, "title", ""))
+            # What collections do we currently have on Raindrop?
+            collections: list[Collection] = [root for root in Collection.get_roots(self.api)]
+            collections.extend([child for child in Collection.get_childrens(self.api)])
+            self.collections = sorted(collections, key=lambda collection: getattr(collection, "title", ""))
 
-        # What tags we currently have available on Raindrop across
-        # *all* collections? (use set to get rid of potential
-        # duplicates)
-        tags: set[str] = set([_cf(casefold, tag.tag) for tag in Tag.get(self.api)])
-        self.tags = list(sorted(tags))
-        self.refreshed = datetime.utcnow()
-
-        if verbose:
-            spinner.stop()
+            # What tags we currently have available on Raindrop across
+            # *all* collections? (use set to get rid of potential
+            # duplicates)
+            tags: set[str] = set([_cf(casefold, tag.tag) for tag in Tag.get(self.api)])
+            self.tags = list(sorted(tags))
+            self.refreshed = datetime.utcnow()
 
         return True
 
@@ -77,19 +61,12 @@ class RaindropState:
     def factory(cls, li, verbose: bool = True) -> RaindropState:
         """Factory to log into Raindrop and return a new Raindrop State instance."""
 
-        if verbose:
-            msg = "Logging into Raindrop..."
-            spinner = Spinner(ARC, msg, 20)
-            spinner.start()
-
-        # Setup our connection to Raindrop
-        api: API = API(os.environ["RAINDROP_TOKEN"])
-
-        # What user are we currently defined "for"?
-        user = User.get(api)
-
-        if verbose:
-            spinner.stop()
+        msg = "Logging into Raindrop..."
+        with Spinner(msg):
+            # Setup our connection to Raindrop
+            api: API = API(os.environ["RAINDROP_TOKEN"])
+            # What user are we currently defined "for"?
+            user = User.get(api)
 
         state = RaindropState(api=api, user=user, created=datetime.utcnow())
 
@@ -108,7 +85,7 @@ class RaindropType(Enum):
 
 @dataclass
 class CreateRequest:
-    """Encapsulate parameters required to create a *file*-based Raindrop bookmark."""
+    """Encapsulate parameters required to create either a link or file-based Raindrop bookmark."""
 
     type_: RaindropType = RaindropType.URL  # Only required attribute
 
@@ -131,7 +108,7 @@ class CreateRequest:
         return "-"
 
     def print(self, print_method: Callable) -> None:
-        """Print to the current callable"""
+        """Print the request (using the callable), used to present back to the user for confirmation."""
         if self.type_ == RaindropType.URL:
             print_method(f"URL           : {self.url}")
         elif self.type_ == RaindropType.FILE:

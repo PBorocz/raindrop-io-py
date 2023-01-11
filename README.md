@@ -3,6 +3,7 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![Python Version](https://img.shields.io/badge/python-3.10+-green)](https://www.python.org/)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
 Python wrapper for the raindrop.io bookmark manager [API](https://developer.raindrop.io/).
 

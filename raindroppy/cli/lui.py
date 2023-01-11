@@ -1,18 +1,15 @@
 """Top level command-line interface controller."""
 from typing import Final
 
-from cli.models import RaindropState
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import FileHistory
-from prompt_toolkit.styles import Style
 from pyfiglet import Figlet
 from rich.console import Console
 from utilities import get_user_history_path
 
-
-def _italic(str_):
-    return f"[italic]{str_}[/italic]"
+from cli import PROMPT_STYLE, cli_prompt, make_italic, options_as_help
+from cli.models import RaindropState
 
 
 ################################################################################
@@ -30,10 +27,13 @@ class LI:
     def banner(self):
         banner = "Raindrop-PY"
         text_intro = (
-            f"""Welcome to RaindropPY!\n{_italic('Ctrl-D')} or {_italic('q')} to exit, {_italic('help')} for help."""
+            f"""Welcome to RaindropPY!\n"""
+            f"""{make_italic('<tab>')} to complete; """
+            f"""{make_italic('help')} for help; """
+            f"""{make_italic('Ctrl-D')} or {make_italic('q')} to exit."""
         )
-
-        self.console.print(Figlet(font="standard").renderText(banner))
+        # We can't use self.console.print as the special characters will be interpreted by Rich.
+        print(Figlet(font="standard").renderText(banner))
         self.console.print(text_intro)
 
     def loop(self):
@@ -46,36 +46,25 @@ class LI:
         # Setup our connection *after* displaying the banner.
         self.state = RaindropState.factory(self)
 
-        general_prompt: Final = [
-            ("class:prompt", "> "),
-        ]
-        style: Final = Style.from_dict(
-            {
-                "prompt": "#00ffff",  # Prompt is cyan
-                "": "#00ff00",  # User input  is green
-            }
-        )
-        top_completer: Final = WordCompleter(
-            [
-                "search",
-                "create",
-                "manage",
-                "exit",
-            ]
-        )
+        options = ["search", "create", "manage", "exit"]
+        completer: Final = WordCompleter(options)
+
         while True:
             try:
+                self.console.print(options_as_help(options))
                 response = self.session.prompt(
-                    general_prompt,
-                    completer=top_completer,
-                    style=style,
+                    cli_prompt(),
+                    completer=completer,
+                    style=PROMPT_STYLE,
                     complete_while_typing=True,
                     enable_history_search=False,
                 )
 
-                if response.casefold() in ("exit", "bye", "quit"):
+                if response.casefold() in ("exit", "bye", "quit", "."):
                     raise KeyboardInterrupt
-                elif response.casefold() == "help":
+                elif response.casefold() in ("?",):
+                    self.console.print(options_as_help(options))
+                elif response.casefold() in ("help",):
                     self.help()
                 elif response.casefold() == "create":
                     self.create()

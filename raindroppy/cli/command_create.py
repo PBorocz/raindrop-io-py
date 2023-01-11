@@ -4,23 +4,15 @@ from time import sleep
 from typing import Final, Optional
 from urllib.parse import urlparse
 
-from api import API, Raindrop
-from beaupy import confirm, prompt
-from cli import CONTENT_TYPES
-from cli.lui import LI
-from cli.models import CreateRequest, RaindropType
-from cli.spinners import ARC, Spinner
 from prompt_toolkit.completion import WordCompleter
-from prompt_toolkit.styles import Style
 from tomli import load
 from utilities import find_or_add_collection
 
-STYLE: Final = Style.from_dict(
-    {
-        "": "#00ff00",  # User input is green
-        "prompt": "#00ffff",  # Prompt is cyan
-    }
-)
+from api import API, Raindrop
+from cli import CONTENT_TYPES, PROMPT_STYLE, cli_prompt, options_as_help
+from cli.lui import LI
+from cli.models import CreateRequest, RaindropType
+from cli.spinners import ARC, Spinner
 
 
 def _create_file(api: API, request: CreateRequest, debug: bool) -> bool:
@@ -80,12 +72,10 @@ def _validate_url(url: str) -> Optional[str]:
 
 
 def __get_url(li: LI) -> Optional[str]:
-    prompt: Final = [
-        ("class:prompt", "create> url> url?> "),
-    ]
+    prompt = cli_prompt(("create", "url", "url?"))
     while True:
         try:
-            response = li.session.prompt(prompt, style=STYLE)
+            response = li.session.prompt(prompt, style=PROMPT_STYLE)
             if response == "?":
                 li.console.print("We need a valid URL here, eg. https://www.python.org")
             elif response == "q":
@@ -101,12 +91,10 @@ def __get_url(li: LI) -> Optional[str]:
 
 
 def __get_title(li: LI) -> Optional[str]:
-    prompt: Final = [
-        ("class:prompt", "create> url> title?> "),
-    ]
+    prompt = cli_prompt(("create", "url", "title?"))
     while True:
         try:
-            response = li.session.prompt(prompt, style=STYLE)
+            response = li.session.prompt(prompt, style=PROMPT_STYLE)
             if response == "?":
                 li.console.print("We need a Bookmark title here, eg. 'This is an interesting bookmark'")
             elif response == "q":
@@ -117,15 +105,28 @@ def __get_title(li: LI) -> Optional[str]:
             return None
 
 
+def __get_file(li: LI) -> Optional[str]:
+    prompt = cli_prompt(("create", "bulk", "upload file?"))
+    while True:
+        try:
+            response = li.session.prompt(prompt, style=PROMPT_STYLE)
+            if response == "?":
+                li.console.print("We need a path to a valid, TOML upload file, eg. '/Users/me/Download/upload.toml'")
+            elif response == "q":
+                return None
+            else:
+                return response
+        except (KeyboardInterrupt, EOFError):
+            return None
+
+
 def __get_from_list(li: LI, prompt: str, options: list[str]) -> Optional[str]:
-    prompt: Final = [
-        ("class:prompt", f"create> url> {prompt}?> "),
-    ]
+    prompt = cli_prompt(("create", "url", f"{prompt}?"))
     completer: Final = WordCompleter(options)
     while True:
         try:
             response = li.session.prompt(
-                prompt, completer=completer, style=STYLE, complete_while_typing=True, enable_history_search=False
+                prompt, completer=completer, style=PROMPT_STYLE, complete_while_typing=True, enable_history_search=False
             )
             if response == "?":
                 li.console.print(", ".join(options))
@@ -137,9 +138,7 @@ def __get_from_list(li: LI, prompt: str, options: list[str]) -> Optional[str]:
 
 
 def __get_from_files(li: LI, options: list[Path]) -> Optional[str]:
-    prompt: Final = [
-        ("class:prompt", "create> url> file #?> "),
-    ]
+    prompt = cli_prompt(("create", "url", "file #?"))
     names = [fp_.name for fp_ in options]
     completer: Final = WordCompleter(names)
     for ith, fp_ in enumerate(options):
@@ -147,7 +146,7 @@ def __get_from_files(li: LI, options: list[Path]) -> Optional[str]:
     while True:
         try:
             response = li.session.prompt(
-                prompt, completer=completer, style=STYLE, complete_while_typing=True, enable_history_search=False
+                prompt, completer=completer, style=PROMPT_STYLE, complete_while_typing=True, enable_history_search=False
             )
             if response == "?":
                 li.console.print(", ".join(options))
@@ -159,15 +158,13 @@ def __get_from_files(li: LI, options: list[Path]) -> Optional[str]:
     return options[int(response)]
 
 
-def __get_confirmation(li: LI) -> bool:
-    prompt: Final = [
-        ("class:prompt", "\nIs this correct? "),
-    ]
+def __get_confirmation(li: LI, prompt: str) -> bool:
+    prompt: Final = [("class:prompt", "\nIs this correct? ")]
     options: Final = ["yes", "Yes", "No", "no"]
     completer: Final = WordCompleter(options)
     try:
         response = li.session.prompt(
-            prompt, completer=completer, style=STYLE, complete_while_typing=True, enable_history_search=False
+            prompt, completer=completer, style=PROMPT_STYLE, complete_while_typing=True, enable_history_search=False
         )
         if response == "q":
             return None
@@ -214,7 +211,7 @@ def _prompt_for_request(
 
     # Confirm the values that we just received are good to go...
     request.print(li.console.print)
-    if __get_confirmation(li):
+    if __get_confirmation(li, "Is this correct?"):
         return request
     return None
 
@@ -314,10 +311,13 @@ def RequestFactory(entry: dict) -> CreateRequest:
 def _add_bulk(li: LI) -> None:
 
     while True:  # ie, until we get a valid file..
-        fn_request: str = prompt("TOML Upload File", initial_value="./upload.toml")
-        fp_request: Path = Path(fn_request)
+        fn_request = __get_file(li)
+        if fn_request is None:
+            return None
+
+        fp_request: Path = Path(fn_request).expanduser()
         if not fp_request.exists():
-            li.console.print(f"Sorry, unable to find request_toml file: '{fn_request}'\n")
+            li.console.print(f"Sorry, unable to find request_toml file: '{fp_request}'\n")
             continue
 
         with open(fp_request, "rb") as fh_request:
@@ -329,39 +329,35 @@ def _add_bulk(li: LI) -> None:
             li.console.print("Sorry, no valid requests found.\n")
             break
 
-        # Confirm that we're good to go and add these requests..
-        if confirm(f"\nReady to create {len(requests)} valid requests, Ok?"):
-            return sum([_add_single(li, None, request) for request in requests])
+        # Confirm that we're good to go
+        if not __get_confirmation(li, f"Ready to create {len(requests)} valid requests, Ok?"):
+            return None
 
-        return None
+        # Add em!
+        return sum([_add_single(li, None, request) for request in requests])
 
 
 def process(li: LI) -> None:
     """Top-level UI Controller for adding bookmark(s) from the terminal."""
     while True:
-        create_prompt: Final = [
-            ("class:prompt", "create> "),
-        ]
-        create_options: Final = [
-            "file",
-            "url",
-            "bulk",
-            "back",
-        ]
-        create_completer: Final = WordCompleter(create_options)
+        options: Final = ["file", "url", "bulk", "back"]
+        completer: Final = WordCompleter(options)
 
         while True:
             try:
+                li.console.print(options_as_help(options))
                 response = li.session.prompt(
-                    create_prompt,
-                    completer=create_completer,
-                    style=STYLE,
+                    cli_prompt(("create",)),
+                    completer=completer,
+                    style=PROMPT_STYLE,
                     complete_while_typing=True,
                     enable_history_search=False,
                 )
 
-                if response.casefold() in ("back",):
+                if response.casefold() in ("back", "."):
                     return None
+                elif response.casefold() in ("?",):
+                    li.console.print(options_as_help(options))
                 elif response.casefold() == "bulk":
                     _add_bulk(li)
                 elif response.casefold() == "file":
@@ -369,6 +365,6 @@ def process(li: LI) -> None:
                 elif response.casefold() == "url":
                     _add_single(li, RaindropType.URL)
                 else:
-                    li.console.print(f"Sorry, must be one of {', '.join(create_options)}.")
+                    li.console.print(f"Sorry, must be one of {', '.join(options)}.")
             except (KeyboardInterrupt, EOFError):
                 return None

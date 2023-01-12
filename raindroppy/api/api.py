@@ -11,14 +11,6 @@ import requests
 from requests_oauthlib import OAuth2Session
 
 
-def create_oauth2session(*args: Any, **kwargs: Any) -> OAuth2Session:
-    """Utility method to use requests obo oauth credential handling."""
-    session = OAuth2Session(*args, **kwargs)
-    #    session.register_compliance_hook("access_token_response", update_expires)
-    #    session.register_compliance_hook("refresh_token_response", update_expires)
-    return session
-
-
 class API:
     """Provides communication to the Raindrop.io API server.
 

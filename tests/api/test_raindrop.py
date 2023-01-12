@@ -69,6 +69,11 @@ def test_create_file() -> None:
     api = API("dummy")
     content_type = "text/plain"
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
+
+        # FIXME: Note that for now, we're *not* testing the ability to
+        #        set either a title or tags on the following
+        #        file-based create call (even though the capability is
+        #        exists).
         Raindrop.create_file(api, Path(__file__), content_type=content_type)
 
         assert m.call_args[0] == (

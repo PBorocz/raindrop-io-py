@@ -1,7 +1,6 @@
 """Spinner capability"""
 #
-# Inspired (simplified) from beaupy; thanks to Peter Výboch!
-# https://github.com/petereon/beaupy/blob/master/beaupy/spinners/_spinners.py
+# Inspired from beaupy (thanks Peter Výboch!) using underlying Rich-based "Live" class.
 #
 from itertools import cycle
 
@@ -11,19 +10,19 @@ ARC = ["◜", "◠", "◝", "◞", "◡", "◟"]
 
 
 class Spinner:
-    """Raindroppy simple CLI progress spinner as context manager"""
+    """Rich-based CLI progress spinner as a Context Manager"""
 
     _spinner_characters: cycle
     _live_display: Live
 
     def __init__(self, text: str = "Loading...") -> None:
-        """Create spinner for user feedback.
+        """Create pinner for user feedback during a time-consuming operation.
 
         Args:
             text (str): Text that will be shown after the spinner.
 
         Example:
-            with Spinner("I'm doing work..."):
+            with Spinner("Please wait, I'm doing some work..."):
                 do_something()
         """
         self._spinner_characters: list[str] = cycle(ARC)

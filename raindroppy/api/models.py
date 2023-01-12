@@ -189,6 +189,23 @@ class Collection(DictModel):
         """Remove/delete a Raindrop collection."""
         api.delete(URL.format(path=f"collection/{id}"), json={})
 
+    @classmethod
+    def get_or_create(cls, api: API, title: str) -> Collection:
+        """Get a Raindrop collection based on it's *title*, creating it doesn't exist.
+
+        Return the ID associated with the collection with specified
+        collection title (this doesn't seem to be a supported method
+        of the Raindrop API directly). If collection is not found, add
+        it!.
+        """
+        # Note: Since
+        for collection in Collection.get_roots(api):
+            if title.casefold() == collection.values.get("title").casefold():
+                return collection
+
+        # Doesn't exist, create it!
+        return Collection.create(api, title=title)
+
 
 class RaindropType(enum.Enum):
     """Map the types of Raindrop bookmarks possible (ie. what type of content they hold)."""

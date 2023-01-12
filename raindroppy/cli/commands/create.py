@@ -2,17 +2,16 @@
 from pathlib import Path
 from time import sleep
 from typing import Any, Final, Optional
+from urllib.parse import urlparse
 
 from prompt_toolkit.completion import WordCompleter
 from tomli import load
-from utilities import find_or_add_collection
 
-from raindroppy.api import API, Raindrop
+from raindroppy.api import API, Collection, Raindrop
 from raindroppy.cli import CONTENT_TYPES, PROMPT_STYLE, cli_prompt, options_as_help
-from raindroppy.cli._cli import CLI
+from raindroppy.cli.cli import CLI
 from raindroppy.cli.models import CreateRequest, RaindropType
 from raindroppy.cli.spinner import Spinner
-from raindroppy.cli.utilities import validate_site, validate_url
 
 
 def _create_file(api: API, request: CreateRequest) -> bool:
@@ -45,6 +44,18 @@ def _read_files(path_: Path) -> list[Path]:
     return list(path_.glob("*.pdf"))
 
 
+def __validate_url(url: str) -> Optional[str]:
+    """Validate the url provided, returning a message if invalid, None otherwise"""
+    if not url:
+        return "Sorry, you need to specify a valid URL, e.g. https://www.slate.com"
+    try:
+        parts = urlparse(url)
+        if all([parts.scheme, parts.netloc]):
+            return None
+    except ValueError:
+        return f"Sorry, URL provided {url} isn't valid."
+
+
 def __get_url(cli: CLI) -> Optional[str]:
     prompt = cli_prompt(("create", "url", "url?"))
     while True:
@@ -55,7 +66,7 @@ def __get_url(cli: CLI) -> Optional[str]:
             elif response == "q":
                 return None
             else:
-                if (msg := validate_url(response)) is None:
+                if (msg := __validate_url(response)) is None:
                     return response
                 else:
                     cli.console.print(msg)
@@ -202,7 +213,7 @@ def _add_single(cli: CLI, type_: RaindropType, request: CreateRequest = None, in
     # Convert from /name/ of collection user entered to an /instance/
     # of a Collection; if necessary, creating a new one through the
     # respective Raindrop API.
-    request.collection = find_or_add_collection(cli.state.api, request.collection)
+    request.collection = Collection.get_or_create(cli.state.api, request.collection)
 
     # Push it up!
     with Spinner(f"Adding Raindrop -> {request.name()}..."):
@@ -218,6 +229,12 @@ def _add_single(cli: CLI, type_: RaindropType, request: CreateRequest = None, in
         sleep(interstitial)
 
     return True
+
+
+def __validate_site(url: str) -> Optional[str]:
+    """Validate that the url provided actually goes to a live site, return message if not."""
+    return None
+    # FIXME!!
 
 
 def _validate_request(cli: CLI, request: CreateRequest) -> bool:
@@ -236,12 +253,12 @@ def _validate_request(cli: CLI, request: CreateRequest) -> bool:
 
     if request.url:
         # Error Check: Validate the URL provided
-        if msg := validate_url(request.url):
+        if msg := __validate_url(request.url):
             cli.console.print(msg)
             return False
 
         # Error Check: Validate that the site is actually "there"
-        if msg := validate_site(request.url):
+        if msg := __validate_site(request.url):
             cli.console.print(msg)
             return False
 

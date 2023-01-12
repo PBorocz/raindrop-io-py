@@ -1,4 +1,4 @@
-"""Sample minimal Flask app demonstrating oAuth credential handling."""
+"""Sample minimal Flask app demonstrating oAuth credential handling. WARNING: COMPLETELY UNTESTED!!!"""
 #
 # Note: per Raindrop's API documentation, if you're only accessing
 # your own Raindrop environment, you do not need to do this, the
@@ -10,12 +10,14 @@
 # Ref: https://developer.raindrop.io/v1/authentication/token
 #
 import os
+from typing import Any
 
 from dotenv import load_env
 from flask import Flask, redirect, render_template_string, request
+from requests_oauthlib import OAuth2Session
 from werkzeug import Response
 
-from raindroppy.api import API, Collection, create_oauth2session
+from raindroppy.api import API, Collection
 
 load_env()
 
@@ -41,6 +43,14 @@ COLLECTIONS = """
   </ul>
 </html>
 """
+
+
+def create_oauth2session(*args: Any, **kwargs: Any) -> OAuth2Session:
+    """Utility method to use requests obo oauth credential handling."""
+    session = OAuth2Session(*args, **kwargs)
+    #    session.register_compliance_hook("access_token_response", update_expires)
+    #    session.register_compliance_hook("refresh_token_response", update_expires)
+    return session
 
 
 @app.route("/approved")

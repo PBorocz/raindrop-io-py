@@ -1,4 +1,6 @@
 """Top level command-line interface controller."""
+from pathlib import Path
+
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import FileHistory
@@ -10,14 +12,25 @@ from raindroppy.cli import PROMPT_STYLE, cli_prompt, make_italic, options_as_hel
 from raindroppy.cli.models import RaindropState
 
 
-################################################################################
+# Utility method to return the command-history file path for the user
+# (creating directories if necessary)
+def __get_user_history_path() -> Path:
+    history_path = Path("~/.config/raindroppy").expanduser()
+    history_path.mkdir(parents=True, exist_ok=True)
+
+    history_file = history_path / Path(".cli_history")
+    if not history_file.exists():
+        open(history_file, "a").close()
+    return history_file
+
+
 class CLI:
-    """Command-line interface controller."""
+    """Top-level command-line interface controller/command-loop"""
 
     def __init__(self):
         """Setup connection to Raindrop and run the ui event loop."""
         self.console = Console()
-        self.session = PromptSession(history=FileHistory(get_user_history_path()))
+        self.session = PromptSession(history=FileHistory(__get_user_history_path()))
         self.state: RaindropState = None
         self.loop()
 

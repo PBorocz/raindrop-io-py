@@ -51,6 +51,7 @@ skip = [".venv"]
 src_paths = "raindroppy"
 
 [tool.ruff]
+# For now, we don't use Ruff (yet!).
 line-length = 120
 
 select = ["E", "F", "W", "I", "D"]
@@ -84,6 +85,7 @@ target-version = "py310"
 max-complexity = 10
 
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 markers = [
     "unit: marks tests as runnable all the time, locally and fast.",
     "integration: tests that run against a live Raindrop environment, slower.",

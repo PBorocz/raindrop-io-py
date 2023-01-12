@@ -1,5 +1,5 @@
 """Display help"""
-from raindroppy.cli._cli import CLI
+from raindroppy.cli.cli import CLI
 
 
 def process(cli: CLI) -> None:

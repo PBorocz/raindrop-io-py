@@ -3,7 +3,7 @@ from typing import Optional
 
 from raindroppy.api import Raindrop
 from raindroppy.cli import PROMPT_STYLE, cli_prompt
-from raindroppy.cli._cli import CLI
+from raindroppy.cli.cli import CLI
 from raindroppy.cli.spinner import Spinner
 
 

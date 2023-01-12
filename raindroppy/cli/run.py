@@ -2,7 +2,7 @@
 """Startup/entry point for command-line interface.."""
 from dotenv import load_dotenv
 
-from raindroppy.cli._cli import CLI
+from raindroppy.cli.cli import CLI
 
 load_dotenv()
 

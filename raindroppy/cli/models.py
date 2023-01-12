@@ -41,8 +41,7 @@ class RaindropState:
                 return string.casefold()
             return string
 
-        msg = "Refreshing Raindrop Status..."
-        with Spinner(msg):
+        with Spinner("Refreshing Raindrop Status..."):
 
             # What collections do we currently have on Raindrop?
             collections: list[Collection] = [root for root in Collection.get_roots(self.api)]
@@ -50,8 +49,7 @@ class RaindropState:
             self.collections = sorted(collections, key=lambda collection: getattr(collection, "title", ""))
 
             # What tags we currently have available on Raindrop across
-            # *all* collections? (use set to get rid of potential
-            # duplicates)
+            # *all* collections? (use set to get rid of potential duplicates)
             tags: set[str] = set([_cf(casefold, tag.tag) for tag in Tag.get(self.api)])
             self.tags = list(sorted(tags))
             self.refreshed = datetime.utcnow()
@@ -60,10 +58,9 @@ class RaindropState:
 
     @classmethod
     def factory(cls, cli, verbose: bool = True) -> RaindropState:
-        """Factory to log into Raindrop and return a new Raindrop State instance."""
+        """Factory to log into Raindrop and return a new RaindropState instance."""
 
-        msg = "Logging into Raindrop..."
-        with Spinner(msg):
+        with Spinner("Logging into Raindrop..."):
             # Setup our connection to Raindrop
             api: API = API(os.environ["RAINDROP_TOKEN"])
             # What user are we currently defined "for"?
@@ -136,6 +133,7 @@ class CreateRequest:
             # Get default title from the file name if we don't have a
             # title provided in the inbound dict:
             request.title = entry.get("title", request.file_path.stem)
+
         elif entry.get("url"):
             request.type_ = RaindropType.URL
             request.url = entry.get("url")

@@ -1,4 +1,5 @@
 """Top level command-line interface controller."""
+from io import StringIO
 from pathlib import Path
 
 from prompt_toolkit import PromptSession
@@ -6,7 +7,6 @@ from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import FileHistory
 from pyfiglet import Figlet
 from rich.console import Console
-from utilities import get_user_history_path
 
 from raindroppy.cli import PROMPT_STYLE, cli_prompt, make_italic, options_as_help
 from raindroppy.cli.models import RaindropState
@@ -14,7 +14,7 @@ from raindroppy.cli.models import RaindropState
 
 # Utility method to return the command-history file path for the user
 # (creating directories if necessary)
-def __get_user_history_path() -> Path:
+def _get_user_history_path() -> Path:
     history_path = Path("~/.config/raindroppy").expanduser()
     history_path.mkdir(parents=True, exist_ok=True)
 
@@ -27,16 +27,11 @@ def __get_user_history_path() -> Path:
 class CLI:
     """Top-level command-line interface controller/command-loop"""
 
-    def __init__(self):
-        """Setup connection to Raindrop and run the ui event loop."""
-        self.console = Console()
-        self.session = PromptSession(history=FileHistory(__get_user_history_path()))
-        self.state: RaindropState = None
-        self.loop()
+    text_goodbye = "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"
 
-    def banner(self):
-        banner = "Raindrop-PY"
-        text_intro = (
+    def _display_startup_banner(self) -> None:
+        banner: str = "RaindropPY"
+        welcome: str = (
             f"""Welcome to RaindropPY!\n"""
             f"""{make_italic('<tab>')} to complete; """
             f"""{make_italic('help')} for help; """
@@ -44,22 +39,27 @@ class CLI:
         )
         # We can't use self.console.print as the special characters will be interpreted by Rich.
         print(Figlet(font="standard").renderText(banner))
-        self.console.print(text_intro)
+        self.console.print(welcome)
 
-    def loop(self):
-        """Menu/event loop, top level Prompts"""
+    def __init__(self, capture: StringIO = None) -> None:
+        """Setup our interface components and show our our startup banner.
 
-        text_goodbye = "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"
+        For testing, allow for an internal capture of Console output through the respective arg.
+        """
+        self.console = Console(file=capture)
+        self.session = PromptSession(history=FileHistory(_get_user_history_path()))
+        self.state: None  # Will be populated when we start our event loop.
+        self._display_startup_banner()
 
-        self.banner()
+    def event_loop(self, state: RaindropState) -> None:
+        """Save state and run the top-level menu/event loop prompts."""
+        self.state = state
 
-        # Setup our connection to Raindrop *after* displaying the banner.
-        self.state = RaindropState.factory(self)
-
-        options = ["search", "create", "manage", "exit", "quit", "."]
         while True:
             try:
+                options = ["search", "create", "manage", "exit", "quit", "."]
                 self.console.print(options_as_help(options))
+
                 response = self.session.prompt(
                     cli_prompt(),
                     completer=WordCompleter(options),
@@ -68,30 +68,37 @@ class CLI:
                     enable_history_search=False,
                 )
 
-                process = None
-
                 if response.casefold() in ("exit", "bye", "quit", "."):
                     raise KeyboardInterrupt
 
                 elif response.casefold() in ("?",):
+                    # FIXME: This should be a longer help text here
+                    # (since we print the options at the top of each
+                    # iteration already)
                     self.console.print(options_as_help(options))
                     continue
 
-                elif response.casefold() in ("help",):
-                    from raindroppy.cli.commands.help import process
+                # We have a valid command, bring in the right module (yes, statically)
+                # and dispatch appropriately.
+                process_method = None
+                if response.casefold() in ("help",):
+                    from raindroppy.cli.commands.help import process as process_method
 
                 elif response.casefold() in ("search",):
-                    from raindroppy.cli.commands.search import process
+                    from raindroppy.cli.commands.search import process as process_method
 
                 elif response.casefold() == "create":
-                    from raindroppy.cli.commands.create import process
+                    from raindroppy.cli.commands.create import process as process_method
 
                 elif response.casefold() == "manage":
-                    from raindroppy.cli.commands.manage import process
+                    from raindroppy.cli.commands.manage import process as process_method
 
-                if process is not None:
-                    process(self)
+                # Else case here doesn't matter as if process_method isn't set,
+                # we'll simply show the list of commands at the top of the next
+                # iteration.
+                if process_method is not None:
+                    process_method(self)
 
             except (KeyboardInterrupt, EOFError):
-                self.console.print(text_goodbye)
+                self.console.print(CLI.text_goodbye)
                 break

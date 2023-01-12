@@ -1,4 +1,5 @@
 """Create a new Raindrop bookmark."""
+import urllib.request
 from pathlib import Path
 from time import sleep
 from typing import Any, Final, Optional
@@ -46,14 +47,15 @@ def _read_files(path_: Path) -> list[Path]:
 
 def __validate_url(url: str) -> Optional[str]:
     """Validate the url provided, returning a message if invalid, None otherwise"""
-    if not url:
-        return "Sorry, you need to specify a valid URL, e.g. https://www.slate.com"
     try:
         parts = urlparse(url)
         if all([parts.scheme, parts.netloc]):
+            if parts.scheme.lower() not in ("http", "https"):
+                return f"Sorry, URL provided {url} isn't valid (bad protocol)"
             return None
     except ValueError:
-        return f"Sorry, URL provided {url} isn't valid."
+        ...
+    return f"Sorry, URL provided {url} isn't valid."
 
 
 def __get_url(cli: CLI) -> Optional[str]:
@@ -61,7 +63,7 @@ def __get_url(cli: CLI) -> Optional[str]:
     while True:
         try:
             response = cli.session.prompt(prompt, style=PROMPT_STYLE)
-            if response == "?":
+            if response == "?" or response == "" or response is None:
                 cli.console.print("We need a valid URL here, eg. https://www.python.org")
             elif response == "q":
                 return None
@@ -231,10 +233,29 @@ def _add_single(cli: CLI, type_: RaindropType, request: CreateRequest = None, in
     return True
 
 
+class NoRedirection(urllib.request.HTTPErrorProcessor):
+    def http_response(self, request, response):
+        return response
+
+    https_response = http_response
+
+
 def __validate_site(url: str) -> Optional[str]:
     """Validate that the url provided actually goes to a live site, return message if not."""
-    return None
-    # FIXME!!
+    # We don't want to follow redirects, thus, use the special error processor above
+    # Ref: https://stackoverflow.com/a/11744894/635040
+    # In case we get called before validate_url, do it here as well (it's fast)
+    if msg := __validate_url(url):
+        return msg
+
+    opener = urllib.request.build_opener(NoRedirection)
+    request = urllib.request.Request(url, method="HEAD")
+    try:
+        response = opener.open(request)
+        if response.status == 200:
+            return None
+    except urllib.error.URLError as exc:
+        return f"Sorry, that URL isn't running now or doesn't exist, can you get to it in a browser? {exc.reason}"
 
 
 def _validate_request(cli: CLI, request: CreateRequest) -> bool:

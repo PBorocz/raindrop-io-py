@@ -13,8 +13,8 @@ cli *args:
 # Development support...
 ################################################################################
 # Run local unit tests (fast, no connection or Raindrop.io configuration required)
-test:
-    python -m pytest
+test *args:
+    python -m pytest {{args}}
 
 # Run samples against live Raindrop environment (assumes RAINDROP_TOKEN in env!)
 run_examples:

@@ -3,8 +3,11 @@
 from dotenv import load_dotenv
 
 from raindroppy.cli.cli import CLI
+from raindroppy.cli.models import RaindropState
 
 load_dotenv()
 
 if __name__ == "__main__":
-    CLI()
+    cli = CLI()
+    state = RaindropState.factory(cli)
+    cli.event_loop(state)

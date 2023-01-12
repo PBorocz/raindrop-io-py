@@ -2,12 +2,12 @@
 from datetime import datetime
 from typing import Final
 
-from _cli import CLI
 from humanize import naturaltime
 from prompt_toolkit.completion import WordCompleter
 
 from raindroppy.api.models import Collection, CollectionRef
 from raindroppy.cli import PROMPT_STYLE, cli_prompt, options_as_help
+from raindroppy.cli.cli import CLI
 
 
 def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:

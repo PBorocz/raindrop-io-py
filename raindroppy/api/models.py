@@ -291,11 +291,10 @@ class Raindrop(DictModel):
         """Create a new file-based Raindrop bookmark."""
         url = URL.format(path="raindrop/file")
 
-        # Confirmed through communication with RustemM on 2022-11-29
-        # and subsequent update to API documentation.
+        # Structure here confirmed through communication with RustemM
+        # on 2022-11-29 and his subsequent update to API docs.
         data = {"collectionId": str(collection.id)}
         files = {"file": (path.name, open(path, "rb"), content_type)}
-
         results = api.put_file(url, path, data, files).json()
         return cls(results["item"])
 

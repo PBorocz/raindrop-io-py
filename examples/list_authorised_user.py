@@ -1,5 +1,8 @@
 """List the attributes associated with user of the token provided"""
 import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from dotenv import load_dotenv
 
@@ -16,16 +19,16 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 
     # User configuration..
     print("\nConfig")
-    print(f"\tconfig.broken_level:   ", user.config.broken_level)
-    print(f"\tconfig.font_color:     ", user.config.font_color)
-    print(f"\tconfig.font_size:      ", user.config.font_size)
-    print(f"\tconfig.raindrops_view: ", user.config.raindrops_view)
+    print("\tconfig.broken_level:   ", user.config.broken_level)
+    print("\tconfig.font_color:     ", user.config.font_color)
+    print("\tconfig.font_size:      ", user.config.font_size)
+    print("\tconfig.raindrops_view: ", user.config.raindrops_view)
 
     # User files..
     print("\nFiles")
-    print(f"\tfiles.used:           ", user.files.used)
-    print(f"\tfiles.size:           ", user.files.size)
-    print(f"\tfiles.lastCheckPoint: ", user.files.lastCheckPoint)
+    print("\tfiles.used:           ", user.files.used)
+    print("\tfiles.size:           ", user.files.size)
+    print("\tfiles.lastCheckPoint: ", user.files.lastCheckPoint)
 
     # User group membership
     print("\nGroups")
@@ -34,6 +37,6 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
         print("\tgroups.hidden:      ", group.hidden)
         print("\tgroups.sort:        ", group.sort)
         print("\tCollections")
-        for collectionid in group.collectionids:
-            collection = Collection.get(api, collectionid)
-            print("\t\tgroups.collectionids.title: ", collection.title)
+        for collection_id in group.collectionids:
+            if collection := Collection.get(api, collection_id):
+                print("\t\tgroups.collectionids.title: ", collection.title)

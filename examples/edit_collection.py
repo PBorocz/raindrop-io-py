@@ -1,5 +1,8 @@
 """Create, update and delete a Collection"""
 import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from dotenv import load_dotenv
 
@@ -12,7 +15,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     # Create a new collection..
     title = "abcdef"
     print(f"Creating collection: '{title}'...", flush=True, end="")
-    c = Collection.create_link(api, title=title)
+    c = Collection.create(api, title=title)
     print("Done.")
 
     # Update it's title (amongst other possibilities)

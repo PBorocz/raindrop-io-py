@@ -1,6 +1,4 @@
 """Top level command-line interface controller."""
-from typing import Final
-
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import FileHistory
@@ -8,8 +6,8 @@ from pyfiglet import Figlet
 from rich.console import Console
 from utilities import get_user_history_path
 
-from cli import PROMPT_STYLE, cli_prompt, make_italic, options_as_help
-from cli.models import RaindropState
+from raindroppy.cli import PROMPT_STYLE, cli_prompt, make_italic, options_as_help
+from raindroppy.cli.models import RaindropState
 
 
 ################################################################################
@@ -46,18 +44,18 @@ class CLI:
         self.state = RaindropState.factory(self)
 
         options = ["search", "create", "manage", "exit", "quit", "."]
-        completer: Final = WordCompleter(options)
-
         while True:
             try:
                 self.console.print(options_as_help(options))
                 response = self.session.prompt(
                     cli_prompt(),
-                    completer=completer,
+                    completer=WordCompleter(options),
                     style=PROMPT_STYLE,
                     complete_while_typing=True,
                     enable_history_search=False,
                 )
+
+                process = None
 
                 if response.casefold() in ("exit", "bye", "quit", "."):
                     raise KeyboardInterrupt
@@ -67,18 +65,18 @@ class CLI:
                     continue
 
                 elif response.casefold() in ("help",):
-                    from cli.command_help import process
+                    from raindroppy.cli.commands.help import process
 
                 elif response.casefold() in ("search",):
-                    from cli.command_search import process
+                    from raindroppy.cli.commands.search import process
 
                 elif response.casefold() == "create":
-                    from cli.command_create import process
+                    from raindroppy.cli.commands.create import process
 
                 elif response.casefold() == "manage":
-                    from cli.command_manage import process
+                    from raindroppy.cli.commands.manage import process
 
-                if "process" in locals():
+                if process is not None:
                     process(self)
 
             except (KeyboardInterrupt, EOFError):

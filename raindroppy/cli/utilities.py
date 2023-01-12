@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import urlparse
 
-from api import API, Collection, CollectionRef
+from raindroppy.api import API, Collection, CollectionRef
 
 
 def get_user_history_path():

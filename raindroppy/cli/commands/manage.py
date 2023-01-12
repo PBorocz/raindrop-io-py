@@ -6,8 +6,8 @@ from _cli import CLI
 from humanize import naturaltime
 from prompt_toolkit.completion import WordCompleter
 
-from api.models import Collection, CollectionRef
-from cli import PROMPT_STYLE, cli_prompt, options_as_help
+from raindroppy.api.models import Collection, CollectionRef
+from raindroppy.cli import PROMPT_STYLE, cli_prompt, options_as_help
 
 
 def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:

@@ -1,11 +1,10 @@
 """Create a new Raindrop bookmark."""
 from typing import Optional
 
-from api import Raindrop
-from cli import PROMPT_STYLE, cli_prompt
-
-from ._cli import CLI
-from .spinner import Spinner
+from raindroppy.api import Raindrop
+from raindroppy.cli import PROMPT_STYLE, cli_prompt
+from raindroppy.cli._cli import CLI
+from raindroppy.cli.spinner import Spinner
 
 
 def __get_search_terms(cli: CLI) -> Optional[str]:

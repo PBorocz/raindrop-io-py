@@ -6,8 +6,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Callable, TypeVar, Union
 
-from api import API, Collection, Tag, User
-from cli.spinner import Spinner
+from raindroppy.api import API, Collection, Tag, User
+from raindroppy.cli.spinner import Spinner
 
 RaindropState = TypeVar("RaindropState")  # In py3.11, we'll be able to do 'from typing import Self' instead
 CreateRequest = TypeVar("CreateRequest")  # "

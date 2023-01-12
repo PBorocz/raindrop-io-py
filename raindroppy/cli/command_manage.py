@@ -69,9 +69,9 @@ def show_help(cli: CLI) -> None:
 
 
 def process(cli: CLI) -> None:
-    """Top-level UI Controller for showing a set of statistics."""
+    """Controller for managing the Raindrop environment, including showing statistics."""
     while True:
-        options: Final = ["status", "collections", "tags", "refresh", "back"]
+        options: Final = ["status", "collections", "tags", "refresh", "back", "."]
         completer: Final = WordCompleter(options)
 
         while True:

@@ -48,6 +48,6 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     _search(api, word="Benevolent")
 
     # Cleanup
-    print(f"Removing sample Raindrop...", flush=True, end="")
+    print("Removing sample Raindrop...", flush=True, end="")
     Raindrop.remove(api, id=raindrop.id)
     print("Done.")

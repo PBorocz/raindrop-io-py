@@ -1,7 +1,7 @@
 """Create a new Raindrop bookmark."""
 from pathlib import Path
 from time import sleep
-from typing import Final, Optional
+from typing import Any, Final, Optional
 
 from prompt_toolkit.completion import WordCompleter
 from tomli import load
@@ -18,24 +18,20 @@ from .utilities import validate_site, validate_url
 
 def _create_file(api: API, request: CreateRequest) -> bool:
     """Create a FILE-based Raindrop."""
-    raindrop = Raindrop.create_file(
-        api,
-        request.file_path,
-        content_type=CONTENT_TYPES.get(request.file_path.suffix),
-        collection=request.collection,
-    )
 
-    # The Raindrop API's create Raindrop from file does not allow
-    # us to set other attributes, thus, we need to check if any
-    # need to be set and do so explicitly:
-    args = {}
+    args: dict[str, Any] = {}
     if request.title:
         args["title"] = request.title
     if request.tags:
         args["tags"] = request.tags
-    if args:
-        Raindrop.update(api, raindrop.id, **args)
 
+    Raindrop.create_file(
+        api,
+        request.file_path,
+        content_type=CONTENT_TYPES.get(request.file_path.suffix),
+        collection=request.collection,
+        **args,
+    )
     return True
 
 
@@ -299,9 +295,9 @@ def _add_bulk(cli: CLI) -> None:
 
 
 def process(cli: CLI) -> None:
-    """Top-level UI Controller for adding bookmark(s) from the terminal."""
+    """Controller for adding bookmark(s) from the terminal."""
     while True:
-        options: Final = ["file", "url", "bulk", "back"]
+        options: Final = ["file", "url", "bulk", "back", "."]
         completer: Final = WordCompleter(options)
 
         while True:

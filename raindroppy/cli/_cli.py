@@ -38,14 +38,14 @@ class CLI:
     def loop(self):
         """Menu/event loop, top level Prompts"""
 
-        text_goodbye = "\n[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"
+        text_goodbye = "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"
 
         self.banner()
 
         # Setup our connection to Raindrop *after* displaying the banner.
         self.state = RaindropState.factory(self)
 
-        options = ["search", "create", "manage", "exit"]
+        options = ["search", "create", "manage", "exit", "quit", "."]
         completer: Final = WordCompleter(options)
 
         while True:
@@ -69,13 +69,17 @@ class CLI:
                 elif response.casefold() in ("help",):
                     from cli.command_help import process
 
+                elif response.casefold() in ("search",):
+                    from cli.command_search import process
+
                 elif response.casefold() == "create":
                     from cli.command_create import process
 
                 elif response.casefold() == "manage":
                     from cli.command_manage import process
 
-                process(self)
+                if "process" in locals():
+                    process(self)
 
             except (KeyboardInterrupt, EOFError):
                 self.console.print(text_goodbye)

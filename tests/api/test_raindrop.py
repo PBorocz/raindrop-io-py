@@ -67,8 +67,9 @@ def test_create_link() -> None:
 
 def test_create_file() -> None:
     api = API("dummy")
+    content_type = "text/plain"
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
-        Raindrop.create_file(api, Path(__file__), content_type="text/plain")
+        Raindrop.create_file(api, Path(__file__), content_type=content_type)
 
         assert m.call_args[0] == (
             "PUT",
@@ -79,7 +80,14 @@ def test_create_file() -> None:
 
         assert "files" in m.call_args[1]
         assert "file" in m.call_args[1]["files"]
+
         assert type(m.call_args[1]["files"]["file"]) == tuple
+        file_ = m.call_args[1]["files"]["file"]
+        assert len(file_) == 3
+
+        fn_, fh_, ct_ = file_
+        assert fn_ == Path(__file__).name
+        assert ct_ == content_type
 
 
 def test_update() -> None:

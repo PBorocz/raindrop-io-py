@@ -5,7 +5,7 @@ import datetime
 import enum
 import json
 from pathlib import Path
-from typing import Any, ClassVar, Dict, List, Optional, Sequence, Union
+from typing import Any, ClassVar, Optional, Sequence
 
 from dateutil.parser import parse as dateparse
 from jashin.dictattr import DictModel, ItemAttr, SequenceAttr
@@ -92,10 +92,10 @@ class Collection(DictModel):
     #: (:class:`Access`) Permissions for this collection
     access = ItemAttr(Access)
 
-    collaborators = ItemAttr[Optional[List[Any]]](default=None)
+    collaborators = ItemAttr[Optional[list[Any]]](default=None)
     color = ItemAttr[Optional[str]](default=None)
     count = ItemAttr[int]()
-    cover = ItemAttr[List[str]]()
+    cover = ItemAttr[list[str]]()
     created = ItemAttr(dateparse)
     expanded = ItemAttr[bool]()
     lastUpdate = ItemAttr(dateparse)
@@ -144,7 +144,7 @@ class Collection(DictModel):
         cover: Optional[Sequence[str]] = None,
     ) -> Collection:
         """Create a new Raindrop collection."""
-        args: Dict[str, Any] = {}
+        args: dict[str, Any] = {}
         if view is not None:
             args["view"] = view
         if title is not None:
@@ -176,7 +176,7 @@ class Collection(DictModel):
         cover: Optional[Sequence[str]] = None,
     ) -> Collection:
         """Update an existing Raindrop collection with any of the attribute values provided."""
-        args: Dict[str, Any] = {}
+        args: dict[str, Any] = {}
         for attr in ["expanded", "view", "title", "sort", "public", "parent", "cover"]:
             if (value := locals().get(attr)) is not None:
                 args[attr] = value
@@ -212,7 +212,7 @@ class Raindrop(DictModel):
     excerpt = ItemAttr[str]()
     lastUpdate = ItemAttr(dateparse)
     link = ItemAttr[str]()
-    media = ItemAttr[Sequence[Dict[str, Any]]]()
+    media = ItemAttr[Sequence[dict[str, Any]]]()
     tags = ItemAttr[Sequence[str]]()
     title = ItemAttr[str]()
     type = ItemAttr(RaindropType)
@@ -236,14 +236,14 @@ class Raindrop(DictModel):
         cls,
         api: API,
         link: str,
-        collection: Optional[Union[Collection, CollectionRef, int]] = None,
+        collection: Optional[Collection | CollectionRef, int] = None,
         cover: Optional[str] = None,
         created: Optional[datetime.datetime] = None,
         excerpt: Optional[str] = None,
         html: Optional[str] = None,
         important: Optional[bool] = None,
         lastUpdate: Optional[datetime.datetime] = None,
-        media: Optional[Sequence[Dict[str, Any]]] = None,
+        media: Optional[Sequence[dict[str, Any]]] = None,
         order: Optional[int] = None,
         pleaseParse: bool = True,
         tags: Optional[Sequence[str]] = None,
@@ -251,7 +251,7 @@ class Raindrop(DictModel):
         type: Optional[str] = None,
     ) -> Raindrop:
         """Create a new link-type Raindrop bookmark."""
-        args: Dict[str, Any] = {"link": link}
+        args: dict[str, Any] = {"link": link}
         if pleaseParse:
             args["pleaseParse"] = {}
         for attr in [
@@ -287,6 +287,8 @@ class Raindrop(DictModel):
         path: Path,
         content_type: str,
         collection: CollectionRef = CollectionRef.Unsorted,
+        tags: Optional[Sequence[str]] = None,
+        title: Optional[str] = None,
     ) -> Raindrop:
         """Create a new file-based Raindrop bookmark."""
         url = URL.format(path="raindrop/file")
@@ -295,8 +297,24 @@ class Raindrop(DictModel):
         # on 2022-11-29 and his subsequent update to API docs.
         data = {"collectionId": str(collection.id)}
         files = {"file": (path.name, open(path, "rb"), content_type)}
-        results = api.put_file(url, path, data, files).json()
-        return cls(results["item"])
+        results = api.put_file(url, path, data, files).json()["item"]
+        raindrop = cls(results)
+
+        # The Raindrop API's "Create Raindrop From File" does not
+        # allow us to set other attributes, thus, we need to check if
+        # any of the possible attributes need to be set and do so
+        # explicitly with another call:
+        args: dict[str, Any] = {}
+        if title is not None:
+            args["title"] = title
+        if tags is not None:
+            args["tags"] = tags
+        if args:
+            url = URL.format(path=f"raindrop/{raindrop.id}")
+            item = api.put(url, json=args).json()["item"]
+            return cls(item)
+        else:
+            return raindrop
 
     @classmethod
     def update(
@@ -309,9 +327,9 @@ class Raindrop(DictModel):
         order: Optional[int] = None,
         important: Optional[bool] = None,
         tags: Optional[Sequence[str]] = None,
-        media: Optional[Sequence[Dict[str, Any]]] = None,
+        media: Optional[Sequence[dict[str, Any]]] = None,
         cover: Optional[str] = None,
-        collection: Optional[Union[Collection, CollectionRef, int]] = None,
+        collection: Optional[Collection | CollectionRef, int] = None,
         type: Optional[str] = None,
         html: Optional[str] = None,
         excerpt: Optional[str] = None,
@@ -321,7 +339,7 @@ class Raindrop(DictModel):
         """Update an existing Raindrop bookmark with any of the attribute values provided."""
 
         # Setup args to be sent to Raindrop..
-        args: Dict[str, Any] = {}
+        args: dict[str, Any] = {}
         if pleaseParse:
             args["pleaseParse"] = {}
         for attr in [
@@ -364,9 +382,9 @@ class Raindrop(DictModel):
         word: Optional[str] = None,
         tag: Optional[str] = None,
         important: Optional[bool] = None,
-    ) -> List[Raindrop]:
+    ) -> list[Raindrop]:
         """Search for bookmarks in the specified collection with key word, tag or importance parms."""
-        args: List[Dict[str, Any]] = []
+        args: list[dict[str, Any]] = []
         if word is not None:
             args.append({"key": "word", "val": word})
         if tag is not None:
@@ -375,7 +393,6 @@ class Raindrop(DictModel):
             args.append({"key": "important", "val": important})
 
         params = {"search": json.dumps(args), "perpage": perpage, "page": page}
-
         url = URL.format(path=f"raindrops/{collection.id}")
         results = api.get(url, params=params).json()
         return [cls(item) for item in results["items"]]

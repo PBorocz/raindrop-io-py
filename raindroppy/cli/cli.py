@@ -51,54 +51,58 @@ class CLI:
         self.state: None  # Will be populated when we start our event loop.
         self._display_startup_banner()
 
+    def iteration(self):
+
+        options = ["search", "create", "manage", "exit", "quit", "."]
+
+        self.console.print(options_as_help(options))
+
+        response = self.session.prompt(
+            cli_prompt(),
+            completer=WordCompleter(options),
+            style=PROMPT_STYLE,
+            complete_while_typing=True,
+            enable_history_search=False,
+        )
+
+        if response.casefold() in ("exit", "bye", "quit", "."):
+            raise KeyboardInterrupt  # Quick way out...
+
+        elif response.casefold() in ("?",):
+            # FIXME: This should be a longer help text here
+            # (since we print the options at the top of each
+            # iteration already)
+            self.console.print(options_as_help(options))
+            return
+
+        # We have a valid command, bring in the right module (yes, statically)
+        # and dispatch appropriately.
+        process_method = None
+        if response.casefold() in ("help",):
+            from raindroppy.cli.commands.help import process as process_method
+
+        elif response.casefold() in ("search",):
+            from raindroppy.cli.commands.search import process as process_method
+
+        elif response.casefold() == "create":
+            from raindroppy.cli.commands.create import process as process_method
+
+        elif response.casefold() == "manage":
+            from raindroppy.cli.commands.manage import process as process_method
+
+        # Else case here doesn't matter as if process_method isn't set,
+        # we'll simply show the list of commands at the top of the next
+        # iteration.
+        if process_method is not None:
+            process_method(self)
+
     def event_loop(self, state: RaindropState) -> None:
         """Save state and run the top-level menu/event loop prompts."""
         self.state = state
 
         while True:
             try:
-                options = ["search", "create", "manage", "exit", "quit", "."]
-                self.console.print(options_as_help(options))
-
-                response = self.session.prompt(
-                    cli_prompt(),
-                    completer=WordCompleter(options),
-                    style=PROMPT_STYLE,
-                    complete_while_typing=True,
-                    enable_history_search=False,
-                )
-
-                if response.casefold() in ("exit", "bye", "quit", "."):
-                    raise KeyboardInterrupt
-
-                elif response.casefold() in ("?",):
-                    # FIXME: This should be a longer help text here
-                    # (since we print the options at the top of each
-                    # iteration already)
-                    self.console.print(options_as_help(options))
-                    continue
-
-                # We have a valid command, bring in the right module (yes, statically)
-                # and dispatch appropriately.
-                process_method = None
-                if response.casefold() in ("help",):
-                    from raindroppy.cli.commands.help import process as process_method
-
-                elif response.casefold() in ("search",):
-                    from raindroppy.cli.commands.search import process as process_method
-
-                elif response.casefold() == "create":
-                    from raindroppy.cli.commands.create import process as process_method
-
-                elif response.casefold() == "manage":
-                    from raindroppy.cli.commands.manage import process as process_method
-
-                # Else case here doesn't matter as if process_method isn't set,
-                # we'll simply show the list of commands at the top of the next
-                # iteration.
-                if process_method is not None:
-                    process_method(self)
-
+                self.iteration()
             except (KeyboardInterrupt, EOFError):
                 self.console.print(CLI.text_goodbye)
                 break

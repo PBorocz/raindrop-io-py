@@ -11,7 +11,7 @@ from tomli import load
 from raindroppy.api import API, Collection, Raindrop
 from raindroppy.cli import CONTENT_TYPES, PROMPT_STYLE, cli_prompt, options_as_help
 from raindroppy.cli.cli import CLI
-from raindroppy.cli.models import CreateRequest, RaindropType
+from raindroppy.cli.models import CreateRequest
 from raindroppy.cli.spinner import Spinner
 
 
@@ -164,21 +164,20 @@ def __get_confirmation(cli: CLI, prompt: str) -> bool:
 
 
 def _prompt_for_request(
-    cli: CLI, type_: RaindropType, dir_path: Optional[Path] = Path("~/Downloads/Raindrop")
+    cli: CLI, file: bool = False, url: bool = False, dir_path: Optional[Path] = Path("~/Downloads/Raindrop")
 ) -> Optional[CreateRequest]:
     """Prompt for create new Raindrop request (either link or url).
 
     Returns request or None (if not confirmed).
     """
-    request = CreateRequest(type_=type_)
+    request = CreateRequest()
 
     # Prompts differ whether or not we're creating a file or link-based Raindrop.
-    if request.type_ == RaindropType.URL:
+    if url:
         request.url = __get_url(cli)
         if request.url is None:
             return None
-
-    elif request.type_ == RaindropType.FILE:
+    else:
         files = _read_files(dir_path.expanduser())
         request.file_path = __get_from_files(cli, sorted(files, key=lambda fp_: fp_.name))
 
@@ -203,14 +202,16 @@ def _prompt_for_request(
     return None
 
 
-def _add_single(cli: CLI, type_: RaindropType, request: CreateRequest = None, interstitial: int = 1) -> bool:
+def _add_single(
+    cli: CLI, file: bool = False, url: bool = False, request: CreateRequest = None, interstitial: int = 1
+) -> bool:
     """Create either a link or file-based Raindrop, if we don't have a request yet, get one."""
 
-    assert type_ or request, "Sorry, either a RaindropType or an existing request is required"
+    assert (file or url) or request, "Sorry, either a file/url flag or an create request is required"
     if not request:
-        request: CreateRequest = _prompt_for_request(cli, type_)
+        request: CreateRequest = _prompt_for_request(cli, file=file, url=url)
         if not request:
-            return False  # User requested that we could still get out..
+            return False  # User might have requested that we could still get out..
 
     # Convert from /name/ of collection user entered to an /instance/
     # of a Collection; if necessary, creating a new one through the
@@ -219,12 +220,8 @@ def _add_single(cli: CLI, type_: RaindropType, request: CreateRequest = None, in
 
     # Push it up!
     with Spinner(f"Adding Raindrop -> {request.name()}..."):
-
-        if request.type_ == RaindropType.URL:
-            _create_link(cli.state.api, request)
-
-        elif request.type_ == RaindropType.FILE:
-            _create_file(cli.state.api, request)
+        create_method = _create_link if url else _create_file
+        create_method(cli.state.api, request)
 
     # Be nice to raindrop.io and wait a bit..
     if interstitial:
@@ -331,34 +328,36 @@ def _add_bulk(cli: CLI) -> None:
         return sum([_add_single(cli, None, request) for request in requests])
 
 
+def iteration(cli: CLI):
+    options: Final = ["file", "url", "bulk", "back", "."]
+    completer: Final = WordCompleter(options)
+    cli.console.print(options_as_help(options))
+    response = cli.session.prompt(
+        cli_prompt(("create",)),
+        completer=completer,
+        style=PROMPT_STYLE,
+        complete_while_typing=True,
+        enable_history_search=False,
+    )
+
+    if response.casefold() in ("back", "."):
+        return None
+    elif response.casefold() in ("?",):
+        cli.console.print(options_as_help(options))
+    elif response.casefold() == "bulk":
+        _add_bulk(cli)
+    elif response.casefold() == "file":
+        _add_single(cli, file=True)
+    elif response.casefold() == "url":
+        _add_single(cli, url=True)
+    else:
+        cli.console.print(f"Sorry, must be one of {', '.join(options)}.")
+
+
 def process(cli: CLI) -> None:
     """Controller for adding bookmark(s) from the terminal."""
     while True:
-        options: Final = ["file", "url", "bulk", "back", "."]
-        completer: Final = WordCompleter(options)
-
-        while True:
-            try:
-                cli.console.print(options_as_help(options))
-                response = cli.session.prompt(
-                    cli_prompt(("create",)),
-                    completer=completer,
-                    style=PROMPT_STYLE,
-                    complete_while_typing=True,
-                    enable_history_search=False,
-                )
-
-                if response.casefold() in ("back", "."):
-                    return None
-                elif response.casefold() in ("?",):
-                    cli.console.print(options_as_help(options))
-                elif response.casefold() == "bulk":
-                    _add_bulk(cli)
-                elif response.casefold() == "file":
-                    _add_single(cli, RaindropType.FILE)
-                elif response.casefold() == "url":
-                    _add_single(cli, RaindropType.URL)
-                else:
-                    cli.console.print(f"Sorry, must be one of {', '.join(options)}.")
-            except (KeyboardInterrupt, EOFError):
-                return None
+        try:
+            iteration(cli)
+        except (KeyboardInterrupt, EOFError):
+            return None

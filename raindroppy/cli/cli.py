@@ -2,14 +2,22 @@
 from io import StringIO
 from pathlib import Path
 
+from beaupy import Config, DefaultKeys  # Used for excellent vertical select capability!
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import FileHistory
 from pyfiglet import Figlet
 from rich.console import Console
+from yakh.key import Keys
 
 from raindroppy.cli import PROMPT_STYLE, cli_prompt, make_italic, options_as_help
 from raindroppy.cli.models import RaindropState
+
+# Yay and thou shall give us Emacs...
+DefaultKeys.down.append(Keys.CTRL_N)
+DefaultKeys.up.append(Keys.CTRL_P)
+DefaultKeys.escape.append(Keys.CTRL_Q)
+Config.raise_on_interrupt = True
 
 
 # Utility method to return the command-history file path for the user
@@ -90,11 +98,13 @@ class CLI:
         elif response.casefold() == "manage":
             from raindroppy.cli.commands.manage import process as process_method
 
-        # Else case here doesn't matter as if process_method isn't set,
-        # we'll simply show the list of commands at the top of the next
-        # iteration.
-        if process_method is not None:
-            process_method(self)
+        else:
+            # Else case here doesn't matter as if process_method isn't set,
+            # we'll simply show the list of commands at the top of the next
+            # iteration.
+            return
+
+        process_method(self)
 
     def event_loop(self, state: RaindropState) -> None:
         """Save state and run the top-level menu/event loop prompts."""

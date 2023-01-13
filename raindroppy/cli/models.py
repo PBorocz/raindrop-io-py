@@ -75,17 +75,15 @@ class RaindropState:
 
 
 ################################################################################
-class RaindropType(Enum):
-    URL = 1  # Create interactively a URL-based Raindrop.
-    FILE = 2  # Create interactively a file-based Raindrop.
-    BULK = 3  # Get parameters to bulk load Raindrops from a file.
+# class RaindropType(Enum):
+#     URL = 1  # Create interactively a URL-based Raindrop.
+#     FILE = 2  # Create interactively a file-based Raindrop.
+#     BULK = 3  # Get parameters to bulk load Raindrops from a file.
 
 
 @dataclass
 class CreateRequest:
     """Encapsulate parameters required to create either a link or file-based Raindrop bookmark."""
-
-    type_: RaindropType = RaindropType.URL  # Only required attribute
 
     title: str = None  # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
     collection: Union[str, Collection] = None  # Name of collection (or real) to store bookmark, eg. "My Documents"
@@ -99,17 +97,17 @@ class CreateRequest:
         """Return a user viewable name for request irrespective of type"""
         if self.title:
             return self.title
-        if self.type_ == RaindropType.URL and self.url:
+        if self.url:
             return self.url
-        if self.type_ == RaindropType.FILE and self.file_path:
+        if self.file_path:
             return self.file_path.name
         return "-"
 
     def print(self, print_method: Callable) -> None:
         """Print the request (using the callable), used to present back to the user for confirmation."""
-        if self.type_ == RaindropType.URL:
+        if self.url:
             print_method(f"URL           : {self.url}")
-        elif self.type_ == RaindropType.FILE:
+        elif self.file_path:
             print_method(f'File to send  : "{self.file_path}"')
         print_method(f"With title    : {self.title}")
         print_method(f"To collection : {self.collection}")
@@ -127,7 +125,6 @@ class CreateRequest:
         # what type of Raindrop we're creating, ie. a standard
         # link/url-based one or a "file"-based one.
         if entry.get("file_path"):
-            request.type_ = RaindropType.FILE
             request.file_path = Path(entry.get("file_path"))
 
             # Get default title from the file name if we don't have a
@@ -135,7 +132,6 @@ class CreateRequest:
             request.title = entry.get("title", request.file_path.stem)
 
         elif entry.get("url"):
-            request.type_ = RaindropType.URL
             request.url = entry.get("url")
             request.title = entry.get("title")
 

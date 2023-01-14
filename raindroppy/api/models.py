@@ -56,14 +56,16 @@ class View(enum.Enum):
 class CollectionRef(DictModel):
     """Abstract data type for a Raindrop Collection reference."""
 
-    Unsorted: ClassVar[CollectionRef]
+    All: ClassVar[CollectionRef]
     Trash: ClassVar[CollectionRef]
+    Unsorted: ClassVar[CollectionRef]
 
     id = ItemAttr[int](name="$id")
 
 
+CollectionRef.All = CollectionRef({"$id": 0})
+CollectionRef.Trash = CollectionRef({"$id": -99})
 CollectionRef.Unsorted = CollectionRef({"$id": -1})
-CollectionRef.Trash = CollectionRef({"$id": -1})
 
 
 class UserRef(DictModel):
@@ -84,7 +86,7 @@ class Access(DictModel):
 
 
 class Collection(DictModel):
-    """Represents a concrete Rainbow Collection."""
+    """Represents a concrete Raindrop Collection."""
 
     #: (:class:`int`) The id of the collection.
     id = ItemAttr[int](name="_id")
@@ -122,7 +124,11 @@ class Collection(DictModel):
 
     @classmethod
     def get_collections(cls, api: API) -> Sequence[Collection]:
-        """Get *BOTH* the "root" and "child" collections."""
+        """Utility method for query *ALL* collections
+
+        Ie. hiding the distinction between "root" and "child"
+        collections.
+        """
         return cls.get_roots(api) + cls.get_childrens(api)
 
     @classmethod
@@ -205,6 +211,98 @@ class Collection(DictModel):
 
         # Doesn't exist, create it!
         return Collection.create(api, title=title)
+
+
+class BrokenLevel(enum.Enum):
+    """Enumerate user levels."""
+
+    basic = "basic"
+    default = "default"
+    strict = "strict"
+    off = "off"
+
+
+class FontColor(enum.Enum):
+    """Enumerate user display themes available."""
+
+    sunset = "sunset"
+    night = "night"
+
+
+class UserConfig(DictModel):
+    """Abstract data type defining a Raindrop user's configuration."""
+
+    broken_level = ItemAttr(BrokenLevel)
+    font_color = ItemAttr[Optional[FontColor]](FontColor, default=None)
+    font_size = ItemAttr[int]()
+    last_collection = ItemAttr[int]()
+    raindrops_view = ItemAttr(View)
+
+
+class Group(DictModel):
+    """Abstract data type defining a Raindrop user group."""
+
+    title = ItemAttr[str]()
+    hidden = ItemAttr[bool]()
+    sort = ItemAttr[int]()
+    collectionids = SequenceAttr[int](name="collections")
+
+
+class UserFiles(DictModel):
+    """Abstract data type defining a file associated with a user (?)."""
+
+    used = ItemAttr[int]()
+    size = ItemAttr[int]()
+    lastCheckPoint = ItemAttr(dateparse)
+
+
+class User(DictModel):
+    """User."""
+
+    id = ItemAttr[int](name="_id")
+    config = ItemAttr(UserConfig)
+    email = ItemAttr[str]()
+    email_MD5 = ItemAttr[str]()
+    files = ItemAttr(UserFiles)
+    fullName = ItemAttr[str]()
+    groups = SequenceAttr(Group)
+    password = ItemAttr[bool]()
+    pro = ItemAttr[bool]()
+    registered = ItemAttr(dateparse)
+
+    @classmethod
+    def get(cls, api: API) -> User:
+        """Get all the information about a specific Raindrop user."""
+        user = api.get(URL.format(path="user")).json()["user"]
+        return cls(user)
+
+
+class SystemCollection(DictModel):
+    """Represents a Raindrop System Collection, eg. Unsorted, Trash etc."""
+
+    id = ItemAttr[int](name="_id")
+    count = ItemAttr[int]()
+    title = ItemAttr[str]()
+
+    # The Raindrop API doesn't give us the names/titles of the
+    # "system" collections, let's provide them here.
+    CollectionRefsTitles = {
+        CollectionRef.All.id: "All",
+        CollectionRef.Trash.id: "Trash",
+        CollectionRef.Unsorted.id: "Unsorted",
+    }
+
+    @classmethod
+    def get_status(cls, api: API) -> User:
+        """Get the title and counts of Raindrops across all 3 "system" collections"""
+
+        def _add_title(item: dict) -> dict:
+            """Add the title (since we don't get from the API)"""
+            item["title"] = cls.CollectionRefsTitles[item["_id"]]
+            return item
+
+        items = api.get(URL.format(path="user/stats")).json()["items"]
+        return [cls(_add_title(item)) for item in items]
 
 
 class RaindropType(enum.Enum):
@@ -413,70 +511,6 @@ class Raindrop(DictModel):
         url = URL.format(path=f"raindrops/{collection.id}")
         results = api.get(url, params=params).json()
         return [cls(item) for item in results["items"]]
-
-
-class BrokenLevel(enum.Enum):
-    """Enumerate user levels."""
-
-    basic = "basic"
-    default = "default"
-    strict = "strict"
-    off = "off"
-
-
-class FontColor(enum.Enum):
-    """Enumerate user display themes available."""
-
-    sunset = "sunset"
-    night = "night"
-
-
-class UserConfig(DictModel):
-    """Abstract data type defining a Raindrop user's configuration."""
-
-    broken_level = ItemAttr(BrokenLevel)
-    font_color = ItemAttr[Optional[FontColor]](FontColor, default=None)
-    font_size = ItemAttr[int]()
-    last_collection = ItemAttr[int]()
-    raindrops_view = ItemAttr(View)
-
-
-class Group(DictModel):
-    """Abstract data type defining a Raindrop user group."""
-
-    title = ItemAttr[str]()
-    hidden = ItemAttr[bool]()
-    sort = ItemAttr[int]()
-    collectionids = SequenceAttr[int](name="collections")
-
-
-class UserFiles(DictModel):
-    """Abstract data type defining a file associated with a user (?)."""
-
-    used = ItemAttr[int]()
-    size = ItemAttr[int]()
-    lastCheckPoint = ItemAttr(dateparse)
-
-
-class User(DictModel):
-    """User."""
-
-    id = ItemAttr[int](name="_id")
-    config = ItemAttr(UserConfig)
-    email = ItemAttr[str]()
-    email_MD5 = ItemAttr[str]()
-    files = ItemAttr(UserFiles)
-    fullName = ItemAttr[str]()
-    groups = SequenceAttr(Group)
-    password = ItemAttr[bool]()
-    pro = ItemAttr[bool]()
-    registered = ItemAttr(dateparse)
-
-    @classmethod
-    def get(cls, api: API) -> User:
-        """Get all the information about a specific Raindrop user."""
-        user = api.get(URL.format(path="user")).json()["user"]
-        return cls(user)
 
 
 class Tag(DictModel):

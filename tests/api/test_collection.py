@@ -1,7 +1,7 @@
 import datetime
 from unittest.mock import patch
 
-from raindroppy.api import API, AccessLevel, Collection, View
+from raindroppy.api import API, AccessLevel, Collection, CollectionRef, SystemCollection, View
 
 collection = {
     "_id": 1000,
@@ -19,6 +19,11 @@ collection = {
     "title": "child",
     "user": {"$db": "", "$id": 10000, "$ref": "users"},
     "view": "list",
+}
+
+system_collection = {
+    "_id": -1,  # Must be one of [0, -1, -99]
+    "count": 5,
 }
 
 
@@ -87,3 +92,12 @@ def test_delete() -> None:
             "DELETE",
             "https://api.raindrop.io/rest/v1/collection/1000",
         )
+
+
+def test_get_system_collection_status() -> None:
+    api = API("dummy")
+    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+        m.return_value.json.return_value = {"items": [system_collection]}
+        assert SystemCollection.get_status(api)[0].id == -1
+        assert SystemCollection.get_status(api)[0].title == "Unsorted"
+        assert SystemCollection.get_status(api)[0].count == 5

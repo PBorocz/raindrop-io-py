@@ -4,6 +4,7 @@ from typing import Final
 
 from humanize import naturaltime
 from prompt_toolkit.completion import WordCompleter
+from rich.table import Table
 
 from raindroppy.api.models import Collection, CollectionRef
 from raindroppy.cli import PROMPT_STYLE, cli_prompt, options_as_help
@@ -18,11 +19,15 @@ def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:
 def _show_status(cli: CLI) -> None:
     """UI Controller for displaying current status."""
     human_diff = naturaltime(datetime.utcnow() - cli.state.refreshed)
-    cli.console.print(f"Active User : {cli.state.user.fullName}")
-    cli.console.print(f"Raindrops   : {get_total_raindrops(cli.state.collections):,d}")
-    cli.console.print(f"Collections : {len(cli.state.collections):,d}")
-    cli.console.print(f"Tags        : {len(cli.state.tags):,d}")
-    cli.console.print(f"As Of       : {human_diff}")
+    table = Table(title=None, show_header=False)
+    table.add_column("parm", justify="right", style="#00ffff", no_wrap=True)
+    table.add_column("data", style="#00ff00")
+    table.add_row("Active User", f"{cli.state.user.fullName}")
+    table.add_row("Raindrops", f"{get_total_raindrops(cli.state.collections):,d}")
+    table.add_row("Collections", f"{len(cli.state.collections):,d}")
+    table.add_row("Tags", f"{len(cli.state.tags):,d}")
+    table.add_row("As Of", f"{human_diff}")
+    cli.console.print(table)
 
 
 def _show_collections(cli: CLI) -> None:

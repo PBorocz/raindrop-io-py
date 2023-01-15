@@ -11,6 +11,7 @@ from tomli import load
 from raindroppy.api import API, Collection, Raindrop
 from raindroppy.cli import CONTENT_TYPES, PROMPT_STYLE, cli_prompt, options_as_help
 from raindroppy.cli.cli import CLI
+from raindroppy.cli.commands import get_from_list
 from raindroppy.cli.models import CreateRequest
 from raindroppy.cli.spinner import Spinner
 
@@ -59,7 +60,7 @@ def __validate_url(url: str) -> Optional[str]:
 
 
 def __get_url(cli: CLI) -> Optional[str]:
-    prompt = cli_prompt(("create", "url", "url?"))
+    prompt = cli_prompt(("create", "url?"))
     while True:
         try:
             response = cli.session.prompt(prompt, style=PROMPT_STYLE)
@@ -78,7 +79,7 @@ def __get_url(cli: CLI) -> Optional[str]:
 
 
 def __get_title(cli: CLI) -> Optional[str]:
-    prompt = cli_prompt(("create", "url", "title?"))
+    prompt = cli_prompt(("create", "title?"))
     while True:
         try:
             response = cli.session.prompt(prompt, style=PROMPT_STYLE)
@@ -105,23 +106,6 @@ def __get_file(cli: CLI) -> Optional[str]:
                 return response
         except (KeyboardInterrupt, EOFError):
             return None
-
-
-def __get_from_list(cli: CLI, prompt: str, options: list[str]) -> Optional[str]:
-    prompt = cli_prompt(("create", "url", f"{prompt}?"))
-    completer: Final = WordCompleter(options)
-    while True:
-        try:
-            response = cli.session.prompt(
-                prompt, completer=completer, style=PROMPT_STYLE, complete_while_typing=True, enable_history_search=False
-            )
-            if response == "?":
-                cli.console.print(", ".join(options))
-            else:
-                break
-        except (KeyboardInterrupt, EOFError):
-            return None
-    return response
 
 
 def __get_from_files(cli: CLI, options: list[Path]) -> Optional[str]:
@@ -187,11 +171,11 @@ def _prompt_for_request(
         return None
 
     # These are the same across raindrop types:
-    request.collection = __get_from_list(cli, "collection", list(cli.state.get_collection_titles()))
+    request.collection = get_from_list(cli, ("create", "collection"), list(cli.state.get_collection_titles()))
     if request.collection is None:
         return None
 
-    request.tags = __get_from_list(cli, "tag(s)", list(cli.state.tags))
+    request.tags = get_from_list(cli, ("create", "tag(s)"), list(cli.state.tags))
     if request.tags is None:
         return None
 
@@ -330,11 +314,10 @@ def _add_bulk(cli: CLI) -> None:
 
 def iteration(cli: CLI):
     options: Final = ["file", "url", "bulk", "back", "."]
-    completer: Final = WordCompleter(options)
     cli.console.print(options_as_help(options))
     response = cli.session.prompt(
         cli_prompt(("create",)),
-        completer=completer,
+        completer=WordCompleter(options),
         style=PROMPT_STYLE,
         complete_while_typing=True,
         enable_history_search=False,
@@ -342,14 +325,19 @@ def iteration(cli: CLI):
 
     if response.casefold() in ("back", "."):
         return None
+
     elif response.casefold() in ("?",):
         cli.console.print(options_as_help(options))
+
     elif response.casefold() == "bulk":
         _add_bulk(cli)
+
     elif response.casefold() == "file":
         _add_single(cli, file=True)
+
     elif response.casefold() == "url":
         _add_single(cli, url=True)
+
     else:
         cli.console.print(f"Sorry, must be one of {', '.join(options)}.")
 

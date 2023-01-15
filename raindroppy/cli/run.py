@@ -9,5 +9,5 @@ load_dotenv()
 
 if __name__ == "__main__":
     cli = CLI()
-    state = RaindropState.factory(cli)
+    state = RaindropState.factory()
     cli.event_loop(state)

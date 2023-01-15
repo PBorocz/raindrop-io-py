@@ -13,15 +13,15 @@ from raindroppy.cli.cli import CLI
 
 def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:
     """Return the total number of Raindrops *associated with named collections*"""
-    return sum([collection.count for collection in collections if collection.count])
+    return sum([collection.count for collection in collections if collection.id > 0])
 
 
 def _show_status(cli: CLI) -> None:
     """UI Controller for displaying current status."""
     human_diff = naturaltime(datetime.utcnow() - cli.state.refreshed)
     table = Table(title=None, show_header=False)
-    table.add_column("parm", justify="right", style="#00ffff", no_wrap=True)
-    table.add_column("data", style="#00ff00")
+    table.add_column("parm", style="#00ffff", no_wrap=True)
+    table.add_column("data", style="#00ff00", justify="right")
     table.add_row("Active User", f"{cli.state.user.fullName}")
     table.add_row("Raindrops", f"{get_total_raindrops(cli.state.collections):,d}")
     table.add_row("Collections", f"{len(cli.state.collections):,d}")
@@ -37,14 +37,18 @@ def _show_collections(cli: CLI) -> None:
     def get_longest(collections: list[Collection, CollectionRef]) -> int:
         return max([len(collection.title) for collection in collections if collection.title])
 
-    max_len = get_longest(cli.state.collections) + 1
     total = get_total_raindrops(cli.state.collections)
 
-    cli.console.print(f"{'-'*max_len:{max_len}s} ---")
+    table = Table(title=None, show_header=False)
+    table.add_column("Collection", style="#00ffff", no_wrap=True)
+    table.add_column("Count", style="#00ff00", justify="right")
+
+    # cli.console.print(f"{'-'*max_len:{max_len}s} ---")
     for collection in cli.state.collections:
-        cli.console.print(f"{collection.title:{max_len}s} {collection.count}")
-    cli.console.print(f"{'-'*max_len:{max_len}s} ---")
-    cli.console.print(f"{'Total':{max_len}s} {total:,d}")
+        table.add_row(collection.title, f"{collection.count:,d}")
+    table.add_section()
+    table.add_row("Total Raindrops", f"{total:,d}")
+    cli.console.print(table)
 
 
 def _show_tags(cli: CLI) -> None:

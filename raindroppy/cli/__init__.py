@@ -3,7 +3,7 @@ from typing import Final
 
 from prompt_toolkit.styles import Style
 
-CONTENT_TYPES = {
+CONTENT_TYPES: Final = {
     ".pdf": "application/pdf",
     ".py": "text/plain",
     ".txt": "text/plain",
@@ -19,18 +19,24 @@ PROMPT_STYLE: Final = Style.from_dict(
 )
 
 
-def make_italic(str_):
-    return f"[italic]{str_}[/italic]"
-
-
 def cli_prompt(sub_levels: tuple[str] | None = ()) -> str:
+    """Render a command prompt to any number of 'levels'
+
+    With no sub-levels, prompt is: "> "
+    With sub-levels ("A", "SubA"): "A> SubA> "
+    """
+    delimiter: str = "> "
     if sub_levels:
         prompt = ""
         for level in sub_levels:
-            prompt += level + "> "
+            prompt += level + delimiter
     else:
-        prompt = "> "
+        prompt = delimiter
     return [("class:prompt", prompt)]
+
+
+def make_italic(str_):
+    return f"[italic]{str_}[/italic]"
 
 
 def options_as_help(options: list[str]) -> str:

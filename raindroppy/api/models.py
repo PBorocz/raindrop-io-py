@@ -491,7 +491,7 @@ class Raindrop(DictModel):
     def search(
         cls,
         api: API,
-        collection: CollectionRef = CollectionRef.Unsorted,
+        collection: CollectionRef = CollectionRef.All,
         page: int = 0,
         perpage: int = 50,
         word: Optional[str] = None,

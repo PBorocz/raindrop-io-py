@@ -5,7 +5,7 @@ description = "API and terminal-based CLI for Raindrop.io bookmark manager"
 authors = ["Peter Borocz <680893+PBorocz@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 python-dotenv = "^0.21.0"
 requests-oauthlib = "^1.3.1"
 python-dateutil = "^2.8.2"
@@ -21,7 +21,6 @@ rich = "^13.1.0"
 PySnooper = "^1.1.1"
 python-language-server = "^0.36.2"
 pre-commit = "^2.21.0"
-ruff = "^0.0.223"
 pytest = "7.2.1"
 flake8 = "^6.0.0"
 

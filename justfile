@@ -17,7 +17,7 @@ test *args:
     python -m pytest {{args}}
 
 # Update the repo to the most recent .pre-commit-config.yaml and run it.
-pre-commit *args:
+pre-commit-update *args:
     pre-commit install
     git add .pre-commit-config.yaml
     pre-commit run --all-files {{args}}

@@ -2,28 +2,7 @@ fail_fast: true
 repos:
 
 ################################################################################
-- repo: https://github.com/bwhmather/ssort
-  rev: v0.11.6
-  hooks:
-    - id: ssort
-      name: Running ssort
-
-################################################################################
-- repo: https://github.com/psf/black
-  rev: 5d0d5936db2ed7a01c50a374e32753e1afe9cc71
-  hooks:
-  - id: black
-    name: Running black
-
-################################################################################
-- repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: 'v0.0.223'
-  hooks:
-  - id: ruff
-    name: Running Ruff
-    args: ["--config=pyproject.toml", "--fix"]
-    entry: .venv/bin/ruff raindroppy/
-
+# Run test suite, if this doesn't work, doesn't matter how nice our code looks!
 ################################################################################
 - repo: local
   hooks:
@@ -32,3 +11,32 @@ repos:
     entry: .venv/bin/python -m pytest
     pass_filenames: false
     language: system
+
+################################################################################
+# Ruff doesn't (yet) support ssort, thus, we need to do it ourselves.
+################################################################################
+- repo: https://github.com/bwhmather/ssort
+  rev: v0.11.6
+  hooks:
+    - id: ssort
+      name: Running ssort
+
+################################################################################
+# Ruff is compatible with Black, we ensure that the line-lengths are consistent.
+################################################################################
+- repo: https://github.com/psf/black
+  rev: 5d0d5936db2ed7a01c50a374e32753e1afe9cc71
+  hooks:
+  - id: black
+    name: Running black
+
+################################################################################
+# Run Ruff!
+################################################################################
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: 'v0.0.223'
+  hooks:
+  - id: ruff
+    name: Running Ruff
+    args: ["--config=pyproject.toml", "--fix"]
+    entry: .venv/bin/ruff raindroppy/

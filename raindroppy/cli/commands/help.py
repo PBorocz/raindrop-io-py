@@ -12,7 +12,10 @@ def process(cli: CLI) -> None:
 def help_search(cli: CLI) -> None:
     """Render and display search help."""
     contents = (
-        ("apple iphone", "Find items that contains such words in title, description, domain or in web page content"),
+        (
+            "apple iphone",
+            "Find items that contains such words in title, description, domain or in web page content",
+        ),
         ("#coffee", "Find items that have a certain tag"),
         (
             "'superman vs. batman'",
@@ -27,7 +30,10 @@ def help_search(cli: CLI) -> None:
         ("created:2021-07 ", "Search for items created in a specific month"),
         ("created:2021 ", "Search for items created in a specific year"),
         ("created:>2021-07-15", "Put > in front of a date to find after specific date"),
-        ("created:<2021-07-15", "Put < in front of a date to find before specific date"),
+        (
+            "created:<2021-07-15",
+            "Put < in front of a date to find before specific date",
+        ),
         ("lastUpdate:2021-07-15", "Search for items updated in specific date"),
         ("link:dropbox", "Find items with a certain word (or words) in the URL"),
         ("link:'crunch base'", "Find items with a certain word (or words) in the URL"),

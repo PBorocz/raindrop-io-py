@@ -27,7 +27,9 @@ def _get_user_history_path() -> Path:
 class CLI:
     """Top-level command-line interface controller/command-loop."""
 
-    text_goodbye = "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"
+    text_goodbye = (
+        "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"
+    )
 
     def _display_startup_banner(self) -> None:
         banner: str = "RaindropPY"

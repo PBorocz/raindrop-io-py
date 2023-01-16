@@ -35,7 +35,9 @@ def _show_collections(cli: CLI) -> None:
     # FIXME: Add counts obo Unsorted Collection!
 
     def get_longest(collections: list[Collection, CollectionRef]) -> int:
-        return max([len(collection.title) for collection in collections if collection.title])
+        return max(
+            [len(collection.title) for collection in collections if collection.title],
+        )
 
     total = get_total_raindrops(cli.state.collections)
 
@@ -72,9 +74,13 @@ def _show_tags(cli: CLI) -> None:
 def show_help(cli: CLI) -> None:
     """Display help about this set of commands."""
     cli.console.print("status      : Show current status of Raindrop API connection.")
-    cli.console.print("collections : Display the Collections currently defined along with count of Raindrops in each.")
+    cli.console.print(
+        "collections : Display the Collections currently defined along with count of Raindrops in each.",
+    )
     cli.console.print("tags        : Display the Tags currently defined.")
-    cli.console.print("refresh     : Refresh the list of Collections & Tags from Raindrop.")
+    cli.console.print(
+        "refresh     : Refresh the list of Collections & Tags from Raindrop.",
+    )
 
 
 def process(cli: CLI) -> None:
@@ -111,6 +117,8 @@ def process(cli: CLI) -> None:
                 elif response.casefold() == "refresh":
                     cli.state.refresh()
                 else:
-                    cli.console.print(f"Sorry, must be one of {options_as_help(options)}")
+                    cli.console.print(
+                        f"Sorry, must be one of {options_as_help(options)}",
+                    )
             except (KeyboardInterrupt, EOFError):
                 return None

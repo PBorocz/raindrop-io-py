@@ -21,7 +21,6 @@ repos:
   hooks:
   - id: ruff
     name: Running Ruff
-    # args: ["--force-exclude", "--line-length=120", "--target-version=py310", "--select=D,E,I,F", "--ignore=D203,D213,E402", "--fix"]
     args: ["--config=pyproject.toml", "--fix"]
     entry: .venv/bin/ruff raindroppy/
 
@@ -33,24 +32,3 @@ repos:
     entry: .venv/bin/python -m pytest
     pass_filenames: false
     language: system
-
-
-# ################################################################################
-# As of 2023-01-16, trying to stay with Ruff to do all the below
-# ################################################################################
-
-# ################################################################################
-# - repo: https://github.com/pycqa/isort
-#   rev: 5.11.2
-#   hooks:
-#     - id: isort
-#       name: Running isort
-
-# ################################################################################
-# - repo: local
-#   hooks:
-#   - id: system
-#     name: Running flake8
-#     entry: .venv/bin/flake8 raindroppy/
-#     pass_filenames: false
-#     language: system

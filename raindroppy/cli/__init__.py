@@ -15,7 +15,7 @@ PROMPT_STYLE: Final = Style.from_dict(
     {
         "prompt": "#00ffff",  # Prompt is cyan
         "": "#00ff00",  # User input  is green
-    }
+    },
 )
 
 

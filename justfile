@@ -16,6 +16,12 @@ cli *args:
 test *args:
     python -m pytest {{args}}
 
+# Update the repo to the most recent .pre-commit-config.yaml and run it.
+pre-commit *args:
+    pre-commit install
+    git add .pre-commit-config.yaml
+    pre-commit run --all-files {{args}}
+
 # Run samples against live Raindrop environment (assumes RAINDROP_TOKEN in env!)
 run_examples:
     # Listed in order of complexity, list_* are read-only, rest make changes.
@@ -37,7 +43,3 @@ run_examples:
     python examples/edit_raindrop.py
     sleep 1
     python examples/search_raindrop.py
-
-# Run our pre-commit checks manually
-pre-commit *args:
-    pre-commit run --all-files {{args}}

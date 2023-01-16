@@ -5,10 +5,20 @@ from datetime import datetime
 from pathlib import Path
 from typing import Callable, Optional, TypeVar, Union
 
-from raindroppy.api import API, Access, Collection, CollectionRef, SystemCollection, Tag, User
+from raindroppy.api import (
+    API,
+    Access,
+    Collection,
+    CollectionRef,
+    SystemCollection,
+    Tag,
+    User,
+)
 from raindroppy.cli.spinner import Spinner
 
-RaindropState = TypeVar("RaindropState")  # In py3.11, we'll be able to do 'from typing import Self' instead
+RaindropState = TypeVar(
+    "RaindropState",
+)  # In py3.11, we'll be able to do 'from typing import Self' instead
 CreateRequest = TypeVar("CreateRequest")  # "
 
 
@@ -26,7 +36,9 @@ class RaindropState:
     def get_collection_titles(self, exclude_unsorted=False) -> list[str]:
         """Return a sorted list of Collection titles, with or without 'Unsorted'."""
         if exclude_unsorted:
-            titles = [collection.title for collection in self.collections if collection.id > 0]
+            titles = [
+                collection.title for collection in self.collections if collection.id > 0
+            ]
         else:
             titles = [collection.title for collection in self.collections]
         return sorted(titles)
@@ -58,7 +70,9 @@ class RaindropState:
             # What collections do we currently have on Raindrop?
             # (including the "Unsorted" system collection as well;
             # only an id, title and count)
-            collections: list[Collection] = [root for root in Collection.get_roots(self.api)]
+            collections: list[Collection] = [
+                root for root in Collection.get_roots(self.api)
+            ]
             collections.extend([child for child in Collection.get_childrens(self.api)])
             for collection in SystemCollection.get_status(self.api):
                 if collection.id == CollectionRef.Unsorted.id:
@@ -67,13 +81,18 @@ class RaindropState:
                         {
                             "_id": CollectionRef.Unsorted.id,
                             "count": collection.count,
-                            "title": SystemCollection.CollectionRefsTitles[CollectionRef.Unsorted.id],
+                            "title": SystemCollection.CollectionRefsTitles[
+                                CollectionRef.Unsorted.id
+                            ],
                             "access": access,
-                        }
+                        },
                     )
                     collections.append(unsorted)
 
-            self.collections = sorted(collections, key=lambda collection: getattr(collection, "title", ""))
+            self.collections = sorted(
+                collections,
+                key=lambda collection: getattr(collection, "title", ""),
+            )
 
             # What tags we currently have available on Raindrop across
             # *all* collections? (use set to get rid of potential duplicates)
@@ -106,13 +125,22 @@ class RaindropState:
 class CreateRequest:
     """Encapsulate parameters required to create either a link or file-based Raindrop bookmark."""
 
-    title: str = None  # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
-    collection: Union[str, Collection] = None  # Name of collection (or real) to store bookmark, eg. "My Documents"
-    tags: list[str] = None  # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
+    title: str = (
+        None  # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
+    )
+    collection: Union[
+        str,
+        Collection,
+    ] = None  # Name of collection (or real) to store bookmark, eg. "My Documents"
+    tags: list[
+        str
+    ] = None  # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
 
     # One of the following needs to be specified:
     url: str = None  # URL of link-based Raindrop to create.
-    file_path: Path = None  # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
+    file_path: Path = (
+        None  # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
+    )
 
     def name(self) -> str:
         """Return a user viewable name for request irrespective of type."""

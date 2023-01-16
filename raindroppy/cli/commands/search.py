@@ -57,7 +57,9 @@ def _prompt_search(cli: CLI) -> SearchRequest:
 
     # What collection(s) to search across?
     collection_s = get_from_list(
-        cli, ("search", "in collection(s)?"), cli.state.get_collection_titles(exclude_unsorted=False)
+        cli,
+        ("search", "in collection(s)?"),
+        cli.state.get_collection_titles(exclude_unsorted=False),
     )
 
     return SearchRequest(search, collection_s.split())
@@ -66,7 +68,12 @@ def _prompt_search(cli: CLI) -> SearchRequest:
 def __do_search_in_collection(cli: CLI, request: SearchRequest) -> list[Raindrop]:
     results = list()
     page: int = 0
-    while raindrops := Raindrop.search(cli.state.api, collection=request.collection, page=page, word=request.search):
+    while raindrops := Raindrop.search(
+        cli.state.api,
+        collection=request.collection,
+        page=page,
+        word=request.search,
+    ):
         for raindrop in raindrops:
             results.append(raindrop)
         page += 1
@@ -79,7 +86,9 @@ def _do_search(cli: CLI, request: SearchRequest) -> Optional[list[Raindrop]]:
     if request.collection_s:
         for collection_title in request.collection_s:
             request.collection = cli.state.find_collection(collection_title)
-            assert request.collection, f"Sorry, unable to find a collection with {collection_title=}?!"
+            assert (
+                request.collection
+            ), f"Sorry, unable to find a collection with {collection_title=}?!"
             return_.extend(__do_search_in_collection(cli, request))
     else:
         request.collection = CollectionRef.All
@@ -88,7 +97,11 @@ def _do_search(cli: CLI, request: SearchRequest) -> Optional[list[Raindrop]]:
     return return_
 
 
-def _display_results(cli: CLI, request: SearchRequest, raindrops: list[Raindrop]) -> None:
+def _display_results(
+    cli: CLI,
+    request: SearchRequest,
+    raindrops: list[Raindrop],
+) -> None:
     if not raindrops:
         msg = f"Sorry, nothing found for search: '{request.search}'"
         if len(request.collection_s) == 1:

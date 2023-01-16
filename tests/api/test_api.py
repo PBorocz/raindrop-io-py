@@ -1,3 +1,4 @@
+"""Test out the API using a patched requests module."""
 import json
 import time
 from unittest.mock import patch
@@ -8,12 +9,13 @@ from raindroppy.api import API
 
 
 def test_refresh() -> None:
+    """Test the refresh method."""
     api = API(
         {
             "access_token": "old",
             "refresh_token": "bbb",
             "expires_at": time.time() - 100000,
-        }
+        },
     )
     with patch("requests.Session.request") as m:
         resp = Response()

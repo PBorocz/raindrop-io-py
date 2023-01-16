@@ -1,4 +1,4 @@
-"""List all the tags currently associated with the user of the token provided"""
+"""List all the tags currently associated with the user of the token provided."""
 import os
 import sys
 

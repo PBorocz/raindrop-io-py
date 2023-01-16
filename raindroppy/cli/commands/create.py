@@ -36,7 +36,13 @@ def _create_file(api: API, request: CreateRequest) -> bool:
 
 def _create_link(api: API, request: CreateRequest) -> None:
     """Create a URL/link-based Raindrop."""
-    Raindrop.create_link(api, request.url, title=request.title, tags=request.tags, collection=request.collection)
+    Raindrop.create_link(
+        api,
+        request.url,
+        title=request.title,
+        tags=request.tags,
+        collection=request.collection,
+    )
 
 
 def _read_files(path_: Path) -> list[Path]:
@@ -89,7 +95,9 @@ def __get_url(cli: CLI) -> Optional[str]:
         try:
             url = cli.session.prompt(prompt, style=PROMPT_STYLE)
             if url == "?" or url == "" or url is None:
-                cli.console.print("We need a valid URL here, eg. https://www.python.org")
+                cli.console.print(
+                    "We need a valid URL here, eg. https://www.python.org",
+                )
             elif url == "q":
                 return None
             else:
@@ -107,7 +115,9 @@ def __get_title(cli: CLI) -> Optional[str]:
         try:
             title = cli.session.prompt(prompt, style=PROMPT_STYLE)
             if title == "?":
-                cli.console.print("We need a Bookmark title here, eg. 'This is an interesting bookmark'")
+                cli.console.print(
+                    "We need a Bookmark title here, eg. 'This is an interesting bookmark'",
+                )
             elif title == "q":
                 return None
             else:
@@ -122,7 +132,9 @@ def __get_file(cli: CLI) -> Optional[str]:
         try:
             file_ = cli.session.prompt(prompt, style=PROMPT_STYLE)
             if file_ == "?":
-                cli.console.print("We need a path to a valid, TOML upload file, eg. '/Users/me/Download/upload.toml'")
+                cli.console.print(
+                    "We need a path to a valid, TOML upload file, eg. '/Users/me/Download/upload.toml'",
+                )
             elif file_ == "q":
                 return None
             else:
@@ -140,7 +152,11 @@ def __get_from_files(cli: CLI, options: list[Path]) -> Optional[str]:
     while True:
         try:
             response = cli.session.prompt(
-                prompt, completer=completer, style=PROMPT_STYLE, complete_while_typing=True, enable_history_search=False
+                prompt,
+                completer=completer,
+                style=PROMPT_STYLE,
+                complete_while_typing=True,
+                enable_history_search=False,
             )
             if response == "?":
                 cli.console.print(", ".join(options))
@@ -158,7 +174,11 @@ def __get_confirmation(cli: CLI, prompt: str) -> bool:
     completer: Final = WordCompleter(options)
     try:
         response = cli.session.prompt(
-            prompt, completer=completer, style=PROMPT_STYLE, complete_while_typing=True, enable_history_search=False
+            prompt,
+            completer=completer,
+            style=PROMPT_STYLE,
+            complete_while_typing=True,
+            enable_history_search=False,
         )
         if response == "q":
             return None
@@ -175,12 +195,16 @@ def _is_request_valid(cli: CLI, request: CreateRequest) -> bool:
     # Error Check: Validate the existence of the specified file for
     if request.file_path:
         if not request.file_path.exists():
-            cli.console.print(f"Sorry, no file with name '{request.file_path}' exists.\n")
+            cli.console.print(
+                f"Sorry, no file with name '{request.file_path}' exists.\n",
+            )
             return False
 
         # Validate the file type
         if request.file_path.suffix not in CONTENT_TYPES:
-            cli.console.print(f"Sorry, file type {request.file_path.suffix} isn't yet supported by Raindrop.io.\n")
+            cli.console.print(
+                f"Sorry, file type {request.file_path.suffix} isn't yet supported by Raindrop.io.\n",
+            )
             return False
 
     # Error Check: Validate any tags associated with the request
@@ -194,14 +218,18 @@ def _is_request_valid(cli: CLI, request: CreateRequest) -> bool:
     if request.collection:
         if cli.state.find_collection(request.collection) is None:
             cli.console.print(
-                f"Collection '{request.collection}' doesn't exist " "in Raindrop, we'll be adding it from scratch.\n"
+                f"Collection '{request.collection}' doesn't exist "
+                "in Raindrop, we'll be adding it from scratch.\n",
             )
 
     return True
 
 
 def _prompt_for_request(
-    cli: CLI, file: bool = False, url: bool = False, dir_path: Optional[Path] = Path("~/Downloads/Raindrop")
+    cli: CLI,
+    file: bool = False,
+    url: bool = False,
+    dir_path: Optional[Path] = Path("~/Downloads/Raindrop"),
 ) -> Optional[CreateRequest]:
     """Prompt for create new Raindrop request (either link or url).
 
@@ -218,7 +246,10 @@ def _prompt_for_request(
             return None
     else:
         files = _read_files(dir_path.expanduser())
-        request.file_path = __get_from_files(cli, sorted(files, key=lambda fp_: fp_.name))
+        request.file_path = __get_from_files(
+            cli,
+            sorted(files, key=lambda fp_: fp_.name),
+        )
 
     # Get a Title:
     request.title = __get_title(cli)
@@ -227,7 +258,9 @@ def _prompt_for_request(
 
     # These are the same across raindrop types:
     request.collection = get_from_list(
-        cli, ("create", "collection"), list(cli.state.get_collection_titles(exclude_unsorted=True))
+        cli,
+        ("create", "collection"),
+        list(cli.state.get_collection_titles(exclude_unsorted=True)),
     )
     if request.collection is None:
         return None
@@ -244,10 +277,16 @@ def _prompt_for_request(
 
 
 def _add_single(
-    cli: CLI, file: bool = False, url: bool = False, request: CreateRequest = None, interstitial: int = 1
+    cli: CLI,
+    file: bool = False,
+    url: bool = False,
+    request: CreateRequest = None,
+    interstitial: int = 1,
 ) -> bool:
     """Create either a link or file-based Raindrop, if we don't have a request yet, get one."""
-    assert (file or url) or request, "Sorry, either a file/url flag or an create request is required"
+    assert (
+        file or url
+    ) or request, "Sorry, either a file/url flag or an create request is required"
     if not request:
         request: CreateRequest = _prompt_for_request(cli, file=file, url=url)
         if not request:
@@ -279,22 +318,30 @@ def _add_bulk(cli: CLI) -> None:
 
         fp_request: Path = Path(fn_request).expanduser()
         if not fp_request.exists():
-            cli.console.print(f"Sorry, unable to find request_toml file: '{fp_request}'\n")
+            cli.console.print(
+                f"Sorry, unable to find request_toml file: '{fp_request}'\n",
+            )
             continue
 
         with open(fp_request, "rb") as fh_request:
             requests: list[CreateRequest] = [
-                CreateRequest.factory(entry) for entry in load(fh_request).get("requests", [])
+                CreateRequest.factory(entry)
+                for entry in load(fh_request).get("requests", [])
             ]
 
         # Filter down to only valid entries:
-        requests: list[CreateRequest] = [req for req in requests if _is_request_valid(cli, req)]
+        requests: list[CreateRequest] = [
+            req for req in requests if _is_request_valid(cli, req)
+        ]
         if not requests:
             cli.console.print("Sorry, no valid requests found.\n")
             break
 
         # Confirm that we're good to go
-        if not __get_confirmation(cli, f"Ready to create {len(requests)} valid requests, Ok?"):
+        if not __get_confirmation(
+            cli,
+            f"Ready to create {len(requests)} valid requests, Ok?",
+        ):
             return None
 
         # Add em!

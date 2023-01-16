@@ -1,3 +1,4 @@
+"""Test all the core methods of the Raindrop API."""
 import datetime
 from pathlib import Path
 from unittest.mock import patch
@@ -27,6 +28,7 @@ raindrop = {
 
 
 def test_get() -> None:
+    """Test get method."""
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": raindrop}
@@ -36,10 +38,26 @@ def test_get() -> None:
         assert c.id == 2000
         assert c.collection.id == -1
         assert c.cover == ""
-        assert c.created == datetime.datetime(2020, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc)
+        assert c.created == datetime.datetime(
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0,
+            tzinfo=datetime.timezone.utc,
+        )
         assert c.domain == "www.example.com"
         assert c.excerpt == "excerpt text"
-        assert c.lastUpdate == datetime.datetime(2020, 1, 1, 1, 1, 1, tzinfo=datetime.timezone.utc)
+        assert c.lastUpdate == datetime.datetime(
+            2020,
+            1,
+            1,
+            1,
+            1,
+            1,
+            tzinfo=datetime.timezone.utc,
+        )
         assert c.link == "https://www.example.com/"
         assert c.media == []
         assert c.tags == ["abc", "def"]
@@ -49,6 +67,7 @@ def test_get() -> None:
 
 
 def test_search() -> None:
+    """Test search method."""
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"items": [raindrop]}
@@ -58,6 +77,7 @@ def test_search() -> None:
 
 
 def test_create_link() -> None:
+    """Test ability to create a link-based Raindrop."""
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": raindrop}
@@ -66,6 +86,7 @@ def test_create_link() -> None:
 
 
 def test_create_file() -> None:
+    """Test ability to create a file-based Raindrop."""
     api = API("dummy")
     content_type = "text/plain"
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
@@ -81,7 +102,9 @@ def test_create_file() -> None:
             "https://api.raindrop.io/rest/v1/raindrop/file",
         )
         assert "data" in m.call_args[1]
-        assert m.call_args[1]["data"] == {"collectionId": "-1"}  # ie. Unsorted collection
+        assert m.call_args[1]["data"] == {
+            "collectionId": "-1",
+        }  # ie. Unsorted collection
 
         assert "files" in m.call_args[1]
         assert "file" in m.call_args[1]["files"]
@@ -96,6 +119,7 @@ def test_create_file() -> None:
 
 
 def test_update() -> None:
+    """Test ability to update an existing Raindrop."""
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": raindrop}
@@ -104,6 +128,7 @@ def test_update() -> None:
 
 
 def test_remove() -> None:
+    """Test ability to remove a Raindrop."""
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         Raindrop.remove(api, id=2000)

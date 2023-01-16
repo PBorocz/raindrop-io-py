@@ -25,68 +25,63 @@ ruff = "^0.0.223"
 pytest = "7.2.1"
 flake8 = "^6.0.0"
 
-[tool.black]
-line-length = 120
-target-version = ['py310']
-exclude = '''
-(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.mypy_cache
-    | \.pytest_cache
-    | \.tox
-    | \.venv
-    | _vm
-    | python-venv
-    | dist
-    | build
-    | _build
-)
-'''
-
-[tool.isort]
-line_length = 120
-profile = "black"
-skip = [".venv"]
-src_paths = "raindroppy"
-
-[tool.ruff]
-# NOTE: For now, we don't use Ruff (yet!).
-# Assume Python 3.10.*
-target-version = "py310"
-line-length = 120
-select = ["E", "F", "W", "I", "D"]
-# PEP8 Convention
-# For more info, see: https://github.com/charliermarsh/ruff#does-ruff-support-numpy--or-google-style-docstrings
-ignore = [
-    "D203",
-    "D212",
-    "D213",
-    "D214",
-    "D215",
-    "D404",
-    "D405",
-    "D406",
-    "D407",
-    "D408",
-    "D409",
-    "D410",
-    "D411",
-    "D413",
-    "D415",
-    "D416",
-    "D417",
-]
-
-[tool.ruff.mccabe]
-max-complexity = 10
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
     "unit: marks tests as runnable all the time, locally and fast.",
     "integration: tests that run against a live Raindrop environment, slower.",
 ]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+select = [
+       # Which Ruff suites are we running?
+       # (presented in order from the Ruff documentation page)
+       "F",                    # Pyflakes
+       "E", "W",               # Pycodestyle (Errors and Warnings respectively)
+       "C90",                  # Mccabe
+       "I",                    # Isort
+       "D",                    # Pydocstyle
+       # "UP",                 # pyupgrade
+       # "N",                  # pep8-naming
+       "YTT",                  # flake8-2020
+       # "ANN",                # flake8-annotations
+       # "S",                  # flake8-bandit
+       # "BLE",                # flake8-blind-except
+       # "FBT",                # flake8-boolean-trap
+       # "B",                  # flake8-bugbear
+       # "A",                  # flake8-builtins
+       # "C4",                 # flake8-comprehensions
+       # "T10",                # flake8-debugger
+       # "EM",                 # flake8-errmsg
+       # "ISC",                # flake8-implicit-str-concat
+       # "ICN",                # flake8-import-conventions
+       # "T20",                # flake8-print
+       # "PT",                 # flake8-pytest-style
+       # "Q",                  # flake8-quotes
+       # "RET",                # flake8-return
+       # "SIM",                # flake8-simplify
+       # "TID",                # flake8-tidy-imports
+       # "ARG",                # flake8-unused-arguments
+       # "DTZ",                # flake8-datetimez
+       # "ERA",                # eradicate
+       # "PD",                 # pandas-vet
+       # "PGH",                # pygrep-hooks
+       # "PLC, PLE, PLR, PLW", # Pylint
+       # "PIE",                # flake8-pie
+       "COM",                  # flake8-commas
+       # "RUF",                # Ruff-specific rules
+       ]
+ignore = ["D213", "E402"]
+
+[tool.ruff.pydocstyle]
+# For more info, see:
+# https://github.com/charliermarsh/ruff#does-ruff-support-numpy--or-google-style-docstrings
+convention = "google"
+
+[tool.ruff.mccabe]
+max-complexity = 13
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

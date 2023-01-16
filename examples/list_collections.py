@@ -1,4 +1,4 @@
-"""List all the collections associated with the token provided"""
+"""List all the collections associated with the token provided."""
 import os
 import sys
 

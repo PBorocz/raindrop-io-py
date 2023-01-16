@@ -18,10 +18,10 @@ class Spinner:
     def __init__(self, text: str = "Loading...") -> None:
         """Create pinner for user feedback during a time-consuming operation.
 
-        Args:
-            text (str): Text that will be shown after the spinner.
+        :param text: Text that will be shown after the spinner.
 
         Example:
+        -------
             with Spinner("Please wait, I'm doing some work..."):
                 do_something()
         """

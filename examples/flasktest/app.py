@@ -1,4 +1,4 @@
-"""Sample minimal Flask app demonstrating oAuth credential handling. WARNING: COMPLETELY UNTESTED!!!"""
+"""Sample minimal Flask app demonstrating oAuth credential handling. WARNING: COMPLETELY UNTESTED!!!."""
 #
 # Note: per Raindrop's API documentation, if you're only accessing
 # your own Raindrop environment, you do not need to do this, the
@@ -55,6 +55,7 @@ def create_oauth2session(*args: Any, **kwargs: Any) -> OAuth2Session:
 
 @app.route("/approved")
 def approved() -> str:
+    """Route called upon successful authentication."""
     oauth = create_oauth2session(CLIENT_ID, redirect_uri=REDIRECT_URI)
     code = request.args.get("code")
     token = oauth.fetch_token(
@@ -73,6 +74,7 @@ def approved() -> str:
 
 @app.route("/login")
 def login() -> Response:
+    """Route called once credentials have been gathered."""
     oauth = create_oauth2session(CLIENT_ID, redirect_uri=REDIRECT_URI)
     authorization_url, _ = oauth.authorization_url(API.URL_AUTHORIZE)
     return redirect(authorization_url)
@@ -80,6 +82,7 @@ def login() -> Response:
 
 @app.route("/")
 def index() -> str:
+    """Top-level route."""
     return render_template_string(INDEX)
 
 

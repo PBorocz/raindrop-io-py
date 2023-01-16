@@ -1,3 +1,4 @@
+"""Edit an existing Raindrop."""
 import os
 import sys
 
@@ -19,7 +20,11 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 
     # Update it's title (amongst other possibilities)
     print(f"Updating Raindrop: '{link}'...", flush=True, end="")
-    raindrop = Raindrop.update(api, id=raindrop.id, title="A Nicer Title for Link to Python.org")
+    raindrop = Raindrop.update(
+        api,
+        id=raindrop.id,
+        title="A Nicer Title for Link to Python.org",
+    )
     print(f"Done, title is now: {raindrop.title}.")
 
     # Cleanup

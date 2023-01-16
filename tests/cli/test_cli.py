@@ -1,3 +1,4 @@
+"""Starting point to test our CLI (nothing much here yet)."""
 from io import StringIO
 
 import pytest
@@ -5,19 +6,21 @@ import rich
 from prompt_toolkit import PromptSession
 
 from raindroppy.cli.cli import CLI
-from raindroppy.cli.commands import create  # "
-from raindroppy.cli.commands import manage  # ie. the modules themselves
-from raindroppy.cli.commands import search  # "
+from raindroppy.cli.commands import (
+    create,  # ie. the modules themselves
+    manage,  # "
+    search,  # "
+)
 
 
 @pytest.fixture
 def cli():
-    """Setup a test fixture of a CLI that captures all interaction internally"""
+    """Setup a test fixture of a CLI that captures all interaction internally."""
     return CLI(capture=StringIO())
 
 
 def tst_setup(cli):
-    """Did we get our console setup correctly and our banner out?"""
+    """Did we get our console setup correctly and our banner out?."""
     assert cli.console and isinstance(cli.console, rich.console.Console)
     console_output = cli.console.file.getvalue()
     assert "Welcome to RaindropPY" in console_output
@@ -27,6 +30,8 @@ mock_command_process_method_called = False
 
 
 def test_event_loop(cli, monkeypatch):
+    """Test that event loop returns the right prompt(s)."""
+
     def mock_session_response_exit(*args, **kwargs):
         return "exit"
 

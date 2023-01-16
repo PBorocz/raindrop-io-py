@@ -1,7 +1,8 @@
+"""Test all the methods in the Raindrop Collection API."""
 import datetime
 from unittest.mock import patch
 
-from raindroppy.api import API, AccessLevel, Collection, CollectionRef, SystemCollection, View
+from raindroppy.api import API, AccessLevel, Collection, SystemCollection, View
 
 collection = {
     "_id": 1000,
@@ -28,6 +29,7 @@ system_collection = {
 
 
 def test_get_roots() -> None:
+    """Test that we can get the "root" collections."""
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.get().json.return_value = {"items": [collection]}
@@ -39,9 +41,25 @@ def test_get_roots() -> None:
             assert c.color is None
             assert c.count == 0
             assert c.cover == []
-            assert c.created == datetime.datetime(2020, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc)
+            assert c.created == datetime.datetime(
+                2020,
+                1,
+                1,
+                0,
+                0,
+                0,
+                tzinfo=datetime.timezone.utc,
+            )
             assert c.expanded is False
-            assert c.lastUpdate == datetime.datetime(2020, 1, 2, 0, 0, 0, tzinfo=datetime.timezone.utc)
+            assert c.lastUpdate == datetime.datetime(
+                2020,
+                1,
+                2,
+                0,
+                0,
+                0,
+                tzinfo=datetime.timezone.utc,
+            )
             assert c.parent
             assert c.parent.id == 100
             assert c.public is False
@@ -51,7 +69,8 @@ def test_get_roots() -> None:
             assert c.view == View.list
 
 
-def test_get_childrens() -> None:
+def test_get_children() -> None:
+    """Test that we can get the "children" collections."""
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.get().json.return_value = {"items": [collection]}
@@ -60,6 +79,7 @@ def test_get_childrens() -> None:
 
 
 def test_get() -> None:
+    """Test that we can get a specific collection."""
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": collection}
@@ -68,6 +88,10 @@ def test_get() -> None:
 
 
 def test_update() -> None:
+    """Test that we can update an existing collection.
+
+    FIXME: Add test for trying to update non-existent collection
+    """
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": collection}
@@ -77,6 +101,10 @@ def test_update() -> None:
 
 
 def test_create() -> None:
+    """Test that we can create a new collection.
+
+    FIXME: Add test for trying to create a collection that's already there.
+    """
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": collection}
@@ -85,6 +113,10 @@ def test_create() -> None:
 
 
 def test_delete() -> None:
+    """Test that we can delete an existing collection.
+
+    FIXME: Add test for trying to delete a non-existent collection
+    """
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         Collection.remove(api, id=1000)
@@ -95,6 +127,7 @@ def test_delete() -> None:
 
 
 def test_get_system_collection_status() -> None:
+    """Test the call to the "get_status" method."""
     api = API("dummy")
     with patch("raindroppy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"items": [system_collection]}

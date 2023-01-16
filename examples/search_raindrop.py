@@ -1,3 +1,4 @@
+"""Example to show how to search across the Raindrop environment."""
 import os
 import sys
 from time import sleep
@@ -28,7 +29,12 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     title = "Our Benevolent Dictators Creation"
     print("Creating sample Raindrop...", flush=True, end="")
     try:
-        raindrop = Raindrop.create_link(api, link=link, title=title, tags=["abc", "def"])
+        raindrop = Raindrop.create_link(
+            api,
+            link=link,
+            title=title,
+            tags=["abc", "def"],
+        )
         print("Done.")
         print(f"{raindrop.id=}")
     except Exception as exc:
@@ -36,7 +42,11 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
         sys.exit(1)
 
     # Nothing is instantaneous...be nice to Raindrop and wait a bit...
-    print("Waiting 10 seconds for Raindrop's backend to complete indexing....", flush=True, end="")
+    print(
+        "Waiting 10 seconds for Raindrop's backend to complete indexing....",
+        flush=True,
+        end="",
+    )
     sleep(10)
     print("Ok")
 

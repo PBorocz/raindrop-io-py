@@ -1,5 +1,5 @@
 """Create a new Raindrop bookmark."""
-import urllib.request
+from http.client import HTTPConnection
 from pathlib import Path
 from time import sleep
 from typing import Any, Final, Optional
@@ -48,32 +48,56 @@ def _read_files(path_: Path) -> list[Path]:
 
 def __validate_url(url: str) -> Optional[str]:
     """Validate the url provided, returning a message if invalid, None otherwise"""
-    try:
-        parts = urlparse(url)
-        if all([parts.scheme, parts.netloc]):
-            if parts.scheme.lower() not in ("http", "https"):
-                return f"Sorry, URL provided {url} isn't valid (bad protocol)"
-            return None
-    except ValueError:
-        ...
-    return f"Sorry, URL provided {url} isn't valid."
+
+    def is_url_invalid(url: str) -> Optional[str]:
+        try:
+            parts = urlparse(url)
+            if all([parts.scheme, parts.netloc]):
+                if parts.scheme.lower() not in ("http", "https"):
+                    return f"Sorry, URL provided {url} isn't valid (bad protocol)"
+                return None
+        except ValueError:
+            ...
+        return "Sorry, that URL isn't in a valid format."
+
+    def is_site_invalid(url, timeout=2) -> Optional[str]:
+        """Validate that the url provided actually goes to a live site, return message if not."""
+        error = Exception("Sorry, unknown error encountered.")
+        parser = urlparse(url)
+        host = parser.netloc or parser.path.split("/")[0]
+        for port in (80, 443):
+            connection = HTTPConnection(host=host, port=port, timeout=timeout)
+            try:
+                connection.request("HEAD", "/")
+                return None
+            except Exception as e:
+                error = e
+            finally:
+                connection.close()
+        return f"Sorry, that URL isn't running now or doesn't exist, can you get to it in a browser? {error}"
+
+    with Spinner("Validating URL..."):
+        if msg := is_url_invalid(url):
+            return msg
+        if msg := is_site_invalid(url):
+            return msg
+        return None
 
 
 def __get_url(cli: CLI) -> Optional[str]:
     prompt = cli_prompt(("create", "url?"))
     while True:
         try:
-            response = cli.session.prompt(prompt, style=PROMPT_STYLE)
-            if response == "?" or response == "" or response is None:
+            url = cli.session.prompt(prompt, style=PROMPT_STYLE)
+            if url == "?" or url == "" or url is None:
                 cli.console.print("We need a valid URL here, eg. https://www.python.org")
-            elif response == "q":
+            elif url == "q":
                 return None
             else:
-                if (msg := __validate_url(response)) is None:
-                    return response
-                else:
+                if msg := __validate_url(url):
                     cli.console.print(msg)
-                    # And go back up for another try..
+                else:
+                    return url
         except (KeyboardInterrupt, EOFError):
             return None
 
@@ -82,13 +106,13 @@ def __get_title(cli: CLI) -> Optional[str]:
     prompt = cli_prompt(("create", "title?"))
     while True:
         try:
-            response = cli.session.prompt(prompt, style=PROMPT_STYLE)
-            if response == "?":
+            title = cli.session.prompt(prompt, style=PROMPT_STYLE)
+            if title == "?":
                 cli.console.print("We need a Bookmark title here, eg. 'This is an interesting bookmark'")
-            elif response == "q":
+            elif title == "q":
                 return None
             else:
-                return response
+                return title
         except (KeyboardInterrupt, EOFError):
             return None
 
@@ -97,13 +121,13 @@ def __get_file(cli: CLI) -> Optional[str]:
     prompt = cli_prompt(("create", "bulk", "upload file?"))
     while True:
         try:
-            response = cli.session.prompt(prompt, style=PROMPT_STYLE)
-            if response == "?":
+            file_ = cli.session.prompt(prompt, style=PROMPT_STYLE)
+            if file_ == "?":
                 cli.console.print("We need a path to a valid, TOML upload file, eg. '/Users/me/Download/upload.toml'")
-            elif response == "q":
+            elif file_ == "q":
                 return None
             else:
-                return response
+                return file_
         except (KeyboardInterrupt, EOFError):
             return None
 
@@ -147,6 +171,37 @@ def __get_confirmation(cli: CLI, prompt: str) -> bool:
         return False
 
 
+def _is_request_valid(cli: CLI, request: CreateRequest) -> bool:
+    """Return True iff the request is valid."""
+
+    # Error Check: Validate the existence of the specified file for
+    if request.file_path:
+        if not request.file_path.exists():
+            cli.console.print(f"Sorry, no file with name '{request.file_path}' exists.\n")
+            return False
+
+        # Validate the file type
+        if request.file_path.suffix not in CONTENT_TYPES:
+            cli.console.print(f"Sorry, file type {request.file_path.suffix} isn't yet supported by Raindrop.io.\n")
+            return False
+
+    # Error Check: Validate any tags associated with the request
+    if request.tags:
+        for tag in request.tags:
+            if tag.casefold() not in cli.state.tags:
+                cli.console.print(f"Sorry, {tag=} does not currently exist.\n")
+                return False
+
+    # Warning only: check for collection existence
+    if request.collection:
+        if cli.state.find_collection(request.collection) is None:
+            cli.console.print(
+                f"Collection '{request.collection}' doesn't exist " "in Raindrop, we'll be adding it from scratch.\n"
+            )
+
+    return True
+
+
 def _prompt_for_request(
     cli: CLI, file: bool = False, url: bool = False, dir_path: Optional[Path] = Path("~/Downloads/Raindrop")
 ) -> Optional[CreateRequest]:
@@ -160,6 +215,8 @@ def _prompt_for_request(
     if url:
         request.url = __get_url(cli)
         if request.url is None:
+            return None
+        if not _is_request_valid(cli, request):
             return None
     else:
         files = _read_files(dir_path.expanduser())
@@ -216,73 +273,6 @@ def _add_single(
     return True
 
 
-class NoRedirection(urllib.request.HTTPErrorProcessor):
-    def http_response(self, request, response):
-        return response
-
-    https_response = http_response
-
-
-def __validate_site(url: str) -> Optional[str]:
-    """Validate that the url provided actually goes to a live site, return message if not."""
-    # We don't want to follow redirects, thus, use the special error processor above
-    # Ref: https://stackoverflow.com/a/11744894/635040
-    # In case we get called before validate_url, do it here as well (it's fast)
-    if msg := __validate_url(url):
-        return msg
-
-    opener = urllib.request.build_opener(NoRedirection)
-    request = urllib.request.Request(url, method="HEAD")
-    try:
-        response = opener.open(request)
-        if response.status == 200:
-            return None
-    except urllib.error.URLError as exc:
-        return f"Sorry, that URL isn't running now or doesn't exist, can you get to it in a browser? {exc.reason}"
-
-
-def _validate_request(cli: CLI, request: CreateRequest) -> bool:
-    """Return True iff the request is valid."""
-
-    # Error Check: Validate the existence of the specified file for
-    if request.file_path:
-        if not request.file_path.exists():
-            cli.console.print(f"Sorry, no file with name '{request.file_path}' exists.\n")
-            return False
-
-        # Validate the file type
-        if request.file_path.suffix not in CONTENT_TYPES:
-            cli.console.print(f"Sorry, file type {request.file_path.suffix} isn't yet supported by Raindrop.io.\n")
-            return False
-
-    if request.url:
-        # Error Check: Validate the URL provided
-        if msg := __validate_url(request.url):
-            cli.console.print(msg)
-            return False
-
-        # Error Check: Validate that the site is actually "there"
-        if msg := __validate_site(request.url):
-            cli.console.print(msg)
-            return False
-
-    # Error Check: Validate any tags associated with the request
-    if request.tags:
-        for tag in request.tags:
-            if tag.casefold() not in cli.state.tags:
-                cli.console.print(f"Sorry, {tag=} does not currently exist.\n")
-                return False
-
-    # Warning only: check for collection existence
-    if request.collection:
-        if cli.state.find_collection(request.collection) is None:
-            cli.console.print(
-                f"Collection '{request.collection}' doesn't exist " "in Raindrop, we'll be adding it from scratch.\n"
-            )
-
-    return True
-
-
 def _add_bulk(cli: CLI) -> None:
 
     while True:  # ie, Until we get a valid file..
@@ -301,7 +291,7 @@ def _add_bulk(cli: CLI) -> None:
             ]
 
         # Filter down to only valid entries:
-        requests: list[CreateRequest] = [req for req in requests if _validate_request(cli, req)]
+        requests: list[CreateRequest] = [req for req in requests if _is_request_valid(cli, req)]
         if not requests:
             cli.console.print("Sorry, no valid requests found.\n")
             break
@@ -315,7 +305,7 @@ def _add_bulk(cli: CLI) -> None:
 
 
 def iteration(cli: CLI):
-    options: Final = ["file", "url", "bulk", "back", "."]
+    options: Final = ["url", "file", "bulk", "back", "."]
     cli.console.print(options_as_help(options))
     response = cli.session.prompt(
         cli_prompt(("create",)),

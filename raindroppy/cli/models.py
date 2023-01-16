@@ -32,12 +32,14 @@ class RaindropState:
         return sorted(titles)
 
     def find_collection(self, title: str) -> Optional[Collection]:
+        """Find the actual Collection object with the title provided."""
         for collection in self.collections:
             if title.casefold() == collection.title.casefold():
                 return collection
         return None
 
     def find_collection_by_id(self, id: int) -> Optional[Collection]:
+        """Find the actual Collection object with the *id* provided."""
         for collection in self.collections:
             if collection.id == id:
                 return collection
@@ -84,7 +86,6 @@ class RaindropState:
     @classmethod
     def factory(cls, verbose: bool = True) -> RaindropState:
         """Factory to log into Raindrop and return a new RaindropState instance."""
-
         with Spinner("Logging into Raindrop..."):
 
             # Setup our connection to Raindrop
@@ -114,7 +115,7 @@ class CreateRequest:
     file_path: Path = None  # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
 
     def name(self) -> str:
-        """Return a user viewable name for request irrespective of type"""
+        """Return a user viewable name for request irrespective of type."""
         if self.title:
             return self.title
         if self.url:
@@ -158,6 +159,7 @@ class CreateRequest:
         return request
 
     def __str__(self):
+        """Render a collection as a string (mostly for display)."""
         return_ = list()
         if self.title:
             return_.append(f"Title      : {self.title}")

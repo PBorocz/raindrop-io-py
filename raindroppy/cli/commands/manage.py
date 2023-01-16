@@ -12,7 +12,7 @@ from raindroppy.cli.cli import CLI
 
 
 def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:
-    """Return the total number of Raindrops *associated with named collections*"""
+    """Return the total number of Raindrops *associated with named collections*."""
     return sum([collection.count for collection in collections if collection.id > 0])
 
 
@@ -70,7 +70,7 @@ def _show_tags(cli: CLI) -> None:
 
 
 def show_help(cli: CLI) -> None:
-    """Display help about this set of commands"""
+    """Display help about this set of commands."""
     cli.console.print("status      : Show current status of Raindrop API connection.")
     cli.console.print("collections : Display the Collections currently defined along with count of Raindrops in each.")
     cli.console.print("tags        : Display the Tags currently defined.")

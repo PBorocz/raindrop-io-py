@@ -18,7 +18,6 @@ from raindroppy.cli.spinner import Spinner
 
 def _create_file(api: API, request: CreateRequest) -> bool:
     """Create a FILE-based Raindrop."""
-
     args: dict[str, Any] = {}
     if request.title:
         args["title"] = request.title
@@ -47,7 +46,7 @@ def _read_files(path_: Path) -> list[Path]:
 
 
 def __validate_url(url: str) -> Optional[str]:
-    """Validate the url provided, returning a message if invalid, None otherwise"""
+    """Validate the url provided, returning a message if invalid, None otherwise."""
 
     def is_url_invalid(url: str) -> Optional[str]:
         try:
@@ -173,7 +172,6 @@ def __get_confirmation(cli: CLI, prompt: str) -> bool:
 
 def _is_request_valid(cli: CLI, request: CreateRequest) -> bool:
     """Return True iff the request is valid."""
-
     # Error Check: Validate the existence of the specified file for
     if request.file_path:
         if not request.file_path.exists():
@@ -249,7 +247,6 @@ def _add_single(
     cli: CLI, file: bool = False, url: bool = False, request: CreateRequest = None, interstitial: int = 1
 ) -> bool:
     """Create either a link or file-based Raindrop, if we don't have a request yet, get one."""
-
     assert (file or url) or request, "Sorry, either a file/url flag or an create request is required"
     if not request:
         request: CreateRequest = _prompt_for_request(cli, file=file, url=url)
@@ -305,6 +302,7 @@ def _add_bulk(cli: CLI) -> None:
 
 
 def iteration(cli: CLI):
+    """Run a single iteration of our command/event-loop."""
     options: Final = ["url", "file", "bulk", "back", "."]
     cli.console.print(options_as_help(options))
     response = cli.session.prompt(

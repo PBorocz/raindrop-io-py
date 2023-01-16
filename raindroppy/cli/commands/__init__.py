@@ -1,3 +1,5 @@
+"""Top level cli.commands dunder init, mostly common methods."""
+
 from typing import Final, Optional
 
 from prompt_toolkit.completion import WordCompleter
@@ -7,6 +9,7 @@ from raindroppy.cli.cli import CLI
 
 
 def get_from_list(cli: CLI, prompt_s: tuple[str], options: tuple[str]) -> Optional[str]:
+    """Mini-event loop to prompt for one or more selected options from the list provided."""
     completer: Final = WordCompleter(options)
     while True:
         try:

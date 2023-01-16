@@ -25,7 +25,6 @@ class SearchRequest:
 
 def __prompt_search_terms(cli: CLI) -> tuple[bool, Optional[str]]:
     """Prompt for all user response to perform a search, or None if user quits."""
-
     # What tag(s) to search for?
     search_tags = [f"#{tag}" for tag in cli.state.tags]
     completer = WordCompleter(search_tags)
@@ -51,7 +50,7 @@ def __prompt_search_terms(cli: CLI) -> tuple[bool, Optional[str]]:
 
 
 def _prompt_search(cli: CLI) -> SearchRequest:
-    """Prompt for all responses necessary for a search, ie. terms and collections"""
+    """Prompt for all responses necessary for a search, ie. terms and collections."""
     quit, search = __prompt_search_terms(cli)
     if quit:
         return None
@@ -75,7 +74,7 @@ def __do_search_in_collection(cli: CLI, request: SearchRequest) -> list[Raindrop
 
 
 def _do_search(cli: CLI, request: SearchRequest) -> Optional[list[Raindrop]]:
-    """Search across none, one or many collections for the respective search terms"""
+    """Search across none, one or many collections for the respective search terms."""
     return_ = list()
     if request.collection_s:
         for collection_title in request.collection_s:
@@ -110,7 +109,6 @@ def _display_results(cli: CLI, request: SearchRequest, raindrops: list[Raindrop]
 
 def process(cli: CLI) -> None:
     """Top-level UI Controller for searching for bookmark(s)."""
-
     while True:
         request = _prompt_search(cli)
         if request is None:

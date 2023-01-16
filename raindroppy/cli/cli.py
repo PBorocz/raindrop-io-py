@@ -25,7 +25,7 @@ def _get_user_history_path() -> Path:
 
 
 class CLI:
-    """Top-level command-line interface controller/command-loop"""
+    """Top-level command-line interface controller/command-loop."""
 
     text_goodbye = "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"
 
@@ -52,7 +52,7 @@ class CLI:
         self._display_startup_banner()
 
     def iteration(self):
-
+        """Run a single iteration of our command/event-loop."""
         options = ["search", "create", "manage", "exit", "quit", "."]
 
         self.console.print(options_as_help(options))

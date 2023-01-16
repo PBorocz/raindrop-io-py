@@ -1,15 +1,16 @@
-"""Display help"""
+"""Display help."""
 from rich.table import Table
 
 from raindroppy.cli.cli import CLI
 
 
 def process(cli: CLI) -> None:
-    """Controller to display help"""
+    """Controller to display help."""
     cli.console.print("Help is here, never fear!")
 
 
 def help_search(cli: CLI) -> None:
+    """Render and display search help."""
     contents = (
         ("apple iphone", "Find items that contains such words in title, description, domain or in web page content"),
         ("#coffee", "Find items that have a certain tag"),

@@ -1,4 +1,4 @@
-"""Spinner capability"""
+"""Spinner capability."""
 #
 # Inspired from beaupy (thanks Peter Výboch!) using underlying Rich-based "Live" class.
 #
@@ -10,7 +10,7 @@ ARC = ["◜", "◠", "◝", "◞", "◡", "◟"]
 
 
 class Spinner:
-    """Rich-based CLI progress spinner as a Context Manager"""
+    """Rich-based CLI progress spinner as a Context Manager."""
 
     _spinner_characters: cycle
     _live_display: Live
@@ -34,9 +34,9 @@ class Spinner:
         )
 
     def __enter__(self):
-        """Starts the spinner"""
+        """Starts the spinner."""
         self._live_display.start()
 
     def __exit__(self, exc_type, exc_value, exc_tb):
-        """Stops the spinner"""
+        """Stops the spinner."""
         self._live_display.stop()

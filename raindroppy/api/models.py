@@ -124,7 +124,7 @@ class Collection(DictModel):
 
     @classmethod
     def get_collections(cls, api: API) -> Sequence[Collection]:
-        """Utility method for query *ALL* collections
+        """Utility method for query *ALL* collections.
 
         Ie. hiding the distinction between "root" and "child"
         collections.
@@ -294,10 +294,10 @@ class SystemCollection(DictModel):
 
     @classmethod
     def get_status(cls, api: API) -> User:
-        """Get the title and counts of Raindrops across all 3 "system" collections"""
+        """Get the title and counts of Raindrops across all 3 "system" collections."""
 
         def _add_title(item: dict) -> dict:
-            """Add the title (since we don't get from the API)"""
+            """Add the title (since we don't get from the API)."""
             item["title"] = cls.CollectionRefsTitles[item["_id"]]
             return item
 
@@ -452,7 +452,6 @@ class Raindrop(DictModel):
         link: Optional[str] = None,
     ) -> Raindrop:
         """Update an existing Raindrop bookmark with any of the attribute values provided."""
-
         # Setup args to be sent to Raindrop..
         args: dict[str, Any] = {}
         if pleaseParse:

@@ -3,7 +3,7 @@ import os
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Callable, TypeVar, Union
+from typing import Callable, Optional, TypeVar, Union
 
 from raindroppy.api import API, Access, Collection, CollectionRef, SystemCollection, Tag, User
 from raindroppy.cli.spinner import Spinner
@@ -27,9 +27,15 @@ class RaindropState:
         """Return a sorted list of Collection titles, *without* 'Unsorted'."""
         return sorted([collection.title for collection in self.collections if collection.id > 0])
 
-    def find_collection(self, title):
+    def find_collection(self, title: str) -> Optional[Collection]:
         for collection in self.collections:
             if title.casefold() == collection.title.casefold():
+                return collection
+        return None
+
+    def find_collection_by_id(self, id: int) -> Optional[Collection]:
+        for collection in self.collections:
+            if collection.id == id:
                 return collection
         return None
 
@@ -48,7 +54,6 @@ class RaindropState:
             # only an id, title and count)
             collections: list[Collection] = [root for root in Collection.get_roots(self.api)]
             collections.extend([child for child in Collection.get_childrens(self.api)])
-
             for collection in SystemCollection.get_status(self.api):
                 if collection.id == CollectionRef.Unsorted.id:
                     access = Access({"level": 4})

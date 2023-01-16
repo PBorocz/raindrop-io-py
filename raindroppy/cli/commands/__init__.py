@@ -12,19 +12,15 @@ def get_from_list(cli: CLI, prompt_s: tuple[str], options: tuple[str]) -> Option
     """Mini-event loop to prompt for one or more selected options from the list provided."""
     completer: Final = WordCompleter(options)
     while True:
-        try:
-            response = cli.session.prompt(
-                cli_prompt(prompt_s),  # ("create", "url", f"{prompt}?"))
-                completer=completer,
-                style=PROMPT_STYLE,
-                complete_while_typing=True,
-                enable_history_search=False,
-            )
-            if response == "?":
-                cli.console.print(", ".join(options))
-            else:
-                break
-        except (KeyboardInterrupt, EOFError):
-            return None
-
+        response = cli.session.prompt(
+            cli_prompt(prompt_s),  # ("create", "url", f"{prompt}?"))
+            completer=completer,
+            style=PROMPT_STYLE,
+            complete_while_typing=True,
+            enable_history_search=False,
+        )
+        if response == "?":
+            cli.console.print(", ".join(options))
+        else:
+            break
     return response

@@ -90,35 +90,32 @@ def process(cli: CLI) -> None:
         completer: Final = WordCompleter(options)
 
         while True:
-            try:
-                cli.console.print(options_as_help(options))
-                response = cli.session.prompt(
-                    cli_prompt(("manage",)),
-                    completer=completer,
-                    style=PROMPT_STYLE,
-                    complete_while_typing=True,
-                    enable_history_search=False,
-                )
-                # Special cases...
-                if response.casefold() in ("back", "."):
-                    return None
-                elif response.casefold() in ("h", "help"):
-                    show_help(cli)
-
-                # Normal cases
-                elif response.casefold() in ("?",):
-                    cli.console.print(options_as_help(options))
-                elif response.casefold() == "status":
-                    _show_status(cli)
-                elif response.casefold() == "collections":
-                    _show_collections(cli)
-                elif response.casefold() == "tags":
-                    _show_tags(cli)
-                elif response.casefold() == "refresh":
-                    cli.state.refresh()
-                else:
-                    cli.console.print(
-                        f"Sorry, must be one of {options_as_help(options)}",
-                    )
-            except (KeyboardInterrupt, EOFError):
+            cli.console.print(options_as_help(options))
+            response = cli.session.prompt(
+                cli_prompt(("manage",)),
+                completer=completer,
+                style=PROMPT_STYLE,
+                complete_while_typing=True,
+                enable_history_search=False,
+            )
+            # Special cases...
+            if response.casefold() in ("back", "."):
                 return None
+            elif response.casefold() in ("h", "help"):
+                show_help(cli)
+
+            # Normal cases
+            elif response.casefold() in ("?",):
+                cli.console.print(options_as_help(options))
+            elif response.casefold() == "status":
+                _show_status(cli)
+            elif response.casefold() == "collections":
+                _show_collections(cli)
+            elif response.casefold() == "tags":
+                _show_tags(cli)
+            elif response.casefold() == "refresh":
+                cli.state.refresh()
+            else:
+                cli.console.print(
+                    f"Sorry, must be one of {options_as_help(options)}",
+                )

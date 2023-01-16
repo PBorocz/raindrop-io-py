@@ -38,5 +38,4 @@ repos:
   hooks:
   - id: ruff
     name: Running Ruff
-    args: ["--config=pyproject.toml", "--fix"]
-    entry: .venv/bin/ruff raindroppy/
+    args: ["--config=pyproject.toml", "--fix", "raindroppy/"]

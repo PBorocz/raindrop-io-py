@@ -1,4 +1,5 @@
 """Top level command-line interface controller."""
+import sys
 from io import StringIO
 from pathlib import Path
 
@@ -8,7 +9,13 @@ from prompt_toolkit.history import FileHistory
 from pyfiglet import Figlet
 from rich.console import Console
 
-from raindroppy.cli import PROMPT_STYLE, cli_prompt, make_italic, options_as_help
+from raindroppy.cli import (
+    PROMPT_STYLE,
+    cli_prompt,
+    goodbye,
+    make_italic,
+    options_as_help,
+)
 from raindroppy.cli.models import RaindropState
 
 
@@ -27,17 +34,13 @@ def _get_user_history_path() -> Path:
 class CLI:
     """Top-level command-line interface controller/command-loop."""
 
-    text_goodbye = (
-        "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...!\n[/]"
-    )
-
     def _display_startup_banner(self) -> None:
         banner: str = "RaindropPY"
         welcome: str = (
             f"""Welcome to RaindropPY!\n"""
             f"""{make_italic('<tab>')} to complete; """
             f"""{make_italic('help')} for help; """
-            f"""{make_italic('Ctrl-D')} or {make_italic('q')} to exit."""
+            f"""{make_italic('Ctrl-D')}, {make_italic('exit')} or '.' to exit."""
         )
         # We can't use self.console.print as the special characters will be interpreted by Rich.
         print(Figlet(font="standard").renderText(banner))
@@ -55,7 +58,7 @@ class CLI:
 
     def iteration(self):
         """Run a single iteration of our command/event-loop."""
-        options = ["search", "create", "manage", "exit", "quit", "."]
+        options = ["search", "create", "manage", "exit", "."]
 
         self.console.print(options_as_help(options))
 
@@ -108,5 +111,5 @@ class CLI:
             try:
                 self.iteration()
             except (KeyboardInterrupt, EOFError):
-                self.console.print(CLI.text_goodbye)
-                break
+                goodbye(self.console)
+                sys.exit(0)

@@ -30,23 +30,21 @@ def __prompt_search_terms(cli: CLI) -> tuple[bool, Optional[str]]:
     completer = WordCompleter(search_tags)
 
     while True:
-        try:
-            response = cli.session.prompt(
-                cli_prompt(("search for?",)),
-                completer=completer,
-                style=PROMPT_STYLE,
-                complete_while_typing=True,
-                enable_history_search=False,
-            )
-            if response == "?":
-                help_search(cli)
-            elif response in ("q", "."):
-                return True, None
-            elif response:
-                return False, response
-            # Otherwise, we fall through and try again, we need *some* search terms!
-        except (KeyboardInterrupt, EOFError):
+        response = cli.session.prompt(
+            cli_prompt(("search term(s)?",)),
+            completer=completer,
+            style=PROMPT_STYLE,
+            complete_while_typing=True,
+            enable_history_search=False,
+        )
+        if response == "?":
+            help_search(cli)
+        elif response in ("q", "."):
             return True, None
+        elif response:
+            return False, response
+
+        # Otherwise, we fall through and try again, we need *some* search terms!
 
 
 def _prompt_search(cli: CLI) -> SearchRequest:

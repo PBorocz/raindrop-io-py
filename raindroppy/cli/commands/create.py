@@ -9,7 +9,12 @@ from prompt_toolkit.completion import WordCompleter
 from tomli import load
 
 from raindroppy.api import API, Collection, Raindrop
-from raindroppy.cli import CONTENT_TYPES, PROMPT_STYLE, cli_prompt, options_as_help
+from raindroppy.cli import (
+    CONTENT_TYPES,
+    PROMPT_STYLE,
+    cli_prompt,
+    options_as_help,
+)
 from raindroppy.cli.cli import CLI
 from raindroppy.cli.commands import get_from_list
 from raindroppy.cli.models import CreateRequest
@@ -92,55 +97,46 @@ def __validate_url(url: str) -> Optional[str]:
 def __get_url(cli: CLI) -> Optional[str]:
     prompt = cli_prompt(("create", "url?"))
     while True:
-        try:
-            url = cli.session.prompt(prompt, style=PROMPT_STYLE)
-            if url == "?" or url == "" or url is None:
-                cli.console.print(
-                    "We need a valid URL here, eg. https://www.python.org",
-                )
-            elif url == "q":
-                return None
-            else:
-                if msg := __validate_url(url):
-                    cli.console.print(msg)
-                else:
-                    return url
-        except (KeyboardInterrupt, EOFError):
+        url = cli.session.prompt(prompt, style=PROMPT_STYLE)
+        if url == "?" or url == "" or url is None:
+            cli.console.print(
+                "We need a valid URL here, eg. https://www.python.org",
+            )
+        elif url == "q":
             return None
+        else:
+            if msg := __validate_url(url):
+                cli.console.print(msg)
+            else:
+                return url
 
 
 def __get_title(cli: CLI) -> Optional[str]:
     prompt = cli_prompt(("create", "title?"))
     while True:
-        try:
-            title = cli.session.prompt(prompt, style=PROMPT_STYLE)
-            if title == "?":
-                cli.console.print(
-                    "We need a Bookmark title here, eg. 'This is an interesting bookmark'",
-                )
-            elif title == "q":
-                return None
-            else:
-                return title
-        except (KeyboardInterrupt, EOFError):
+        title = cli.session.prompt(prompt, style=PROMPT_STYLE)
+        if title == "?":
+            cli.console.print(
+                "We need a Bookmark title here, eg. 'This is an interesting bookmark'",
+            )
+        elif title == "q":
             return None
+        else:
+            return title
 
 
 def __get_file(cli: CLI) -> Optional[str]:
     prompt = cli_prompt(("create", "bulk", "upload file?"))
     while True:
-        try:
-            file_ = cli.session.prompt(prompt, style=PROMPT_STYLE)
-            if file_ == "?":
-                cli.console.print(
-                    "We need a path to a valid, TOML upload file, eg. '/Users/me/Download/upload.toml'",
-                )
-            elif file_ == "q":
-                return None
-            else:
-                return file_
-        except (KeyboardInterrupt, EOFError):
+        file_ = cli.session.prompt(prompt, style=PROMPT_STYLE)
+        if file_ == "?":
+            cli.console.print(
+                "We need a path to a valid, TOML upload file, eg. '/Users/me/Download/upload.toml'",
+            )
+        elif file_ == "q":
             return None
+        else:
+            return file_
 
 
 def __get_from_files(cli: CLI, options: list[Path]) -> Optional[str]:
@@ -150,20 +146,17 @@ def __get_from_files(cli: CLI, options: list[Path]) -> Optional[str]:
     for ith, fp_ in enumerate(options):
         cli.console.print(f"{ith:2d} {fp_.name}")
     while True:
-        try:
-            response = cli.session.prompt(
-                prompt,
-                completer=completer,
-                style=PROMPT_STYLE,
-                complete_while_typing=True,
-                enable_history_search=False,
-            )
-            if response == "?":
-                cli.console.print(", ".join(options))
-            else:
-                break
-        except (KeyboardInterrupt, EOFError):
-            return None
+        response = cli.session.prompt(
+            prompt,
+            completer=completer,
+            style=PROMPT_STYLE,
+            complete_while_typing=True,
+            enable_history_search=False,
+        )
+        if response == "?":
+            cli.console.print(", ".join(options))
+        else:
+            break
 
     return options[int(response)]
 
@@ -172,21 +165,18 @@ def __get_confirmation(cli: CLI, prompt: str) -> bool:
     prompt: Final = [("class:prompt", "\nIs this correct? ")]
     options: Final = ["yes", "Yes", "No", "no"]
     completer: Final = WordCompleter(options)
-    try:
-        response = cli.session.prompt(
-            prompt,
-            completer=completer,
-            style=PROMPT_STYLE,
-            complete_while_typing=True,
-            enable_history_search=False,
-        )
-        if response == "q":
-            return None
-        else:
-            if response.lower() in ["yes", "y", "ye"]:
-                return True
-            return False
-    except (KeyboardInterrupt, EOFError):
+    response = cli.session.prompt(
+        prompt,
+        completer=completer,
+        style=PROMPT_STYLE,
+        complete_while_typing=True,
+        enable_history_search=False,
+    )
+    if response == "q":
+        return None
+    else:
+        if response.lower() in ["yes", "y", "ye"]:
+            return True
         return False
 
 
@@ -348,8 +338,11 @@ def _add_bulk(cli: CLI) -> None:
         return sum([_add_single(cli, None, request) for request in requests])
 
 
-def iteration(cli: CLI):
-    """Run a single iteration of our command/event-loop."""
+def iteration(cli: CLI) -> bool:
+    """Run a single iteration of our command/event-loop.
+
+    Returns True if we're done, otherwise, keep asking for 'create's.
+    """
     options: Final = ["url", "file", "bulk", "back", "."]
     cli.console.print(options_as_help(options))
     response = cli.session.prompt(
@@ -361,19 +354,23 @@ def iteration(cli: CLI):
     )
 
     if response.casefold() in ("back", "."):
-        return None
+        return False
 
     elif response.casefold() in ("?",):
         cli.console.print(options_as_help(options))
+        return True
 
     elif response.casefold() == "bulk":
         _add_bulk(cli)
+        return True
 
     elif response.casefold() == "file":
         _add_single(cli, file=True)
+        return True
 
     elif response.casefold() == "url":
         _add_single(cli, url=True)
+        return True
 
     else:
         cli.console.print(f"Sorry, must be one of {', '.join(options)}.")
@@ -381,8 +378,5 @@ def iteration(cli: CLI):
 
 def process(cli: CLI) -> None:
     """Controller for adding bookmark(s) from the terminal."""
-    while True:
-        try:
-            iteration(cli)
-        except (KeyboardInterrupt, EOFError):
-            return None
+    while iteration(cli):
+        ...

@@ -1,4 +1,5 @@
 """Top level CLI dunder init, primarily constants used across all commands."""
+import sys
 from typing import Final
 
 from prompt_toolkit.styles import Style
@@ -43,3 +44,11 @@ def make_italic(str_):
 def options_as_help(options: list[str]) -> str:
     """Return the list of options in a nice format for display."""
     return ", ".join([make_italic(option) for option in options])
+
+
+def goodbye(console) -> None:
+    """Called on successful exit from any command/event-loop."""
+    console.print(
+        "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...![/]\n",
+    )
+    sys.exit(0)

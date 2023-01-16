@@ -23,9 +23,13 @@ class RaindropState:
     tags: list[str] = None
     refreshed: datetime = None
 
-    def get_collection_titles(self) -> list[str]:
-        """Return a sorted list of Collection titles, *without* 'Unsorted'."""
-        return sorted([collection.title for collection in self.collections if collection.id > 0])
+    def get_collection_titles(self, exclude_unsorted=False) -> list[str]:
+        """Return a sorted list of Collection titles, with or without 'Unsorted'."""
+        if exclude_unsorted:
+            titles = [collection.title for collection in self.collections if collection.id > 0]
+        else:
+            titles = [collection.title for collection in self.collections]
+        return sorted(titles)
 
     def find_collection(self, title: str) -> Optional[Collection]:
         for collection in self.collections:

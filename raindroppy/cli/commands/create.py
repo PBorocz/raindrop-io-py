@@ -171,7 +171,9 @@ def _prompt_for_request(
         return None
 
     # These are the same across raindrop types:
-    request.collection = get_from_list(cli, ("create", "collection"), list(cli.state.get_collection_titles()))
+    request.collection = get_from_list(
+        cli, ("create", "collection"), list(cli.state.get_collection_titles(exclude_unsorted=True))
+    )
     if request.collection is None:
         return None
 

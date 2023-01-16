@@ -57,7 +57,9 @@ def _prompt_search(cli: CLI) -> SearchRequest:
         return None
 
     # What collection(s) to search across?
-    collection_s = get_from_list(cli, ("search", "in collection(s)?"), cli.state.get_collection_titles())
+    collection_s = get_from_list(
+        cli, ("search", "in collection(s)?"), cli.state.get_collection_titles(exclude_unsorted=False)
+    )
 
     return SearchRequest(search, collection_s.split())
 

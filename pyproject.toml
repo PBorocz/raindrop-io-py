@@ -21,8 +21,8 @@ rich = "^13.1.0"
 PySnooper = "^1.1.1"
 python-language-server = "^0.36.2"
 pre-commit = "^2.21.0"
-ruff = "^0.0.200"
-pytest = "7.2.0"
+ruff = "^0.0.223"
+pytest = "7.2.1"
 flake8 = "^6.0.0"
 
 [tool.black]
@@ -51,11 +51,11 @@ skip = [".venv"]
 src_paths = "raindroppy"
 
 [tool.ruff]
-# For now, we don't use Ruff (yet!).
+# NOTE: For now, we don't use Ruff (yet!).
+# Assume Python 3.10.*
+target-version = "py310"
 line-length = 120
-
 select = ["E", "F", "W", "I", "D"]
-
 # PEP8 Convention
 # For more info, see: https://github.com/charliermarsh/ruff#does-ruff-support-numpy--or-google-style-docstrings
 ignore = [
@@ -77,9 +77,6 @@ ignore = [
     "D416",
     "D417",
 ]
-
-# Assume Python 3.10.*
-target-version = "py310"
 
 [tool.ruff.mccabe]
 max-complexity = 10

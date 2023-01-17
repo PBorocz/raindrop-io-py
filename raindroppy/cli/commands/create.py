@@ -343,7 +343,7 @@ def iteration(cli: CLI) -> bool:
 
     Returns True if we're done, otherwise, keep asking for 'create's.
     """
-    options: Final = ["url", "file", "bulk", "back", "."]
+    options: Final = ["url", "file", "multiple", "back", "."]
     cli.console.print(options_as_help(options))
     response = cli.session.prompt(
         cli_prompt(("create",)),
@@ -360,16 +360,16 @@ def iteration(cli: CLI) -> bool:
         cli.console.print(options_as_help(options))
         return True
 
-    elif response.casefold() == "bulk":
-        _add_bulk(cli)
+    elif response.casefold() == "url":
+        _add_single(cli, url=True)
         return True
 
     elif response.casefold() == "file":
         _add_single(cli, file=True)
         return True
 
-    elif response.casefold() == "url":
-        _add_single(cli, url=True)
+    elif response.casefold() == "multiple":
+        _add_bulk(cli)
         return True
 
     else:

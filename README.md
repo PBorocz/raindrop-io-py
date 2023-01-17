@@ -22,7 +22,7 @@ However, the command-line interface (CLI) is brand new and lacking tests. Thus, 
 
 ## Install
 
-Until I learn how to "package" and distribute to PyPI, please use directly from this repo. _Ultimately_, you'll be able to:
+Until I learn how to "package" and distribute to PyPI, **please use directly from this repo**. _Ultimately_, you'll be able to:
 
 ```shell
 pip3 install raindroppy
@@ -71,7 +71,7 @@ from raindroppy.api import API, Raindrop
 
 load_dotenv()
 
-with API(os.environ["RAINDROP_TOKEN"]) as api:
+with API(os.environ["RAINDROP_TEST_OKEN"]) as api:
     link, title = "https://www.python.org/", "Our Benevolent Dictator's Creation"
     print(f"Creating Raindrop to: '{link}' with title: '{title}'...", flush=True, end="")
     
@@ -93,7 +93,7 @@ from raindroppy.api import API, Collection
 
 load_dotenv()
 
-with API(os.environ["RAINDROP_TOKEN"]) as api:
+with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
     
     title = f"TEST Collection ({getuser()}@{datetime.now():%Y-%m-%dT%H:%M:%S})"
     print(f"Creating collection: '{title}'...", flush=True, end="")
@@ -120,6 +120,14 @@ with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
         for item in items:
             print(f"{item.title=}")
         page += 1
+```
+
+## Command-Line Interface Usage
+
+I'm using the *entry-point* method to run the CLI. Thus, from the root directory with a virtual-env activated and packages installed, I use the following:
+
+```shell
+% python -m raindroppy.cli
 ```
 
 ## Acknowledgments

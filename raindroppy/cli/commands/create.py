@@ -343,7 +343,7 @@ def iteration(cli: CLI) -> bool:
 
     Returns True if we're done, otherwise, keep asking for 'create's.
     """
-    options: Final = ["url", "file", "multiple", "back", "."]
+    options: Final = ["(u)rl", "(f)ile", "(m)ultiple", "(b)ack or ."]
     cli.console.print(options_as_help(options))
     response = cli.session.prompt(
         cli_prompt(("create",)),
@@ -353,22 +353,22 @@ def iteration(cli: CLI) -> bool:
         enable_history_search=False,
     )
 
-    if response.casefold() in ("back", "."):
+    if response.casefold() in ("back", "b", "."):
         return False
 
     elif response.casefold() in ("?",):
         cli.console.print(options_as_help(options))
         return True
 
-    elif response.casefold() == "url":
+    elif response.casefold() in ("url", "u"):
         _add_single(cli, url=True)
         return True
 
-    elif response.casefold() == "file":
+    elif response.casefold() in ("file", "f"):
         _add_single(cli, file=True)
         return True
 
-    elif response.casefold() == "multiple":
+    elif response.casefold() in ("multiple", "m"):
         _add_bulk(cli)
         return True
 

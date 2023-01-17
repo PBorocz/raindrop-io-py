@@ -38,7 +38,7 @@ class CLI:
         banner: str = "RaindropPY"
         welcome: str = (
             f"""Welcome to RaindropPY!\n"""
-            f"""{make_italic('<tab>')} to complete; """
+            f"""{make_italic('<tab>')} to show options/complete; """
             f"""{make_italic('help')} for help; """
             f"""{make_italic('Ctrl-D')}, {make_italic('exit')} or '.' to exit."""
         )
@@ -58,7 +58,7 @@ class CLI:
 
     def iteration(self):
         """Run a single iteration of our command/event-loop."""
-        options = ["search", "create", "manage", "exit", "."]
+        options = ["(s)earch", "(c)reate", "(m)anage", "(e)xit", "."]
 
         self.console.print(options_as_help(options))
 
@@ -70,7 +70,7 @@ class CLI:
             enable_history_search=False,
         )
 
-        if response.casefold() in ("exit", "bye", "quit", "."):
+        if response.casefold() in ("exit", "e", "quit", "q", "."):
             raise KeyboardInterrupt  # Quick way out...
 
         elif response.casefold() in ("?",):
@@ -83,16 +83,16 @@ class CLI:
         # We have a valid command, bring in the right module (yes, statically)
         # and dispatch appropriately.
         process_method = None
-        if response.casefold() in ("help",):
+        if response.casefold() in ("help", "h"):
             from raindroppy.cli.commands.help import process as process_method
 
-        elif response.casefold() in ("search",):
+        elif response.casefold() in ("search", "s"):
             from raindroppy.cli.commands.search import process as process_method
 
-        elif response.casefold() == "create":
+        elif response.casefold() in ("create", "c"):
             from raindroppy.cli.commands.create import process as process_method
 
-        elif response.casefold() == "manage":
+        elif response.casefold() in ("manage", "m"):
             from raindroppy.cli.commands.manage import process as process_method
 
         else:

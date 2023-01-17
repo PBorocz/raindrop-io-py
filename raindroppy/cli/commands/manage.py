@@ -86,7 +86,13 @@ def show_help(cli: CLI) -> None:
 def process(cli: CLI) -> None:
     """Controller for managing the Raindrop environment, including showing statistics."""
     while True:
-        options: Final = ["status", "collections", "tags", "refresh", "back", "."]
+        options: Final = [
+            "(s)tatus",
+            "(c)ollections",
+            "(t)ags",
+            "(r)efresh",
+            "(b)ack or .",
+        ]
         completer: Final = WordCompleter(options)
 
         while True:
@@ -99,21 +105,21 @@ def process(cli: CLI) -> None:
                 enable_history_search=False,
             )
             # Special cases...
-            if response.casefold() in ("back", "."):
+            if response.casefold() in ("back", "b", "."):
                 return None
-            elif response.casefold() in ("h", "help"):
+            elif response.casefold() in ("help", "h"):
                 show_help(cli)
 
             # Normal cases
             elif response.casefold() in ("?",):
                 cli.console.print(options_as_help(options))
-            elif response.casefold() == "status":
+            elif response.casefold() in ("status", "s"):
                 _show_status(cli)
-            elif response.casefold() == "collections":
+            elif response.casefold() in ("collections", "c"):
                 _show_collections(cli)
-            elif response.casefold() == "tags":
+            elif response.casefold() in ("tags", "t"):
                 _show_tags(cli)
-            elif response.casefold() == "refresh":
+            elif response.casefold() in ("refresh", "r"):
                 cli.state.refresh()
             else:
                 cli.console.print(

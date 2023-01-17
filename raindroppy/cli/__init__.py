@@ -12,10 +12,14 @@ CONTENT_TYPES: Final = {
 }
 
 
+COLOR_TABLE_COLUMN_1 = "#00ffff"
+COLOR_TABLE_COLUMN_2 = "#00ff00"
+
 PROMPT_STYLE: Final = Style.from_dict(
     {
-        "prompt": "#00ffff",  # Prompt is cyan
-        "": "#00ff00",  # User input  is green
+        # We use our table color scheme to match
+        "prompt": COLOR_TABLE_COLUMN_1,  # Prompt is cyan
+        "": COLOR_TABLE_COLUMN_2,  # User input is green
     },
 )
 

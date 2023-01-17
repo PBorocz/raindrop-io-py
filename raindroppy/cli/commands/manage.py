@@ -7,7 +7,13 @@ from prompt_toolkit.completion import WordCompleter
 from rich.table import Table
 
 from raindroppy.api.models import Collection, CollectionRef
-from raindroppy.cli import PROMPT_STYLE, cli_prompt, options_as_help
+from raindroppy.cli import (
+    COLOR_TABLE_COLUMN_1,
+    COLOR_TABLE_COLUMN_2,
+    PROMPT_STYLE,
+    cli_prompt,
+    options_as_help,
+)
 from raindroppy.cli.cli import CLI
 
 
@@ -20,8 +26,8 @@ def _show_status(cli: CLI) -> None:
     """UI Controller for displaying current status."""
     human_diff = naturaltime(datetime.utcnow() - cli.state.refreshed)
     table = Table(title=None, show_header=False)
-    table.add_column("parm", style="#00ffff", no_wrap=True)
-    table.add_column("data", style="#00ff00", justify="right")
+    table.add_column("parm", style=COLOR_TABLE_COLUMN_1, no_wrap=True)
+    table.add_column("data", style=COLOR_TABLE_COLUMN_2, justify="right")
     table.add_row("Active User", f"{cli.state.user.fullName}")
     table.add_row("Raindrops", f"{get_total_raindrops(cli.state.collections):,d}")
     table.add_row("Collections", f"{len(cli.state.collections):,d}")
@@ -34,8 +40,8 @@ def _show_collections(cli: CLI) -> None:
     """Displaying current collections."""
     total = get_total_raindrops(cli.state.collections)
     table = Table(title=None, show_header=False)
-    table.add_column("Collection", style="#00ffff", no_wrap=True)
-    table.add_column("Count", style="#00ff00", justify="right")
+    table.add_column("Collection", style=COLOR_TABLE_COLUMN_1, no_wrap=True)
+    table.add_column("Count", style=COLOR_TABLE_COLUMN_2, justify="right")
     for collection in cli.state.collections:
         table.add_row(collection.title, f"{collection.count:,d}")
     table.add_section()
@@ -47,7 +53,7 @@ def _show_tags(cli: CLI) -> None:
     """Display current tags."""
     total = 0
     table = Table(title=None, show_header=False)
-    table.add_column("Tag", style="#00ffff", no_wrap=True)
+    table.add_column("Tag", style=COLOR_TABLE_COLUMN_1, no_wrap=True)
     for tag in cli.state.tags:
         table.add_row(tag)
         total += 1

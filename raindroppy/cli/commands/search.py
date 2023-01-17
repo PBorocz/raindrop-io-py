@@ -6,7 +6,12 @@ from prompt_toolkit.completion import WordCompleter
 from rich.table import Table
 
 from raindroppy.api import Collection, CollectionRef, Raindrop
-from raindroppy.cli import PROMPT_STYLE, cli_prompt
+from raindroppy.cli import (
+    COLOR_TABLE_COLUMN_1,
+    COLOR_TABLE_COLUMN_2,
+    PROMPT_STYLE,
+    cli_prompt,
+)
 from raindroppy.cli.cli import CLI
 from raindroppy.cli.commands import get_from_list
 from raindroppy.cli.commands.help import help_search
@@ -113,8 +118,13 @@ def _display_results(
         return
 
     table = Table()
-    table.add_column("Collection", justify="left", style="#00ffff", no_wrap=True)
-    table.add_column("Raindrop", style="#00ff00")
+    table.add_column(
+        "Collection",
+        justify="left",
+        style=COLOR_TABLE_COLUMN_1,
+        no_wrap=True,
+    )
+    table.add_column("Raindrop", style=COLOR_TABLE_COLUMN_2)
     for raindrop in raindrops:
         collection = cli.state.find_collection_by_id(raindrop.collection.id)
         table.add_row(collection.title, raindrop.title)

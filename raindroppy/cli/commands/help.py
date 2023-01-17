@@ -1,6 +1,7 @@
 """Display help."""
 from rich.table import Table
 
+from raindroppy.cli import COLOR_TABLE_COLUMN_1, COLOR_TABLE_COLUMN_2
 from raindroppy.cli.cli import CLI
 
 
@@ -51,8 +52,8 @@ def help_search(cli: CLI) -> None:
         ("notag:true", "Find items without tags"),
     )
     table = Table(title=None, show_header=False)
-    table.add_column("Search", style="#00ffff")
-    table.add_column("Descript", style="#00ff00")
+    table.add_column("Search", style=COLOR_TABLE_COLUMN_1)
+    table.add_column("Descript", style=COLOR_TABLE_COLUMN_2)
     for tpl in contents:
         table.add_row(*tpl)
     cli.console.print(table)

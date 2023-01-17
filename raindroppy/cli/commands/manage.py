@@ -31,21 +31,11 @@ def _show_status(cli: CLI) -> None:
 
 
 def _show_collections(cli: CLI) -> None:
-    """UI Controller for displaying current collections."""
-    # FIXME: Add counts obo Unsorted Collection!
-
-    def get_longest(collections: list[Collection, CollectionRef]) -> int:
-        return max(
-            [len(collection.title) for collection in collections if collection.title],
-        )
-
+    """Displaying current collections."""
     total = get_total_raindrops(cli.state.collections)
-
     table = Table(title=None, show_header=False)
     table.add_column("Collection", style="#00ffff", no_wrap=True)
     table.add_column("Count", style="#00ff00", justify="right")
-
-    # cli.console.print(f"{'-'*max_len:{max_len}s} ---")
     for collection in cli.state.collections:
         table.add_row(collection.title, f"{collection.count:,d}")
     table.add_section()
@@ -54,21 +44,16 @@ def _show_collections(cli: CLI) -> None:
 
 
 def _show_tags(cli: CLI) -> None:
-    """UI Controller for displaying current tags."""
-
-    def get_longest(tags: list[str]) -> int:
-        return max([len(tag) for tag in tags])
-
-    width = get_longest(cli.state.tags) + 1
-    delim = "-" * width
-
+    """Display current tags."""
     total = 0
-    cli.console.print(f"{delim:{width}s}")
+    table = Table(title=None, show_header=False)
+    table.add_column("Tag", style="#00ffff", no_wrap=True)
     for tag in cli.state.tags:
-        cli.console.print(f"{tag:{width}s}")
+        table.add_row(tag)
         total += 1
-    cli.console.print(f"{delim:{width}s}")
-    cli.console.print(f"{total:{width},d}")
+    table.add_section()
+    table.add_row(f"{total:,d}")
+    cli.console.print(table)
 
 
 def show_help(cli: CLI) -> None:

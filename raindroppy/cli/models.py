@@ -71,8 +71,9 @@ class RaindropState:
             # (including the "Unsorted" system collection as well;
             # only an id, title and count)
             collections: list[Collection] = [
-                root for root in Collection.get_roots(self.api)
+                root for root in Collection.get_roots(self.api) if root.title
             ]
+
             collections.extend([child for child in Collection.get_childrens(self.api)])
             for collection in SystemCollection.get_status(self.api):
                 if collection.id == CollectionRef.Unsorted.id:

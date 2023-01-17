@@ -13,6 +13,10 @@ def help_search(cli: CLI) -> None:
     """Render and display search help."""
     contents = (
         (
+            "*",
+            "All Raindrops (but you must specify at least one collection)",
+        ),
+        (
             "apple iphone",
             "Find items that contains such words in title, description, domain or in web page content",
         ),

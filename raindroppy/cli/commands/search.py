@@ -12,6 +12,8 @@ from raindroppy.cli.commands import get_from_list
 from raindroppy.cli.commands.help import help_search
 from raindroppy.cli.spinner import Spinner
 
+WILDCARD = "*"
+
 
 @dataclass
 class SearchRequest:
@@ -25,7 +27,7 @@ class SearchRequest:
 
 def __prompt_search_terms(cli: CLI) -> tuple[bool, Optional[str]]:
     """Prompt for all user response to perform a search, or None if user quits."""
-    # What tag(s) to search for?
+    # What tag(s) to do allow for autocomplete?
     search_tags = [f"#{tag}" for tag in cli.state.tags]
     completer = WordCompleter(search_tags)
 
@@ -59,18 +61,22 @@ def _prompt_search(cli: CLI) -> SearchRequest:
         ("search", "in collection(s)?"),
         cli.state.get_collection_titles(exclude_unsorted=False),
     )
+    if collection_s == ".":
+        return None
 
     return SearchRequest(search, collection_s.split())
 
 
-def __do_search_in_collection(cli: CLI, request: SearchRequest) -> list[Raindrop]:
+def __do_search(cli: CLI, request: SearchRequest) -> list[Raindrop]:
     results = list()
     page: int = 0
+    search_args = {"collection": request.collection}
+    if request.search != WILDCARD:
+        search_args["word"] = request.search
     while raindrops := Raindrop.search(
         cli.state.api,
-        collection=request.collection,
         page=page,
-        word=request.search,
+        **search_args,
     ):
         for raindrop in raindrops:
             results.append(raindrop)
@@ -84,13 +90,10 @@ def _do_search(cli: CLI, request: SearchRequest) -> Optional[list[Raindrop]]:
     if request.collection_s:
         for collection_title in request.collection_s:
             request.collection = cli.state.find_collection(collection_title)
-            assert (
-                request.collection
-            ), f"Sorry, unable to find a collection with {collection_title=}?!"
-            return_.extend(__do_search_in_collection(cli, request))
+            return_.extend(__do_search(cli, request))
     else:
         request.collection = CollectionRef.All
-        return_.extend(__do_search_in_collection(cli, request))
+        return_.extend(__do_search(cli, request))
 
     return return_
 
@@ -124,8 +127,22 @@ def process(cli: CLI) -> None:
         request = _prompt_search(cli)
         if request is None:
             return None
+        if request.search == WILDCARD and not request.collection_s:
+            print("Sorry, wildcard search requires at least one collection.")
+            continue
 
-        with Spinner(f"Searching for '{request.search}'..."):
+        # Do search and display results (after which we go back for another try.
+        collection_text = ", ".join(request.collection_s)
+        if request.search == WILDCARD:
+            # Wildcard with at least one collection:
+            spinner_text = f"Finding all raindrops in {collection_text}"
+        elif not request.collection_s:
+            # Not a wildcard but don't have a collection specified:
+            spinner_text = f"Searching for '{request.search}' across all collections"
+        else:
+            # Not a wildcard but have collection(s) to search over:
+            spinner_text = f"Searching for '{request.search}' in {collection_text}"
+
+        with Spinner(f"{spinner_text}..."):
             raindrops = _do_search(cli, request)
-
         _display_results(cli, request, raindrops)

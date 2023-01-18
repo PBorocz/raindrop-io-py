@@ -1,7 +1,5 @@
 """Top level API dunder init."""
 
-__version__ = "0.1.0"
-
 __all__ = (
     "API",
     "Access",
@@ -21,7 +19,6 @@ __all__ = (
     "UserFiles",
     "UserRef",
     "View",
-    "__version__",
 )
 
 from .api import API

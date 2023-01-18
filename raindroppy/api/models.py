@@ -324,7 +324,7 @@ class Raindrop(DictModel):
     cover = ItemAttr[str]()
     created = ItemAttr(dateparse)
     domain = ItemAttr[str]()
-    excerpt = ItemAttr[str]()
+    excerpt = ItemAttr[str]()  # aka "Description" on the Raindrop UI.
     lastUpdate = ItemAttr(dateparse)
     link = ItemAttr[str]()
     media = ItemAttr[Sequence[dict[str, Any]]]()

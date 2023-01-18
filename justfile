@@ -1,3 +1,4 @@
+set dotenv-load
 
 # The list of available targets
 default:
@@ -6,8 +7,23 @@ default:
 ################################################################################
 # Usage
 ################################################################################
-cli *args:
-    python raindroppy/cli/cli.py {{args}}
+# Run our command-line interface
+cli:
+    python -m raindroppy.cli
+
+#(old way:)
+#    python raindrop/cli/cli.py {{args}}
+
+################################################################################
+# Build support...
+################################################################################
+# Run our build
+build *args:
+    pyproject-build {{args}}
+
+# Publish our build to *TestPyPi* (args: --dry-run for example)
+publish *args:
+    poetry publish --repository testpypi --username $PYPI_TEST_USERNAME --password $PYPI_TEST_PASSWORD {{args}}
 
 ################################################################################
 # Development support...

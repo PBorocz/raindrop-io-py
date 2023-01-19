@@ -2,14 +2,14 @@ set dotenv-load
 
 # The list of available targets
 default:
-    @just --list
+    @just --list --unsorted
 
 ################################################################################
 # Usage
 ################################################################################
 # Run our command-line interface
 cli:
-    python -m raindroppy.cli
+    python raindroppy/cli/run.py
 
 #(old way:)
 #    python raindrop/cli/cli.py {{args}}
@@ -21,11 +21,15 @@ cli:
 test *args:
     python -m pytest {{args}}
 
+# Run pre-commit from command-line
+pre-commit-all *args:
+    pre-commit run --all-files {{args}}
+
 # Update the repo to the most recent .pre-commit-config.yaml and run it.
 pre-commit-update *args:
     pre-commit install
     git add .pre-commit-config.yaml
-    pre-commit run --all-files {{args}}
+    just pre-commit-all {{args}}
 
 sleep:
     @echo "Waiting..."
@@ -63,14 +67,14 @@ clean:
 
 # Build our package..
 build:
-    just clean
+    @just clean
     @echo "🚀 Building..."
     @poetry build
 
 # Build and publish
 build_and_publish:
-    just build
-    just publish
+    @just build
+    @just publish
 
 # Publish our build to *TestPyPi* (args: --dry-run for example)
 publish *args:

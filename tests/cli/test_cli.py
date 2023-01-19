@@ -5,31 +5,31 @@ import pytest
 import rich
 from prompt_toolkit import PromptSession
 
-from raindroppy.cli.cli import CLI
 from raindroppy.cli.commands import (
     create,  # ie. the modules themselves
     manage,  # "
     search,  # "
 )
+from raindroppy.cli.models.eventLoop import EventLoop
 
 
 @pytest.fixture
-def cli():
-    """Setup a test fixture of a CLI that captures all interaction internally."""
-    return CLI(capture=StringIO())
+def el():
+    """Setup a test fixture of a EventLoop that captures all interaction internally."""
+    return EventLoop(capture=StringIO())
 
 
-def tst_setup(cli):
+def tst_setup(el):
     """Did we get our console setup correctly and our banner out?."""
-    assert cli.console and isinstance(cli.console, rich.console.Console)
-    console_output = cli.console.file.getvalue()
+    assert el.console and isinstance(el.console, rich.console.Console)
+    console_output = el.console.file.getvalue()
     assert "Welcome to RaindropPY" in console_output
 
 
 mock_command_process_method_called = False
 
 
-def test_event_loop(cli, monkeypatch):
+def test_event_loop(el, monkeypatch):
     """Test that event loop returns the right prompt(s)."""
 
     def mock_session_response_exit(*args, **kwargs):
@@ -50,7 +50,7 @@ def test_event_loop(cli, monkeypatch):
     def mock_session_response_help(*args, **kwargs):
         return "help"
 
-    def mock_command_process_method(cli):
+    def mock_command_process_method(el):
         global mock_command_process_method_called
         mock_command_process_method_called = True
 
@@ -59,18 +59,18 @@ def test_event_loop(cli, monkeypatch):
     ################################################################################
     with pytest.raises(KeyboardInterrupt):
         monkeypatch.setattr(PromptSession, "prompt", mock_session_response_exit)
-        cli.iteration()
+        el.iteration()
 
     with pytest.raises(KeyboardInterrupt):
         monkeypatch.setattr(PromptSession, "prompt", mock_session_response_quit)
-        cli.iteration()
+        el.iteration()
 
     ################################################################################
     # Test help
     ################################################################################
     monkeypatch.setattr(PromptSession, "prompt", mock_session_response_help)
-    cli.iteration()
-    assert "Help is here" in cli.console.file.getvalue()
+    el.iteration()
+    assert "Help is here" in el.console.file.getvalue()
 
     ################################################################################
     # Test each of the top level options
@@ -84,5 +84,5 @@ def test_event_loop(cli, monkeypatch):
         mock_command_process_method_called = False
         monkeypatch.setattr(PromptSession, "prompt", mock_method)
         monkeypatch.setattr(process_module, "process", mock_command_process_method)
-        cli.iteration()
+        el.iteration()
         assert mock_command_process_method_called

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "raindroppy"
-version = "0.0.1"
+version = "0.0.5"
 description = "API and terminal-based CLI for Raindrop.io bookmark manager"
 authors = ["Peter Borocz <680893+PBorocz@users.noreply.github.com>"]
 license = "MIT"
@@ -15,6 +15,9 @@ classifiers = [
 ]
 
 packages = [{ include = "raindroppy" }]
+
+[tool.poetry.scripts]
+raindroppy_cli = "raindroppy:cli:run.main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -125,7 +128,7 @@ build-backend = "poetry.core.masonry.api"
 # dynamic = ["version"]
 
 # [console.scripts]
-# raindroppy-cli = "raindroppy:cli:__main__"
+# raindroppy-cli = "raindroppy:cli:run.main"
 
 # [tool.setuptools.dynamic]
 # version = {attr = "raindroppy.__version__"}

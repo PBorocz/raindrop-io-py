@@ -10,12 +10,12 @@ from raindroppy.cli import (
     COLOR_TABLE_COLUMN_1,
     COLOR_TABLE_COLUMN_2,
     PROMPT_STYLE,
-    cli_prompt,
+    prompt,
 )
-from raindroppy.cli.cli import CLI
 from raindroppy.cli.commands import get_from_list
 from raindroppy.cli.commands.help import help_search
-from raindroppy.cli.spinner import Spinner
+from raindroppy.cli.models.eventLoop import EventLoop
+from raindroppy.cli.models.spinner import Spinner
 
 WILDCARD = "*"
 
@@ -30,22 +30,22 @@ class SearchRequest:
     collection: Collection = None
 
 
-def __prompt_search_terms(cli: CLI) -> tuple[bool, Optional[str]]:
+def __prompt_search_terms(el: EventLoop) -> tuple[bool, Optional[str]]:
     """Prompt for all user response to perform a search, or None if user quits."""
     # What tag(s) to do allow for autocomplete?
-    search_tags = [f"#{tag}" for tag in cli.state.tags]
+    search_tags = [f"#{tag}" for tag in el.state.tags]
     completer = WordCompleter(search_tags)
 
     while True:
-        response = cli.session.prompt(
-            cli_prompt(("search term(s)?",)),
+        response = el.session.prompt(
+            prompt(("search term(s)?",)),
             completer=completer,
             style=PROMPT_STYLE,
             complete_while_typing=True,
             enable_history_search=False,
         )
         if response == "?":
-            help_search(cli)
+            help_search(el)
         elif response in ("q", "."):
             return True, None
         elif response:
@@ -54,17 +54,17 @@ def __prompt_search_terms(cli: CLI) -> tuple[bool, Optional[str]]:
         # Otherwise, we fall through and try again, we need *some* search terms!
 
 
-def _prompt_search(cli: CLI) -> SearchRequest:
+def _prompt_search(el: EventLoop) -> SearchRequest:
     """Prompt for all responses necessary for a search, ie. terms and collections."""
-    quit, search = __prompt_search_terms(cli)
+    quit, search = __prompt_search_terms(el)
     if quit:
         return None
 
     # What collection(s) to search across?
     collection_s = get_from_list(
-        cli,
+        el,
         ("search", "in collection(s)?"),
-        cli.state.get_collection_titles(exclude_unsorted=False),
+        el.state.get_collection_titles(exclude_unsorted=False),
     )
     if collection_s == ".":
         return None
@@ -72,14 +72,14 @@ def _prompt_search(cli: CLI) -> SearchRequest:
     return SearchRequest(search, collection_s.split())
 
 
-def __do_search(cli: CLI, request: SearchRequest) -> list[Raindrop]:
+def __do_search(el: EventLoop, request: SearchRequest) -> list[Raindrop]:
     results = list()
     page: int = 0
     search_args = {"collection": request.collection}
     if request.search != WILDCARD:
         search_args["word"] = request.search
     while raindrops := Raindrop.search(
-        cli.state.api,
+        el.state.api,
         page=page,
         **search_args,
     ):
@@ -89,22 +89,22 @@ def __do_search(cli: CLI, request: SearchRequest) -> list[Raindrop]:
     return results
 
 
-def _do_search(cli: CLI, request: SearchRequest) -> Optional[list[Raindrop]]:
+def _do_search(el: EventLoop, request: SearchRequest) -> Optional[list[Raindrop]]:
     """Search across none, one or many collections for the respective search terms."""
     return_ = list()
     if request.collection_s:
         for collection_title in request.collection_s:
-            request.collection = cli.state.find_collection(collection_title)
-            return_.extend(__do_search(cli, request))
+            request.collection = el.state.find_collection(collection_title)
+            return_.extend(__do_search(el, request))
     else:
         request.collection = CollectionRef.All
-        return_.extend(__do_search(cli, request))
+        return_.extend(__do_search(el, request))
 
     return return_
 
 
 def _display_results(
-    cli: CLI,
+    el: EventLoop,
     request: SearchRequest,
     raindrops: list[Raindrop],
 ) -> None:
@@ -114,7 +114,7 @@ def _display_results(
             msg += f" in collection: '{request.collection_s[0]}'."
         else:
             msg += f" across {len(request.collection_s)} collections."
-        cli.console.print(msg)
+        el.console.print(msg)
         return
 
     table = Table()
@@ -126,15 +126,15 @@ def _display_results(
     )
     table.add_column("Raindrop", style=COLOR_TABLE_COLUMN_2)
     for raindrop in raindrops:
-        collection = cli.state.find_collection_by_id(raindrop.collection.id)
+        collection = el.state.find_collection_by_id(raindrop.collection.id)
         table.add_row(collection.title, raindrop.title)
-    cli.console.print(table)
+    el.console.print(table)
 
 
-def process(cli: CLI) -> None:
+def process(el: EventLoop) -> None:
     """Top-level UI Controller for searching for bookmark(s)."""
     while True:
-        request = _prompt_search(cli)
+        request = _prompt_search(el)
         if request is None:
             return None
         if request.search == WILDCARD and not request.collection_s:
@@ -154,5 +154,5 @@ def process(cli: CLI) -> None:
             spinner_text = f"Searching for '{request.search}' in {collection_text}"
 
         with Spinner(f"{spinner_text}..."):
-            raindrops = _do_search(cli, request)
-        _display_results(cli, request, raindrops)
+            raindrops = _do_search(el, request)
+        _display_results(el, request, raindrops)

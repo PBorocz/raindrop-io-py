@@ -12,13 +12,13 @@ from raindroppy.api import API, Collection, Raindrop
 from raindroppy.cli import (
     CONTENT_TYPES,
     PROMPT_STYLE,
-    cli_prompt,
     options_as_help,
+    prompt,
 )
-from raindroppy.cli.cli import CLI
 from raindroppy.cli.commands import get_from_list
-from raindroppy.cli.models import CreateRequest
-from raindroppy.cli.spinner import Spinner
+from raindroppy.cli.models.createRequest import CreateRequest
+from raindroppy.cli.models.eventLoop import EventLoop
+from raindroppy.cli.models.spinner import Spinner
 
 
 def _create_file(api: API, request: CreateRequest) -> bool:
@@ -94,29 +94,29 @@ def __validate_url(url: str) -> Optional[str]:
         return None
 
 
-def __get_url(cli: CLI) -> Optional[str]:
-    prompt = cli_prompt(("create", "url?"))
+def __get_url(el: EventLoop) -> Optional[str]:
+    ev_prompt = prompt(("create", "url?"))
     while True:
-        url = cli.session.prompt(prompt, style=PROMPT_STYLE)
+        url = el.session.prompt(ev_prompt, style=PROMPT_STYLE)
         if url == "?" or url == "" or url is None:
-            cli.console.print(
+            el.console.print(
                 "We need a valid URL here, eg. https://www.python.org",
             )
         elif url == "q":
             return None
         else:
             if msg := __validate_url(url):
-                cli.console.print(msg)
+                el.console.print(msg)
             else:
                 return url
 
 
-def __get_title(cli: CLI) -> Optional[str]:
-    prompt = cli_prompt(("create", "title?"))
+def __get_title(el: EventLoop) -> Optional[str]:
+    ev_prompt = prompt(("create", "title?"))
     while True:
-        title = cli.session.prompt(prompt, style=PROMPT_STYLE)
+        title = el.session.prompt(ev_prompt, style=PROMPT_STYLE)
         if title == "?":
-            cli.console.print(
+            el.console.print(
                 "We need a Bookmark title here, eg. 'This is an interesting bookmark'",
             )
         elif title == "q":
@@ -125,12 +125,12 @@ def __get_title(cli: CLI) -> Optional[str]:
             return title
 
 
-def __get_file(cli: CLI) -> Optional[str]:
-    prompt = cli_prompt(("create", "bulk", "upload file?"))
+def __get_file(el: EventLoop) -> Optional[str]:
+    el_prompt = prompt(("create", "bulk", "upload file?"))
     while True:
-        file_ = cli.session.prompt(prompt, style=PROMPT_STYLE)
+        file_ = el.session.prompt(el_prompt, style=PROMPT_STYLE)
         if file_ == "?":
-            cli.console.print(
+            el.console.print(
                 "We need a path to a valid, TOML upload file, eg. '/Users/me/Download/upload.toml'",
             )
         elif file_ == "q":
@@ -139,34 +139,34 @@ def __get_file(cli: CLI) -> Optional[str]:
             return file_
 
 
-def __get_from_files(cli: CLI, options: list[Path]) -> Optional[str]:
-    prompt = cli_prompt(("create", "url", "file #?"))
+def __get_from_files(el: EventLoop, options: list[Path]) -> Optional[str]:
+    el_prompt = prompt(("create", "url", "file #?"))
     names = [fp_.name for fp_ in options]
     completer: Final = WordCompleter(names)
     for ith, fp_ in enumerate(options):
-        cli.console.print(f"{ith:2d} {fp_.name}")
+        el.console.print(f"{ith:2d} {fp_.name}")
     while True:
-        response = cli.session.prompt(
-            prompt,
+        response = el.session.prompt(
+            el_prompt,
             completer=completer,
             style=PROMPT_STYLE,
             complete_while_typing=True,
             enable_history_search=False,
         )
         if response == "?":
-            cli.console.print(", ".join(options))
+            el.console.print(", ".join(options))
         else:
             break
 
     return options[int(response)]
 
 
-def __get_confirmation(cli: CLI, prompt: str) -> bool:
-    prompt: Final = [("class:prompt", "\nIs this correct? ")]
+def __get_confirmation(el: EventLoop, prompt: str) -> bool:
+    el_prompt: Final = [("class:prompt", "\nIs this correct? ")]
     options: Final = ["yes", "Yes", "No", "no"]
     completer: Final = WordCompleter(options)
-    response = cli.session.prompt(
-        prompt,
+    response = el.session.prompt(
+        el_prompt,
         completer=completer,
         style=PROMPT_STYLE,
         complete_while_typing=True,
@@ -180,19 +180,19 @@ def __get_confirmation(cli: CLI, prompt: str) -> bool:
         return False
 
 
-def _is_request_valid(cli: CLI, request: CreateRequest) -> bool:
+def _is_request_valid(el: EventLoop, request: CreateRequest) -> bool:
     """Return True iff the request is valid."""
     # Error Check: Validate the existence of the specified file for
     if request.file_path:
         if not request.file_path.exists():
-            cli.console.print(
+            el.console.print(
                 f"Sorry, no file with name '{request.file_path}' exists.\n",
             )
             return False
 
         # Validate the file type
         if request.file_path.suffix not in CONTENT_TYPES:
-            cli.console.print(
+            el.console.print(
                 f"Sorry, file type {request.file_path.suffix} isn't yet supported by Raindrop.io.\n",
             )
             return False
@@ -200,14 +200,14 @@ def _is_request_valid(cli: CLI, request: CreateRequest) -> bool:
     # Error Check: Validate any tags associated with the request
     if request.tags:
         for tag in request.tags:
-            if tag.casefold() not in cli.state.tags:
-                cli.console.print(f"Sorry, {tag=} does not currently exist.\n")
+            if tag.casefold() not in el.state.tags:
+                el.console.print(f"Sorry, {tag=} does not currently exist.\n")
                 return False
 
     # Warning only: check for collection existence
     if request.collection:
-        if cli.state.find_collection(request.collection) is None:
-            cli.console.print(
+        if el.state.find_collection(request.collection) is None:
+            el.console.print(
                 f"Collection '{request.collection}' doesn't exist "
                 "in Raindrop, we'll be adding it from scratch.\n",
             )
@@ -216,7 +216,7 @@ def _is_request_valid(cli: CLI, request: CreateRequest) -> bool:
 
 
 def _prompt_for_request(
-    cli: CLI,
+    el: EventLoop,
     file: bool = False,
     url: bool = False,
     dir_path: Optional[Path] = Path("~/Downloads/Raindrop"),
@@ -229,45 +229,45 @@ def _prompt_for_request(
 
     # Prompts differ whether or not we're creating a file or link-based Raindrop.
     if url:
-        request.url = __get_url(cli)
+        request.url = __get_url(el)
         if request.url is None:
             return None
-        if not _is_request_valid(cli, request):
+        if not _is_request_valid(el, request):
             return None
     else:
         files = _read_files(dir_path.expanduser())
         request.file_path = __get_from_files(
-            cli,
+            el,
             sorted(files, key=lambda fp_: fp_.name),
         )
 
     # Get a Title:
-    request.title = __get_title(cli)
+    request.title = __get_title(el)
     if request.title is None:
         return None
 
     # These are the same across raindrop types:
     request.collection = get_from_list(
-        cli,
+        el,
         ("create", "collection"),
-        list(cli.state.get_collection_titles(exclude_unsorted=True)),
+        list(el.state.get_collection_titles(exclude_unsorted=True)),
     )
     if request.collection is None:
         return None
 
-    request.tags = get_from_list(cli, ("create", "tag(s)"), list(cli.state.tags))
+    request.tags = get_from_list(el, ("create", "tag(s)"), list(el.state.tags))
     if request.tags is None:
         return None
 
     # Confirm the values that we just received are good to go...
-    request.print(cli.console.print)
-    if __get_confirmation(cli, "Is this correct?"):
+    request.print(el.console.print)
+    if __get_confirmation(el, "Is this correct?"):
         return request
     return None
 
 
 def _add_single(
-    cli: CLI,
+    el: EventLoop,
     file: bool = False,
     url: bool = False,
     request: CreateRequest = None,
@@ -278,19 +278,19 @@ def _add_single(
         file or url
     ) or request, "Sorry, either a file/url flag or an create request is required"
     if not request:
-        request: CreateRequest = _prompt_for_request(cli, file=file, url=url)
+        request: CreateRequest = _prompt_for_request(el, file=file, url=url)
         if not request:
             return False  # User might have requested that we could still get out..
 
     # Convert from /name/ of collection user entered to an /instance/
     # of a Collection; if necessary, creating a new one through the
     # respective Raindrop API.
-    request.collection = Collection.get_or_create(cli.state.api, request.collection)
+    request.collection = Collection.get_or_create(el.state.api, request.collection)
 
     # Push it up!
     with Spinner(f"Adding Raindrop -> {request.name()}..."):
         create_method = _create_link if url else _create_file
-        create_method(cli.state.api, request)
+        create_method(el.state.api, request)
 
     # Be nice to raindrop.io and wait a bit..
     if interstitial:
@@ -299,16 +299,16 @@ def _add_single(
     return True
 
 
-def _add_bulk(cli: CLI) -> None:
+def _add_bulk(el: EventLoop) -> None:
 
     while True:  # ie, Until we get a valid file..
-        fn_request = __get_file(cli)
+        fn_request = __get_file(el)
         if fn_request is None:
             return None
 
         fp_request: Path = Path(fn_request).expanduser()
         if not fp_request.exists():
-            cli.console.print(
+            el.console.print(
                 f"Sorry, unable to find request_toml file: '{fp_request}'\n",
             )
             continue
@@ -321,32 +321,32 @@ def _add_bulk(cli: CLI) -> None:
 
         # Filter down to only valid entries:
         requests: list[CreateRequest] = [
-            req for req in requests if _is_request_valid(cli, req)
+            req for req in requests if _is_request_valid(el, req)
         ]
         if not requests:
-            cli.console.print("Sorry, no valid requests found.\n")
+            el.console.print("Sorry, no valid requests found.\n")
             break
 
         # Confirm that we're good to go
         if not __get_confirmation(
-            cli,
+            el,
             f"Ready to create {len(requests)} valid requests, Ok?",
         ):
             return None
 
         # Add em!
-        return sum([_add_single(cli, None, request) for request in requests])
+        return sum([_add_single(el, None, request) for request in requests])
 
 
-def iteration(cli: CLI) -> bool:
+def iteration(el: EventLoop) -> bool:
     """Run a single iteration of our command/event-loop.
 
     Returns True if we're done, otherwise, keep asking for 'create's.
     """
     options: Final = ["(u)rl", "(f)ile", "(m)ultiple", "(b)ack or ."]
-    cli.console.print(options_as_help(options))
-    response = cli.session.prompt(
-        cli_prompt(("create",)),
+    el.console.print(options_as_help(options))
+    response = el.session.prompt(
+        prompt(("create",)),
         completer=WordCompleter(options),
         style=PROMPT_STYLE,
         complete_while_typing=True,
@@ -357,26 +357,26 @@ def iteration(cli: CLI) -> bool:
         return False
 
     elif response.casefold() in ("?",):
-        cli.console.print(options_as_help(options))
+        el.console.print(options_as_help(options))
         return True
 
     elif response.casefold() in ("url", "u"):
-        _add_single(cli, url=True)
+        _add_single(el, url=True)
         return True
 
     elif response.casefold() in ("file", "f"):
-        _add_single(cli, file=True)
+        _add_single(el, file=True)
         return True
 
     elif response.casefold() in ("multiple", "m"):
-        _add_bulk(cli)
+        _add_bulk(el)
         return True
 
     else:
-        cli.console.print(f"Sorry, must be one of {', '.join(options)}.")
+        el.console.print(f"Sorry, must be one of {', '.join(options)}.")
 
 
-def process(cli: CLI) -> None:
+def process(el: EventLoop) -> None:
     """Controller for adding bookmark(s) from the terminal."""
-    while iteration(cli):
+    while iteration(el):
         ...

@@ -5,9 +5,13 @@
 [![Python Version](https://img.shields.io/badge/python-3.10+-green)](https://www.python.org/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
-Python wrapper for the raindrop.io bookmark manager [API](https://developer.raindrop.io/).
+Python wrapper for the [Raindrop.io](https://raindrop.io) Bookmark Manager [API](https://developer.raindrop.io/) as well as a simple command-line interface to prove out the API.
 
-This is a fork of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto). I needed a few additions and desired a simple terminal-based UI for interactive work with Raindrop itself.
+## Background
+
+I needed a few additions to an existing API ([python-raindropio](https://github.com/atsuoishimoto/python-raindropio))and desired a simple terminal-based UI for interactive work with Raindrop itself.
+
+Thus, this is a fork of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto). 
 
 ## Status
 
@@ -119,10 +123,8 @@ with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
 
 ## Command-Line Interface Usage
 
-I'm using the *entry-point* method to run the CLI. Thus, from the root directory with a virtual-env activated and packages installed, I use the following:
-
 ```shell
-% python -m raindroppy.cli
+[.venv] % python raindroppy/cli/run.py
 ```
 
 ## Acknowledgments

@@ -2,15 +2,15 @@
 from rich.table import Table
 
 from raindroppy.cli import COLOR_TABLE_COLUMN_1, COLOR_TABLE_COLUMN_2
-from raindroppy.cli.cli import CLI
+from raindroppy.cli.models.eventLoop import EventLoop
 
 
-def process(cli: CLI) -> None:
+def process(el: EventLoop) -> None:
     """Controller to display help."""
-    cli.console.print("Help is here, never fear!")
+    el.console.print("Help is here, never fear!")
 
 
-def help_search(cli: CLI) -> None:
+def help_search(el: EventLoop) -> None:
     """Render and display search help."""
     contents = (
         (
@@ -56,4 +56,4 @@ def help_search(cli: CLI) -> None:
     table.add_column("Descript", style=COLOR_TABLE_COLUMN_2)
     for tpl in contents:
         table.add_row(*tpl)
-    cli.console.print(table)
+    el.console.print(table)

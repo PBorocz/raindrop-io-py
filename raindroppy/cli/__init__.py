@@ -24,7 +24,7 @@ PROMPT_STYLE: Final = Style.from_dict(
 )
 
 
-def cli_prompt(sub_levels: tuple[str] | None = ()) -> str:
+def prompt(sub_levels: tuple[str] | None = ()) -> str:
     """Render a command prompt to any number of 'levels'.
 
     With no sub-levels, prompt is: "> "

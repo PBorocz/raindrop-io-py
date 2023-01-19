@@ -11,12 +11,12 @@ from rich.console import Console
 
 from raindroppy.cli import (
     PROMPT_STYLE,
-    cli_prompt,
     goodbye,
     make_italic,
     options_as_help,
+    prompt,
 )
-from raindroppy.cli.models import RaindropState
+from raindroppy.cli.models.raindropState import RaindropState
 
 
 # Utility method to return the command-history file path for the user
@@ -31,7 +31,7 @@ def _get_user_history_path() -> Path:
     return history_file
 
 
-class CLI:
+class EventLoop:
     """Top-level command-line interface controller/command-loop."""
 
     def _display_startup_banner(self) -> None:
@@ -63,7 +63,7 @@ class CLI:
         self.console.print(options_as_help(options))
 
         response = self.session.prompt(
-            cli_prompt(),
+            prompt(),
             completer=WordCompleter(options),
             style=PROMPT_STYLE,
             complete_while_typing=True,
@@ -103,7 +103,7 @@ class CLI:
 
         process_method(self)
 
-    def event_loop(self, state: RaindropState) -> None:
+    def go(self, state: RaindropState) -> None:
         """Save state and run the top-level menu/event loop prompts."""
         self.state = state
 

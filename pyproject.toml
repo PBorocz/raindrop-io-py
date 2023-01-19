@@ -1,20 +1,18 @@
 [tool.poetry]
 name = "raindroppy"
-version = "0.0.5"
+version = "0.0.6"
 description = "API and terminal-based CLI for Raindrop.io bookmark manager"
-authors = ["Peter Borocz <680893+PBorocz@users.noreply.github.com>"]
-license = "MIT"
-readme = "README.md"
-repository = "https://github.com/PBorocz/raindroppy"
-homepage = "https://github.com/PBorocz/raindroppy"
+
+authors = ["Peter Borocz <peter.borocz+raindroppy@google.com>"]
+classifiers = ['License :: OSI Approved :: MIT License', 'Programming Language :: Python :: 3']
 include = ["LICENSE",]
 keywords = ["python"]
-classifiers = [
-    'License :: OSI Approved :: MIT License',
-    'Programming Language :: Python :: 3',
-]
-
+license = "MIT"
+readme = "README.md"
 packages = [{ include = "raindroppy" }]
+
+homepage = "https://github.com/PBorocz/raindroppy"
+repository = "https://github.com/PBorocz/raindroppy"
 
 [tool.poetry.scripts]
 raindroppy_cli = "raindroppy:cli:run.main"

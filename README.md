@@ -36,18 +36,15 @@ poetry add raindroppy
 
 ## Setup
 
-You need to create an integration "app" on Raindrop.io to receive API token(s) to use this package.
+You need to create an integration _app_ on Raindrop.io to receive API token(s) to use this package.
 
-- Go to [app.draindrop.api/settings/integrations](https://app.raindrop.io/settings/integrations) and "+ create new app".
+- Go to [app.draindrop.api/settings/integrations](https://app.raindrop.io/settings/integrations) and select `+ create new app`.
 
 - Give it a descriptive name and then select the app you just created. 
 
-- For testing and/or to only access your Raindrop environment, select "Create test token" and copy the token provided.
+- For testing and/or to only access your Raindrop environment, select `Create test token` and copy the token provided.
 
-- Save your token(s) into your environment:
-
-    - We use python-dotenv so a simple .env (or .envrc) file containing an entry for your token will suffice:
-
+- Save your token(s) into your environment (we use python-dotenv so a simple .env/.envrc file your information should suffice), for example:
 ```
 RAINDROP_TEST_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 # or
@@ -57,9 +54,9 @@ RAINDROP_CLIENT_SECRET=abcdefgh-1234567890-abcdefgh
 
 ## API Usage & Examples
 
-A full suite of examples are provided in the examples directory, here's are a few to give you some idea of the usage model:
+A full suite of examples are provided in the examples directory, here are a few to give you some idea of the usage model:
 
-### Create a new Raindrop Bookmark from a URL
+### Create a New Raindrop Bookmark to a URL
 
 ```python
 import os
@@ -73,13 +70,13 @@ load_dotenv()
 
 with API(os.environ["RAINDROP_TEST_OKEN"]) as api:
     link, title = "https://www.python.org/", "Our Benevolent Dictator's Creation"
-    print(f"Creating Raindrop to: '{link}' with title: '{title}'...", flush=True, end="")
     
+    print(f"Creating Raindrop to: '{link}' with title: '{title}'...", flush=True, end="")
     raindrop = Raindrop.create_link(api, link=link, title=title, tags=["abc", "def"])
-    print(f"Done, {raindrop.id=}")
+    print(f"Done, id={raindrop.id}")
 ```
 
-### Create a Raindrop Collection
+### Create a New Raindrop Collection
 
 ```python
 import os
@@ -94,15 +91,14 @@ from raindroppy.api import API, Collection
 load_dotenv()
 
 with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
-    
     title = f"TEST Collection ({getuser()}@{datetime.now():%Y-%m-%dT%H:%M:%S})"
-    print(f"Creating collection: '{title}'...", flush=True, end="")
     
-    collection = Collection.create_link(api, title=title)
+    print(f"Creating collection: '{title}'...", flush=True, end="")
+    collection = Collection.create(api, title=title)
     print(f"Done, {collection.id=}.")
 ```
 
-### Display Any Bookmarks from the *Unsorted* Raindrop Collection
+### Display All Bookmarks from the *Unsorted* Raindrop Collection
 
 ```python
 import os
@@ -116,9 +112,8 @@ load_dotenv()
 with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
     page = 0
     while (items := Raindrop.search(api, collection=CollectionRef.Unsorted, page=page)):
-        print(page)
         for item in items:
-            print(f"{item.title=}")
+            print(item.title)
         page += 1
 ```
 
@@ -138,8 +133,3 @@ I'm using the *entry-point* method to run the CLI. Thus, from the root directory
 ## License
 
 Copyright (c) 2022 Peter Borocz. See LICENSE for details.
-
-
-## Feedback
-
-Feel free to file issues or reach out to me directly at peter.borocz at gmail.com.

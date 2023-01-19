@@ -1,8 +1,20 @@
 [tool.poetry]
 name = "raindroppy"
-version = "0.1.1"
+version = "0.0.1"
 description = "API and terminal-based CLI for Raindrop.io bookmark manager"
 authors = ["Peter Borocz <680893+PBorocz@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/PBorocz/raindroppy"
+homepage = "https://github.com/PBorocz/raindroppy"
+include = ["LICENSE",]
+keywords = ["python"]
+classifiers = [
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3',
+]
+
+packages = [{ include = "raindroppy" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -23,7 +35,6 @@ python-language-server = "^0.36.2"
 pre-commit = "^2.21.0"
 pytest = "7.2.1"
 flake8 = "^6.0.0"
-build = "^0.10.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -31,6 +42,17 @@ markers = [
     "unit: marks tests as runnable all the time, locally and fast.",
     "integration: tests that run against a live Raindrop environment, slower.",
 ]
+
+# When we're ready (from https://fpgmaas.github.io/cookiecutter-poetry/)
+# [tool.mypy]
+# files = ["example_project"]
+# disallow_untyped_defs = "True"
+# disallow_any_unimported = "True"
+# no_implicit_optional = "True"
+# check_untyped_defs = "True"
+# warn_return_any = "True"
+# warn_unused_ignores = "True"
+# show_error_codes = "True"
 
 [tool.ruff]
 target-version = "py310"
@@ -83,6 +105,10 @@ convention = "google"
 [tool.ruff.mccabe]
 max-complexity = 13
 
+[build-system]
+requires = ["poetry-core>=1.0.0", "setuptools"]
+build-backend = "poetry.core.masonry.api"
+
 # Based on PublishingPythonPackages, Hillard 2022
 # [build-system]
 # requires = ["setuptools", "wheel"]
@@ -107,8 +133,3 @@ max-complexity = 13
 # requires-python = ">=3.9"
 # classifiers = ["Framework :: Django", "Programming Language :: Python :: 3"]
 # dependencies = ["requests", 'importlib-metadata; python_version<"3.8"' ]
-
-# Will we use this when we go directly from Poetry instead of setuptools?
-# [build-system]
-# requires = ["poetry-core>=1.0.0"]
-# build-backend = "poetry.core.masonry.api"

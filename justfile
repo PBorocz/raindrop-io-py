@@ -68,6 +68,8 @@ clean:
 # Build our package..
 build:
     @just clean
+    @echo "🚀 Patch update to version number..."
+    @poetry version patch
     @echo "🚀 Building..."
     @poetry build
 
@@ -79,6 +81,9 @@ build_and_publish:
 # Publish our build to *TestPyPi* (args: --dry-run for example)
 publish *args:
     poetry publish --repository testpypi --username $PYPI_TEST_USERNAME --password $PYPI_TEST_PASSWORD {{args}}
+
+    # NOTE: To pip install from TestPyPi and get the right packages.
+    # pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple raindroppy (or raindroppy==x.y.z)
 
 # Publish our build to *production* PyPi:
 publish_production:

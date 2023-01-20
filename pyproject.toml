@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "raindroppy"
-version = "0.0.17"
+version = "0.0.0"
 description = "API and terminal-based CLI for Raindrop.io bookmark manager"
 
 authors = ["Peter Borocz <peter.borocz+raindroppy@google.com>"]
@@ -107,28 +107,3 @@ max-complexity = 13
 [build-system]
 requires = ["poetry-core>=1.0.0", "setuptools"]
 build-backend = "poetry.core.masonry.api"
-
-# Based on PublishingPythonPackages, Hillard 2022
-# [build-system]
-# requires = ["setuptools", "wheel"]
-# build-backend = "setuptools.build_meta"
-
-# [project]
-# name = "RaindropPy"
-# authors = [
-#     {name = "Peter Borocz", email = "peter.borocz@gmail.com"},
-# ]
-# license = {text = "MIT"}
-# description = "API & Command-line-interface for the Raindrop Bookmarking Service"
-# readme = "README.md"
-# dynamic = ["version"]
-
-# [console.scripts]
-# raindroppy-cli = "raindroppy:cli:run.main"
-
-# [tool.setuptools.dynamic]
-# version = {attr = "raindroppy.__version__"}
-
-# requires-python = ">=3.9"
-# classifiers = ["Framework :: Django", "Programming Language :: Python :: 3"]
-# dependencies = ["requests", 'importlib-metadata; python_version<"3.8"' ]

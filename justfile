@@ -62,34 +62,29 @@ run_examples:
 ################################################################################
 # Clean our build enviroment:
 clean:
-    @echo "🚀 Cleaning house..."
-    @rm -rf dist
+    @echo "Cleaning house..."
+    @rm -rf dist dist raindroppy.egg-info
 
 # Build our package..
 build:
+    @echo "Building..."
     @just clean
-    @echo "🚀 Patch update to version number..."
     @poetry version patch
-    @echo "🚀 Building..."
     @poetry build
 
-# Build and publish
-build_and_publish:
-    @just build
-    @just publish
-
 # Publish our build to *TestPyPi* (args: --dry-run for example)
-publish *args:
+publish_testpypi *args:
     poetry publish --repository testpypi --username $PYPI_TEST_USERNAME --password $PYPI_TEST_PASSWORD {{args}}
 
     # NOTE: To pip install from TestPyPi and get the right packages.
     # pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple raindroppy (or raindroppy==x.y.z)
     # Ref: https://stackoverflow.com/questions/57405014/how-to-fix-no-matching-distribution-found-for-package-name-when-installing-o
 
-# Publish our build to *production* PyPi:
+# Publish our build to *Production* PyPi:
 publish_production:
-    echo "🚀 Publishing: Dry run..."
+    echo "Publishing (dry run)..."
     poetry config pypi-token.pypi $(PYPI_TOKEN)
+    @just clean
     poetry publish --dry-run
-    echo "🚀 Publishing..."
+    echo "Publishing..."
     poetry publish

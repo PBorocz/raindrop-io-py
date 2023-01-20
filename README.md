@@ -7,53 +7,58 @@
 
 Python wrapper for the [Raindrop.io](https://raindrop.io) Bookmark Manager [API](https://developer.raindrop.io/) as well as a simple command-line interface to prove out the API.
 
-## Background
 
-I needed a few additions to an existing API ([python-raindropio](https://github.com/atsuoishimoto/python-raindropio))and desired a simple terminal-based UI for interactive work with Raindrop itself.
+## Background & Acknowledgments
 
-Thus, this is a fork of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto). 
+I needed a few additions to an existing API for the Raindrop Bookmark Manager and desired a simple terminal-based UI for interactive work with Raindrop itself. Thus, this is a _fork_ of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto)...thanks Atsuo!
+
 
 ## Status
 
-As the API to Raindrop itself is based on a fork of an existing package, it's reasonably stable (as of this writing, only one minor change is envisioned)
+As the API layer is based on a fork of an existing package, it's reasonably stable (as of this writing, only one minor enhancement is envisioned)
 
-However, the command-line interface (CLI) is brand new and lacking tests. Thus, it's probably **NOT** ready for serious use yet. Similarly, real installation support will come when I learn the ins/outs of _package_ creation and distribution.
+However, the command-line interface (CLI) is brand new and lacking tests. Thus, it's probably **NOT** ready for serious use yet.
 
 ## Requirements
 
-- Requires Python 3.10 or later (well, at least I'm developing against 3.10.9)
+Requires Python 3.10 or later (well, at least I'm developing against 3.10.9).
 
 
 ## Install
 
-Until I learn how to "package" and distribute to PyPI, **please use directly from this repo**. _Ultimately_, you'll be able to:
-
 ```shell
-pip install raindroppy
+[.venv] pip install raindroppy
 ```
 
-or 
+or (albeit untested):
 
 ```shell
-poetry add raindroppy
+[.venv] poetry add raindroppy
 ```
 
 ## Setup
 
-You need to create an integration _app_ on Raindrop.io to receive API token(s) to use this package.
+To use this package, besides your own account on Raindrop, you'll need to create an _integration app_ on the Raindrop.io site from which you can create API token(s). 
 
 - Go to [app.draindrop.api/settings/integrations](https://app.raindrop.io/settings/integrations) and select `+ create new app`.
 
 - Give it a descriptive name and then select the app you just created. 
 
-- For testing and/or to only access your Raindrop environment, select `Create test token` and copy the token provided.
+- Select `Create test token` and copy the token provided. Note that the basis for calling it a "test" token is that it only gives you access to bookmarks within _your own account_. Raindrop allows you to use their API against other people's environments using oAuth (see untested/unsupported flask_oauth file in /examples)
 
-- Save your token(s) into your environment (we use python-dotenv so a simple .env/.envrc file your information should suffice), for example:
+- Save your token into your environment (we use python-dotenv so a simple .env/.envrc file your information should suffice), for example:
+
 ```
+# in a .env file:
 RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
-# or
-RAINDROP_CLIENT_ID=1234567890-abcdefgh-1234567890
-RAINDROP_CLIENT_SECRET=abcdefgh-1234567890-abcdefgh
+
+# or for bash:
+export RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
+
+# or go fish:
+set -gx RAINDROP_TOKEN 01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
+
+# ...
 ```
 
 ## API Usage & Examples
@@ -74,7 +79,6 @@ load_dotenv()
 
 with API(os.environ["RAINDROP_TEST_OKEN"]) as api:
     link, title = "https://www.python.org/", "Our Benevolent Dictator's Creation"
-    
     print(f"Creating Raindrop to: '{link}' with title: '{title}'...", flush=True, end="")
     raindrop = Raindrop.create_link(api, link=link, title=title, tags=["abc", "def"])
     print(f"Done, id={raindrop.id}")
@@ -96,7 +100,6 @@ load_dotenv()
 
 with API(os.environ["RAINDROP_TOKEN"]) as api:
     title = f"TEST Collection ({getuser()}@{datetime.now():%Y-%m-%dT%H:%M:%S})"
-    
     print(f"Creating collection: '{title}'...", flush=True, end="")
     collection = Collection.create(api, title=title)
     print(f"Done, {collection.id=}.")

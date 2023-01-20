@@ -3,9 +3,9 @@ import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 from dotenv import load_dotenv
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from raindroppy.api import API, Raindrop
 
@@ -14,7 +14,7 @@ load_dotenv()
 with API(os.environ["RAINDROP_TOKEN"]) as api:
     # Note that Raindrop only supports a small set of file types, see
     # https://help.raindrop.io/files for details.
-    path_ = Path(__file__).parent / Path("sample_bulk_upload_specification.pdf")
+    path_ = Path(__file__).parent / Path("sample_upload_file.pdf")
     print(f"Creating Raindrop of: '{path_.name}'...", flush=True, end="")
     try:
         raindrop = Raindrop.create_file(api, path_, content_type="application/pdf")

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "raindrop.io-py"
-version = "0.0.1"
+version = "0.0.2"
 description = "API and terminal-based CLI for Raindrop.io bookmark manager"
 
 authors = ["Peter Borocz <peter.borocz+raindroppy@google.com>"]
@@ -11,8 +11,8 @@ license = "MIT"
 readme = "README.md"
 packages = [{ include = "raindroppy" }]
 
-homepage = "https://github.com/PBorocz/raindroppy"
-repository = "https://github.com/PBorocz/raindroppy"
+homepage = "https://github.com/PBorocz/raindrop-io-py"
+repository = "https://github.com/PBorocz/raindrop-io-py"
 
 [tool.poetry.scripts]
 raindroppy = "raindroppy.cli.cli:main"

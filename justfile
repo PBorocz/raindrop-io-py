@@ -2,30 +2,42 @@ set dotenv-load
 
 # The list of available targets
 default:
-    @just --list --unsorted
+    @just --list
 
 ################################################################################
-# Usage
+# Packaging...
+################################################################################
+# Clean our build enviroment
+clean:
+    @rm -rf build raindroppy.egg-info
+
+# Build our package
+build:
+    @echo "Building..."
+    @just clean
+    @poetry build
+
+# Build and Publish
+publish *args:
+    echo "Publishing..."
+    poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD {{args}}
+
+################################################################################
+# Development...
 ################################################################################
 # Run our command-line interface
 cli:
-    python raindroppy/cli/run.py
+    python raindroppy/cli/cli.py
 
-#(old way:)
-#    python raindrop/cli/cli.py {{args}}
-
-################################################################################
-# Development support...
-################################################################################
-# Run local unit tests (fast, no connection or Raindrop.io configuration required)
+# Run tests
 test *args:
     python -m pytest {{args}}
 
-# Run pre-commit from command-line
+# Pre-commit - Run all
 pre-commit-all *args:
     pre-commit run --all-files {{args}}
 
-# Update the repo to the most recent .pre-commit-config.yaml and run it.
+# Pre-commit - Update new configuration and run
 pre-commit-update *args:
     pre-commit install
     git add .pre-commit-config.yaml
@@ -38,7 +50,7 @@ sleep:
 # Run samples against live Raindrop environment (assumes RAINDROP_TOKEN in env!)
 run_examples:
     # Listed in order of complexity, list_* are read-only, rest make changes.
-    # Be nice to Raindrop and rest in between each one.
+    # We try to be nice to Raindrop by resting between each file.
     python examples/list_authorised_user.py
     just sleep
     python examples/list_collections.py
@@ -56,35 +68,3 @@ run_examples:
     python examples/edit_raindrop.py
     just sleep
     python examples/search_raindrop.py
-
-################################################################################
-# Packaging support...
-################################################################################
-# Clean our build enviroment:
-clean:
-    @echo "Cleaning house..."
-    @rm -rf dist dist raindroppy.egg-info
-
-# Build our package..
-build:
-    @echo "Building..."
-    @just clean
-    @poetry version patch
-    @poetry build
-
-# Publish our build to *TestPyPi* (args: --dry-run for example)
-publish_testpypi *args:
-    poetry publish --repository testpypi --username $PYPI_TEST_USERNAME --password $PYPI_TEST_PASSWORD {{args}}
-
-    # NOTE: To pip install from TestPyPi and get the right packages.
-    # pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple raindroppy (or raindroppy==x.y.z)
-    # Ref: https://stackoverflow.com/questions/57405014/how-to-fix-no-matching-distribution-found-for-package-name-when-installing-o
-
-# Publish our build to *Production* PyPi:
-publish_production:
-    echo "Publishing (dry run)..."
-    poetry config pypi-token.pypi $(PYPI_TOKEN)
-    @just clean
-    poetry publish --dry-run
-    echo "Publishing..."
-    poetry publish

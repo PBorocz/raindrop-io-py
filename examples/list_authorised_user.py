@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from dotenv import load_dotenv
 
-from raindroppy.api import API, Collection, User
+from raindroppy.api import API, User
 
 load_dotenv()
 
@@ -18,25 +18,24 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
         print(f"{attr:16s} {getattr(user, attr)}")
 
     # User configuration..
-    print("\nConfig")
-    print("\tconfig.broken_level:   ", user.config.broken_level)
-    print("\tconfig.font_color:     ", user.config.font_color)
-    print("\tconfig.font_size:      ", user.config.font_size)
-    print("\tconfig.raindrops_view: ", user.config.raindrops_view)
+    print()
+    print("config.broken_level:    ", user.config.broken_level)
+    print("config.font_color:      ", user.config.font_color)
+    print("config.font_size:       ", user.config.font_size)
+    print("config.raindrops_view:  ", user.config.raindrops_view)
 
     # User files..
-    print("\nFiles")
-    print("\tfiles.used:           ", user.files.used)
-    print("\tfiles.size:           ", user.files.size)
-    print("\tfiles.lastCheckPoint: ", user.files.lastCheckPoint)
+    print()
+    print("files.used:             ", user.files.used)
+    print("files.size:             ", user.files.size)
+    print("files.lastCheckPoint:   ", user.files.lastCheckPoint)
 
     # User group membership
-    print("\nGroups")
+    print()
     for group in user.groups:
-        print("\tgroups.group.title: ", group.title)
-        print("\tgroups.hidden:      ", group.hidden)
-        print("\tgroups.sort:        ", group.sort)
-        print("\tCollections")
-        for collection_id in group.collectionids:
-            if collection := Collection.get(api, collection_id):
-                print("\t\tgroups.collectionids.title: ", collection.title)
+        print("groups.group.title:     ", group.title)
+        print("groups.group.title:     ", group.title)
+        print("groups.hidden:          ", group.hidden)
+        print("groups.sort:            ", group.sort)
+        print("groups.collectionids:   ", list(group.collectionids))
+        print()

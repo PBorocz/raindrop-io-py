@@ -84,6 +84,7 @@ publish *args:
 
     # NOTE: To pip install from TestPyPi and get the right packages.
     # pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple raindroppy (or raindroppy==x.y.z)
+    # Ref: https://stackoverflow.com/questions/57405014/how-to-fix-no-matching-distribution-found-for-package-name-when-installing-o
 
 # Publish our build to *production* PyPi:
 publish_production:

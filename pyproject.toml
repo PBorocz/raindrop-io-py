@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "raindroppy"
-version = "0.0.16"
+version = "0.0.17"
 description = "API and terminal-based CLI for Raindrop.io bookmark manager"
 
 authors = ["Peter Borocz <peter.borocz+raindroppy@google.com>"]
@@ -15,7 +15,7 @@ homepage = "https://github.com/PBorocz/raindroppy"
 repository = "https://github.com/PBorocz/raindroppy"
 
 [tool.poetry.scripts]
-raindroppy_cli = "raindroppy:cli:run.main"
+raindroppy_cli = "raindroppy.cli.run:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"

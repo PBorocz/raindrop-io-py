@@ -1,16 +1,16 @@
 
-# RaindropPY
+# Raindrop-io-py
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![Python Version](https://img.shields.io/badge/python-3.10+-green)](https://www.python.org/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
-Python wrapper for the [Raindrop.io](https://raindrop.io) Bookmark Manager [API](https://developer.raindrop.io/) as well as a simple command-line interface to prove out the API.
+Python wrapper for the [Raindrop.io](https://raindrop.io) Bookmark Manager as well as a simple command-line interface to perform common operations.
 
 
 ## Background & Acknowledgments
 
-I needed a few additions to an existing API for the Raindrop Bookmark Manager and desired a simple terminal-based UI for interactive work with Raindrop itself. Thus, this is a _fork_ of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto)...thanks Atsuo!
+I needed a few additions to an existing API for the Raindrop Bookmark Manager and desired a simple terminal-based UI for interactive work with Raindrop itself. Thus, this is a _fork_ of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto) ...thanks Atsuo!
 
 
 ## Status
@@ -23,22 +23,21 @@ However, the command-line interface (CLI) is brand new and lacking tests. Thus, 
 
 Requires Python 3.10 or later (well, at least I'm developing against 3.10.9).
 
-
 ## Install
 
 ```shell
-[.venv] pip install raindroppy
+[.venv] pip install raindroppy-io-py
 ```
 
 or (albeit untested):
 
 ```shell
-[.venv] poetry add raindroppy
+[.venv] poetry add raindroppy-io-py
 ```
 
 ## Setup
 
-To use this package, besides your own account on Raindrop, you'll need to create an _integration app_ on the Raindrop.io site from which you can create API token(s). 
+To use this package, besides your own account on [Raindrop](https://raindrop.io), you'll need to create an _integration app_ on the Raindrop.io site from which you can create API token(s). 
 
 - Go to [app.draindrop.api/settings/integrations](https://app.raindrop.io/settings/integrations) and select `+ create new app`.
 
@@ -63,7 +62,7 @@ set -gx RAINDROP_TOKEN 01234567890-abcdefghf-aSample-API-Token-01234567890-abcde
 
 ## API Usage & Examples
 
-A full suite of examples are provided in the examples directory, here are a few to give you some idea of the usage model:
+A full suite of examples are provided in the `examples` directory, here are a few to give you some idea of the usage model:
 
 ### Create a New Raindrop Bookmark to a URL
 
@@ -77,7 +76,7 @@ from raindroppy.api import API, Raindrop
 
 load_dotenv()
 
-with API(os.environ["RAINDROP_TEST_OKEN"]) as api:
+with API(os.environ["RAINDROP_TOKEN"]) as api:
     link, title = "https://www.python.org/", "Our Benevolent Dictator's Creation"
     print(f"Creating Raindrop to: '{link}' with title: '{title}'...", flush=True, end="")
     raindrop = Raindrop.create_link(api, link=link, title=title, tags=["abc", "def"])
@@ -104,6 +103,8 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     collection = Collection.create(api, title=title)
     print(f"Done, {collection.id=}.")
 ```
+
+After this has executed, go to your Raindrop.io environment (site or app) and you should see this collection defined.
 
 ### Display All Bookmarks from the *Unsorted* Raindrop Collection
 
@@ -138,4 +139,4 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 
 ## License
 
-Copyright (c) 2022 Peter Borocz. See LICENSE for details.
+The project is licensed under the MIT License.

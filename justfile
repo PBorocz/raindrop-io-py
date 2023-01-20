@@ -52,19 +52,27 @@ run_examples:
     # Listed in order of complexity, list_* are read-only, rest make changes.
     # We try to be nice to Raindrop by resting between each file.
     python examples/list_authorised_user.py
-    just sleep
+    @just sleep
+
     python examples/list_collections.py
-    just sleep
+    @just sleep
+
     python examples/list_tags.py
-    just sleep
+    @just sleep
+
     python examples/create_collection.py
-    just sleep
+    @just sleep
+
     python examples/edit_collection.py
-    just sleep
+    @just sleep
+
     python examples/create_raindrop_file.py
-    just sleep
+    @just sleep
+
     python examples/create_raindrop_link.py
-    just sleep
+    @just sleep
+
     python examples/edit_raindrop.py
-    just sleep
+    @just sleep
+
     python examples/search_raindrop.py

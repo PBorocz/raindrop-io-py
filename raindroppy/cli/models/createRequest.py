@@ -1,125 +1,13 @@
 """Abstract data types to support Raindrop CLI."""
-import os
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
-from typing import Callable, Optional, TypeVar, Union
+from typing import Callable, TypeVar, Union
 
-from raindroppy.api import (
-    API,
-    Access,
-    Collection,
-    CollectionRef,
-    SystemCollection,
-    Tag,
-    User,
-)
-from raindroppy.cli.models.spinner import Spinner
+from raindroppy.api import Collection
 
-RaindropState = TypeVar(
-    "RaindropState",
+CreateRequest = TypeVar(
+    "CreateRequest",
 )  # In py3.11, we'll be able to do 'from typing import Self' instead
-CreateRequest = TypeVar("CreateRequest")  # "
-
-
-@dataclass
-class RaindropState:
-    """Encapsulate all aspects for current state of the Raindrop environment."""
-
-    api: API
-    created: datetime
-    user: User
-    collections: list[Collection] = None
-    tags: list[str] = None
-    refreshed: datetime = None
-
-    def get_collection_titles(self, exclude_unsorted=False) -> list[str]:
-        """Return a sorted list of Collection titles, with or without 'Unsorted'."""
-        if exclude_unsorted:
-            titles = [
-                collection.title for collection in self.collections if collection.id > 0
-            ]
-        else:
-            titles = [collection.title for collection in self.collections]
-        return sorted(titles)
-
-    def find_collection(self, title: str) -> Optional[Collection]:
-        """Find the actual Collection object with the title provided."""
-        for collection in self.collections:
-            if title.casefold() == collection.title.casefold():
-                return collection
-        return None
-
-    def find_collection_by_id(self, id: int) -> Optional[Collection]:
-        """Find the actual Collection object with the *id* provided."""
-        for collection in self.collections:
-            if collection.id == id:
-                return collection
-        return None
-
-    def refresh(self, verbose: bool = True) -> bool:
-        """Refresh the current state of this Raindrop environment (ie. current collections and tags available)."""
-
-        def _cf(casefold: bool, string: str) -> str:
-            if casefold:
-                return string.casefold()
-            return string
-
-        with Spinner("Refreshing Raindrop Status..."):
-
-            # What collections do we currently have on Raindrop?
-            # (including the "Unsorted" system collection as well;
-            # only an id, title and count)
-            collections: list[Collection] = [
-                root for root in Collection.get_roots(self.api) if root.title
-            ]
-
-            collections.extend([child for child in Collection.get_childrens(self.api)])
-            for collection in SystemCollection.get_status(self.api):
-                if collection.id == CollectionRef.Unsorted.id:
-                    access = Access({"level": 4})
-                    unsorted = Collection(
-                        {
-                            "_id": CollectionRef.Unsorted.id,
-                            "count": collection.count,
-                            "title": SystemCollection.CollectionRefsTitles[
-                                CollectionRef.Unsorted.id
-                            ],
-                            "access": access,
-                        },
-                    )
-                    collections.append(unsorted)
-
-            self.collections = sorted(
-                collections,
-                key=lambda collection: getattr(collection, "title", ""),
-            )
-
-            # What tags we currently have available on Raindrop across
-            # *all* collections? (use set to get rid of potential duplicates)
-            tags: set[str] = set([tag.tag for tag in Tag.get(self.api)])
-            self.tags = list(sorted(tags))
-            self.refreshed = datetime.utcnow()
-
-        return True
-
-    @classmethod
-    def factory(cls, verbose: bool = True) -> RaindropState:
-        """Factory to log into Raindrop and return a new RaindropState instance."""
-        with Spinner("Logging into Raindrop..."):
-
-            # Setup our connection to Raindrop
-            api: API = API(os.environ["RAINDROP_TOKEN"])
-
-            # What user are we currently defined "for"?
-            user = User.get(api)
-
-        state = RaindropState(api=api, user=user, created=datetime.utcnow())
-
-        # And, do our first refresh.
-        state.refresh()
-
-        return state
 
 
 @dataclass

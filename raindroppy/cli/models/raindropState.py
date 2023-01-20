@@ -2,8 +2,7 @@
 import os
 from dataclasses import dataclass
 from datetime import datetime
-from pathlib import Path
-from typing import Callable, Optional, TypeVar, Union
+from typing import Optional, TypeVar
 
 from raindroppy.api import (
     API,
@@ -19,7 +18,6 @@ from raindroppy.cli.models.spinner import Spinner
 RaindropState = TypeVar(
     "RaindropState",
 )  # In py3.11, we'll be able to do 'from typing import Self' instead
-CreateRequest = TypeVar("CreateRequest")  # "
 
 
 @dataclass
@@ -59,23 +57,13 @@ class RaindropState:
 
     def refresh(self, verbose: bool = True) -> bool:
         """Refresh the current state of this Raindrop environment (ie. current collections and tags available)."""
-        with Spinner("Refreshing Raindrop Status..."):
 
-            ################################################################################
-            # What collections do we currently have on Raindrop?
-            # (including the "Unsorted" system collection as well;
-            # only an id, title and count)
-            ################################################################################
+        def __refresh_collections():
+            """Gather and set the *COLLECTIONS* associated with the current API user."""
+            # This get's us both "root" and "children" collections:
+            collections: list[Collection] = Collection.get_collections(self.api)
 
-            # Start with the "root" collections at the top level:
-            collections: list[Collection] = [
-                root for root in Collection.get_roots(self.api) if root.title
-            ]
-
-            # Add in the "children" collections at secondary level(s):
-            collections.extend([child for child in Collection.get_childrens(self.api)])
-
-            # Finally, add in the "Unsorted" collection
+            # Add the "Unsorted" system collection (we don't care about "Trash" or "All" here)
             for collection in SystemCollection.get_status(self.api):
                 if collection.id == CollectionRef.Unsorted.id:
                     unsorted_collection = Collection(
@@ -96,12 +84,16 @@ class RaindropState:
                 key=lambda collection: getattr(collection, "title", ""),
             )
 
-            ################################################################################
-            # What tags we currently have available on Raindrop across
-            # *all* collections? (use set to get rid of potential duplicates)
-            ################################################################################
+        def __refresh_tags():
+            """Gather and set the *TAGS* associated with the current API user."""
+            # use set to get rid of potential duplicates
             tags: set[str] = set([tag.tag for tag in Tag.get(self.api)])
             self.tags = list(sorted(tags))
+
+        ################################################################################
+        with Spinner("Refreshing Raindrop Status..."):
+            __refresh_collections()
+            __refresh_tags()
             self.refreshed = datetime.utcnow()
 
         return True
@@ -117,82 +109,3 @@ class RaindropState:
         state = RaindropState(api=api, user=user, created=datetime.utcnow())
         state.refresh()
         return state
-
-
-@dataclass
-class CreateRequest:
-    """Encapsulate parameters required to create either a link or file-based Raindrop bookmark."""
-
-    # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
-    title: str = None
-
-    # Name of collection (or real) to store bookmark, eg. "My Documents"
-    collection: Union[str, Collection] = None
-
-    # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
-    tags: list[str] = None
-
-    # One of the following needs to be specified:
-    url: str = None  # URL of link-based Raindrop to create.
-
-    # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
-    file_path: Path = None
-
-    def name(self) -> str:
-        """Return a user viewable name for request irrespective of type."""
-        if self.title:
-            return self.title
-        if self.url:
-            return self.url
-        if self.file_path:
-            return self.file_path.name
-        return "-"
-
-    def print(self, print_method: Callable) -> None:
-        """Print the request using the callable provided (used to present back to the user for confirmation)."""
-        if self.url:
-            print_method(f"URL           : {self.url}")
-        elif self.file_path:
-            print_method(f'File to send  : "{self.file_path}"')
-        print_method(f"With title    : {self.title}")
-        print_method(f"To collection : {self.collection}")
-        print_method(f"With tags     : {self.tags}")
-
-    @classmethod
-    def factory(cls, entry: dict) -> CreateRequest:
-        """Return an new instance of CreateRequest based on an inbound dict, ie. from toml."""
-        request: CreateRequest = CreateRequest(
-            collection=entry.get("collection"),
-            tags=entry.get("tags"),
-        )
-
-        # Depending on the population of 2 attributes, we conclude
-        # what type of Raindrop we're creating, ie. a standard
-        # link/url-based one or a "file"-based one.
-        if entry.get("file_path"):
-            request.file_path = Path(entry.get("file_path"))
-
-            # Get default title from the file name if we don't have a
-            # title provided in the inbound dict:
-            request.title = entry.get("title", request.file_path.stem)
-
-        elif entry.get("url"):
-            request.url = entry.get("url")
-            request.title = entry.get("title")
-
-        return request
-
-    def __str__(self):
-        """Render a collection as a string (mostly for display)."""
-        return_ = list()
-        if self.title:
-            return_.append(f"Title      : {self.title}")
-        if self.url:
-            return_.append(f"URL        : {self.url}")
-        if self.file_path:
-            return_.append(f"File       : {self.file_path}")
-        if self.collection:
-            return_.append(f"Collection : {self.collection}")
-        if self.tags:
-            return_.append(f"Tag(s)     : {self.tags}")
-        return "\n".join(return_)

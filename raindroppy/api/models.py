@@ -134,7 +134,7 @@ class Collection(DictModel):
     @classmethod
     def get(cls, api: API, id: int) -> Collection:
         """Primary call to return a Raindrop collection based on it's id."""
-        url = URL.format(path=f"collections/{id}")
+        url = URL.format(path=f"collection/{id}")
         item = api.get(url).json()["item"]
         return cls(item)
 

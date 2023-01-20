@@ -59,44 +59,47 @@ class RaindropState:
 
     def refresh(self, verbose: bool = True) -> bool:
         """Refresh the current state of this Raindrop environment (ie. current collections and tags available)."""
-
-        def _cf(casefold: bool, string: str) -> str:
-            if casefold:
-                return string.casefold()
-            return string
-
         with Spinner("Refreshing Raindrop Status..."):
 
+            ################################################################################
             # What collections do we currently have on Raindrop?
             # (including the "Unsorted" system collection as well;
             # only an id, title and count)
+            ################################################################################
+
+            # Start with the "root" collections at the top level:
             collections: list[Collection] = [
                 root for root in Collection.get_roots(self.api) if root.title
             ]
 
+            # Add in the "children" collections at secondary level(s):
             collections.extend([child for child in Collection.get_childrens(self.api)])
+
+            # Finally, add in the "Unsorted" collection
             for collection in SystemCollection.get_status(self.api):
                 if collection.id == CollectionRef.Unsorted.id:
-                    access = Access({"level": 4})
-                    unsorted = Collection(
+                    unsorted_collection = Collection(
                         {
                             "_id": CollectionRef.Unsorted.id,
                             "count": collection.count,
                             "title": SystemCollection.CollectionRefsTitles[
                                 CollectionRef.Unsorted.id
                             ],
-                            "access": access,
+                            "access": Access({"level": 4}),
                         },
                     )
-                    collections.append(unsorted)
+                    collections.append(unsorted_collection)
 
+            # Leave our collections in a presentable order, ie. by Title.
             self.collections = sorted(
                 collections,
                 key=lambda collection: getattr(collection, "title", ""),
             )
 
+            ################################################################################
             # What tags we currently have available on Raindrop across
             # *all* collections? (use set to get rid of potential duplicates)
+            ################################################################################
             tags: set[str] = set([tag.tag for tag in Tag.get(self.api)])
             self.tags = list(sorted(tags))
             self.refreshed = datetime.utcnow()
@@ -105,20 +108,14 @@ class RaindropState:
 
     @classmethod
     def factory(cls, verbose: bool = True) -> RaindropState:
-        """Factory to log into Raindrop and return a new RaindropState instance."""
+        """Log into Raindrop and return a new, refreshed RaindropState instance."""
         with Spinner("Logging into Raindrop..."):
-
-            # Setup our connection to Raindrop
-            api: API = API(os.environ["RAINDROP_TOKEN"])
-
-            # What user are we currently defined "for"?
-            user = User.get(api)
-
+            api: API = API(
+                os.environ["RAINDROP_TOKEN"],
+            )  # Setup our connection to Raindrop
+            user = User.get(api)  # What user are we currently defined "for"?
         state = RaindropState(api=api, user=user, created=datetime.utcnow())
-
-        # And, do our first refresh.
         state.refresh()
-
         return state
 
 
@@ -126,22 +123,20 @@ class RaindropState:
 class CreateRequest:
     """Encapsulate parameters required to create either a link or file-based Raindrop bookmark."""
 
-    title: str = (
-        None  # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
-    )
-    collection: Union[
-        str,
-        Collection,
-    ] = None  # Name of collection (or real) to store bookmark, eg. "My Documents"
-    tags: list[
-        str
-    ] = None  # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
+    # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
+    title: str = None
+
+    # Name of collection (or real) to store bookmark, eg. "My Documents"
+    collection: Union[str, Collection] = None
+
+    # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
+    tags: list[str] = None
 
     # One of the following needs to be specified:
     url: str = None  # URL of link-based Raindrop to create.
-    file_path: Path = (
-        None  # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
-    )
+
+    # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
+    file_path: Path = None
 
     def name(self) -> str:
         """Return a user viewable name for request irrespective of type."""
@@ -154,7 +149,7 @@ class CreateRequest:
         return "-"
 
     def print(self, print_method: Callable) -> None:
-        """Print the request (using the callable), used to present back to the user for confirmation."""
+        """Print the request using the callable provided (used to present back to the user for confirmation)."""
         if self.url:
             print_method(f"URL           : {self.url}")
         elif self.file_path:

@@ -29,7 +29,7 @@ However, the command-line interface (CLI) is brand new and lacking tests. Thus, 
 Until I learn how to "package" and distribute to PyPI, **please use directly from this repo**. _Ultimately_, you'll be able to:
 
 ```shell
-pip3 install raindroppy
+pip install raindroppy
 ```
 
 or 
@@ -50,7 +50,7 @@ You need to create an integration _app_ on Raindrop.io to receive API token(s) t
 
 - Save your token(s) into your environment (we use python-dotenv so a simple .env/.envrc file your information should suffice), for example:
 ```
-RAINDROP_TEST_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
+RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 # or
 RAINDROP_CLIENT_ID=1234567890-abcdefgh-1234567890
 RAINDROP_CLIENT_SECRET=abcdefgh-1234567890-abcdefgh
@@ -94,7 +94,7 @@ from raindroppy.api import API, Collection
 
 load_dotenv()
 
-with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
+with API(os.environ["RAINDROP_TOKEN"]) as api:
     title = f"TEST Collection ({getuser()}@{datetime.now():%Y-%m-%dT%H:%M:%S})"
     
     print(f"Creating collection: '{title}'...", flush=True, end="")
@@ -113,7 +113,7 @@ from raindroppy.api import API, CollectionRef, Raindrop
 load_dotenv()
 
 
-with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
+with API(os.environ["RAINDROP_TOKEN"]) as api:
     page = 0
     while (items := Raindrop.search(api, collection=CollectionRef.Unsorted, page=page)):
         for item in items:
@@ -124,7 +124,8 @@ with API(os.environ["RAINDROP_TEST_TOKEN"]) as api:
 ## Command-Line Interface Usage
 
 ```shell
-[.venv] % python raindroppy/cli/run.py
+# Remember to setup RAINDROP_TOKEN in your environment!
+[.venv] % raindroppy
 ```
 
 ## Acknowledgments

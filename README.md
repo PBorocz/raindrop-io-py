@@ -26,7 +26,7 @@ Requires Python 3.10 or later (well, at least I'm developing against 3.10.9).
 ## Install
 
 ```shell
-[.venv] python -m pip install raindropiopy-io-py
+[.venv] python -m pip install raindrop-io-py
 ```
 
 ## Setup

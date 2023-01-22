@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "raindrop-io-py"
-version = "0.0.4"
+version = "0.0.5"
 description = "API and terminal-based CLI for Raindrop.io bookmark manager"
 
 authors = ["Peter Borocz <peter.borocz+raindrop-io-py@google.com>"]

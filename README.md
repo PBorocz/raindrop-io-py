@@ -26,13 +26,13 @@ Requires Python 3.10 or later (well, at least I'm developing against 3.10.9).
 ## Install
 
 ```shell
-[.venv] pip install raindroppy-io-py
+[.venv] pip install raindropiopy-io-py
 ```
 
 or (albeit untested):
 
 ```shell
-[.venv] poetry add raindroppy-io-py
+[.venv] poetry add raindropiopy-io-py
 ```
 
 ## Setup
@@ -72,7 +72,7 @@ import sys
 
 from dotenv import load_dotenv
 
-from raindroppy.api import API, Raindrop
+from raindropiopy.api import API, Raindrop
 
 load_dotenv()
 
@@ -93,7 +93,7 @@ from getpass import getuser
 
 from dotenv import load_dotenv
 
-from raindroppy.api import API, Collection
+from raindropiopy.api import API, Collection
 
 load_dotenv()
 
@@ -112,7 +112,7 @@ After this has executed, go to your Raindrop.io environment (site or app) and yo
 import os
 from dotenv import load_dotenv
 
-from raindroppy.api import API, CollectionRef, Raindrop
+from raindropiopy.api import API, CollectionRef, Raindrop
 
 load_dotenv()
 
@@ -129,7 +129,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 
 ```shell
 # Remember to setup RAINDROP_TOKEN in your environment!
-[.venv] % raindroppy
+[.venv] % raindropiopy
 ```
 
 ## Acknowledgments

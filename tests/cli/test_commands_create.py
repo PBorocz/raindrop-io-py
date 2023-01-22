@@ -1,6 +1,6 @@
 """Test a few commands in the create command module."""
 
-from raindroppy.cli.commands.create import __validate_url
+from raindropiopy.cli.commands.create import __validate_url
 
 
 def test_validate_url_validation():

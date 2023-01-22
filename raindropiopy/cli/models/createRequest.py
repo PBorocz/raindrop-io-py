@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, TypeVar, Union
 
-from raindroppy.api import Collection
+from raindropiopy.api import Collection
 
 CreateRequest = TypeVar(
     "CreateRequest",

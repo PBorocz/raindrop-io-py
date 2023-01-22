@@ -17,7 +17,7 @@ from flask import Flask, redirect, render_template_string, request
 from requests_oauthlib import OAuth2Session
 from werkzeug import Response
 
-from raindroppy.api import API, Collection
+from raindropiopy.api import API, Collection
 
 load_env()
 

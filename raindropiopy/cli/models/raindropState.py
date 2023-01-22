@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, TypeVar
 
-from raindroppy.api import (
+from raindropiopy.api import (
     API,
     Access,
     Collection,
@@ -13,7 +13,7 @@ from raindroppy.api import (
     Tag,
     User,
 )
-from raindroppy.cli.models.spinner import Spinner
+from raindropiopy.cli.models.spinner import Spinner
 
 RaindropState = TypeVar(
     "RaindropState",

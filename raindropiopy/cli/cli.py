@@ -4,8 +4,8 @@ import sys
 
 from dotenv import load_dotenv
 
-from raindroppy.cli.models.eventLoop import EventLoop
-from raindroppy.cli.models.raindropState import RaindropState
+from raindropiopy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.raindropState import RaindropState
 
 
 def main():

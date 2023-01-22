@@ -3,7 +3,7 @@ import datetime
 from pathlib import Path
 from unittest.mock import patch
 
-from raindroppy.api import API, Raindrop, RaindropType
+from raindropiopy.api import API, Raindrop, RaindropType
 
 raindrop = {
     "_id": 2000,
@@ -30,7 +30,7 @@ raindrop = {
 def test_get() -> None:
     """Test get method."""
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindropiopy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": raindrop}
 
         c = Raindrop.get(api, 2000)
@@ -69,7 +69,7 @@ def test_get() -> None:
 def test_search() -> None:
     """Test search method."""
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindropiopy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"items": [raindrop]}
 
         found = Raindrop.search(api)
@@ -79,7 +79,7 @@ def test_search() -> None:
 def test_create_link() -> None:
     """Test ability to create a link-based Raindrop."""
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindropiopy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": raindrop}
         item = Raindrop.create_link(api, link="https://example.com")
         assert item.id == 2000
@@ -89,7 +89,7 @@ def test_create_file() -> None:
     """Test ability to create a file-based Raindrop."""
     api = API("dummy")
     content_type = "text/plain"
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindropiopy.api.api.OAuth2Session.request") as m:
 
         # FIXME: Note that for now, we're *not* testing the ability to
         #        set either a title or tags on the following
@@ -121,7 +121,7 @@ def test_create_file() -> None:
 def test_update() -> None:
     """Test ability to update an existing Raindrop."""
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindropiopy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"item": raindrop}
         item = Raindrop.update(api, id=2000, link="https://example.com")
         assert item.id == 2000
@@ -130,7 +130,7 @@ def test_update() -> None:
 def test_remove() -> None:
     """Test ability to remove a Raindrop."""
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindropiopy.api.api.OAuth2Session.request") as m:
         Raindrop.remove(api, id=2000)
 
         assert m.call_args[0] == (

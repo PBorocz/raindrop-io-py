@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from requests import Response
 
-from raindroppy.api import API
+from raindropiopy.api import API
 
 
 def test_refresh() -> None:

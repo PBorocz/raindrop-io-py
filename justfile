@@ -10,14 +10,14 @@ default:
 # Build *and* publish to PyPI
 publish:
     poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD
-    @rm -rf build raindroppy.egg-info
+    @rm -rf build raindropiopy.egg-info
 
 ################################################################################
 # Development...
 ################################################################################
 # Run the raindrop-io-py command-line interface
 cli:
-    python raindroppy/cli/cli.py
+    python raindropiopy/cli/cli.py
 
 # Run tests
 test *args:

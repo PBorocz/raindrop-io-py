@@ -5,17 +5,17 @@ from typing import Optional
 from prompt_toolkit.completion import WordCompleter
 from rich.table import Table
 
-from raindroppy.api import Collection, CollectionRef, Raindrop
-from raindroppy.cli import (
+from raindropiopy.api import Collection, CollectionRef, Raindrop
+from raindropiopy.cli import (
     COLOR_TABLE_COLUMN_1,
     COLOR_TABLE_COLUMN_2,
     PROMPT_STYLE,
     prompt,
 )
-from raindroppy.cli.commands import get_from_list
-from raindroppy.cli.commands.help import help_search
-from raindroppy.cli.models.eventLoop import EventLoop
-from raindroppy.cli.models.spinner import Spinner
+from raindropiopy.cli.commands import get_from_list
+from raindropiopy.cli.commands.help import help_search
+from raindropiopy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.spinner import Spinner
 
 WILDCARD = "*"
 

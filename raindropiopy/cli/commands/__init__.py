@@ -4,8 +4,8 @@ from typing import Final, Optional
 
 from prompt_toolkit.completion import WordCompleter
 
-from raindroppy.cli import PROMPT_STYLE, prompt
-from raindroppy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli import PROMPT_STYLE, prompt
+from raindropiopy.cli.models.eventLoop import EventLoop
 
 
 def get_from_list(

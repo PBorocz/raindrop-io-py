@@ -9,7 +9,7 @@ from getpass import getuser
 
 from dotenv import load_dotenv
 
-from raindroppy.api import API, Collection
+from raindropiopy.api import API, Collection
 
 load_dotenv()
 

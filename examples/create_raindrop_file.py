@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from raindroppy.api import API, Raindrop
+from raindropiopy.api import API, Raindrop
 
 load_dotenv()
 

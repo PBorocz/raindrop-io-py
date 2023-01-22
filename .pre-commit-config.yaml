@@ -38,4 +38,4 @@ repos:
   hooks:
   - id: ruff
     name: Running Ruff
-    args: ["--config=pyproject.toml", "--fix", "raindroppy/"]
+    args: ["--config=pyproject.toml", "--fix", "raindropiopy/"]

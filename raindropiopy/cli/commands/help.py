@@ -1,8 +1,8 @@
 """Display help."""
 from rich.table import Table
 
-from raindroppy.cli import COLOR_TABLE_COLUMN_1, COLOR_TABLE_COLUMN_2
-from raindroppy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli import COLOR_TABLE_COLUMN_1, COLOR_TABLE_COLUMN_2
+from raindropiopy.cli.models.eventLoop import EventLoop
 
 
 def process(el: EventLoop) -> None:

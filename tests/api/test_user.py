@@ -2,7 +2,7 @@
 import datetime
 from unittest.mock import patch
 
-from raindroppy.api import API, BrokenLevel, User, View
+from raindropiopy.api import API, BrokenLevel, User, View
 
 user = {
     "_id": 1000,
@@ -43,7 +43,7 @@ user = {
 def test_get() -> None:
     """Test that we can get/lookup the user."""
     api = API("dummy")
-    with patch("raindroppy.api.api.OAuth2Session.request") as m:
+    with patch("raindropiopy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"user": user}
         c = User.get(api)
 

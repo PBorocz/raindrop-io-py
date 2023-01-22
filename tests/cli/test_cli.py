@@ -5,12 +5,12 @@ import pytest
 import rich
 from prompt_toolkit import PromptSession
 
-from raindroppy.cli.commands import (
+from raindropiopy.cli.commands import (
     create,  # ie. the modules themselves
     manage,  # "
     search,  # "
 )
-from raindroppy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.eventLoop import EventLoop
 
 
 @pytest.fixture
@@ -23,7 +23,7 @@ def tst_setup(el):
     """Did we get our console setup correctly and our banner out?."""
     assert el.console and isinstance(el.console, rich.console.Console)
     console_output = el.console.file.getvalue()
-    assert "Welcome to RaindropPY" in console_output
+    assert "Welcome to Raindropiopy" in console_output
 
 
 mock_command_process_method_called = False

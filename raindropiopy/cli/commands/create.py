@@ -8,17 +8,17 @@ from urllib.parse import urlparse
 from prompt_toolkit.completion import WordCompleter
 from tomli import load
 
-from raindroppy.api import API, Collection, Raindrop
-from raindroppy.cli import (
+from raindropiopy.api import API, Collection, Raindrop
+from raindropiopy.cli import (
     CONTENT_TYPES,
     PROMPT_STYLE,
     options_as_help,
     prompt,
 )
-from raindroppy.cli.commands import get_from_list
-from raindroppy.cli.models.createRequest import CreateRequest
-from raindroppy.cli.models.eventLoop import EventLoop
-from raindroppy.cli.models.spinner import Spinner
+from raindropiopy.cli.commands import get_from_list
+from raindropiopy.cli.models.createRequest import CreateRequest
+from raindropiopy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.spinner import Spinner
 
 
 def _create_file(api: API, request: CreateRequest) -> bool:

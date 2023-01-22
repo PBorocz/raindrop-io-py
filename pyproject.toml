@@ -9,13 +9,13 @@ include = ["LICENSE",]
 keywords = ["python"]
 license = "MIT"
 readme = "README.md"
-packages = [{ include = "raindroppy" }]
+packages = [{ include = "raindropiopy" }]
 
 homepage = "https://github.com/PBorocz/raindrop-io-py"
 repository = "https://github.com/PBorocz/raindrop-io-py"
 
 [tool.poetry.scripts]
-raindrop-io-py = "raindroppy.cli.cli:main"
+raindrop-io-py = "raindropiopy.cli.cli:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"

@@ -6,15 +6,15 @@ from humanize import naturaltime
 from prompt_toolkit.completion import WordCompleter
 from rich.table import Table
 
-from raindroppy.api.models import Collection, CollectionRef
-from raindroppy.cli import (
+from raindropiopy.api.models import Collection, CollectionRef
+from raindropiopy.cli import (
     COLOR_TABLE_COLUMN_1,
     COLOR_TABLE_COLUMN_2,
     PROMPT_STYLE,
     options_as_help,
     prompt,
 )
-from raindroppy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.eventLoop import EventLoop
 
 
 def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:

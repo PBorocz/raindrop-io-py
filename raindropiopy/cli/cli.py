@@ -14,7 +14,9 @@ def main():
 
     # Check that we have Raindrop connection token defined and available.
     if not os.getenv("RAINDROP_TOKEN"):
-        print("Sorry, we need RAINDROP_TOKEN available as an environment variable.")
+        print(
+            "Sorry, we need an environment variable (RAINDROP_TOKEN) to connect to the Raindrop.io service.",
+        )
         sys.exit(1)
 
     EventLoop().go(RaindropState.factory())

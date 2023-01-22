@@ -23,10 +23,9 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
         print(f"Sorry, unable to create collection! {exc}")
         sys.exit(1)
 
-    # If you want to actually *see* the new collection, set to False and
-    # look it up through any Raindrop mechanism (ie. app, url etc.),
-    # otherwise, we clean up after ourselves.
-    if True:
-        print(f"Removing collection: '{title}'...", flush=True, end="")
-        Collection.remove(api, id=collection.id)
-        print("Done.")
+    # If you want to actually *see* the new collection, comment this
+    # section out and look it up through any Raindrop mechanism (ie.
+    # app, url etc.); otherwise, we clean up after ourselves.
+    print(f"Removing collection: '{title}'...", flush=True, end="")
+    Collection.remove(api, id=collection.id)
+    print("Done.")

@@ -208,6 +208,6 @@ class API:
             self.open()
         return self
 
-    def __exit__(self, type, value, traceback) -> None:  # type: ignore
+    def __exit__(self, _type, _value, _traceback) -> None:  # type: ignore
         """Once we're done with this API's scope, close the connection off."""
         self.close()

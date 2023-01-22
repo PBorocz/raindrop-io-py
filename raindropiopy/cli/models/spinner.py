@@ -37,6 +37,6 @@ class Spinner:
         """Starts the spinner."""
         self._live_display.start()
 
-    def __exit__(self, exc_type, exc_value, exc_tb):
+    def __exit__(self, _exc_type, _exc_value, _exc_tb):
         """Stops the spinner."""
         self._live_display.stop()

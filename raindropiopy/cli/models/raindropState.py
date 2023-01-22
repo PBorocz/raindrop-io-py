@@ -55,7 +55,7 @@ class RaindropState:
                 return collection
         return None
 
-    def refresh(self, verbose: bool = True) -> bool:
+    def refresh(self) -> bool:
         """Refresh the current state of this Raindrop environment (ie. current collections and tags available)."""
 
         def __refresh_collections():
@@ -99,7 +99,7 @@ class RaindropState:
         return True
 
     @classmethod
-    def factory(cls, verbose: bool = True) -> RaindropState:
+    def factory(cls) -> RaindropState:
         """Log into Raindrop and return a new, refreshed RaindropState instance."""
         with Spinner("Logging into Raindrop..."):
             api: API = API(

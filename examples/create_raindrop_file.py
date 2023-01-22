@@ -24,10 +24,9 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
         print(f"Sorry, unable to create Raindrop! {exc}")
         sys.exit(1)
 
-    # If you want to actually *see* the new Raindrop, set to False and
-    # look it up through any Raindrop mechanism (ie. app, url etc.),
-    # otherwise, we clean up after ourselves.
-    if True:
-        print(f"Removing Raindrop: '{path_.name}'...", flush=True, end="")
-        Raindrop.remove(api, id=raindrop.id)
-        print("Done.")
+    # If you want to actually *see* the new Raindrop, comment this
+    # section out and look it up through any Raindrop mechanism (ie.
+    # app, url etc.); otherwise, we clean up after ourselves.
+    print(f"Removing Raindrop: '{path_.name}'...", flush=True, end="")
+    Raindrop.remove(api, id=raindrop.id)
+    print("Done.")

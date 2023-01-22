@@ -27,8 +27,8 @@ repos:
 - repo: https://github.com/psf/black
   rev: 5d0d5936db2ed7a01c50a374e32753e1afe9cc71
   hooks:
-  - id: black
-    name: Running black
+    - id: black
+      name: Running black
 
 ################################################################################
 # Run Ruff!
@@ -37,5 +37,5 @@ repos:
   rev: 'v0.0.223'
   hooks:
   - id: ruff
-    name: Running Ruff
+    name: Running ruff
     args: ["--config=pyproject.toml", "--fix", "raindropiopy/"]

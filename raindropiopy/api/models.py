@@ -110,14 +110,14 @@ class Collection(DictModel):
 
     @classmethod
     def get_roots(cls, api: API) -> Sequence[Collection]:
-        """Get root collections."""
+        """Get "root" Raindrop collections."""
         ret = api.get(URL.format(path="collections"))
         items = ret.json()["items"]
         return [cls(item) for item in items]
 
     @classmethod
     def get_childrens(cls, api: API) -> Sequence[Collection]:
-        """Get the "child" collections (ie. all below 'root' level)."""
+        """Get the "child" Raindrop collections (ie. all below root level)."""
         ret = api.get(URL.format(path="collections/childrens"))
         items = ret.json()["items"]
         return [cls(item) for item in items]
@@ -126,14 +126,13 @@ class Collection(DictModel):
     def get_collections(cls, api: API) -> Sequence[Collection]:
         """Utility method for query *ALL* collections.
 
-        Ie. hiding the distinction between "root" and "child"
-        collections.
+        (hiding the distinction between root/child collections)
         """
         return cls.get_roots(api) + cls.get_childrens(api)
 
     @classmethod
     def get(cls, api: API, id: int) -> Collection:
-        """Primary call to return a Raindrop collection based on it's id."""
+        """Return a Raindrop collection based on it's id."""
         url = URL.format(path=f"collection/{id}")
         item = api.get(url).json()["item"]
         return cls(item)
@@ -342,7 +341,7 @@ class Raindrop(DictModel):
 
     @classmethod
     def get(cls, api: API, id: int) -> Raindrop:
-        """Primary call to return a Raindrop bookmark based on it's id."""
+        """Return a Raindrop bookmark based on it's id."""
         item = api.get(URL.format(path=f"{id}")).json()["item"]
         return cls(item)
 
@@ -366,9 +365,39 @@ class Raindrop(DictModel):
         type: Optional[str] = None,
     ) -> Raindrop:
         """Create a new link-type Raindrop bookmark."""
+        # NOTE: We have small code style conflict here between Vulture
+        # and Ruff, specifically:
+
+        # Vulture will report all the optional variables above as
+        # "unused". This is clearly technically true as their only
+        # appearance below is as a string to the arg below from which
+        # we take the actual value of the inbound argument from
+        # locals(), instead of referring to the argument explicitly.
+        #
+        # However, converting all of these to a (rather lengthy set)
+        # of simple statements like:
+        #
+        # if <arg> is not None:
+        #     args[<arg>] = <arg>
+        #
+        # keeps Vulture happy but now trips the McCabe complexity
+        # metric(!) implemented in our Ruff pre-commit pass due to the
+        # number of conditionals in a single method!
+        #
+        # While, we /could/, convert to kwargs, we lose the documentation
+        # and verbosity available with explicit arguments.
+        #
+        # Thus, for now, we *leave* vulture out of pre-commit and
+        # simply run it manually as necessary (through our justfile)
+
+        # Setup the args that will be passed to the underlying
+        # Raindrop API, only link is absolutely required, rest are
+        # optional!
         args: dict[str, Any] = {"link": link}
+
         if pleaseParse:
             args["pleaseParse"] = {}
+
         for attr in [
             "cover",
             "created",
@@ -386,6 +415,8 @@ class Raindrop(DictModel):
                 args[attr] = value
 
         if collection is not None:
+            # <collection> arg could be *either* an actual collection
+            # or simply an int collection "id" already, handle either:
             if isinstance(collection, (Collection, CollectionRef)):
                 args["collection"] = {"$id": collection.id}
             else:
@@ -436,42 +467,49 @@ class Raindrop(DictModel):
         cls,
         api: API,
         id: int,
-        pleaseParse: Optional[bool] = False,
-        created: Optional[datetime.datetime] = None,
-        lastUpdate: Optional[datetime.datetime] = None,
-        order: Optional[int] = None,
-        important: Optional[bool] = None,
-        tags: Optional[Sequence[str]] = None,
-        media: Optional[Sequence[dict[str, Any]]] = None,
-        cover: Optional[str] = None,
         collection: Optional[Collection | CollectionRef, int] = None,
-        type: Optional[str] = None,
-        html: Optional[str] = None,
+        cover: Optional[str] = None,
+        created: Optional[datetime.datetime] = None,
         excerpt: Optional[str] = None,
-        title: Optional[str] = None,
+        html: Optional[str] = None,
+        important: Optional[bool] = None,
+        lastUpdate: Optional[datetime.datetime] = None,
         link: Optional[str] = None,
+        media: Optional[Sequence[dict[str, Any]]] = None,
+        order: Optional[int] = None,
+        pleaseParse: Optional[bool] = False,
+        tags: Optional[Sequence[str]] = None,
+        title: Optional[str] = None,
+        type: Optional[str] = None,
     ) -> Raindrop:
         """Update an existing Raindrop bookmark with any of the attribute values provided."""
-        # Setup args to be sent to Raindrop..
+        # Setup the args that will be passed to the underlying Raindrop API
+        # optional!
         args: dict[str, Any] = {}
+
         if pleaseParse:
             args["pleaseParse"] = {}
+
         for attr in [
-            "created",
-            "lastUpdate",
-            "order",
-            "important",
-            "tags",
-            "media",
             "cover",
-            "html",
+            "created",
             "excerpt",
+            "html",
+            "important",
+            "lastUpdate",
+            "link",
+            "media",
+            "order",
+            "tags",
             "title",
             "type",
         ]:
             if (value := locals().get(attr)) is not None:
                 args[attr] = value
+
         if collection is not None:
+            # <collection> arg could be *either* an actual collection
+            # or simply an int collection "id" already, handle either:
             if isinstance(collection, (Collection, CollectionRef)):
                 args["collection"] = collection.id
             else:

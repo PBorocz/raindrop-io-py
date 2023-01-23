@@ -35,40 +35,42 @@ pre-commit-update *args:
     git add .pre-commit-config.yaml
     just pre-commit-all {{args}}
 
-# Run samples against live Raindrop environment (assumes RAINDROP_TOKEN in env!)
+# In lieu of a formal integration test suite, run samples against live
+# Raindrop environment. This also keeps us honest wrt quality of
+# example code :-)
 examples:
     # Listed in order of complexity, list_* are read-only, rest make changes.
     # We try to be nice to Raindrop by resting between each file.
     python examples/list_authorised_user.py
-    @echo "Sleeping..."
+    @echo "Resting..."
     @sleep 1
 
     python examples/list_collections.py
-    @echo "Sleeping..."
+    @echo "Resting..."
     @sleep 1
 
     python examples/list_tags.py
-    @echo "Sleeping..."
+    @echo "Resting..."
     @sleep 1
 
     python examples/create_collection.py
-    @echo "Sleeping..."
+    @echo "Resting..."
     @sleep 1
 
     python examples/edit_collection.py
-    @echo "Sleeping..."
+    @echo "Resting..."
     @sleep 1
 
     python examples/create_raindrop_file.py
-    @echo "Sleeping..."
+    @echo "Resting..."
     @sleep 1
 
     python examples/create_raindrop_link.py
-    @echo "Sleeping..."
+    @echo "Resting..."
     @sleep 1
 
     python examples/edit_raindrop.py
-    @echo "Sleeping..."
+    @echo "Resting..."
     @sleep 1
 
     python examples/search_raindrop.py

@@ -11,18 +11,20 @@
 
 * Raindrop-io-py
   Python wrapper for the API to the [[https://raindrop.io][Raindrop.io]] Bookmark Manager as well as a simple command-line interface to perform common operations.
-** Background & Acknowledgments
-   I wanted to use an existing API for the Raindrop Bookmark Manager ([[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]]) to perform some bulk operations through a simple terminal-based UI but needed several extensions (including said UI). Thus, this is a _fork_ of [[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]] (thanks [[https://github.com/atsuoishimoto][Atsuo Ishimoto]]!)
+** Background
+   I wanted to use an existing API for the Raindrop Bookmark Manager ([[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]]) to perform some bulk operations through a simple command-line interface. However, the API available was incomplete and didn't contain any interface. Thus, this is a _fork_ and significant extension of [[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]] (thanks [[https://github.com/atsuoishimoto][Atsuo Ishimoto]]!).
+
+   This package includes:
+   - An API providing access to the Raindrop environment (for instance, create, update, delete link/file-based Raindrops; create, update delete Raindrop collections, tags etc.
+   - A terminal-based user-interface that both tests the API as well as providing (me) a fast, simple interface to my Raindrop collections.
 ** Status
    As the API layer is based on a fork of an existing package, it's reasonably stable. However, the command-line interface (CLI) is brand new (and lacking tests, ie. "works for me!" ;-).
 ** Requirements
    Requires Python 3.10 or later (well, at least I'm developing against 3.10.9).
-
 ** Install
 #+BEGIN_SRC shell
 [.venv] python -m pip install raindrop-io-py
 #+END_SRC
-
 ** Setup
    To use this package, besides your own account on [[https://raindrop.io][Raindrop]], you'll need to create an ~integration app~~ on the Raindrop.io site from which you can create API token(s). 
 

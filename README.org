@@ -1,4 +1,3 @@
-#+TITLE: raindrop-io-py
 #+AUTHOR: Peter Borocz
 #+OPTIONS: toc:nil ^:nil
 
@@ -11,9 +10,9 @@
 #+TOC: headlines 2
 
 * Raindrop-io-py
-  Python wrapper for the [Raindrop.io](https://raindrop.io) Bookmark Manager as well as a simple command-line interface to perform common operations.
+  Python wrapper for the API to the [[https://raindrop.io][Raindrop.io]] Bookmark Manager as well as a simple command-line interface to perform common operations.
 ** Background & Acknowledgments
-   I needed a few additions to an existing API for the Raindrop Bookmark Manager and desired a simple terminal-based UI for interactive work with Raindrop itself. Thus, this is a _fork_ of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto) ...thanks Atsuo!
+   I wanted to use an existing API for the Raindrop Bookmark Manager ([[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]]) to perform some bulk operations through a simple terminal-based UI but needed several extensions (including said UI). Thus, this is a _fork_ of [[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]] (thanks [[https://github.com/atsuoishimoto][Atsuo Ishimoto]]!)
 ** Status
    As the API layer is based on a fork of an existing package, it's reasonably stable. However, the command-line interface (CLI) is brand new (and lacking tests, ie. "works for me!" ;-).
 ** Requirements
@@ -25,34 +24,30 @@
 #+END_SRC
 
 ** Setup
+   To use this package, besides your own account on [[https://raindrop.io][Raindrop]], you'll need to create an ~integration app~~ on the Raindrop.io site from which you can create API token(s). 
 
-To use this package, besides your own account on [Raindrop](https://raindrop.io), you'll need to create an _integration app_ on the Raindrop.io site from which you can create API token(s). 
+   - Go to [[https://app.raindrop.io/settings/integrations][https://app.draindrop.api/settings/integrations]] and select ~+ create new app~.
 
-- Go to [app.draindrop.api/settings/integrations](https://app.raindrop.io/settings/integrations) and select `+ create new app`.
+   - Give it a descriptive name and then select the app you just created. 
 
-- Give it a descriptive name and then select the app you just created. 
+   - Select ~Create test token~ and copy the token provided. Note that the basis for calling it a "test" token is that it only gives you access to bookmarks within _your own account_. Raindrop allows you to use their API against other people's environments using oAuth (see untested/unsupported flask_oauth file in /examples)
 
-- Select `Create test token` and copy the token provided. Note that the basis for calling it a "test" token is that it only gives you access to bookmarks within _your own account_. Raindrop allows you to use their API against other people's environments using oAuth (see untested/unsupported flask_oauth file in /examples)
-
-- Save your token into your environment (we use python-dotenv so a simple .env/.envrc file your information should suffice), for example:
+   - Save your token into your environment (we use python-dotenv so a simple .env/.envrc file your information should suffice), for example:
 
 #+BEGIN_SRC shell
-# in a .env file:
-RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
+  # If you use direnv or it's equivalent, place something like this in a .env file:
+  RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
-# Or for bash:
-export RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
+  # Or for bash:
+  export RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
-# Or for fish:
-set -gx RAINDROP_TOKEN 01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
+  # Or for fish:
+  set -gx RAINDROP_TOKEN 01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
-# ...
+  # etc...
 #+END_SRC
-
 ** API Usage & Examples
-
-A full suite of examples are provided in the `examples` directory, here are a few to give you some idea of the usage model:
-
+   A full suite of examples are provided in the `examples` directory, here are a few to give you some idea of the usage model:
 *** Create a New Raindrop Bookmark to a URL
 #+BEGIN_SRC python
   import os
@@ -71,7 +66,6 @@ A full suite of examples are provided in the `examples` directory, here are a fe
       print(f"Done, id={raindrop.id}")
 
 #+END_SRC
-
     (after this has executed, go to your Raindrop.io environment (site or app) and you should see this Raindrop to python.org available)
 *** Create a New Raindrop Collection
 #+BEGIN_SRC python
@@ -92,7 +86,6 @@ A full suite of examples are provided in the `examples` directory, here are a fe
       collection = Collection.create(api, title=title)
       print(f"Done, {collection.id=}.")
 #+END_SRC
-
     (after this has executed, go to your Raindrop.io environment (site or app) and you should see this collection available)
 *** Display All Bookmarks from the *Unsorted* Raindrop Collection
 #+BEGIN_SRC python
@@ -110,13 +103,12 @@ A full suite of examples are provided in the `examples` directory, here are a fe
               print(item.title)
           page += 1
 #+END_SRC
-
 ** Command-Line Interface Usage
 #+BEGIN_SRC shell
   [.venv] % raindropiopy
 #+END_SRC
 Note: remember to setup RAINDROP_TOKEN in your environment!
 ** Acknowledgments
-   - [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto).
+   - [[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]] from [[https://github.com/atsuoishimoto][Atsuo Ishimoto]].
 ** License
    The project is licensed under the MIT License.

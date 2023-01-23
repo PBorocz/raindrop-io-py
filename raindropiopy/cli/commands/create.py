@@ -163,7 +163,7 @@ def __get_from_files(el: EventLoop, options: list[Path]) -> Optional[str]:
 
 def __get_confirmation(el: EventLoop, prompt: str) -> bool:
     el_prompt: Final = [("class:prompt", "\nIs this correct? ")]
-    options: Final = ["yes", "Yes", "No", "no"]
+    options: Final = ("yes", "Yes", "No", "no")
     completer: Final = WordCompleter(options)
     response = el.session.prompt(
         el_prompt,
@@ -343,8 +343,9 @@ def iteration(el: EventLoop) -> bool:
 
     Returns True if we're done, otherwise, keep asking for 'create's.
     """
-    options: Final = ["(u)rl", "(f)ile", "(m)ultiple", "(b)ack or ."]
-    el.console.print(options_as_help(options))
+    options: Final = ("url", "file", "multiple", "back/.")
+    options_title: Final = options_as_help(options)
+    el.console.print(options_title)
     response = el.session.prompt(
         prompt(("create",)),
         completer=WordCompleter(options),
@@ -357,7 +358,7 @@ def iteration(el: EventLoop) -> bool:
         return False
 
     elif response.casefold() in ("?",):
-        el.console.print(options_as_help(options))
+        el.console.print(options_title)
         return True
 
     elif response.casefold() in ("url", "u"):

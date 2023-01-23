@@ -46,8 +46,14 @@ def make_italic(str_):
 
 
 def options_as_help(options: list[str]) -> str:
-    """Return the list of options in a nice format for display."""
-    return ", ".join([make_italic(option) for option in options])
+    """Return the list of options in a nice format for display.
+
+    Input options might be: ["AnAction", "SomethingElse", "Done"]
+    ..first, convert to     ["(A)nAction", "(S)omethingElse", "(D)one"]
+    ..finally, render using ["[italic](A)nAction[/italic]", etc.]
+    """
+    first_letters = [f"({option[0]}){option[1:]}" for option in options]
+    return ", ".join([make_italic(option) for option in first_letters])
 
 
 def goodbye(console) -> None:

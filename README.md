@@ -15,9 +15,7 @@ I needed a few additions to an existing API for the Raindrop Bookmark Manager an
 
 ## Status
 
-As the API layer is based on a fork of an existing package, it's reasonably stable (as of this writing, only one minor enhancement is envisioned)
-
-However, the command-line interface (CLI) is brand new and lacking tests. Thus, it's probably **NOT** ready for serious use yet.
+As the API layer is based on a fork of an existing package, it's reasonably stable. However, the command-line interface (CLI) is brand new (and lacking tests, ie. "works for me!" ;-).
 
 ## Requirements
 
@@ -45,10 +43,10 @@ To use this package, besides your own account on [Raindrop](https://raindrop.io)
 # in a .env file:
 RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
-# or for bash:
+# Or for bash:
 export RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
-# or go fish:
+# Or for fish:
 set -gx RAINDROP_TOKEN 01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
 # ...
@@ -77,6 +75,8 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     print(f"Done, id={raindrop.id}")
 ```
 
+(after this has executed, go to your Raindrop.io environment (site or app) and you should see this Raindrop to python.org available)
+
 ### Create a New Raindrop Collection
 
 ```python
@@ -98,7 +98,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     print(f"Done, {collection.id=}.")
 ```
 
-After this has executed, go to your Raindrop.io environment (site or app) and you should see this collection defined.
+(after this has executed, go to your Raindrop.io environment (site or app) and you should see this collection available)
 
 ### Display All Bookmarks from the *Unsorted* Raindrop Collection
 
@@ -122,9 +122,9 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 ## Command-Line Interface Usage
 
 ```shell
-# Remember to setup RAINDROP_TOKEN in your environment!
 [.venv] % raindropiopy
 ```
+Note: remember to setup RAINDROP_TOKEN in your environment!
 
 ## Acknowledgments
 

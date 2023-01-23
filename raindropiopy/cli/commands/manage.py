@@ -77,17 +77,17 @@ def show_help(el: EventLoop) -> None:
 def process(el: EventLoop) -> None:
     """Controller for managing the Raindrop environment, including showing statistics."""
     while True:
-        options: Final = [
-            "(s)tatus",
-            "(c)ollections",
-            "(t)ags",
-            "(r)efresh",
-            "(b)ack or .",
-        ]
+        options: Final = (
+            "status",
+            "collections",
+            "tags",
+            "refresh",
+            "back/.",
+        )
         completer: Final = WordCompleter(options)
-
+        options_title: Final = options_as_help(options)
         while True:
-            el.console.print(options_as_help(options))
+            el.console.print(options_title)
             response = el.session.prompt(
                 prompt(("manage",)),
                 completer=completer,
@@ -103,7 +103,7 @@ def process(el: EventLoop) -> None:
 
             # Normal cases
             elif response.casefold() in ("?",):
-                el.console.print(options_as_help(options))
+                el.console.print(options_title)
             elif response.casefold() in ("status", "s"):
                 _show_status(el)
             elif response.casefold() in ("collections", "c"):
@@ -114,5 +114,5 @@ def process(el: EventLoop) -> None:
                 el.state.refresh()
             else:
                 el.console.print(
-                    f"Sorry, must be one of {options_as_help(options)}",
+                    f"Sorry, must be one of {options_title}",
                 )

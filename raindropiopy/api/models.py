@@ -44,6 +44,17 @@ class AccessLevel(enum.IntEnum):
     owner = 4
 
 
+class CacheStatus(enum.Enum):
+    """Represents the various states the cache of a Raindrop might be in."""
+
+    ready = "ready"
+    retry = "retry"
+    failed = "failed"
+    invalid_origin = "invalid-origin"
+    invalid_timeout = "invalid-timeout"
+    invalid_size = "invalid-size"
+
+
 class View(enum.Enum):
     """Map the names of the views for Raindrop's API."""
 
@@ -63,6 +74,7 @@ class CollectionRef(DictModel):
     id = ItemAttr[int](name="$id")
 
 
+# We define the 3 "system" collections in the Raindrop environment:
 CollectionRef.All = CollectionRef({"$id": 0})
 CollectionRef.Trash = CollectionRef({"$id": -99})
 CollectionRef.Unsorted = CollectionRef({"$id": -1})
@@ -71,29 +83,21 @@ CollectionRef.Unsorted = CollectionRef({"$id": -1})
 class UserRef(DictModel):
     """Represents reference to :class:`User` object."""
 
-    #: (:class:`int`) The id of the :class:`User`.
     id = ItemAttr[int](name="$id")
 
 
 class Access(DictModel):
     """Represents Access control of Collections."""
 
-    #: (:class:`UserRef`) The user for this permission.
     level = ItemAttr(AccessLevel)
-
-    #: (:class:`bool`) True if possible to change parent.
     draggable = ItemAttr[bool]()
 
 
 class Collection(DictModel):
     """Represents a concrete Raindrop Collection."""
 
-    #: (:class:`int`) The id of the collection.
     id = ItemAttr[int](name="_id")
-
-    #: (:class:`Access`) Permissions for this collection
     access = ItemAttr(Access)
-
     collaborators = ItemAttr[Optional[list[Any]]](default=None)
     color = ItemAttr[Optional[str]](default=None)
     count = ItemAttr[int]()
@@ -315,15 +319,39 @@ class RaindropType(enum.Enum):
     audio = "audio"
 
 
+class File(DictModel):
+    """Represents the attributes associated with a file within a document-based Raindrop."""
+
+    name = ItemAttr[str]()
+    size = ItemAttr[int]()  # bytes
+    type = ItemAttr[str]()
+
+
+class Cache(DictModel):
+    """Represents the cache information of Raindrop."""
+
+    status = ItemAttr[CacheStatus]()
+    size = ItemAttr[int]()  # bytes..
+    created = ItemAttr[str]()
+
+
+class CreatorRef(DictModel):
+    """Represents original creator of the Raindrop if different from the current user (ie. shared collections)."""
+
+    id = ItemAttr[int](name="_id")
+    fullName = ItemAttr[str]
+
+
 class Raindrop(DictModel):
     """Core class of a Raindrop bookmark 'item'."""
 
+    # "Main" fields (per https://developer.raindrop.io/v1/raindrops)
     id = ItemAttr[int](name="_id")
     collection = ItemAttr(CollectionRef)
     cover = ItemAttr[str]()
     created = ItemAttr(dateparse)
     domain = ItemAttr[str]()
-    excerpt = ItemAttr[str]()  # aka "Description" on the Raindrop UI.
+    excerpt = ItemAttr[str]()  # aka Description on the Raindrop UI.
     lastUpdate = ItemAttr(dateparse)
     link = ItemAttr[str]()
     media = ItemAttr[Sequence[dict[str, Any]]]()
@@ -332,12 +360,13 @@ class Raindrop(DictModel):
     type = ItemAttr(RaindropType)
     user = ItemAttr(UserRef)
 
-    #    broken: bool
-    #    cache: Cache
-    #    creatorRef: UserRef
-    #    file: File
-    #    important: bool
-    #    html: str
+    # "Other" fields:
+    broken = ItemAttr[bool]()
+    cache = ItemAttr[Cache]
+    creatorRef = ItemAttr(CreatorRef)
+    file = ItemAttr(File)
+    important = ItemAttr[bool]()  # aka marked as Favorite.
+    # highlights?
 
     @classmethod
     def get(cls, api: API, id: int) -> Raindrop:

@@ -9,7 +9,7 @@ default:
 ################################################################################
 # Build *and* publish to PyPI
 publish:
-    poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD
+    poetry publish --build
     @rm -rf build raindropiopy.egg-info
 
 ################################################################################

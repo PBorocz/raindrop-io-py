@@ -2,6 +2,7 @@
 import sys
 from io import StringIO
 from pathlib import Path
+from typing import Final
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
@@ -58,9 +59,9 @@ class EventLoop:
 
     def iteration(self):
         """Run a single iteration of our command/event-loop."""
-        options = ["(s)earch", "(c)reate", "(m)anage", "(e)xit", "."]
-
-        self.console.print(options_as_help(options))
+        options: Final = ("search", "create", "manage", "exit/.")
+        options_title: Final = options_as_help(options)
+        self.console.print(options_title)
 
         response = self.session.prompt(
             prompt(),
@@ -77,7 +78,7 @@ class EventLoop:
             # FIXME: This should be a longer help text here
             # (since we print the options at the top of each
             # iteration already)
-            self.console.print(options_as_help(options))
+            self.console.print(options_title)
             return
 
         # We have a valid command, bring in the right module (yes, statically)

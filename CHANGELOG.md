@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
  
  
-## [0.0.x] - 2023-01-xx
+## [0.0.6] - 2023-01-22
 
 ### Fixed
  
@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file. The format 
 - Added a set of missing attributes to the Raindrop API model type, eg. file, cache etc. Only significant attribute missing is `highlights`
 
 
-## [0.0.4] - 2023-01-21
+## [0.0.5] - 2023-01-21
 
 ### Changed
 

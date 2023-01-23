@@ -1,11 +1,45 @@
+#+TITLE: Raindrop-io-py
 #+AUTHOR: Peter Borocz
 #+OPTIONS: toc:nil ^:nil
 
 #+ATTR_HTML: :style width: 100px
 
-[[https://img.shields.io/badge/License-MIT-green.svg][MIT License]] 
-[[https://img.shields.io/badge/python-3.10+-green][Python Version]] 
-[[https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit][pre-commit]]
+#+begin_html
+<a href="https://choosealicense.com/licenses/mit/">
+  <img alt="MIT License"
+       src="https://img.shields.io/badge/License-MIT-green.svg" />
+</a>
+
+<a href="https://www.python.org/">
+  <img alt="Python Version"
+       src="https://img.shields.io/badge/python-3.10+-green" />
+</a>
+
+<a href="https://github.com/pre-commit/pre-commit">
+  <img alt="pre-commit"
+       src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit" />
+</a>
+
+<a href="https://pepy.tech/project/brish">
+<img alt="Alltime Downloads" src="https://pepy.tech/badge/brish" />
+</a>
+
+<a href="https://pepy.tech/project/brish">
+<img alt="Alltime Downloads" src="https://pepy.tech/badge/brish" />
+</a>
+
+<a href="https://pepy.tech/project/brish">
+<img alt="Monthly Downloads" src="https://pepy.tech/badge/brish/month" />
+</a>
+
+<a href="https://opensource.org/licenses/MIT">
+<img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg" />
+</a>
+
+<a href="http://www.gnu.org/licenses/gpl-3.0.html">
+<img alt="GPL3 License" src="http://img.shields.io/:license-gpl3-blue.svg" />
+</a>
+#+end_html
 
 #+TOC: headlines 2
 
@@ -26,15 +60,15 @@
 [.venv] python -m pip install raindrop-io-py
 #+END_SRC
 ** Setup
-   To use this package, besides your own account on [[https://raindrop.io][Raindrop]], you'll need to create an ~integration app~~ on the Raindrop.io site from which you can create API token(s). 
+   To use this package, besides your own account on [[https://raindrop.io][Raindrop]], you'll need to create an ~integration app~ on the Raindrop.io site from which you can create API token(s).
 
    - Go to [[https://app.raindrop.io/settings/integrations][https://app.draindrop.api/settings/integrations]] and select ~+ create new app~.
 
-   - Give it a descriptive name and then select the app you just created. 
+   - Give it a descriptive name and then select the app you just created.
 
    - Select ~Create test token~ and copy the token provided. Note that the basis for calling it a "test" token is that it only gives you access to bookmarks within _your own account_. Raindrop allows you to use their API against other people's environments using oAuth (see untested/unsupported flask_oauth file in /examples)
 
-   - Save your token into your environment (we use python-dotenv so a simple .env/.envrc file your information should suffice), for example:
+   - Save your token into your environment (we use python-dotenv so a simple .env/.envrc file containing your token should suffice), for example:
 
 #+BEGIN_SRC shell
   # If you use direnv or it's equivalent, place something like this in a .env file:

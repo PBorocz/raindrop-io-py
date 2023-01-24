@@ -1,10 +1,8 @@
-#+TITLE: Raindrop-io-py
-#+AUTHOR: Peter Borocz
-#+OPTIONS: toc:nil ^:nil
+#+options: toc:nil ^:nil
+#+attr_html: :style width: 100px
+#+toc: headlines 2
 
-#+ATTR_HTML: :style width: 100px
-
-#+begin_html
+#+begin_export html
 <div align="center">
   <a href="https://choosealicense.com/licenses/mit/">
     <img alt="MIT License"
@@ -21,12 +19,10 @@
        src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit" />
   </a>
 </div>
-#+end_html
+#+end_export
 
-#+TOC: headlines 2
-
-Python wrapper for the API to the [[https://raindrop.io][Raindrop.io]] Bookmark Manager as well as a simple command-line interface to perform common operations.
-
+* Raindrop-IO-py
+  Python wrapper for the API to the [[https://raindrop.io][Raindrop.io]] Bookmark Manager as well as a simple command-line interface to perform common operations.
 ** Background
    I wanted to use an existing API for the Raindrop Bookmark Manager ([[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]]) to perform some bulk operations through a simple command-line interface. However, the API available was incomplete and didn't contain any interface. Thus, this is a _fork_ and significant extension of [[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]] (thanks [[https://github.com/atsuoishimoto][Atsuo Ishimoto]]!).
 
@@ -130,16 +126,17 @@ Python wrapper for the API to the [[https://raindrop.io][Raindrop.io]] Bookmark 
    - [[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]] from [[https://github.com/atsuoishimoto][Atsuo Ishimoto]].
 ** License
    The project is licensed under the MIT License.
-** CHANGELOG
+** Release History
 *** Unreleased...
-    - CHANGED: Moved from keeping README in markdown to org file format. Incorporating CHANGELOG into README as well.
+    - CHANGED: Added simple version number in raindropiopy/__version__.py.
+    - CHANGED: Moved from keeping README in markdown to org file format. Incorporated package's ChangeLog into README as well (at the bottom).
 *** v0.0.6 - 2023-01-22
     - FIXED: CLI autocomplete now works again after adding support for "single-letter" command-shortcuts.
-    - ADDED: Added a set of missing attributes to the Raindrop API model type, eg. file, cache etc. Only significant attribute missing is `highlights`.
+    - ADDED: A set of missing attributes to the Raindrop API model type, eg. file, cache etc. Only attribute still missing is `highlights`.
 *** v0.0.5 - 2023-01-21
-    - ADDED: Added support and use of [Vulture](https://github.com/jendrikseipp/vulture) for dead-code analysis (not in pre-commit through due to conflict with ruff's McCabe complexity metric)
-    - CHANGED: Moved internal module name to match that of package name. Since we couldn't use raindroppy as a package name on PyPI due to similarities with existing packages (one of which was for a *crypto* package), we renamed this package to raindrop-io-py. In concert, the internal module is now **raindropiopy**:
+    - ADDED: Support use of [[https://github.com/jendrikseipp/vulture][Vulture]] for dead-code analysis (not in pre-commit through due to conflict with ruff's McCabe complexity metric)
+    - CHANGED: Moved internal module name to match that of package name. Since we couldn't use raindroppy as a package name on PyPI due to similarities with existing packages (one of which was for a *crypto* package), we renamed this package to raindrop-io-py. In concert, the internal module is now ~raindropiopy~:
  #+BEGIN_SRC python
    from raindroiopy.api import API
  #+END_SRC
-    - FIXED: Fixed sample file upload specification in examples/create_raindrop_file.py.
+    - FIXED: Sample file upload specification in examples/create_raindrop_file.py is now correct.

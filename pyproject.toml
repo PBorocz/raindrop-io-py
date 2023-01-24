@@ -8,7 +8,7 @@ classifiers = ['License :: OSI Approved :: MIT License', 'Programming Language :
 include = ["LICENSE",]
 keywords = ["python"]
 license = "MIT"
-readme = "README.md"
+readme = "README.org"
 packages = [{ include = "raindropiopy" }]
 
 homepage = "https://github.com/PBorocz/raindrop-io-py"

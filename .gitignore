@@ -1,3 +1,6 @@
+# LOCAL NON-RAINDROPPY DEVELOPMENT
+manage.*
+
 # Local additions
 poetry.toml
 

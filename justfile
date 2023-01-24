@@ -15,25 +15,29 @@ publish:
 ################################################################################
 # Development...
 ################################################################################
+# Run the build/release management interface
+manage *args:
+    @python manage.py {{args}}
+
 # Run the raindrop-io-py command-line interface
 cli:
-    python raindropiopy/cli/cli.py
+    @python raindropiopy/cli/cli.py
 
 # Run tests
 test *args:
-    python -m pytest {{args}}
+    @python -m pytest {{args}}
 
 # Pre-commit - Run all
 pre-commit-all *args:
-    pre-commit run --all-files {{args}}
+    @pre-commit run --all-files {{args}}
     @echo "Running vulture..."
     @vulture
 
 # Pre-commit - Update new configuration and run
 pre-commit-update *args:
-    pre-commit install
-    git add .pre-commit-config.yaml
-    just pre-commit-all {{args}}
+    @pre-commit install
+    @git add .pre-commit-config.yaml
+    @just pre-commit-all {{args}}
 
 # In lieu of a formal integration test suite, run samples against live
 # Raindrop environment. This also keeps us honest wrt quality of

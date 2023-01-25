@@ -127,8 +127,8 @@
 ** License
    The project is licensed under the MIT License.
 ** Release History
-*** Unreleased...
-*** v0.0.7 - 2023-01-24
+*** Unreleased
+*** v0.0.7 - 2023-01-25
     - CHANGED: Added simple version method in root package (~from raindropiopy import version;print(version())~)
     - CHANGED: Moved from keeping README in markdown to org file format. Incorporated package's ChangeLog into README as well (at the bottom).
     - CHANGED: Added new manage.py release automation capability (internal only, nothing public-facing).

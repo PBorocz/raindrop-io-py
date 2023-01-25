@@ -1,3 +1,7 @@
 """Top level project/package init."""
+from importlib import metadata
 
-# Note: Don't keep version here as the version numbers are auto-updated (and kept in __version__.py)
+
+def version():
+    """Return the canonical version from pyproject.toml used to package this particular release."""
+    return metadata.version("raindrop_io_py")

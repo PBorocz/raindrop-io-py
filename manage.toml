@@ -1,0 +1,52 @@
+[version]
+name = "Bump Version"
+description = "Bump the version number a single patch level and commit locally"
+
+  [[version.steps]]
+  method = "poetry_bump_version_patch"
+  confirm = true
+
+  [[version.steps]]
+  method = "update_readme"
+  confirm = true
+
+  [[version.steps]]
+  method = "git_commit_version_files"
+  confirm = true
+
+[build]
+name = "Build"
+description = "Build our distribution(s)."
+
+  [[build.steps]]
+  method = "run_pre_commit"
+  confirm = true
+  echo_stdout = true
+
+  [[build.steps]]
+  method = "clean"
+  allow_error = true
+
+  [[build.steps]]
+  method = "build"
+  echo_stdout = true
+
+[publish]
+name = "Publish to PyPI"
+description = "Release a new version of our package to PyPI."
+
+  [[publish.steps]]
+  method = "git_create_tag"
+  confirm = true
+
+  [[publish.steps]]
+  method = "git_push_to_github"
+  confirm = true
+
+  [[publish.steps]]
+  method = "publish_to_pypi"
+  confirm = true
+
+  [[publish.steps]]
+  method = "git_create_release"
+  confirm = true

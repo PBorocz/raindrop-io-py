@@ -1,7 +1,3 @@
-#+options: toc:nil ^:nil
-#+attr_html: :style width: 100px
-#+toc: headlines 2
-
 #+begin_export html
 <div align="center">
   <a href="https://choosealicense.com/licenses/mit/">
@@ -34,9 +30,9 @@
 ** Requirements
    Requires Python 3.10 or later (well, at least I'm developing against 3.10.9).
 ** Install
- #+BEGIN_SRC shell
+#+begin_src shell
  [.venv] python -m pip install raindrop-io-py
- #+END_SRC
+#+end_src
 ** Setup
     To use this package, besides your own account on [[https://raindrop.io][Raindrop]], you'll need to create an ~integration app~ on the Raindrop.io site from which you can create API token(s).
 
@@ -48,7 +44,7 @@
 
     - Save your token into your environment (we use python-dotenv so a simple .env/.envrc file containing your token should suffice), for example:
 
- #+BEGIN_SRC shell
+#+begin_src shell
    # If you use direnv or it's equivalent, place something like this in a .env file:
    RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
@@ -59,11 +55,11 @@
    set -gx RAINDROP_TOKEN 01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
    # etc...
- #+END_SRC
+#+end_src
 ** API Usage & Examples
    A full suite of examples are provided in the `examples` directory, here are a few to give you some idea of the usage model:
 *** Create a New Raindrop Bookmark to a URL
-#+BEGIN_SRC python
+#+begin_src python
   import os
   import sys
 
@@ -79,10 +75,10 @@
       raindrop = Raindrop.create_link(api, link=link, title=title, tags=["abc", "def"])
       print(f"Done, id={raindrop.id}")
 
-#+END_SRC
+#+end_src
     (after this has executed, go to your Raindrop.io environment (site or app) and you should see this Raindrop to python.org available)
 *** Create a New Raindrop Collection
-#+BEGIN_SRC python
+#+begin_src python
   import os
   import sys
   from datetime import datetime
@@ -99,10 +95,10 @@
       print(f"Creating collection: '{title}'...", flush=True, end="")
       collection = Collection.create(api, title=title)
       print(f"Done, {collection.id=}.")
-#+END_SRC
+#+end_src
     (after this has executed, go to your Raindrop.io environment (site or app) and you should see this collection available)
 *** Display All Bookmarks from the *Unsorted* Raindrop Collection
-#+BEGIN_SRC python
+#+begin_src python
   import os
   from dotenv import load_dotenv
 
@@ -116,11 +112,11 @@
           for item in items:
               print(item.title)
           page += 1
-#+END_SRC
+#+end_src
 ** Command-Line Interface Usage
- #+BEGIN_SRC shell
+#+begin_src shell
    [.venv] % raindropiopy
- #+END_SRC
+#+end_src
  Note: remember to setup RAINDROP_TOKEN in your environment!
 ** Acknowledgments
    - [[https://github.com/atsuoishimoto/python-raindropio][python-raindropio]] from [[https://github.com/atsuoishimoto][Atsuo Ishimoto]].
@@ -129,9 +125,12 @@
 ** Release History
 *** Unreleased
 *** v0.0.8 - 2023-01-25
-    - CHANGED: Added simple version method in root package (~from raindropiopy import version;print(version())~)
+    - CHANGED: Added simple version method in root package:
+#+begin_src python
+  from raindropiopy import version
+  print(version())
+#+end_src
 *** v0.0.7 - 2023-01-25
-    - CHANGED: Added simple version method in root package (~from raindropiopy import version;print(version())~)
     - CHANGED: Moved from keeping README in markdown to org file format. Incorporated package's ChangeLog into README as well (at the bottom).
     - CHANGED: Added new manage.py release automation capability (internal only, nothing public-facing).
 *** v0.0.6 - 2023-01-22
@@ -140,7 +139,7 @@
 *** v0.0.5 - 2023-01-21
     - ADDED: Support use of [[https://github.com/jendrikseipp/vulture][Vulture]] for dead-code analysis (not in pre-commit through due to conflict with ruff's McCabe complexity metric)
     - CHANGED: Moved internal module name to match that of package name. Since we couldn't use raindroppy as a package name on PyPI due to similarities with existing packages (one of which was for a *crypto* package), we renamed this package to raindrop-io-py. In concert, the internal module is now ~raindropiopy~:
- #+BEGIN_SRC python
+#+begin_src python
    from raindroiopy.api import API
- #+END_SRC
+#+end_src
     - FIXED: Sample file upload specification in examples/create_raindrop_file.py is now correct.

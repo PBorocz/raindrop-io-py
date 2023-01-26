@@ -306,6 +306,28 @@ qa = ["flake8 (==3.7.9)"]
 testing = ["Django (<3.1)", "colorama", "docopt", "pytest (>=3.9.0,<5.0.0)"]
 
 [[package]]
+name = "manage"
+version = "0.0.8"
+description = "'Manage' environment for poetry-based projects (at least mine)"
+category = "dev"
+optional = false
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "manage-0.0.8-py3-none-any.whl", hash = "sha256:f54d318120fad2a929edd838acb0b090d4d4d66fe5fd5f487a9a152c29a797e6"},
+]
+
+[package.dependencies]
+python-dotenv = ">=0.21.1,<0.22.0"
+pyyaml = ">=6.0,<7.0"
+requests = ">=2.28.2,<3.0.0"
+rich = ">=13.2.0,<14.0.0"
+tomli = ">=2.0.1,<3.0.0"
+
+[package.source]
+type = "file"
+url = "../../10.18 poetry_manage/dist/manage-0.0.8-py3-none-any.whl"
+
+[[package]]
 name = "markdown-it-py"
 version = "2.1.0"
 description = "Python port of markdown-it. Markdown parsing, done right!"
@@ -939,4 +961,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "0aaa17286b8d8b75e58d22302b88ed7160c13d4daea8938c1d4ec2ad8aa8a5a0"
+content-hash = "24b4177c7f5732f272f5e3cbdb937f704b709cbbd20348cbee1c67f1e4774dec"

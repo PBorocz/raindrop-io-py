@@ -35,7 +35,7 @@ pytest = "^7.2.1"
 flake8 = "^6.0.0"
 vulture = "^2.7"
 requests = "^2.28.2"
-manage = {path = "../../10.18 poetry_manage/dist/manage-0.0.8-py3-none-any.whl"}
+manage = {git = "https://github.com/PBorocz/manage"}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -5,6 +5,14 @@ default:
     @just --list
 
 ################################################################################
+# Poetry management
+################################################################################
+# Refresh the version of manage we have installed in our venv from github.
+refresh_manage:
+    @poetry remove manage --group dev
+    @poetry add git+https://github.com/PBorocz/manage --group dev
+
+################################################################################
 # Packaging...
 ################################################################################
 # Build *and* publish to PyPI

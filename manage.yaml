@@ -1,0 +1,27 @@
+#
+# "Manage" configuration (see https://github.com/PBorocz/manage for more information)
+#
+version:
+  description: Bump the version number a single patch level and commit locally
+  steps:
+    - method: poetry_bump_version_patch
+    - method: update_readme
+    - method: git_commit_version_files
+
+build:
+  description: Build our distribution(s).
+  steps:
+    - method: run_pre_commit
+      echo_stdout: true
+    - method: clean
+      allow_error: true
+    - method: build
+      echo_stdout: true
+
+publish:
+  description: Release a new version of our package to PyPI.
+  steps:
+    - method: git_create_tag
+    - method: git_push_to_github
+    - method: publish_to_pypi
+    - method: git_create_release

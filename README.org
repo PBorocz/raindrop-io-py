@@ -56,8 +56,17 @@
 
    # etc...
 #+end_src
-** API Usage & Examples
-   A full suite of examples are provided in the `examples` directory, here are a few to give you some idea of the usage model:
+** Examples
+   A full suite of examples are provided in the `examples` directory. Each can be run independently as:
+#+begin_src shell
+   [.venv] % python examples/list_collections.py
+#+end_src
+   or a wrapper script is available to run all of them, in logical order with a small wait to be nice to Raindrop's API:
+#+begin_src shell
+   [.venv] % python examples/RUN_ALL.py
+#+end_src
+** API Usage
+   Here are a few examples of API usage (all of these should be able to be executed "as-is"):
 *** Create a New Raindrop Bookmark to a URL
 #+begin_src python
   import os

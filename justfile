@@ -48,41 +48,8 @@ pre-commit-update *args:
     @just pre-commit-all {{args}}
 
 # In lieu of a formal integration test suite, run samples against live
-# Raindrop environment. This also keeps us honest wrt quality of
-# example code :-)
+# Raindrop environment. This also keeps us honest wrt quality of example code :-)
 examples:
     # Listed in order of complexity, list_* are read-only, rest make changes.
     # We try to be nice to Raindrop by resting between each file.
-    python examples/list_authorised_user.py
-    @echo "Resting..."
-    @sleep 1
-
-    python examples/list_collections.py
-    @echo "Resting..."
-    @sleep 1
-
-    python examples/list_tags.py
-    @echo "Resting..."
-    @sleep 1
-
-    python examples/create_collection.py
-    @echo "Resting..."
-    @sleep 1
-
-    python examples/edit_collection.py
-    @echo "Resting..."
-    @sleep 1
-
-    python examples/create_raindrop_file.py
-    @echo "Resting..."
-    @sleep 1
-
-    python examples/create_raindrop_link.py
-    @echo "Resting..."
-    @sleep 1
-
-    python examples/edit_raindrop.py
-    @echo "Resting..."
-    @sleep 1
-
-    python examples/search_raindrop.py
+    python examples/RUN_ALL.py

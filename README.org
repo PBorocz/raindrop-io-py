@@ -124,6 +124,7 @@
    The project is licensed under the MIT License.
 ** Release History
 *** Unreleased
+    - CHANGED: Added a simple RUN_ALL.py script to the examples directory to...well, run all the examples in order!
 *** v0.0.8 - 2023-01-25
     - CHANGED: Added simple version method in root package:
 #+begin_src python

@@ -307,7 +307,7 @@ testing = ["Django (<3.1)", "colorama", "docopt", "pytest (>=3.9.0,<5.0.0)"]
 
 [[package]]
 name = "manage"
-version = "0.0.11"
+version = "0.0.13"
 description = "'Manage' environment for poetry-based projects (at least mine)"
 category = "dev"
 optional = false
@@ -327,7 +327,7 @@ toml = "^0.10.2"
 type = "git"
 url = "https://github.com/PBorocz/manage"
 reference = "HEAD"
-resolved_reference = "2677915f56db0ede5b1b3119cf2d8d2bcf635c9e"
+resolved_reference = "530fef8faf4afa9fa69faf8cd97bb7c25cc76c95"
 
 [[package]]
 name = "markdown-it-py"

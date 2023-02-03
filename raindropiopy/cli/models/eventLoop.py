@@ -38,8 +38,8 @@ class EventLoop:
     def _display_startup_banner(self) -> None:
         banner: str = "Raindrop-io-py"
         welcome: str = (
-            f"""{make_italic('<tab>')} to show options/complete; """
-            f"""{make_italic('help')} for help; """
+            f"""{make_italic('<tab>')} to show options/complete | """
+            f"""{make_italic('help')} for help | """
             f"""{make_italic('Ctrl-D')}, {make_italic('exit')} or '.' to exit."""
         )
         # We can't use self.console.print here as any the special
@@ -48,10 +48,8 @@ class EventLoop:
         self.console.print(welcome)
 
     def __init__(self, capture: StringIO = None) -> None:
-        """Setup our interface components and show our our startup banner.
-
-        For testing, allow for an internal capture of Console output through the respective arg.
-        """
+        """Configure our interface components and display our startup banner."""
+        # For testing, allow for an internal capture of Console output through the respective arg.
         self.console = Console(file=capture)
         self.session = PromptSession(history=FileHistory(_get_user_history_path()))
         self.state: None  # Will be populated when we start our event loop.

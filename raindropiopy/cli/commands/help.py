@@ -6,7 +6,7 @@ from raindropiopy.cli.models.eventLoop import EventLoop
 
 
 def process(el: EventLoop) -> None:
-    """Controller to display help."""
+    """Display help."""
     el.console.print("Help is here, never fear!")
 
 

@@ -96,7 +96,7 @@ select = [
        "COM",                  # flake8-commas
        # "RUF",                # Ruff-specific rules
        ]
-ignore = ["D213", "E402"]
+ignore = ["D213", "E402", "I001"]
 
 [tool.ruff.pydocstyle]
 # For more info, see:

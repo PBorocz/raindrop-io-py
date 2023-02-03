@@ -378,6 +378,6 @@ def iteration(el: EventLoop) -> bool:
 
 
 def process(el: EventLoop) -> None:
-    """Controller for adding bookmark(s) from the terminal."""
+    """Implement controller log for adding bookmark(s) from the terminal."""
     while iteration(el):
         ...

@@ -1,12 +1,12 @@
 """Top level cli.commands dunder init, mostly common methods and data types."""
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Iterable, Final, Optional
 
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.styles import Style
 from rich.table import Table
 
-from raindropiopy.api import Raindrop, Collection
+from raindropiopy.api import Raindrop, Collection, CollectionRef
 from raindropiopy.cli import COLOR_TABLE_COLUMN_1, COLOR_TABLE_COLUMN_2
 from raindropiopy.cli import PROMPT_STYLE, prompt
 from raindropiopy.cli.models.eventLoop import EventLoop
@@ -74,7 +74,9 @@ class SearchRequest:
 
     search: str
     collection_s: tuple[str]
-    collection: Collection = None
+
+    # Used once *per* query, ie. for each collection in self.collection_s
+    collection: Collection = CollectionRef.All
 
 
 ################################################################################
@@ -82,7 +84,7 @@ class SearchRequest:
 class SearchResults:
     """Encapsulate all aspects for a set of search results."""
 
-    results: list[Raindrop] = field(default_factory=list)
+    results: list[Raindrop]
     selected: int | None = None
 
     def get_selected(self) -> Raindrop | None:
@@ -113,18 +115,56 @@ class SearchResults:
                 el.console.print(msg)
             return
 
-        table = Table()
+        # Do we need to show the "Collections" column?
+        collection_ids = set([raindrop.collection.id for _, raindrop in self])
+        show_collection_name = True if len(collection_ids) > 1 else False
+
+        # How many tag columns do we have?
+        max_tags = max([len(raindrop.tags) for _, raindrop in self])
+
+        # ----------
+        # Columns
+        # ----------
+        table = Table(show_header=False)
         table.add_column("#", justify="center", style=COLOR_TABLE_COLUMN_1)
-        table.add_column(
-            "Collection",
-            justify="left",
-            style=COLOR_TABLE_COLUMN_1,
-            no_wrap=True,
-        )
+        if show_collection_name:
+            table.add_column(
+                "Collection",
+                justify="left",
+                style=COLOR_TABLE_COLUMN_1,
+                no_wrap=True,
+            )
         table.add_column("Raindrop", style=COLOR_TABLE_COLUMN_2)
+
+        # Add as many columns as the max number of tags we'll have in our results:
+        for ith in range(0, max_tags):
+            table.add_column(str(ith), style=COLOR_TABLE_COLUMN_2)
+
+        # ----------
+        # Rows..
+        # ----------
         for ith, raindrop in self:
-            collection = el.state.find_collection_by_id(raindrop.collection.id)
-            table.add_row(f"{ith+1}", collection.title, raindrop.title)
+
+            # We always show the the "selector" number:
+            row = [f"{ith+1}"]
+
+            # We may or may not show the collection name:
+            if show_collection_name:
+                collection = el.state.find_collection_by_id(raindrop.collection.id)
+                row.append(str(collection.title))
+
+            # We always show the title:
+            row.append(str(raindrop.title))
+
+            # Show the tags:
+            for tag in sorted(raindrop.tags):
+                row.append(tag)
+
+            table.add_row(*row)
+
+        # ----------
+        # Finally, render the table
+        # ----------
         el.console.print(table)
 
     def __iter__(self) -> Iterable[tuple]:

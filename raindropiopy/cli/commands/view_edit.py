@@ -25,6 +25,7 @@ from raindropiopy.cli.models.eventLoop import EventLoop
 from raindropiopy.cli.models.spinner import Spinner
 
 
+# FIXME: Normalise and put into commands/__init__.py to share with search.py
 def __get_title(el: EventLoop, prompts: list[str]) -> str | None:
     while True:
         title = el.session.prompt(prompt(prompts), style=PROMPT_STYLE)
@@ -38,6 +39,7 @@ def __get_title(el: EventLoop, prompts: list[str]) -> str | None:
             return title
 
 
+# FIXME: Normalise and put into commands/__init__.py to share with search.py
 def __get_description(el: EventLoop, prompts: list[str]) -> str | None:
     while True:
         description = el.session.prompt(prompt(prompts), style=PROMPT_STYLE)

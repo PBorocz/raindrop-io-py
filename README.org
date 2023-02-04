@@ -133,7 +133,9 @@
    The project is licensed under the MIT License.
 ** Release History
 *** Unreleased
-    - CHANGED: Added a simple RUN_ALL.py script to the examples directory to...well, run all the examples in order!
+    - ADDED: An ability to view, edit and delete raindrops returned from a search.
+    - ADDED: A simple RUN_ALL.py script to the examples directory to...well, run all the examples in order!
+    - CHANGED: The display of raindrops returned from a search to include tags and to only show Collection name if all raindrops are across multiple collections.
 *** v0.0.8 - 2023-01-25
     - CHANGED: Added simple version method in root package:
 #+begin_src python

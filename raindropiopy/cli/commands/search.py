@@ -3,7 +3,7 @@ from typing import Optional
 
 from prompt_toolkit.completion import WordCompleter
 
-from raindropiopy.api import CollectionRef, Raindrop
+from raindropiopy.api import Raindrop
 from raindropiopy.cli import PROMPT_STYLE, prompt
 from raindropiopy.cli.commands import (
     get_from_list,
@@ -16,9 +16,8 @@ from raindropiopy.cli.commands.view_edit import process as process_view_edit
 from raindropiopy.cli.models.eventLoop import EventLoop
 from raindropiopy.cli.models.spinner import Spinner
 
-WILDCARD = "*"
-
-SEARCH_RESULTS = None
+WILDCARD: str = "*"
+SEARCH_RESULTS: SearchResults = None  # Only a single set of search results at a time.
 
 
 def __prompt_search_terms(el: EventLoop) -> tuple[bool, str | None, int | None]:
@@ -29,7 +28,7 @@ def __prompt_search_terms(el: EventLoop) -> tuple[bool, str | None, int | None]:
 
     while True:
         response = el.session.prompt(
-            prompt(("search", "term(s)?")),
+            prompt(("search term(s)?",)),
             completer=completer,
             style=PROMPT_STYLE,
             complete_while_typing=True,
@@ -89,14 +88,13 @@ def _do_search_wrapper(
     el: EventLoop,
     request: SearchRequest,
 ) -> Optional[list[Raindrop]]:
-    """Search across none, one or many collections for the respective search terms."""
+    """Search across 0, 1 or many collections for the respective search terms."""
     return_ = list()
     if request.collection_s:
         for collection_title in request.collection_s:
             request.collection = el.state.find_collection(collection_title)
             return_.extend(__do_search(el, request))
     else:
-        request.collection = CollectionRef.All
         return_.extend(__do_search(el, request))
 
     return SearchResults(results=return_)

@@ -128,7 +128,7 @@ class Collection(DictModel):
 
     @classmethod
     def get_collections(cls, api: API) -> Sequence[Collection]:
-        """Utility method for query *ALL* collections.
+        """Query *ALL* collections.
 
         (hiding the distinction between root/child collections)
         """

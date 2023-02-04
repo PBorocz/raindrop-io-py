@@ -16,7 +16,7 @@ class Spinner:
     _live_display: Live
 
     def __init__(self, text: str = "Loading...") -> None:
-        """Create pinner for user feedback during a time-consuming operation.
+        """Create spinner for user feedback during a time-consuming operation.
 
         :param text: Text that will be shown after the spinner.
 
@@ -34,9 +34,9 @@ class Spinner:
         )
 
     def __enter__(self):
-        """Starts the spinner."""
+        """Start the spinner."""
         self._live_display.start()
 
     def __exit__(self, _exc_type, _exc_value, _exc_tb):
-        """Stops the spinner."""
+        """Stop the spinner."""
         self._live_display.stop()

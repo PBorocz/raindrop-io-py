@@ -29,7 +29,7 @@ def __prompt_search_terms(el: EventLoop) -> tuple[bool, str | None, int | None]:
 
     while True:
         response = el.session.prompt(
-            prompt(("search term(s)?",)),
+            prompt(("search", "term(s)?")),
             completer=completer,
             style=PROMPT_STYLE,
             complete_while_typing=True,
@@ -59,7 +59,7 @@ def _prompt_search(el: EventLoop) -> tuple[SearchRequest | None, str | None]:
     # What collection(s) to search across?
     collection_s = get_from_list(
         el,
-        ("search", "in collection(s)?"),
+        ("search", "collection(s)?"),
         el.state.get_collection_titles(exclude_unsorted=False),
     )
     if collection_s == ".":
@@ -109,15 +109,18 @@ def process(el: EventLoop) -> None:
         request, ith = _prompt_search(el)
 
         if request is None and ith is None:
-            # We're REALLY done..
-            return None
+            return None  # We're REALLY done..
 
         elif ith is not None:
             # Transfer control over to the view/edit logic
             SEARCH_RESULTS.selected = ith
-            stay = process_view_edit(el, SEARCH_RESULTS)
-            if not stay:
-                return None  # Once we're done, fall back to main loop
+            stay_in_search = process_view_edit(el, SEARCH_RESULTS)
+            if not stay_in_search:
+                return None  # We're also REALLY done..
+
+            # Stay here but clear out our existing search results..
+            SEARCH_RESULTS = None
+            continue
 
         elif request.search == WILDCARD and not request.collection_s:
             print("Sorry, wildcard search requires at least one collection.")

@@ -15,6 +15,7 @@ from raindropiopy.cli import (
     options_as_help,
     prompt,
 )
+from raindropiopy.cli.commands import get_confirmation
 from raindropiopy.cli.commands import get_from_list
 from raindropiopy.cli.models.createRequest import CreateRequest
 from raindropiopy.cli.models.eventLoop import EventLoop
@@ -117,7 +118,7 @@ def __get_title(el: EventLoop) -> Optional[str]:
         title = el.session.prompt(ev_prompt, style=PROMPT_STYLE)
         if title == "?":
             el.console.print(
-                "We need a Bookmark title here, eg. 'This is an interesting bookmark'",
+                "We need a Raindrop title here, eg. 'This is an interesting bookmark to keep!'",
             )
         elif title == "q":
             return None
@@ -161,25 +162,6 @@ def __get_from_files(el: EventLoop, options: list[Path]) -> Optional[str]:
     return options[int(response)]
 
 
-def __get_confirmation(el: EventLoop, prompt: str) -> bool:
-    el_prompt: Final = [("class:prompt", "\nIs this correct? ")]
-    options: Final = ("yes", "Yes", "No", "no")
-    completer: Final = WordCompleter(options)
-    response = el.session.prompt(
-        el_prompt,
-        completer=completer,
-        style=PROMPT_STYLE,
-        complete_while_typing=True,
-        enable_history_search=False,
-    )
-    if response == "q":
-        return None
-    else:
-        if response.lower() in ["yes", "y", "ye"]:
-            return True
-        return False
-
-
 def _is_request_valid(el: EventLoop, request: CreateRequest) -> bool:
     """Return True iff the request is valid."""
     # Error Check: Validate the existence of the specified file for
@@ -220,7 +202,7 @@ def _prompt_for_request(
     file: bool = False,
     url: bool = False,
     dir_path: Optional[Path] = Path("~/Downloads/Raindrop"),
-) -> Optional[CreateRequest]:
+) -> CreateRequest | None:
     """Prompt for create new Raindrop request (either link or url).
 
     Returns request or None (if not confirmed).
@@ -261,7 +243,7 @@ def _prompt_for_request(
 
     # Confirm the values that we just received are good to go...
     request.print(el.console.print)
-    if __get_confirmation(el, "Is this correct?"):
+    if get_confirmation(el, "Is this correct?"):
         return request
     return None
 
@@ -328,7 +310,7 @@ def _add_bulk(el: EventLoop) -> None:
             break
 
         # Confirm that we're good to go
-        if not __get_confirmation(
+        if not get_confirmation(
             el,
             f"Ready to create {len(requests)} valid requests, Ok?",
         ):

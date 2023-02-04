@@ -1,8 +1,9 @@
-"""Top level cli.commands dunder init, mostly common methods."""
+"""Top level cli.commands dunder init, mostly common methods and data types."""
 from dataclasses import dataclass, field
 from typing import Iterable, Final, Optional
 
 from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.styles import Style
 from rich.table import Table
 
 from raindropiopy.api import Raindrop, Collection
@@ -40,6 +41,30 @@ def get_from_list(
         else:
             break
     return response
+
+
+def get_confirmation(
+    el: EventLoop,
+    prompt: str,
+    prompt_style: Style = PROMPT_STYLE,
+) -> bool:
+    """Ask the user for a confirmation to perform the specific prompt supplied."""
+    el_prompt: Final = [("class:prompt", f"\n{prompt} ")]
+    options: Final = ("yes", "Yes", "No", "no")
+    completer: Final = WordCompleter(options)
+    response = el.session.prompt(
+        el_prompt,
+        completer=completer,
+        style=prompt_style,
+        complete_while_typing=True,
+        enable_history_search=False,
+    )
+    if response == "q":
+        return None
+    else:
+        if response.lower() in ["yes", "y", "ye"]:
+            return True
+        return False
 
 
 ################################################################################

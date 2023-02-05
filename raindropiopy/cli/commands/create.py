@@ -15,8 +15,12 @@ from raindropiopy.cli import (
     options_as_help,
     prompt,
 )
-from raindropiopy.cli.commands import get_confirmation
-from raindropiopy.cli.commands import get_from_list
+from raindropiopy.cli.commands import (
+    get_confirmation,
+    get_from_list,
+    get_title,
+    get_description,
+)
 from raindropiopy.cli.models.createRequest import CreateRequest
 from raindropiopy.cli.models.eventLoop import EventLoop
 from raindropiopy.cli.models.spinner import Spinner
@@ -29,6 +33,8 @@ def _create_file(api: API, request: CreateRequest) -> bool:
         args["title"] = request.title
     if request.tags:
         args["tags"] = request.tags
+    if request.description:
+        args["excerpt"] = request.description
 
     Raindrop.create_file(
         api,
@@ -42,12 +48,19 @@ def _create_file(api: API, request: CreateRequest) -> bool:
 
 def _create_link(api: API, request: CreateRequest) -> None:
     """Create a URL/link-based Raindrop."""
+    args: dict[str, Any] = {}
+    if request.title:
+        args["title"] = request.title
+    if request.tags:
+        args["tags"] = request.tags
+    if request.description:
+        args["excerpt"] = request.description
+
     Raindrop.create_link(
         api,
         request.url,
-        title=request.title,
-        tags=request.tags,
         collection=request.collection,
+        **args,
     )
 
 
@@ -110,20 +123,6 @@ def __get_url(el: EventLoop) -> Optional[str]:
                 el.console.print(msg)
             else:
                 return url
-
-
-def __get_title(el: EventLoop) -> Optional[str]:
-    ev_prompt = prompt(("create", "title?"))
-    while True:
-        title = el.session.prompt(ev_prompt, style=PROMPT_STYLE)
-        if title == "?":
-            el.console.print(
-                "We need a Raindrop title here, eg. 'This is an interesting bookmark to keep!'",
-            )
-        elif title == "q":
-            return None
-        else:
-            return title
 
 
 def __get_file(el: EventLoop) -> Optional[str]:
@@ -224,28 +223,34 @@ def _prompt_for_request(
         )
 
     # Get a Title:
-    request.title = __get_title(el)
-    if request.title is None:
+    request.title = get_title(el, ("create", "title?"))
+    if request.title is None:  # User asked to quit the interaction..
         return None
 
-    # These are the same across raindrop types:
+    # Get a Description:
+    request.description = get_description(el, ("create", "(description?)"))
+    if request.description is None:  # User asked to quit the interaction..
+        return None
+
+    # Get a Collection: (these are the same across raindrop types)
     request.collection = get_from_list(
         el,
         ("create", "collection"),
         list(el.state.get_collection_titles(exclude_unsorted=True)),
     )
-    if request.collection is None:
+    if request.collection is None:  # User asked to quit the interaction..
         return None
 
+    # Get a set of Tags to associate with the raindrop:
     request.tags = get_from_list(el, ("create", "tag(s)"), list(el.state.tags))
-    if request.tags is None:
+    if request.tags is None:  # User asked to quit the interaction..
         return None
 
     # Confirm the values that we just received are good to go...
     request.print(el.console.print)
     if get_confirmation(el, "Is this correct?"):
         return request
-    return None
+    return None  # User declined to go through with the add..
 
 
 def _add_single(

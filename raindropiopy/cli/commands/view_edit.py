@@ -23,34 +23,7 @@ from raindropiopy.cli.commands import (
 )
 from raindropiopy.cli.models.eventLoop import EventLoop
 from raindropiopy.cli.models.spinner import Spinner
-
-
-# FIXME: Normalise and put into commands/__init__.py to share with search.py
-def __get_title(el: EventLoop, prompts: list[str]) -> str | None:
-    while True:
-        title = el.session.prompt(prompt(prompts), style=PROMPT_STYLE)
-        if title == "?":
-            el.console.print(
-                "We need a Raindrop title here, eg. 'Home Page for xxxyyy'",
-            )
-        elif title == "q":
-            return None
-        else:
-            return title
-
-
-# FIXME: Normalise and put into commands/__init__.py to share with search.py
-def __get_description(el: EventLoop, prompts: list[str]) -> str | None:
-    while True:
-        description = el.session.prompt(prompt(prompts), style=PROMPT_STYLE)
-        if description == "?":
-            el.console.print(
-                "We need a Raindrop description here, eg. 'This was an interesting site.'",
-            )
-        elif description == "q":
-            return None
-        else:
-            return description
+from raindropiopy.cli.commands import get_title, get_description
 
 
 def _view_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
@@ -120,13 +93,13 @@ def _edit_raindrop(
 
     elif response.casefold().startswith("ti"):
         prompts = ("search results", search_context, "edit", "title?")
-        title = __get_title(el, prompts)
+        title = get_title(el, prompts)
         with Spinner("Updating Raindrop..."):
             Raindrop.update(el.state.api, id=raindrop.id, title=title)
 
     elif response.casefold().startswith("d"):
         prompts = ("search results", search_context, "edit", "description?")
-        excerpt = __get_description(el, prompts)
+        excerpt = get_description(el, prompts)
         with Spinner("Updating Raindrop..."):
             Raindrop.update(el.state.api, id=raindrop.id, excerpt=excerpt)
 

@@ -43,6 +43,69 @@ def get_from_list(
     return response
 
 
+def get_title(el: EventLoop, prompts: list[str]) -> str | None:
+    """Mini-event loop to prompt for a raindrop Title."""
+    while True:
+        title = el.session.prompt(prompt(prompts), style=PROMPT_STYLE)
+        if title == "?":
+            el.console.print(
+                "We need a Raindrop title here, eg. 'Home Page for xxxyyy'",
+            )
+        elif title == "q":
+            return None
+        else:
+            return title
+
+
+def get_description(el: EventLoop, prompts: list[str]) -> str | None:
+    """Mini-event loop to prompt for a raindrop Description (nee excerpt)."""
+    while True:
+        description = el.session.prompt(prompt(prompts), style=PROMPT_STYLE)
+        if description == "?":
+            el.console.print(
+                "We need a Raindrop description here, eg. 'This was an interesting site.'",
+            )
+        elif description == "q":
+            return None
+        else:
+            return description
+
+
+def get_collection_s(el: EventLoop, prompts: list[str]) -> str | None:
+    """Mini event-loop to prompt for one or many raindrop collections."""
+    while True:
+        collection_s = get_from_list(
+            el,
+            ("search", "collection(s)?"),
+            el.state.get_collection_titles(exclude_unsorted=False),
+        )
+        if collection_s == ".":
+            return None
+
+        if collection_s:
+            unrecognised_collections = list()
+            current_collections = el.state.get_collection_titles(
+                exclude_unsorted=True,
+                casefold=True,
+            )
+            for collection in collection_s.split():
+                if collection.casefold() not in current_collections:
+                    unrecognised_collections.append(collection)
+            if unrecognised_collections:
+                print(
+                    "Sorry, the following collections are NOT currently defined:",
+                    end="",
+                )
+                print(", ".join(unrecognised_collections))
+                print(
+                    "Must be blank or one of one of: "
+                    + ", ".join(el.state.get_collection_titles(exclude_unsorted=True)),
+                )
+                continue
+
+        return collection_s
+
+
 def get_confirmation(
     el: EventLoop,
     prompt: str,

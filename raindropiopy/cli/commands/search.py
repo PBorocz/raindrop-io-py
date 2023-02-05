@@ -6,11 +6,11 @@ from prompt_toolkit.completion import WordCompleter
 from raindropiopy.api import Raindrop
 from raindropiopy.cli import PROMPT_STYLE, prompt
 from raindropiopy.cli.commands import (
-    get_from_list,
     is_int,
     SearchRequest,
     SearchResults,
 )
+from raindropiopy.cli.commands import get_collection_s
 from raindropiopy.cli.commands.help import help_search
 from raindropiopy.cli.commands.view_edit import process as process_view_edit
 from raindropiopy.cli.models.eventLoop import EventLoop
@@ -55,13 +55,8 @@ def _prompt_search(el: EventLoop) -> tuple[SearchRequest | None, str | None]:
     if ith is not None:
         return None, ith
 
-    # What collection(s) to search across?
-    collection_s = get_from_list(
-        el,
-        ("search", "collection(s)?"),
-        el.state.get_collection_titles(exclude_unsorted=False),
-    )
-    if collection_s == ".":
+    collection_s = get_collection_s(el, ("search", "collection(s)?"))
+    if collection_s == "." or collection_s is None:
         return None, None
 
     return SearchRequest(search, collection_s.split()), None

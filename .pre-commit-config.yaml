@@ -13,6 +13,16 @@ repos:
     language: system
 
 ################################################################################
+# Run Ruff!
+################################################################################
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: 'v0.0.223'
+  hooks:
+  - id: ruff
+    name: Running ruff
+    args: ["--config=pyproject.toml", "--fix", "raindropiopy/"]
+
+################################################################################
 # Ruff doesn't (yet) support ssort, thus, we need to do it ourselves.
 ################################################################################
 - repo: https://github.com/bwhmather/ssort
@@ -29,13 +39,3 @@ repos:
   hooks:
     - id: black
       name: Running black
-
-################################################################################
-# Run Ruff!
-################################################################################
-- repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: 'v0.0.223'
-  hooks:
-  - id: ruff
-    name: Running ruff
-    args: ["--config=pyproject.toml", "--fix", "raindropiopy/"]

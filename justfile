@@ -5,27 +5,19 @@ default:
     @just --list
 
 ################################################################################
-# Poetry management
+# Build/Release environment management
 ################################################################################
-# Refresh the version of manage we have installed in our venv from github.
+# Refresh the version of 'manage' we have installed in our venv from github.
 refresh_manage:
     @poetry remove manage --group dev
     @poetry add git+https://github.com/PBorocz/manage --group dev
-
-################################################################################
-# Packaging...
-################################################################################
-# Build *and* publish to PyPI
-publish:
-    poetry publish --build
-    @rm -rf build raindropiopy.egg-info
 
 ################################################################################
 # Development...
 ################################################################################
 # Run the build/release management interface
 manage *args:
-    @python manage.py {{args}}
+    @python manage {{args}}
 
 # Run the raindrop-io-py command-line interface
 cli:

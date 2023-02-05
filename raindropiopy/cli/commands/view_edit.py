@@ -1,5 +1,4 @@
 """Create a new Raindrop bookmark."""
-import humanize
 import webbrowser
 from typing import Final
 
@@ -11,19 +10,41 @@ from raindropiopy.cli import (
     COLOR_TABLE_COLUMN_2,
     PROMPT_STYLE,
     PROMPT_STYLE_WARNING,
+    WARNING,
     prompt,
     options_as_help,
 )
 from raindropiopy.api.models import Raindrop
-from raindropiopy.cli.commands import (
-    get_confirmation,
-    get_from_list,
-    SearchResults,
-    is_int,
-)
+from raindropiopy.cli.commands import get_confirmation, get_from_list, is_int
 from raindropiopy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.searchState import SearchState
 from raindropiopy.cli.models.spinner import Spinner
 from raindropiopy.cli.commands import get_title, get_description
+
+
+def _prompt_view_edit(el: EventLoop, search_state: SearchState) -> str:
+    """Prompt for the next thing to do with the specified raindrop."""
+    while True:
+        options: Final = ("open", "edit", "view", "list", "delete", "requery", "back/.")
+        options_title: Final = options_as_help(options)
+        el.console.print(options_title)
+        response = el.session.prompt(
+            prompt(("search results", search_state.prompt())),
+            completer=WordCompleter(options),
+            style=PROMPT_STYLE,
+            complete_while_typing=True,
+            enable_history_search=False,
+        )
+        if is_int(response) and search_state.results:
+            i_response = int(response)
+            if 1 <= i_response <= len(search_state):
+                return int(response)
+            else:
+                print(
+                    f"[{WARNING}]Sorry, raindrop selector must be between 1 and {len(search_state)}.",
+                )
+                continue
+        return response
 
 
 def _view_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
@@ -41,8 +62,8 @@ def _view_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
     raindrop._collection = el.state.find_collection_by_id(raindrop.collection.id).title
     raindrop._tags = ", ".join(raindrop.tags)
     raindrop._type = raindrop.type.value.title()
-    raindrop._created = humanize.naturaldate(raindrop.created).title()
-    raindrop._updated = humanize.naturaldate(raindrop.lastUpdate).title()
+    raindrop._created = raindrop.created.isoformat().split("T")[0]
+    raindrop._updated = raindrop.lastUpdate.isoformat().split("T")[0]
     if raindrop._updated == raindrop._created:
         raindrop._updated = None
 
@@ -63,14 +84,14 @@ def _view_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
 
 def _edit_raindrop(
     el: EventLoop,
-    search_results: SearchResults,
+    search_state: SearchState,
     raindrop: Raindrop,
 ) -> None:
     """Edit selected attributes of the currently selected raindrop."""
     _view_raindrop(el, raindrop)
 
     # What attribute to edit?
-    search_context = f"{search_results.selected+1}/{len(search_results)}"
+    search_context = search_state.prompt()
     options: Final = ("title", "tags", "description", "back/.")
     options_title: Final = options_as_help(options, 2)
     el.console.print(options_title)
@@ -119,57 +140,41 @@ def _delete_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
             Raindrop.remove(el.state.api, id=raindrop.id)
 
 
-def _prompt_view_edit(el: EventLoop, search_results: SearchResults) -> str:
-    """Prompt for the next thing to do with the specified raindrop."""
-    prompt_addendum = f"{search_results.selected+1}/{len(search_results)}"
+def process(el: EventLoop, search_state: SearchState) -> bool:
+    """Top-level UI Controller for viewing / edit a bookmark(s).
+
+    Return:
+    - quit : Should we "quit" after this invocation?
+    """
     while True:
-        options: Final = ("open", "edit", "view", "list", "delete", "back/.")
-        options_title: Final = options_as_help(options)
-        el.console.print(options_title)
-        return el.session.prompt(
-            prompt(("search results", prompt_addendum)),
-            completer=WordCompleter(options),
-            style=PROMPT_STYLE,
-            complete_while_typing=True,
-            enable_history_search=False,
-        )
+        response = _prompt_view_edit(el, search_state)
 
+        if is_int(response):
+            raindrop = search_state.get_selected(int(response))
+            _view_raindrop(el, raindrop)
 
-def process(el: EventLoop, search_results: SearchResults) -> bool:
-    """Top-level UI Controller for viewing / edit a bookmark(s)."""
-    raindrop = (
-        search_results.get_selected()
-    )  # Lookup the particular raindrop to be worked on..
-    _view_raindrop(el, raindrop)  # and display it!
-    while True:
-
-        response = _prompt_view_edit(el, search_results)
-
-        if response.casefold() in ("b", "back", "."):
+        elif response.casefold() in ("b", "back", ".", "q", "quit"):
             return True
 
-        elif response.casefold() in ("q", "quit"):
-            return False
-
-        if response.casefold() in ("v", "view"):
+        elif response.casefold() in ("v", "view"):
             _view_raindrop(el, raindrop)
 
         elif response.casefold() in ("o", "open"):
             _open_raindrop(el, raindrop)
 
         elif response.casefold() in ("l", "list"):
-            search_results.display_results(el, None)
+            search_state.display_results(el)
+
+        elif response.casefold() in ("r", "requery"):
+            search_state.query(el)
+            search_state.display_results(el)
 
         elif response.casefold() in ("d", "delete"):
             _delete_raindrop(el, raindrop)
-            return True  # At this point, the search results are incomplete, go back/up
+            search_state.query(el)
+            search_state.display_results(el)
 
         elif response.casefold() in ("e", "edit"):
-            _edit_raindrop(el, search_results, raindrop)
-
-        elif is_int(response):
-            search_results.selected = (
-                int(response) - 1
-            )  # Convert from user-based to list indexing
-            raindrop = search_results.get_selected()
-            _view_raindrop(el, raindrop)
+            _edit_raindrop(el, search_state, raindrop)
+            search_state.query(el)
+            search_state.display_results(el)

@@ -133,6 +133,8 @@
    The project is licensed under the MIT License.
 ** Release History
 *** Unreleased
+    - ADDED: Ability to specify raindrop field: Description on a created Raindrop (either file or link-based).
+    - ADDED: Ability to re-query existing search results (eg. after changes) and smoothed out post-search interactions.
 *** v0.0.9 - 2023-02-04
     - ADDED: An ability to view, edit and delete raindrops returned from a search.
     - ADDED: A simple RUN_ALL.py script to the examples directory to...well, run all the examples in order!

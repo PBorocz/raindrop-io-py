@@ -1,31 +1,28 @@
 """Create a new Raindrop bookmark."""
-from typing import Optional
 
 from prompt_toolkit.completion import WordCompleter
+from rich import print
 
-from raindropiopy.api import Raindrop
+# from raindropiopy.api import Collection, CollectionRef, Raindrop
 from raindropiopy.cli import PROMPT_STYLE, prompt
-from raindropiopy.cli.commands import (
-    is_int,
-    SearchRequest,
-    SearchResults,
-)
+from raindropiopy.cli.models.searchState import SearchState, WILDCARD
 from raindropiopy.cli.commands import get_collection_s
 from raindropiopy.cli.commands.help import help_search
 from raindropiopy.cli.commands.view_edit import process as process_view_edit
 from raindropiopy.cli.models.eventLoop import EventLoop
 from raindropiopy.cli.models.spinner import Spinner
 
-WILDCARD: str = "*"
-SEARCH_RESULTS: SearchResults = None  # Only a single set of search results at a time.
 
+def __prompt_search_terms(el: EventLoop) -> tuple[bool, str | None]:
+    """Prompt for all user response to perform a search, or None if user quits.
 
-def __prompt_search_terms(el: EventLoop) -> tuple[bool, str | None, int | None]:
-    """Prompt for all user response to perform a search, or None if user quits."""
+    Returns:
+    - bool -> True if done with search?
+    - str  -> Optional term(s) to search on
+    """
     # What tag(s) to do allow for autocomplete?
     search_tags = [f"#{tag}" for tag in el.state.tags]
     completer = WordCompleter(search_tags)
-
     while True:
         response = el.session.prompt(
             prompt(("search term(s)?",)),
@@ -37,101 +34,70 @@ def __prompt_search_terms(el: EventLoop) -> tuple[bool, str | None, int | None]:
         if response == "?":
             help_search(el)
         elif response in ("q", "."):
-            return True, None, None
+            return True, None
         elif response:
-            # Is response the (ith) number of a search result?
-            if is_int(response) and SEARCH_RESULTS:
-                return False, None, int(response) - 1  # Move back to 0-based indexing.
-            return False, response, None
+            return False, response
 
-        # Otherwise, we fall through and try again, we need *some* search terms!
+        # Otherwise, we fall through and try again, we need *some* search terms (even if "*" for wildcard)
 
 
-def _prompt_search(el: EventLoop) -> tuple[SearchRequest | None, str | None]:
-    """Prompt for all responses necessary for a search, ie. terms and collections."""
-    quit, search, ith = __prompt_search_terms(el)
+def _prompt_search(el: EventLoop) -> SearchState | None:
+    """Prompt for all responses necessary for a search, ie. terms and collections.
+
+    Returns SearchState for a new search to be performed or None if we're done.
+    """
+    quit, search_term_s = __prompt_search_terms(el)
     if quit:
-        return None, None
-    if ith is not None:
-        return None, ith
+        return None
 
     collection_s = get_collection_s(el, ("search", "collection(s)?"))
     if collection_s == "." or collection_s is None:
-        return None, None
+        return None
 
-    return SearchRequest(search, collection_s.split()), None
-
-
-def __do_search(el: EventLoop, request: SearchRequest) -> list[Raindrop]:
-    results = list()
-    page: int = 0
-    search_args = {"collection": request.collection}
-    if request.search != WILDCARD:
-        search_args["word"] = request.search
-    while raindrops := Raindrop.search(
-        el.state.api,
-        page=page,
-        **search_args,
-    ):
-        for raindrop in raindrops:
-            results.append(raindrop)
-        page += 1
-    return results
-
-
-def _do_search_wrapper(
-    el: EventLoop,
-    request: SearchRequest,
-) -> Optional[list[Raindrop]]:
-    """Search across 0, 1 or many collections for the respective search terms."""
-    return_ = list()
-    if request.collection_s:
-        for collection_title in request.collection_s:
-            request.collection = el.state.find_collection(collection_title)
-            return_.extend(__do_search(el, request))
-    else:
-        return_.extend(__do_search(el, request))
-
-    return SearchResults(results=return_)
+    search_state = (
+        SearchState()
+    )  # Holds both search request information as we as search results.
+    search_state.search = search_term_s
+    search_state.collection_s = collection_s.split()
+    return search_state
 
 
 def process(el: EventLoop) -> None:
     """Top-level UI Controller for searching for bookmark(s)."""
-    global SEARCH_RESULTS
     while True:
-        request, ith = _prompt_search(el)
+        search_state = _prompt_search(el)
 
-        if request is None and ith is None:
+        if search_state is None:
             return None  # We're REALLY done..
 
-        elif ith is not None:
-            # Transfer control over to the view/edit logic
-            SEARCH_RESULTS.selected = ith
-            stay_in_search = process_view_edit(el, SEARCH_RESULTS)
-            if not stay_in_search:
-                return None  # We're also REALLY done..
-
-            # Stay here but clear out our existing search results..
-            SEARCH_RESULTS = None
-            continue
-
-        elif request.search == WILDCARD and not request.collection_s:
+        elif search_state.search == WILDCARD and not search_state.collection_s:
             print("Sorry, wildcard search requires at least one collection.")
             continue
 
         # Do search and display results (after which we go back for another try.
-        collection_text = ", ".join(request.collection_s)
-        if request.search == WILDCARD:
+        collection_text = ", ".join(search_state.collection_s)
+        if search_state.search == WILDCARD:
             # Wildcard with at least one collection:
             spinner_text = f"Finding all raindrops in {collection_text}"
-        elif not request.collection_s:
+        elif not search_state.collection_s:
             # Not a wildcard but don't have a collection specified:
-            spinner_text = f"Searching for '{request.search}' across all collections"
+            spinner_text = (
+                f"Searching for '{search_state.search}' across all collections"
+            )
         else:
             # Not a wildcard but have collection(s) to search over:
-            spinner_text = f"Searching for '{request.search}' in {collection_text}"
+            spinner_text = f"Searching for '{search_state.search}' in {collection_text}"
 
+        ################################################################################
+        # Do the query and display the results, transferring control over to view/edit
+        ################################################################################
         with Spinner(f"{spinner_text}..."):
-            SEARCH_RESULTS = _do_search_wrapper(el, request)
+            search_state.query(el)
 
-        SEARCH_RESULTS.display_results(el, request)
+        search_state.display_results(el)
+
+        if search_state.results:
+            if not process_view_edit(el, search_state):
+                return None
+
+        # Otherwise, we go back an try to do another search..

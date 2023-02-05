@@ -133,6 +133,7 @@
    The project is licensed under the MIT License.
 ** Release History
 *** Unreleased
+*** v0.0.10 - 2023-02-05
     - ADDED: Ability to specify raindrop field: Description on a created Raindrop (either file or link-based).
     - ADDED: Ability to re-query existing search results (eg. after changes) and smoothed out post-search interactions.
 *** v0.0.9 - 2023-02-04

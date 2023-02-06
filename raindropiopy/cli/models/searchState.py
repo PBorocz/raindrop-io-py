@@ -120,28 +120,18 @@ class SearchState:
             collection: Collection | None,
         ) -> list[Raindrop]:
             # Set the search arguments:
-            search_args = {"collection": collection}
+            search_args: dict = {"collection": collection}
             if search != WILDCARD:
                 search_args["word"] = search
-
-            results: list[Raindrop] = list()
-            page: int = 0
-            while raindrops := Raindrop.search(api, page=page, **search_args):
-                for raindrop in raindrops:
-                    results.append(raindrop)
-                page += 1
-            return results
+            return Raindrop.search(api, **search_args)
 
         # Query based on whether or not we have specific collection(s) to query over:
         self.results: list[Raindrop] = list()
         if self.collection_s:
             for collection_title in self.collection_s:
+                collection: Collection = el.state.find_collection(collection_title)
                 self.results.extend(
-                    _query_collection(
-                        el.state.api,
-                        self.search,
-                        el.state.find_collection(collection_title),
-                    ),
+                    _query_collection(el.state.api, self.search, collection),
                 )
         else:
             self.results.extend(

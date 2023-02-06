@@ -554,7 +554,7 @@ class Raindrop(DictModel):
         api.delete(URL.format(path=f"raindrop/{id}"), json={})
 
     @classmethod
-    def search(
+    def search_paged(
         cls,
         api: API,
         collection: CollectionRef = CollectionRef.All,
@@ -564,7 +564,10 @@ class Raindrop(DictModel):
         tag: Optional[str] = None,
         important: Optional[bool] = None,
     ) -> list[Raindrop]:
-        """Search for bookmarks in the specified collection with key word, tag or importance parms."""
+        """Lower-level search for bookmarks on a "paged" basis.
+
+        In the specified collection with key word, tag or importance parameters.
+        """
         args: list[dict[str, Any]] = []
         if word is not None:
             args.append({"key": "word", "val": word})
@@ -577,6 +580,33 @@ class Raindrop(DictModel):
         url = URL.format(path=f"raindrops/{collection.id}")
         results = api.get(url, params=params).json()
         return [cls(item) for item in results["items"]]
+
+    @classmethod
+    def search(
+        cls,
+        api: API,
+        collection: CollectionRef = CollectionRef.All,
+        word: Optional[str] = None,
+        tag: Optional[str] = None,
+        important: Optional[bool] = None,
+    ) -> list[Raindrop]:
+        """Search for Raindrops.
+
+        Essentially, a simple wrapper over the paged version above
+        """
+        page = 0
+        results = list()
+        while raindrops := Raindrop.search_paged(
+            api,
+            collection,
+            page=page,
+            word=word,
+            tag=tag,
+            important=important,
+        ):
+            results.extend(raindrops)
+            page += 1
+        return results
 
 
 class Tag(DictModel):

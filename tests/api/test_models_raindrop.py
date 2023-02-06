@@ -71,8 +71,7 @@ def test_search() -> None:
     api = API("dummy")
     with patch("raindropiopy.api.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"items": [raindrop]}
-
-        found = Raindrop.search(api)
+        found = Raindrop.search_paged(api)
         assert found[0].id == 2000
 
 

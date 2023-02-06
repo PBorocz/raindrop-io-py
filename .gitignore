@@ -1,6 +1,5 @@
 # Local additions
 poetry.toml
-README.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -6,6 +6,8 @@ version:
   steps:
     - method: poetry_bump_version_patch
     - method: update_readme
+      arguments:
+        readme_format: md
     - method: git_commit_version_files
 
 build:

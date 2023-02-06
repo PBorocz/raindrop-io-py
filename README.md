@@ -169,6 +169,12 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+### v0.0.12 - 2023-02-06
+
+- CHANGED: (Internal), move from README.org to README.md to allow PyPI to display project information correctly.
+
+### v0.0.11 - 2023-02-06
+
 - CHANGED: Raindrop search API call is now non-paged (the "paged" version is still available as `Raindrop.search_paged`).
 
 ### v0.0.10 - 2023-02-05

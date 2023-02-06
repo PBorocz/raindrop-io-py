@@ -1,0 +1,76 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer 97d0b7cf-f880-4978-a44f-c4d278a524ce
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.2
+    method: GET
+    uri: https://api.raindrop.io/rest/v1/user
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA3xTTW/bMAz9L7xODiT5I7FOG3rZZcMO2Q4tAkGxaFuoYhmSnGwt8t8HOZ/tivlE
+        kM+P5HvUK3gMk40gop+QwBTQg3iF1lgMKZgCahCUQDAvCILR60fAqhAfemyefzgzRBDAKc8zyrKc
+        rikTvBK8XhRF8QhHAmqvovIgAAiM3l0aSqNn1qpeFgQGtUMQ8E3pr9MABNrJ2u/vcrhTxoKAESP6
+        xdZ517x88soM2rvxc5eqi8btgEDn3TQGEE+vEE20ieXBWYtNNG4IQKA3WuMAolU2IIHgfJx3be5Q
+        4onXxbLOVzmZA15XhNf5qmBFRXjFWFmWNAW0XhX1KSjL1ea4OQn0Zea5isMzWq0pFUUtcraoVvwR
+        TrhfJph4DyvXNBecCVosclYkmMfOhIg+OZJwPKPLjOdrthKMizxf1MvyQvdz1Cri/9s2bmhNl1y+
+        yBfk3uABBFgTYup4zfdGI4gnCGY3WpRmaN2ssNGyN11vTdfHcMlE1aU4kcjG7dEDufyIvxv0Y7wl
+        ZuzmvtV2ivGkPARMPgCBAQ8yqu18OzjPSAC1mWfEndvjW4qAyje93P6RoXEeL8f2D8AMN6uvZ7D1
+        7hkHaXGP6c40tiq9EAKtG6I8vQNKQGktzzV5z5IxAqp5HtzBou6SaBsCacuzhucurbER/bvkzm2N
+        RZmo1RSdDGr/0fDznULWeFQR9RufZv1nzc+T5vfVmyPSJ8eujdPJvNkipyUraFUeCYwqhIPz+jTI
+        8fgXAAD//wMA0txPKTQEAAA=
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 794ff2bd4d339652-SJC
+      Cache-Control:
+      - private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 06 Feb 2023 01:00:20 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      etag:
+      - W/"434-9ytPkfhw3BY9cxE2jEC9iSmJ0MU"
+      server-timing:
+      - dc;desc=eu
+      - find_user;dur=24.292
+      - total;dur=34.506
+      set-cookie:
+      - AWSALBAPP-0=_remove_; Expires=Mon, 13 Feb 2023 01:00:20 GMT; Path=/
+      - AWSALBAPP-1=_remove_; Expires=Mon, 13 Feb 2023 01:00:20 GMT; Path=/
+      - AWSALBAPP-2=_remove_; Expires=Mon, 13 Feb 2023 01:00:20 GMT; Path=/
+      - AWSALBAPP-3=_remove_; Expires=Mon, 13 Feb 2023 01:00:20 GMT; Path=/
+      x-powered-by:
+      - Express
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-remaining:
+      - '118'
+      x-ratelimit-reset:
+      - '1675645273'
+    status:
+      code: 200
+      message: OK
+version: 1

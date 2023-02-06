@@ -1,0 +1,282 @@
+interactions:
+- request:
+    body: '{"link": "https://www.google.com/", "pleaseParse": {}, "cover": "", "excerpt":
+      "excerpt/description text", "important": true, "media": [], "tags": ["abc",
+      "def"], "title": "a Title", "type": "link"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer 97d0b7cf-f880-4978-a44f-c4d278a524ce
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '198'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.2
+    method: POST
+    uri: https://api.raindrop.io/rest/v1/raindrop
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA3yQzW7CMBCEXwWNOC7gAKHFb9BLVVX0AkLIJAtYdeLIXn4qlHevEv7aQ3sbr3d2
+        v9kzAse9E2gJeyZY4QL6DD5lHCqBvqlBzjELthLry47wSUAovTA0QJCvqlHOlp8gZP7A4fphthF6
+        AbPOQMh5gyUhcOEPnENvjItMF5vGTqSKejA4Ho/9rfdbx/3MFwMQKscm8psJkRu4I9vtTqATQm6j
+        WTt+9WI3NjMN3S1Kblq6oRqOemrYU5OZSnTyrFPVH6t0jppgi8oHMeU9fsG5NdCLJUGsuMZvOrNW
+        EfaxSXVGN/AGun1GELo2h06UmkyfxjUhC2ykCffH5skcBGeifFT/ErZ9uS+MLaHxuEd7X+c4u2S9
+        4zyKd6heQvAXURNWjUqT0VQl03F6BfXhvXFf8QnRB/nVtVodoNXPnS+XgfU3AAAA//8DACpXIjE7
+        AgAA
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 79500dd95f4acff1-SJC
+      Cache-Control:
+      - private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 06 Feb 2023 01:18:50 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      etag:
+      - W/"23b-N+1ud10zX1z+wS5MpzeFwihZkmo"
+      server-timing:
+      - dc;desc=eu
+      - total;dur=38.663
+      set-cookie:
+      - AWSALBAPP-0=_remove_; Expires=Mon, 13 Feb 2023 01:18:50 GMT; Path=/
+      - AWSALBAPP-1=_remove_; Expires=Mon, 13 Feb 2023 01:18:50 GMT; Path=/
+      - AWSALBAPP-2=_remove_; Expires=Mon, 13 Feb 2023 01:18:50 GMT; Path=/
+      - AWSALBAPP-3=_remove_; Expires=Mon, 13 Feb 2023 01:18:50 GMT; Path=/
+      x-powered-by:
+      - Express
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-remaining:
+      - '119'
+      x-ratelimit-reset:
+      - '1675646390'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"title": "a NEW/EDITED Title"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer 97d0b7cf-f880-4978-a44f-c4d278a524ce
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '31'
+      Content-Type:
+      - application/json
+      Cookie:
+      - AWSALBAPP-0=_remove_; AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_
+      User-Agent:
+      - python-requests/2.28.2
+    method: PUT
+    uri: https://api.raindrop.io/rest/v1/raindrop/513901945
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA2SR3WobMRBGX8V8+HLsXfmvsa5jaC4SSnEoNASjrMZrUe1qkcZ2gvG7F22cxKV3
+        o9EwnO/MCZHT3gu0xD0TnHADfQK/Vhw7gf6oCsupiq4TF9qB8KuA0AZhaIAgb12uvGv/gFCFA8fL
+        h6kT9BPMSwWC5S2eCZGbcGALvTU+MWHjLPRcTZelWs7m9L5GYyfSJV0Ux+NxXIdQex5XoSlA6Dyb
+        xD9MTJxhj+zqnUCrM8E1XYhi2s9EDVtnoJ+eCeLEZ0wzeFj9Kla3d+vV7WDdNwn7lJlPGEbeQvfP
+        BMIws6myXCy/zc6EKrKRjI5JOZmOysmoXKxLpdWNnpfjWbn4DYI3SR47a3o7/8+p8Wy6zHM2NMa1
+        0PhK19vznqvs+Qrnq/kJNVKEoX3Jnj/AQvyZp08wByPmcoLNVQJCa5pMdW/s930LAjfG+cuOFKL8
+        c4idq3c+u03vAjebA7S6RrzrQc7nvwAAAP//AwDO9YlhSAIAAA==
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 79500ddfe8e3cff1-SJC
+      Cache-Control:
+      - private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 06 Feb 2023 01:18:51 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      etag:
+      - W/"248-yZy+obxTszutTfFhED8aXKeTFgI"
+      server-timing:
+      - dc;desc=eu
+      - update_raindrop;dur=38.698
+      - total;dur=46.201
+      set-cookie:
+      - AWSALBAPP-0=_remove_; Expires=Mon, 13 Feb 2023 01:18:51 GMT; Path=/
+      - AWSALBAPP-1=_remove_; Expires=Mon, 13 Feb 2023 01:18:51 GMT; Path=/
+      - AWSALBAPP-2=_remove_; Expires=Mon, 13 Feb 2023 01:18:51 GMT; Path=/
+      - AWSALBAPP-3=_remove_; Expires=Mon, 13 Feb 2023 01:18:51 GMT; Path=/
+      x-powered-by:
+      - Express
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-remaining:
+      - '118'
+      x-ratelimit-reset:
+      - '1675646390'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer 97d0b7cf-f880-4978-a44f-c4d278a524ce
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json
+      Cookie:
+      - AWSALBAPP-0=_remove_; AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_
+      User-Agent:
+      - python-requests/2.28.2
+    method: DELETE
+    uri: https://api.raindrop.io/rest/v1/raindrop/513901945
+  response:
+    body:
+      string: '{"result":true}'
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 79500de47f31cff1-SJC
+      Cache-Control:
+      - private
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '15'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 06 Feb 2023 01:18:52 GMT
+      Server:
+      - cloudflare
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      etag:
+      - '"f-ayLlCL3PuzXSThdu78iReSEjl6Y"'
+      server-timing:
+      - dc;desc=eu
+      - total;dur=285.828
+      set-cookie:
+      - AWSALBAPP-0=_remove_; Expires=Mon, 13 Feb 2023 01:18:52 GMT; Path=/
+      - AWSALBAPP-1=_remove_; Expires=Mon, 13 Feb 2023 01:18:52 GMT; Path=/
+      - AWSALBAPP-2=_remove_; Expires=Mon, 13 Feb 2023 01:18:52 GMT; Path=/
+      - AWSALBAPP-3=_remove_; Expires=Mon, 13 Feb 2023 01:18:52 GMT; Path=/
+      x-powered-by:
+      - Express
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-remaining:
+      - '117'
+      x-ratelimit-reset:
+      - '1675646390'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer 97d0b7cf-f880-4978-a44f-c4d278a524ce
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Cookie:
+      - AWSALBAPP-0=_remove_; AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_
+      User-Agent:
+      - python-requests/2.28.2
+    method: GET
+    uri: https://api.raindrop.io/rest/v1/513901945
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAyyOPwvCMBDF93yKmF3OoAUL1yw1OOrQxTHa0xbSRK6n4LeX0E6P9+cHDzenS9vd
+        rl4PMkWnsIiOIb0aQ8mUgELvFE4kQT+GwDNJYz7y3B5LK6NEcp45M8JiFMLK3HP/cwrfTK4NKWXR
+        Z99pYJoFvhYqu693tj5UCGWiEFYAli9/AAAA//8DANpi0VCcAAAA
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 79500dead96bcff1-SJC
+      Cache-Control:
+      - private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Mon, 06 Feb 2023 01:18:53 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      content-security-policy:
+      - default-src 'none'
+      server-timing:
+      - dc;desc=eu
+      - total;dur=8.984
+      set-cookie:
+      - AWSALBAPP-0=_remove_; Expires=Mon, 13 Feb 2023 01:18:53 GMT; Path=/
+      - AWSALBAPP-1=_remove_; Expires=Mon, 13 Feb 2023 01:18:53 GMT; Path=/
+      - AWSALBAPP-2=_remove_; Expires=Mon, 13 Feb 2023 01:18:53 GMT; Path=/
+      - AWSALBAPP-3=_remove_; Expires=Mon, 13 Feb 2023 01:18:53 GMT; Path=/
+      x-content-type-options:
+      - nosniff
+      x-powered-by:
+      - Express
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-remaining:
+      - '116'
+      x-ratelimit-reset:
+      - '1675646390'
+    status:
+      code: 404
+      message: Not Found
+version: 1

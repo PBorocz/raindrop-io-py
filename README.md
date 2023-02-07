@@ -1,21 +1,8 @@
-``` html
-<div align="center">
-  <a href="https://choosealicense.com/licenses/mit/">
-    <img alt="MIT License"
-         src="https://img.shields.io/badge/License-MIT-green.svg" />
-  </a>
+[![version](https://img.shields.io/badge/python-3.10+-green)](https://www.python.org/)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+[![license](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/PBorocz/raindrop-io-py/blob/trunk/LICENSE)
 
-  <a href="https://www.python.org/">
-    <img alt="Python Version"
-         src="https://img.shields.io/badge/python-3.10+-green" />
-  </a>
 
-  <a href="https://github.com/pre-commit/pre-commit">
-    <img alt="pre-commit"
-       src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit" />
-  </a>
-</div>
-```
 # Raindrop-IO-py
 
 Python wrapper for the API to the [Raindrop.io](https://raindrop.io) Bookmark Manager as well as a simple command-line interface to perform common operations.

@@ -7,13 +7,13 @@ from raindropiopy.api import API, Raindrop, RaindropType
 
 raindrop = {
     "_id": 2000,
-    "collection": {"$db": "", "$id": -1, "$ref": "collections"},
-    "collectionId": -1,
+    "collection": -1,
     "cover": "",
     "created": "2020-01-01T00:00:00.000Z",
-    "creatorRef": {"_id": 3000, "fullName": "user name"},
+    "creatorRef": 3000,
     "domain": "www.example.com",
     "excerpt": "excerpt text",
+    "important": False,
     "lastUpdate": "2020-01-01T01:01:01Z",
     "link": "https://www.example.com/",
     "media": [],
@@ -23,7 +23,7 @@ raindrop = {
     "tags": ["abc", "def"],
     "title": "title",
     "type": "link",
-    "user": {"$id": 3000, "$ref": "users"},
+    "user": {"$id": 3000, "$user": "users"},
 }
 
 
@@ -36,7 +36,7 @@ def test_get() -> None:
         c = Raindrop.get(api, 2000)
 
         assert c.id == 2000
-        assert c.collection.id == -1
+        assert c.collection == -1
         assert c.cover == ""
         assert c.created == datetime.datetime(
             2020,
@@ -103,7 +103,7 @@ def test_create_file() -> None:
         assert "data" in m.call_args[1]
         assert m.call_args[1]["data"] == {
             "collectionId": "-1",
-        }  # ie. Unsorted collection
+        }  # ie. Unsorted collection as a string
 
         assert "files" in m.call_args[1]
         assert "file" in m.call_args[1]["files"]

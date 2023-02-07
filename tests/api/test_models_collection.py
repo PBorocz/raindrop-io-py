@@ -14,7 +14,7 @@ collection = {
     "creatorRef": {"_id": 10000, "fullName": "user name"},
     "expanded": False,
     "lastUpdate": "2020-01-02T00:00:00Z",
-    "parent": {"$db": "", "$id": 100, "$ref": "collections"},
+    "parent": 100,  # {"$db": "", "$id": 100, "$ref": "collections"},
     "public": False,
     "sort": 3000,
     "title": "child",

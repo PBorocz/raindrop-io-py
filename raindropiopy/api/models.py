@@ -5,10 +5,17 @@ import datetime
 import enum
 import json
 from pathlib import Path
-from typing import Any, ClassVar, Optional, Sequence
+from typing import Any, Optional, Sequence
 
-from dateutil.parser import parse as dateparse
-from jashin.dictattr import DictModel, ItemAttr, SequenceAttr
+from pydantic import (
+    BaseModel,
+    Field,
+    PositiveInt,
+    EmailStr,
+    NonNegativeInt,
+    root_validator,
+    HttpUrl,
+)
 
 from .api import API
 
@@ -18,7 +25,6 @@ __all__ = [
     "BrokenLevel",
     "Collection",
     "CollectionRef",
-    "DictModel",
     "FontColor",
     "Group",
     "Raindrop",
@@ -64,71 +70,68 @@ class View(enum.Enum):
     masonry = "masonry"
 
 
-class CollectionRef(DictModel):
+class CollectionRef(BaseModel):
     """Abstract data type for a Raindrop Collection reference."""
 
-    All: ClassVar[CollectionRef]
-    Trash: ClassVar[CollectionRef]
-    Unsorted: ClassVar[CollectionRef]
-
-    id = ItemAttr[int](name="$id")
+    id: int = Field(None, alias="$id")
 
 
 # We define the 3 "system" collections in the Raindrop environment:
-CollectionRef.All = CollectionRef({"$id": 0})
-CollectionRef.Trash = CollectionRef({"$id": -99})
-CollectionRef.Unsorted = CollectionRef({"$id": -1})
+CollectionRef.All = CollectionRef(**{"$id": 0})
+CollectionRef.Trash = CollectionRef(**{"$id": -99})
+CollectionRef.Unsorted = CollectionRef(**{"$id": -1})
 
 
-class UserRef(DictModel):
+class UserRef(BaseModel):
     """Represents reference to :class:`User` object."""
 
-    id = ItemAttr[int](name="$id")
+    id: int = Field(None, alias="$id")
+    ref: str = Field(None, alias="$user")
 
 
-class Access(DictModel):
+class Access(BaseModel):
     """Represents Access control of Collections."""
 
-    level = ItemAttr(AccessLevel)
-    draggable = ItemAttr[bool]()
+    level: AccessLevel
+    draggable: bool
 
 
-class Collection(DictModel):
+class Collection(BaseModel):
     """Represents a concrete Raindrop Collection."""
 
-    id = ItemAttr[int](name="_id")
-    access = ItemAttr(Access)
-    collaborators = ItemAttr[Optional[list[Any]]](default=None)
-    color = ItemAttr[Optional[str]](default=None)
-    count = ItemAttr[int]()
-    cover = ItemAttr[list[str]]()
-    created = ItemAttr(dateparse)
-    expanded = ItemAttr[bool]()
-    lastUpdate = ItemAttr(dateparse)
-    parent = ItemAttr[Optional[CollectionRef]](CollectionRef, default=None)
-    public = ItemAttr[bool]()
-    sort = ItemAttr[int]()
-    title = ItemAttr[str]()
-    user = ItemAttr(UserRef)
-    view = ItemAttr(View)
+    id: int = Field(None, alias="_id")
+    access: Access
+    collaborators: list[Any] | None
+    color: str | None = None
+    count: NonNegativeInt
+    cover: list[str]
+    created: datetime.datetime
+    expanded: bool
+    lastUpdate: datetime.datetime
+    parent: int | None  # Id of parent collection
+    public: bool
+    sort: NonNegativeInt
+    title: str
+    user: UserRef
+    view: View
 
     @classmethod
     def get_roots(cls, api: API) -> Sequence[Collection]:
         """Get "root" Raindrop collections."""
         ret = api.get(URL.format(path="collections"))
         items = ret.json()["items"]
-        return [cls(item) for item in items]
+        return [cls(**item) for item in items]
 
     @classmethod
     def get_childrens(cls, api: API) -> Sequence[Collection]:
         """Get the "child" Raindrop collections (ie. all below root level)."""
         ret = api.get(URL.format(path="collections/childrens"))
         items = ret.json()["items"]
-        return [cls(item) for item in items]
+        return [cls(**item) for item in items]
 
     @classmethod
     def get_collections(cls, api: API) -> Sequence[Collection]:
-        """Query *ALL* collections.
+        """Query *ALL* collections. Wrapper on get_roots and get_childrens.
 
         (hiding the distinction between root/child collections)
         """
@@ -139,7 +142,7 @@ class Collection(DictModel):
         """Return a Raindrop collection based on it's id."""
         url = URL.format(path=f"collection/{id}")
         item = api.get(url).json()["item"]
-        return cls(item)
+        return cls(**item)
 
     @classmethod
     def create(
@@ -169,7 +172,7 @@ class Collection(DictModel):
 
         url = URL.format(path="collection")
         item = api.post(url, json=args).json()["item"]
-        return Collection(item)
+        return cls(**item)
 
     @classmethod
     def update(
@@ -191,7 +194,7 @@ class Collection(DictModel):
                 args[attr] = value
         url = URL.format(path=f"collection/{id}")
         item = api.put(url, json=args).json()["item"]
-        return Collection(item)
+        return cls(**item)
 
     @classmethod
     def remove(cls, api: API, id: int) -> None:
@@ -232,80 +235,71 @@ class FontColor(enum.Enum):
     night = "night"
 
 
-class UserConfig(DictModel):
-    """Abstract data type defining a Raindrop user's configuration."""
+class UserConfig(BaseModel):
+    """Sub-model defining a Raindrop user's configuration."""
 
-    broken_level = ItemAttr(BrokenLevel)
-    font_color = ItemAttr[Optional[FontColor]](FontColor, default=None)
-    font_size = ItemAttr[int]()
-    last_collection = ItemAttr[int]()
-    raindrops_view = ItemAttr(View)
-
-
-class Group(DictModel):
-    """Abstract data type defining a Raindrop user group."""
-
-    title = ItemAttr[str]()
-    hidden = ItemAttr[bool]()
-    sort = ItemAttr[int]()
-    collectionids = SequenceAttr[int](name="collections")
+    broken_level: BrokenLevel = None
+    font_color: FontColor | None = None
+    font_size: int
+    last_collection: int
+    raindrops_view: View
 
 
-class UserFiles(DictModel):
-    """Abstract data type defining a file associated with a user (?)."""
+class Group(BaseModel):
+    """Sub-model defining a Raindrop user group."""
 
-    used = ItemAttr[int]()
-    size = ItemAttr[int]()
-    lastCheckPoint = ItemAttr(dateparse)
+    title: str
+    hidden: bool
+    sort: NonNegativeInt
+    collectionids: list[int] = Field(None, alias="collections")
 
 
-class User(DictModel):
-    """User."""
+class UserFiles(BaseModel):
+    """Sub-model defining a file associated with a user (?)."""
 
-    id = ItemAttr[int](name="_id")
-    config = ItemAttr(UserConfig)
-    email = ItemAttr[str]()
-    email_MD5 = ItemAttr[str]()
-    files = ItemAttr(UserFiles)
-    fullName = ItemAttr[str]()
-    groups = SequenceAttr(Group)
-    password = ItemAttr[bool]()
-    pro = ItemAttr[bool]()
-    registered = ItemAttr(dateparse)
+    used: int
+    size: PositiveInt
+    lastCheckPoint: datetime.datetime
+
+
+class User(BaseModel):
+    """Raindrop User model."""
+
+    id: int = Field(None, alias="_id")
+    config: UserConfig
+    email: EmailStr
+    email_MD5: str | None = None
+    files: UserFiles
+    fullName: str
+    groups: list[Group]
+    password: bool  # My interpretation: "does this user have a password?"
+    pro: bool
+    registered: datetime.datetime
 
     @classmethod
     def get(cls, api: API) -> User:
         """Get all the information about a specific Raindrop user."""
         user = api.get(URL.format(path="user")).json()["user"]
-        return cls(user)
+        return cls(**user)
 
 
-class SystemCollection(DictModel):
-    """Represents a Raindrop System Collection, eg. Unsorted, Trash etc."""
+class SystemCollection(BaseModel):
+    """Raindrop System Collection model, ie. collections for Unsorted, Trash and 'All'."""
 
-    id = ItemAttr[int](name="_id")
-    count = ItemAttr[int]()
-    title = ItemAttr[str]()
+    id: int = Field(None, alias="_id")
+    count: NonNegativeInt
+    title: str | None
 
-    # The Raindrop API doesn't give us the names/titles of the
-    # "system" collections, let's provide them here.
-    CollectionRefsTitles = {
-        CollectionRef.All.id: "All",
-        CollectionRef.Trash.id: "Trash",
-        CollectionRef.Unsorted.id: "Unsorted",
-    }
+    @root_validator(pre=False)
+    def _map_systemcollection_id_to_title(cls, values):
+        values["title"] = {-1: "Unsorted", 0: "All", -99: "Trash"}[values["id"]]
+        return values
 
     @classmethod
     def get_status(cls, api: API) -> User:
-        """Get the title and counts of Raindrops across all 3 "system" collections."""
-
-        def _add_title(item: dict) -> dict:
-            """Add the title (since we don't get from the API)."""
-            item["title"] = cls.CollectionRefsTitles[item["_id"]]
-            return item
-
+        """Get the count of Raindrops across all 3 'system' collections."""
         items = api.get(URL.format(path="user/stats")).json()["items"]
-        return [cls(_add_title(item)) for item in items]
+        return [cls(**item) for item in items]
 
 
 class RaindropType(enum.Enum):
@@ -319,60 +313,58 @@ class RaindropType(enum.Enum):
     audio = "audio"
 
 
-class File(DictModel):
+class File(BaseModel):
     """Represents the attributes associated with a file within a document-based Raindrop."""
 
-    name = ItemAttr[str]()
-    size = ItemAttr[int]()  # bytes
-    type = ItemAttr[str]()
+    name: str
+    size: PositiveInt
+    type: str
 
 
-class Cache(DictModel):
+class Cache(BaseModel):
     """Represents the cache information of Raindrop."""
 
-    status = ItemAttr[CacheStatus]()
-    size = ItemAttr[int]()  # bytes..
-    created = ItemAttr[str]()
+    status: CacheStatus
+    size: PositiveInt
+    created: datetime.datetime
 
 
-class CreatorRef(DictModel):
+class CreatorRef(BaseModel):
     """Represents original creator of the Raindrop if different from the current user (ie. shared collections)."""
 
-    id = ItemAttr[int](name="_id")
-    fullName = ItemAttr[str]
+    id: int = Field(alias="_id")
+    fullName: str
 
 
-class Raindrop(DictModel):
+class Raindrop(BaseModel):
     """Core class of a Raindrop bookmark 'item'."""
 
     # "Main" fields (per https://developer.raindrop.io/v1/raindrops)
-    id = ItemAttr[int](name="_id")
-    collection = ItemAttr(CollectionRef)
-    cover = ItemAttr[str]()
-    created = ItemAttr(dateparse)
-    domain = ItemAttr[str]()
-    excerpt = ItemAttr[str]()  # aka Description on the Raindrop UI.
-    lastUpdate = ItemAttr(dateparse)
-    link = ItemAttr[str]()
-    media = ItemAttr[Sequence[dict[str, Any]]]()
-    tags = ItemAttr[Sequence[str]]()
-    title = ItemAttr[str]()
-    type = ItemAttr(RaindropType)
-    user = ItemAttr(UserRef)
+    id: int = Field(None, alias="_id")
+    collection: int = Field(-1, alias="collectionId")  # Id of owning collection
+    cover: str | None
+    created: datetime.datetime | None
+    domain: str | None
+    excerpt: str | None  # aka 'Description' on the Raindrop UI.
+    lastUpdate: datetime.datetime | None
+    link: HttpUrl | None
+    media: list[dict[str, Any]] | None
+    tags: list[str] | None
+    title: str | None
+    type: RaindropType | None
+    user: UserRef | None
 
     # "Other" fields:
-    broken = ItemAttr[bool]()
-    cache = ItemAttr[Cache]
-    creatorRef = ItemAttr(CreatorRef)
-    file = ItemAttr(File)
-    important = ItemAttr[bool]()  # aka marked as Favorite.
-    # highlights?
+    broken: bool | None
+    cache: Cache | None
+    file: File | None
+    important: bool | None  # aka marked as Favorite.
 
     @classmethod
     def get(cls, api: API, id: int) -> Raindrop:
         """Return a Raindrop bookmark based on it's id."""
         item = api.get(URL.format(path=f"{id}")).json()["item"]
-        return cls(item)
+        return cls(**item)
 
     @classmethod
     def create_link(
@@ -453,7 +445,7 @@ class Raindrop(DictModel):
 
         url = URL.format(path="raindrop")
         item = api.post(url, json=args).json()["item"]
-        return cls(item)
+        return cls(**item)
 
     @classmethod
     def create_file(
@@ -461,7 +453,7 @@ class Raindrop(DictModel):
         api: API,
         path: Path,
         content_type: str,
-        collection: CollectionRef = CollectionRef.Unsorted,
+        collection: int = -1,
         tags: Optional[Sequence[str]] = None,
         title: Optional[str] = None,
     ) -> Raindrop:
@@ -470,10 +462,10 @@ class Raindrop(DictModel):
 
         # Structure here confirmed through communication with RustemM
         # on 2022-11-29 and his subsequent update to API docs.
-        data = {"collectionId": str(collection.id)}
+        data = {"collectionId": str(collection)}
         files = {"file": (path.name, open(path, "rb"), content_type)}
-        results = api.put_file(url, path, data, files).json()["item"]
-        raindrop = cls(results)
+        item = api.put_file(url, path, data, files).json()["item"]
+        raindrop = cls(**item)
 
         # The Raindrop API's "Create Raindrop From File" does not
         # allow us to set other attributes, thus, we need to check if
@@ -487,7 +479,7 @@ class Raindrop(DictModel):
         if args:
             url = URL.format(path=f"raindrop/{raindrop.id}")
             item = api.put(url, json=args).json()["item"]
-            return cls(item)
+            return cls(**item)
         else:
             return raindrop
 
@@ -546,7 +538,7 @@ class Raindrop(DictModel):
 
         url = URL.format(path=f"raindrop/{id}")
         item = api.put(url, json=args).json()["item"]
-        return cls(item)
+        return cls(**item)
 
     @classmethod
     def remove(cls, api: API, id: int) -> None:
@@ -579,7 +571,7 @@ class Raindrop(DictModel):
         params = {"search": json.dumps(args), "perpage": perpage, "page": page}
         url = URL.format(path=f"raindrops/{collection.id}")
         results = api.get(url, params=params).json()
-        return [cls(item) for item in results["items"]]
+        return [cls(**item) for item in results["items"]]
 
     @classmethod
     def search(
@@ -609,11 +601,11 @@ class Raindrop(DictModel):
         return results
 
 
-class Tag(DictModel):
+class Tag(BaseModel):
     """Represents existing Tags, either all or just a specific collection."""
 
-    tag = ItemAttr[str](name="_id")
-    count = ItemAttr[int]()
+    tag: str = Field(None, alias="_id")
+    count: int
 
     @classmethod
     def get(cls, api: API, collection_id: int = None) -> list[Tag]:
@@ -622,7 +614,7 @@ class Tag(DictModel):
         if collection_id:
             url += "/" + str(collection_id)
         items = api.get(url).json()["items"]
-        return [cls(item) for item in items]
+        return [Tag(**item) for item in items]
 
     @classmethod
     def remove(cls, api: API, tags: Sequence[str]) -> None:

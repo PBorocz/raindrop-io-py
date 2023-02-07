@@ -7,7 +7,8 @@ from raindropiopy.api import API, Raindrop, RaindropType
 
 raindrop = {
     "_id": 2000,
-    "collection": -1,
+    # "collection": -1,
+    "collection": {"$db": "", "$id": -1, "$ref": "collections"},
     "cover": "",
     "created": "2020-01-01T00:00:00.000Z",
     "creatorRef": 3000,
@@ -36,7 +37,7 @@ def test_get() -> None:
         c = Raindrop.get(api, 2000)
 
         assert c.id == 2000
-        assert c.collection == -1
+        assert c.collection.id == -1
         assert c.cover == ""
         assert c.created == datetime.datetime(
             2020,

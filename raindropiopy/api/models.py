@@ -31,7 +31,6 @@ __all__ = [
     "RaindropType",
     "Tag",
     "User",
-    "UserConfig",
     "UserFiles",
     "UserRef",
     "View",
@@ -71,7 +70,7 @@ class View(enum.Enum):
 
 
 class CollectionRef(BaseModel):
-    """Abstract data type for a Raindrop Collection reference."""
+    """Represents a *reference* to a Raindrop Collection (almost a TypeVar of id: int)."""
 
     id: int = Field(None, alias="$id")
 
@@ -83,7 +82,7 @@ CollectionRef.Unsorted = CollectionRef(**{"$id": -1})
 
 
 class UserRef(BaseModel):
-    """Represents reference to :class:`User` object."""
+    """Represents a *reference* to :class:`User` object."""
 
     id: int = Field(None, alias="$id")
     ref: str = Field(None, alias="$user")
@@ -100,20 +99,21 @@ class Collection(BaseModel):
     """Represents a concrete Raindrop Collection."""
 
     id: int = Field(None, alias="_id")
-    access: Access
-    collaborators: list[Any] | None
-    color: str | None = None
-    count: NonNegativeInt
-    cover: list[str]
-    created: datetime.datetime
-    expanded: bool
-    lastUpdate: datetime.datetime
-    parent: int | None  # Id of parent collection
-    public: bool
-    sort: NonNegativeInt
     title: str
     user: UserRef
-    view: View
+
+    access: Access | None
+    collaborators: list[Any] | None = []
+    color: str | None = None
+    count: NonNegativeInt
+    cover: list[str] | None = []
+    created: datetime.datetime | None
+    expanded: bool = False
+    lastUpdate: datetime.datetime | None
+    parent: int | None  # Id of parent collection
+    public: bool | None
+    sort: NonNegativeInt | None
+    view: View | None
 
     @classmethod
     def get_roots(cls, api: API) -> Sequence[Collection]:
@@ -203,16 +203,15 @@ class Collection(BaseModel):
 
     @classmethod
     def get_or_create(cls, api: API, title: str) -> Collection:
-        """Get a Raindrop collection based on it's *title*, creating it doesn't exist.
+        """Get a Raindrop collection based on it's *title*, if it doesn't exist, create it.
 
-        Return the ID associated with the collection with specified
-        collection title (this doesn't seem to be a supported method
-        of the Raindrop API directly). If collection is not found, add
-        it!.
+        Return the ID associated with the collection with specified collection title (this
+        doesn't seem to be a supported method of the Raindrop API directly). If collection
+        is not found, add it!.
         """
         # Note: Since
         for collection in Collection.get_roots(api):
-            if title.casefold() == collection.values.get("title").casefold():
+            if title.casefold() == collection.title.casefold():
                 return collection
 
         # Doesn't exist, create it!
@@ -266,7 +265,6 @@ class User(BaseModel):
     """Raindrop User model."""
 
     id: int = Field(None, alias="_id")
-    config: UserConfig
     email: EmailStr
     email_MD5: str | None = None
     files: UserFiles
@@ -278,7 +276,7 @@ class User(BaseModel):
 
     @classmethod
     def get(cls, api: API) -> User:
-        """Get all the information about a specific Raindrop user."""
+        """Get all the information about the Raindrop user associated with the API token."""
         user = api.get(URL.format(path="user")).json()["user"]
         return cls(**user)
 
@@ -292,7 +290,13 @@ class SystemCollection(BaseModel):
 
     @root_validator(pre=False)
     def _map_systemcollection_id_to_title(cls, values):
-        values["title"] = {-1: "Unsorted", 0: "All", -99: "Trash"}[values["id"]]
+        """Map the hard-coded id's of the System Collections to the descriptions used on the UI."""
+        _titles = {
+            CollectionRef.Unsorted.id: "Unsorted",
+            CollectionRef.All.id: "All",
+            CollectionRef.Trash.id: "Trash",
+        }
+        values["title"] = _titles.get(values["id"])
         return values
 
     @classmethod
@@ -341,7 +345,7 @@ class Raindrop(BaseModel):
 
     # "Main" fields (per https://developer.raindrop.io/v1/raindrops)
     id: int = Field(None, alias="_id")
-    collection: int = Field(-1, alias="collectionId")  # Id of owning collection
+    collection: CollectionRef | Collection = CollectionRef.Unsorted
     cover: str | None
     created: datetime.datetime | None
     domain: str | None

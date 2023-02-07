@@ -6,8 +6,6 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Authorization:
-      - Bearer 97d0b7cf-f880-4978-a44f-c4d278a524ce
       Connection:
       - keep-alive
       Content-Type:
@@ -73,8 +71,6 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Authorization:
-      - Bearer 97d0b7cf-f880-4978-a44f-c4d278a524ce
       Connection:
       - keep-alive
       Content-Type:

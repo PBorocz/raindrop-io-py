@@ -1,12 +1,14 @@
 """Abstract data types to support Raindrop CLI."""
 import os
+import sys
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, TypeVar
 
+from rich import print
+
 from raindropiopy.api import (
     API,
-    Access,
     Collection,
     CollectionRef,
     SystemCollection,
@@ -25,8 +27,8 @@ class RaindropState:
     """Encapsulate all aspects for current state of the Raindrop environment."""
 
     api: API
-    created: datetime
     user: User
+    created: datetime = datetime.utcnow()
     collections: list[Collection] = None
     tags: list[str] = None
     refreshed: datetime = None
@@ -79,14 +81,10 @@ class RaindropState:
             for collection in SystemCollection.get_status(self.api):
                 if collection.id == CollectionRef.Unsorted.id:
                     unsorted_collection = Collection(
-                        {
-                            "_id": CollectionRef.Unsorted.id,
-                            "count": collection.count,
-                            "title": SystemCollection.CollectionRefsTitles[
-                                CollectionRef.Unsorted.id
-                            ],
-                            "access": Access({"level": 4}),
-                        },
+                        _id=collection.id,
+                        count=collection.count,
+                        title=collection.title,
+                        user=self.user,
                     )
                     collections.append(unsorted_collection)
 
@@ -117,7 +115,13 @@ class RaindropState:
             api: API = API(
                 os.environ["RAINDROP_TOKEN"],
             )  # Setup our connection to Raindrop
-            user = User.get(api)  # What user are we currently defined "for"?
-        state = RaindropState(api=api, user=user, created=datetime.utcnow())
+            try:
+                user = User.get(api)  # What user are we currently defined "for"?
+            except Exception:
+                print(
+                    "[red]Sorry, unable to get query Raindrop.IO for the user requested!",
+                )
+                sys.exit(1)
+        state = RaindropState(api=api, user=user)
         state.refresh()
         return state

@@ -141,7 +141,6 @@ class API:
         assert self.session
         ret = self.session.get(url, headers=self._request_headers(), params=params)
         self._on_resp(ret)
-
         return ret
 
     def put(self, url: str, json: Any = None) -> requests.models.Response:

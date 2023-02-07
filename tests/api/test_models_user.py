@@ -2,16 +2,10 @@
 import datetime
 from unittest.mock import patch
 
-from raindropiopy.api import API, BrokenLevel, User, View
+from raindropiopy.api import API, User
 
 user = {
     "_id": 1000,
-    "config": {
-        "broken_level": "default",
-        "font_size": 0,
-        "last_collection": -1,
-        "raindrops_view": "list",
-    },
     "email": "mail@example.com",
     "email_MD5": "1111111111",
     "files": {
@@ -48,11 +42,6 @@ def test_get() -> None:
         c = User.get(api)
 
         assert c.id == 1000
-        assert c.config.broken_level == BrokenLevel.default
-        assert c.config.font_size == 0
-        assert c.config.font_color is None
-        assert c.config.last_collection == -1
-        assert c.config.raindrops_view == View.list
 
         assert c.email == "mail@example.com"
         assert c.email_MD5 == "1111111111"

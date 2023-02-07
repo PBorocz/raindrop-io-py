@@ -49,6 +49,20 @@ def _prompt_view_edit(el: EventLoop, search_state: SearchState) -> str:
 
 def _view_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
     """Display the currently selected raindrop."""
+    # Create a "presentable" set of attributes to display..
+    attrs = dict(
+        collection=el.state.find_collection_by_id(raindrop.collection.id).title,
+        created=raindrop.created.isoformat().split("T")[0],
+        description=raindrop.excerpt,
+        tags=", ".join(raindrop.tags),
+        title=raindrop.title,
+        type=raindrop.type.value.title(),
+        updated=raindrop.lastUpdate.isoformat().split("T")[0],
+    )
+    if attrs["updated"] == attrs["created"]:
+        del attrs["updated"]
+
+    # We display as a table where each row is a single attribute
     table = Table(show_header=False)
     table.add_column(
         "Attribute",
@@ -57,27 +71,9 @@ def _view_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
         no_wrap=True,
     )
     table.add_column("Value", justify="left", style=COLOR_TABLE_COLUMN_2)
-
-    # Disambiguate some attributes for easier viewing:
-    raindrop._collection = el.state.find_collection_by_id(raindrop.collection.id).title
-    raindrop._tags = ", ".join(raindrop.tags)
-    raindrop._type = raindrop.type.value.title()
-    raindrop._created = raindrop.created.isoformat().split("T")[0]
-    raindrop._updated = raindrop.lastUpdate.isoformat().split("T")[0]
-    if raindrop._updated == raindrop._created:
-        raindrop._updated = None
-
-    for attr, title in [
-        ["_collection", "Collection"],
-        ["title", "Title"],
-        ["excerpt", "Description"],
-        ["_tags", "Tags"],
-        ["_type", "Type"],
-        ["_created", "Created"],
-        ["_updated", "Updated"],
-    ]:
-        if value := getattr(raindrop, attr, "-"):
-            table.add_row(title, str(value))
+    for attr, value in attrs.items():
+        if value:
+            table.add_row(attr.title(), str(value))
 
     el.console.print(table)
 

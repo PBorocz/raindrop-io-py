@@ -8,4 +8,5 @@ from vcr import VCR
 vcr = VCR(
     cassette_library_dir=str(Path(__file__).parent / Path("cassettes")),
     filter_headers=["Authorization"],
+    path_transformer=VCR.ensure_suffix(".yaml"),
 )

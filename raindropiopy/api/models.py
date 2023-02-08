@@ -234,14 +234,26 @@ class FontColor(enum.Enum):
     night = "night"
 
 
+class RaindropSort(enum.Enum):
+    """Enumerate user default sort options available."""
+
+    title_up = "title"
+    title_dn = "-title"
+    domain_up = "domain"
+    domain_dn = "-domain"
+    last_update_up = "+lastUpdate"
+    last_update_dn = "-lastUpdate"
+
+
 class UserConfig(BaseModel):
     """Sub-model defining a Raindrop user's configuration."""
 
     broken_level: BrokenLevel = None
     font_color: FontColor | None = None
-    font_size: int
-    last_collection: int
-    raindrops_view: View
+    font_size: int | None = None
+    last_collection: CollectionRef | None = None
+    raindrops_sort: RaindropSort | None = None
+    raindrops_view: View | None = None
 
 
 class Group(BaseModel):
@@ -270,8 +282,9 @@ class User(BaseModel):
     files: UserFiles
     fullName: str
     groups: list[Group]
-    password: bool  # My interpretation: "does this user have a password?"
+    password: bool
     pro: bool
+    proExpire: datetime.datetime | None = None
     registered: datetime.datetime
 
     @classmethod
@@ -333,19 +346,13 @@ class Cache(BaseModel):
     created: datetime.datetime
 
 
-class CreatorRef(BaseModel):
-    """Represents original creator of the Raindrop if different from the current user (ie. shared collections)."""
-
-    id: int = Field(alias="_id")
-    fullName: str
-
-
 class Raindrop(BaseModel):
     """Core class of a Raindrop bookmark 'item'."""
 
     # "Main" fields (per https://developer.raindrop.io/v1/raindrops)
     id: int = Field(None, alias="_id")
     collection: CollectionRef | Collection = CollectionRef.Unsorted
+
     cover: str | None
     created: datetime.datetime | None
     domain: str | None
@@ -384,7 +391,7 @@ class Raindrop(BaseModel):
         lastUpdate: Optional[datetime.datetime] = None,
         media: Optional[Sequence[dict[str, Any]]] = None,
         order: Optional[int] = None,
-        pleaseParse: bool = True,
+        pleaseParse: bool = False,  # If set, asks API to automatically parse metadata in the background
         tags: Optional[Sequence[str]] = None,
         title: Optional[str] = None,
         type: Optional[str] = None,

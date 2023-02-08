@@ -15,7 +15,7 @@ from raindropiopy.cli.models.eventLoop import EventLoop
 
 @pytest.fixture
 def el():
-    """Setup a test fixture of a EventLoop that captures all interaction internally."""
+    """Set a test fixture of a EventLoop that captures all interaction internally."""
     return EventLoop(capture=StringIO())
 
 

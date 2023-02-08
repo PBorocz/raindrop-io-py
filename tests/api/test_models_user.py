@@ -6,6 +6,14 @@ from raindropiopy.api import API, User
 
 user = {
     "_id": 1000,
+    "config": {
+        "broken_level": "default",
+        "font_color": "sunset",
+        "font_size": 0,
+        "last_collection": -1,
+        "raindrops_sort": "-lastUpdate",
+        "raindrops_view": "list",
+    },
     "email": "mail@example.com",
     "email_MD5": "1111111111",
     "files": {
@@ -28,9 +36,9 @@ user = {
     "lastAction": "2020-01-01T01:01:01.000Z",
     "password": True,
     "pro": True,
+    "proExpire": "2022-01-01T01:01:01.000Z",
     "provider": "twitter",
     "registered": "2020-01-02T01:1:1.0Z",
-    "twitter": {"enabled": True},
 }
 
 

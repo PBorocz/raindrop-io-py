@@ -5,6 +5,7 @@ import pytest
 import requests
 
 from raindropiopy.api import Raindrop, RaindropType
+from tests.api.conftest import vcr
 
 
 @pytest.fixture
@@ -40,25 +41,33 @@ def search_raindrops(api):
     """Fixture to setup and teardown 2 link-based raindrops for search testing."""
     link, args = (
         "https://www.google.com/",
-        {"title": "ELGOOG 1234567890", "tags": ["ABCDEFG", "HIJKLMO"]},
+        {
+            "title": "ELGOOG 1234567890",
+            "tags": ["ABCDEFG", "HIJKLMO"],
+            "pleaseParse": True,
+        },
     )
     raindrop_google = Raindrop.create_link(api, link, **args)
 
     link, args = (
         "https://www.python.com/",
-        {"title": "NOHYYP 1234567890", "tags": ["HIJKLMO", "PQRSTUV"]},
+        {
+            "title": "NOHYYP 1234567890",
+            "tags": ["HIJKLMO", "PQRSTUV"],
+            "pleaseParse": True,
+        },
     )
     raindrop_python = Raindrop.create_link(api, link, **args)
 
     # Before we let the test rip, allow time for asynchronuous indexing on Raindrop's backend to catch-up.
-    # time.sleep(5)
+    # breakpoint() or time.sleep(10)
     yield
 
     Raindrop.remove(api, id=raindrop_google.id)
     Raindrop.remove(api, id=raindrop_python.id)
 
 
-@pytest.mark.vcr
+@vcr.use_cassette()
 def test_lifecycle_raindrop_link(api, sample_raindrop_link) -> None:
     """Test that we can roundtrip a regular/link-based raindrop, ie. create, update, get and delete."""
     # TEST: Create
@@ -85,7 +94,7 @@ def test_lifecycle_raindrop_link(api, sample_raindrop_link) -> None:
         Raindrop.get(api, raindrop.id)
 
 
-@pytest.mark.vcr
+@vcr.use_cassette()
 def test_lifecycle_raindrop_file(api) -> None:
     """Test that we can roundtrip a *file-base* raindrop, ie. create, update, get and delete."""
     # TEST: Create a link using this test file as the file to upload.
@@ -110,7 +119,7 @@ def test_lifecycle_raindrop_file(api) -> None:
         Raindrop.get(api, raindrop.id)
 
 
-@pytest.mark.vcr
+@vcr.use_cassette()
 def test_search(api, search_raindrops) -> None:
     """Test that we can *search* raindrops."""
 

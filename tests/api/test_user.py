@@ -1,10 +1,9 @@
 """Test that we can get the currently logged in user (ie. the one associated with the current TOKEN)."""
-import pytest
-
 from raindropiopy.api import User
+from tests.api.conftest import vcr
 
 
-@pytest.mark.vcr
+@vcr.use_cassette()
 def test_get_user(api) -> None:
     """Test that we can information on the current user.
 

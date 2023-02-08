@@ -1,10 +1,9 @@
 """Test the only easy method in the Raindrop Tag API."""
-import pytest
-
 from raindropiopy.api import CollectionRef, Tag
+from tests.api.conftest import vcr
 
 
-@pytest.mark.vcr
+@vcr.use_cassette()
 def test_get_tags(api) -> None:
     """Test that we can get tags currently defined.
 

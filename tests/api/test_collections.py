@@ -5,9 +5,10 @@ from getpass import getuser
 import requests
 
 from raindropiopy.api import Collection, CollectionRef, SystemCollection
+from tests.api.conftest import vcr
 
 
-@pytest.mark.vcr
+@vcr.use_cassette()
 def test_get_collections(api) -> None:
     """Test that we can get collections currently defined using all 3 methods in api/models.py.
 
@@ -28,7 +29,7 @@ def test_get_collections(api) -> None:
     assert count_roots + count_children == len(Collection.get_collections(api))
 
 
-@pytest.mark.vcr
+@vcr.use_cassette()
 def test_system_collections(api) -> None:
     """Test that we can information on the "system" collections."""
     system = SystemCollection.get_status(api)
@@ -48,7 +49,7 @@ def test_system_collections(api) -> None:
             assert collection.title == "Unsorted"
 
 
-@pytest.mark.vcr
+@vcr.use_cassette()
 def test_collection_lifecycle(api) -> None:
     """Test that we can roundtrip a collection, ie. create, update, get and delete."""
     title = f"TEST Collection ({getuser()}"

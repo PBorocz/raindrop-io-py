@@ -305,25 +305,6 @@ files = [
 ]
 
 [[package]]
-name = "jashin"
-version = "0.0.7"
-description = ""
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "jashin-0.0.7-py3-none-any.whl", hash = "sha256:c51dd3486f4984fe23142314183f739cf7d2eecc556abd4014c33a1c07d7cb5d"},
-]
-
-[package.dependencies]
-python-dateutil = "*"
-requests = "*"
-
-[package.extras]
-dev = ["autoflake", "black", "flake8", "mypy", "pre-commit", "pytest", "tox", "twine", "wheel"]
-docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
-
-[[package]]
 name = "jedi"
 version = "0.17.2"
 description = "An autocompletion tool for Python that can be used for text editors."
@@ -1329,4 +1310,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "c2052b3742c31fa182d49f12d73fdcea80869bfcba25460a7d6e83e77ef0ada5"
+content-hash = "3243fd2905ddd88af3d14ffaec442af4e8f6eb45cabb1243eb798d2a5204a1ac"

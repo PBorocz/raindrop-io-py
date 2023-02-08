@@ -156,6 +156,8 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+### v0.0.13 - 2023-02-07
+
 - CHANGED: Cross-referenced the fields available from the Raindrop API with our API; most available but several optional ones skipped for now.
 - CHANGED: (Internal) Remove dependency on ["jashin"](https://github.com/sojin-project/jashin) library by moving to [pydantic](https://docs.pydantic.dev/) for all Raindrop API models.
 

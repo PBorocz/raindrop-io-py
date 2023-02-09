@@ -1,5 +1,5 @@
 """Top level command-line interface controller."""
-import sys
+import os
 from io import StringIO
 from pathlib import Path
 from typing import Final
@@ -47,13 +47,38 @@ class EventLoop:
         print(Figlet(font="thin").renderText(banner))
         self.console.print(welcome)
 
-    def __init__(self, capture: StringIO = None) -> None:
+    def __init__(
+        self,
+        args,
+        capture: StringIO = None,
+        input_=None,
+        output=None,
+    ) -> None:
         """Configure our interface components and display our startup banner."""
-        # For testing, allow for an internal capture of Console output through the respective arg.
-        self.console = Console(file=capture)
-        self.session = PromptSession(history=FileHistory(_get_user_history_path()))
+        # Setup our outgoing Rich console.
+        args_console = {"record": True}
+
+        if args.testing:
+            # Turn *off* our special terminal handling..
+            args_console["color_system"] = None
+            os.environ["TERM"] = "dumb"
+
+        self.console = Console(**args_console)
+
+        # Setup our prompt_toolkit session (with optional overrides for intput and output obo testing):
+        if input_ is None and output is None:
+            args_session = dict(history=FileHistory(_get_user_history_path()))
+        else:
+            args_session = dict(input=input_, output=output)
+        self.session = PromptSession(**args_session)
+
         self.state: None  # Will be populated when we start our event loop.
+
         self._display_startup_banner()
+
+    def get_console_output(self):
+        """For testing purposes, when we have output going to a StringIO, we need a way of getting it back out."""
+        return self.console.file.getvalue()
 
     def iteration(self):
         """Run a single iteration of our command/event-loop."""
@@ -111,4 +136,4 @@ class EventLoop:
                 self.iteration()
             except (KeyboardInterrupt, EOFError):
                 goodbye(self.console)
-                sys.exit(0)
+                return

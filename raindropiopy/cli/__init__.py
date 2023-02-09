@@ -1,5 +1,4 @@
 """Top level CLI dunder init, primarily constants used across all commands."""
-import sys
 from typing import Final
 
 from prompt_toolkit.styles import Style
@@ -74,4 +73,3 @@ def goodbye(console) -> None:
     console.print(
         "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...![/]\n",
     )
-    sys.exit(0)

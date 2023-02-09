@@ -228,14 +228,14 @@ def _prompt_for_request(
         return None
 
     # Get a Description:
-    request.description = get_description(el, ("create", "(description?)"))
+    request.description = get_description(el, ("create", "description?"))
     if request.description is None:  # User asked to quit the interaction..
         return None
 
     # Get a Collection: (these are the same across raindrop types)
     request.collection = get_from_list(
         el,
-        ("create", "collection"),
+        ("create", "collection?"),
         list(el.state.get_collection_titles(exclude_unsorted=True)),
     )
     if request.collection is None:  # User asked to quit the interaction..

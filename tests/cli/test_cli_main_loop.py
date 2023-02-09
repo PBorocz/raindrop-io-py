@@ -1,5 +1,4 @@
 """Starting point to test our CLI (nothing much here yet)."""
-from io import StringIO
 
 import pytest
 import rich
@@ -16,7 +15,7 @@ from raindropiopy.cli.models.eventLoop import EventLoop
 @pytest.fixture
 def el():
     """Set a test fixture of a EventLoop that captures all interaction internally."""
-    return EventLoop(capture=StringIO())
+    return EventLoop()
 
 
 def tst_setup(el):
@@ -29,7 +28,7 @@ def tst_setup(el):
 mock_command_process_method_called = False
 
 
-def test_event_loop(el, monkeypatch):
+def tst_event_loop(el, monkeypatch):
     """Test that event loop returns the right prompt(s)."""
 
     def mock_session_response_exit(*args, **kwargs):

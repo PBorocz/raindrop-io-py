@@ -17,6 +17,7 @@ class CreateRequest:
     title: str = (
         None  # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
     )
+    description: str = None  # Bookmark description (nee excerpt) on Raindrop, eg. "Read more on this..."
     collection: Union[
         str,
         Collection,
@@ -47,9 +48,10 @@ class CreateRequest:
             print_method(f"URL           : {self.url}")
         elif self.file_path:
             print_method(f'File to send  : "{self.file_path}"')
-        print_method(f"With title    : {self.title}")
-        print_method(f"To collection : {self.collection}")
-        print_method(f"With tags     : {self.tags}")
+        print_method(f"Title       : {self.title}")
+        print_method(f"Description : {self.description}")
+        print_method(f"Collection  : {self.collection}")
+        print_method(f"Tag(s)      : {self.tags}")
 
     @classmethod
     def factory(cls, entry: dict) -> CreateRequest:
@@ -72,6 +74,7 @@ class CreateRequest:
         elif entry.get("url"):
             request.url = entry.get("url")
             request.title = entry.get("title")
+            request.description = entry.get("description")
 
         return request
 
@@ -79,13 +82,15 @@ class CreateRequest:
         """Render a collection as a string (mostly for display)."""
         return_ = list()
         if self.title:
-            return_.append(f"Title      : {self.title}")
+            return_.append(f"Title       : {self.title}")
         if self.url:
-            return_.append(f"URL        : {self.url}")
+            return_.append(f"URL         : {self.url}")
         if self.file_path:
-            return_.append(f"File       : {self.file_path}")
+            return_.append(f"File        : {self.file_path}")
+        if self.description:
+            return_.append(f"Description : {self.description}")
         if self.collection:
-            return_.append(f"Collection : {self.collection}")
+            return_.append(f"Collection  : {self.collection}")
         if self.tags:
-            return_.append(f"Tag(s)     : {self.tags}")
+            return_.append(f"Tag(s)      : {self.tags}")
         return "\n".join(return_)

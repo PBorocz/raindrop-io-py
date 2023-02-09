@@ -116,7 +116,7 @@ def __get_url(el: EventLoop) -> Optional[str]:
             el.console.print(
                 "We need a valid URL here, eg. https://www.python.org",
             )
-        elif url == "q":
+        elif url == ".":
             return None
         else:
             if msg := __validate_url(url):
@@ -126,21 +126,21 @@ def __get_url(el: EventLoop) -> Optional[str]:
 
 
 def __get_file(el: EventLoop) -> Optional[str]:
-    el_prompt = prompt(("create", "bulk", "upload file?"))
+    el_prompt = prompt(("create", "bulk upload file?"))
     while True:
         file_ = el.session.prompt(el_prompt, style=PROMPT_STYLE)
         if file_ == "?":
             el.console.print(
                 "We need a path to a valid, TOML upload file, eg. '/Users/me/Download/upload.toml'",
             )
-        elif file_ == "q":
+        elif file_ == ".":
             return None
         else:
             return file_
 
 
 def __get_from_files(el: EventLoop, options: list[Path]) -> Optional[str]:
-    el_prompt = prompt(("create", "url", "file #?"))
+    el_prompt = prompt(("create", "file #?"))
     names = [fp_.name for fp_ in options]
     completer: Final = WordCompleter(names)
     for ith, fp_ in enumerate(options):
@@ -155,10 +155,19 @@ def __get_from_files(el: EventLoop, options: list[Path]) -> Optional[str]:
         )
         if response == "?":
             el.console.print(", ".join(options))
+            continue
+        elif response == ".":
+            return None
         else:
-            break
-
-    return options[int(response)]
+            try:
+                options[int(response)]
+            except ValueError:
+                print("Sorry, response must be a number from the list above.")
+                continue
+            except IndexError:
+                print(f"Sorry, response must be between 1 and {len(names)+1}.")
+                continue
+            return options[int(response)]
 
 
 def _is_request_valid(el: EventLoop, request: CreateRequest) -> bool:
@@ -221,6 +230,8 @@ def _prompt_for_request(
             el,
             sorted(files, key=lambda fp_: fp_.name),
         )
+        if request.file_path is None:  # User asked to quit the interaction..
+            return None
 
     # Get a Title:
     request.title = get_title(el, ("create", "title?"))
@@ -330,7 +341,7 @@ def iteration(el: EventLoop) -> bool:
 
     Returns True if we're done, otherwise, keep asking for 'create's.
     """
-    options: Final = ("url", "file", "multiple", "back/.")
+    options: Final = ("url", "file", "bulk", ".")
     options_title: Final = options_as_help(options)
     el.console.print(options_title)
     response = el.session.prompt(
@@ -341,7 +352,7 @@ def iteration(el: EventLoop) -> bool:
         enable_history_search=False,
     )
 
-    if response.casefold() in ("back", "b", "."):
+    if response.casefold() in ("back", "."):
         return False
 
     elif response.casefold() in ("?",):
@@ -356,7 +367,7 @@ def iteration(el: EventLoop) -> bool:
         _add_single(el, file=True)
         return True
 
-    elif response.casefold() in ("multiple", "m"):
+    elif response.casefold() in ("bulk", "b"):
         _add_bulk(el)
         return True
 

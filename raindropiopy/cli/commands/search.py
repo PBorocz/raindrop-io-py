@@ -33,7 +33,7 @@ def __prompt_search_terms(el: EventLoop) -> tuple[bool, str | None]:
         )
         if response == "?":
             help_search(el)
-        elif response in ("q", "."):
+        elif response == ".":
             return True, None
         elif response:
             return False, response

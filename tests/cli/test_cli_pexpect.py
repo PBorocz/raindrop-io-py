@@ -5,7 +5,14 @@ import pexpect
 def sl(child, text):
     """Send a line of test AND log action."""
     child.sendline(text)
-    print(f"sendline: {text}", flush=True)
+    print(f"sendline  : {text}", flush=True)
+
+
+def ee(child, text):
+    """Expect some text AND log it."""
+    print(f"expecting : {text}...", flush=True, end="")
+    child.expect_exact(text)
+    print("✔")
 
 
 def test_cli_traversal():
@@ -16,41 +23,82 @@ def test_cli_traversal():
             encoding="utf-8",
         )
         child.logfile = fh_out
-        child.expect_exact("(s)earch")
 
+        # Confirm top-level prompt
+        ee(child, "(s)earch, (c)reate, (m)anage, (e)xit")
+        ee(child, ">")
+
+        ################################################################################
+        # Manage
+        ################################################################################
         sl(child, "manage")
-        child.expect_exact("(s)tatus")
+        ee(child, "(s)tatus, (c)ollections, (t)ags, (r)efresh,")
+        ee(child, "manage>")
 
         sl(child, "status")
-        child.expect_exact("Active User")
-        child.expect_exact("Raindrops")
-        child.expect_exact("Collections")
-        child.expect_exact("As Of")
+        ee(child, "Active User")
+        ee(child, "Raindrops")
+        ee(child, "Collections")
+        ee(child, "As Of")
+
+        sl(child, "collections")
+        ee(child, "manage>")
+
+        sl(child, "tags")
+        ee(child, "manage>")
 
         sl(child, ".")
+        ee(child, "(s)earch, (c)reate, (m)anage, (e)xit")
+        ee(child, ">")
+
+        ################################################################################
+        # Create
+        ################################################################################
         sl(child, "create")
+        ee(child, "create>")
 
-        child.expect_exact("create")
         sl(child, "url")
+        ee(child, "url?")
 
-        child.expect_exact("url?")
         sl(child, "https://www.python.org")
+        ee(child, "title?")
 
-        child.expect_exact("title?")
         sl(child, "aTitle")
+        ee(child, "description?")
 
-        child.expect_exact("description?")
         sl(child, "aDescription")
+        ee(child, "collection?")
 
-        child.expect_exact("collection?")
         sl(child, "")
+        ee(child, "tag(s)")
 
-        child.expect_exact("tag(s)")
         sl(child, "")
+        ee(child, "Is this correct?")
 
-        child.expect_exact("Is this correct?")
-        sl(child, "y")
+        sl(child, "no")
+        ee(child, "create>")
 
-        sl(child, "quit")
+        sl(child, "b")
+        ee(child, "bulk upload file?>")
+
+        sl(child, ".")
+        ee(child, "create>")
+
+        sl(child, ".")
+        ee(child, "(s)earch, (c)reate, (m)anage, (e)xit")
+        ee(child, ">")
+
+        ################################################################################
+        # Search
+        ################################################################################
+        sl(child, "search")
+        ee(child, "search term(s)?>")
+
+        sl(child, "Sample")
+        ee(child, "collection(s)?>")
+
+        sl(child, ".")
+        ee(child, "(s)earch, (c)reate, (m)anage, (e)xit")
+        ee(child, ">")
 
         child.terminate()

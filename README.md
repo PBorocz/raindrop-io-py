@@ -162,6 +162,8 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+### v0.0.14 - 2023-02-09
+
 - FIXED: `Raindrop.cache.size` and `Raindrop.cache.created` attributes are now optional (RaindropIO's API doesn't always provide them).
 - FIXED: README examples corrected to reflect simpler Raindrop.search call.
 

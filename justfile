@@ -27,6 +27,11 @@ cli:
 test *args:
     @python -m pytest {{args}}
 
+# Build docs
+docs *args:
+    sphinx-build -M clean "docs/source" "docs/build"
+    sphinx-build -M html  "docs/source" "docs/build"
+
 # Pre-commit - Run all
 pre-commit-all *args:
     @pre-commit run --all-files {{args}}

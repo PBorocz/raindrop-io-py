@@ -1,6 +1,6 @@
 """Test all the methods in the Raindrop Collection API."""
 from raindropiopy.api import User
-from raindropiopy.cli.models.raindropState import RaindropState
+from raindropiopy.cli.models.raindrop_state import RaindropState
 from tests.cli.conftest import vcr
 
 

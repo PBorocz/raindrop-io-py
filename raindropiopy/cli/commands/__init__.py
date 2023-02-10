@@ -6,7 +6,7 @@ from prompt_toolkit.styles import Style
 from rich import print
 
 from raindropiopy.cli import WARNING, PROMPT_STYLE, prompt
-from raindropiopy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.event_loop import EventLoop
 
 
 def is_int(string: str) -> bool:

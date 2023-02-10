@@ -21,8 +21,8 @@ from raindropiopy.cli.commands import (
     get_title,
     get_description,
 )
-from raindropiopy.cli.models.createRequest import CreateRequest
-from raindropiopy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.create_request import CreateRequest
+from raindropiopy.cli.models.event_loop import EventLoop
 from raindropiopy.cli.models.spinner import Spinner
 
 

@@ -16,8 +16,8 @@ from raindropiopy.cli import (
 )
 from raindropiopy.api.models import Raindrop
 from raindropiopy.cli.commands import get_confirmation, get_from_list, is_int
-from raindropiopy.cli.models.eventLoop import EventLoop
-from raindropiopy.cli.models.searchState import SearchState
+from raindropiopy.cli.models.event_loop import EventLoop
+from raindropiopy.cli.models.search_state import SearchState
 from raindropiopy.cli.models.spinner import Spinner
 from raindropiopy.cli.commands import get_title, get_description
 

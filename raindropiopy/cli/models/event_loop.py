@@ -17,7 +17,7 @@ from raindropiopy.cli import (
     options_as_help,
     prompt,
 )
-from raindropiopy.cli.models.raindropState import RaindropState
+from raindropiopy.cli.models.raindrop_state import RaindropState
 
 
 # Utility method to return the command-history file path for the user

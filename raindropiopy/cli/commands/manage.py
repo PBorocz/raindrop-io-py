@@ -14,7 +14,7 @@ from raindropiopy.cli import (
     options_as_help,
     prompt,
 )
-from raindropiopy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.event_loop import EventLoop
 
 
 def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:

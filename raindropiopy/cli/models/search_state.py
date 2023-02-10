@@ -6,7 +6,7 @@ from rich.table import Table
 
 from raindropiopy.api import API, Collection, CollectionRef, Raindrop
 from raindropiopy.cli import COLOR_TABLE_COLUMN_1, COLOR_TABLE_COLUMN_2
-from raindropiopy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.event_loop import EventLoop
 
 WILDCARD: str = "*"
 

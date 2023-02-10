@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 from rich import print
 
 import raindropiopy
-from raindropiopy.cli.models.eventLoop import EventLoop
-from raindropiopy.cli.models.raindropState import RaindropState
+from raindropiopy.cli.models.event_loop import EventLoop
+from raindropiopy.cli.models.raindrop_state import RaindropState
 
 
 def _parse_args():

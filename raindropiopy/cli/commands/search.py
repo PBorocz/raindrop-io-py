@@ -5,11 +5,11 @@ from rich import print
 
 # from raindropiopy.api import Collection, CollectionRef, Raindrop
 from raindropiopy.cli import PROMPT_STYLE, prompt
-from raindropiopy.cli.models.searchState import SearchState, WILDCARD
+from raindropiopy.cli.models.search_state import SearchState, WILDCARD
 from raindropiopy.cli.commands import get_collection_s
 from raindropiopy.cli.commands.help import help_search
 from raindropiopy.cli.commands.view_edit import process as process_view_edit
-from raindropiopy.cli.models.eventLoop import EventLoop
+from raindropiopy.cli.models.event_loop import EventLoop
 from raindropiopy.cli.models.spinner import Spinner
 
 

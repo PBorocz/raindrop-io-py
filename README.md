@@ -26,7 +26,7 @@ Requires Python 3.10 or later (well, at least I'm developing against 3.10.9).
 
 ## Install
 
-``` shell
+```shell
 [.venv] python -m pip install raindrop-io-py
 ```
 
@@ -42,7 +42,7 @@ To use this package, besides your own account on [Raindrop](https://raindrop.io)
 
 -   Save your token into your environment (we use python-dotenv so a simple .env/.envrc file containing your token should suffice), for example:
 
-``` shell
+```shell
 # If you use direnv or it's equivalent, place something like this in a .env file:
 RAINDROP_TOKEN=01234567890-abcdefghf-aSample-API-Token-01234567890-abcdefghf
 
@@ -59,25 +59,48 @@ set -gx RAINDROP_TOKEN 01234567890-abcdefghf-aSample-API-Token-01234567890-abcde
 
 A full suite of examples are provided in the `examples` directory. Each can be run independently as:
 
-``` shell
+```shell
 [.venv] % python examples/list_collections.py
 ```
 
 or a wrapper script is available to run all of them, in logical order with a small wait to be nice to Raindrop's API:
 
-``` shell
+```shell
 [.venv] % python examples/RUN_ALL.py
 ```
 
-## API Usage
+### API Examples
 
 Here are a few examples of API usage (all of these should be able to be executed "as-is"):
 
-### Create a New Raindrop Bookmark to a URL
+#### Display All Collections and **Unsorted** Bookmarks:
 
-``` python
+This example shows the intended usage of the API as a context-manager, from which any number of calls can be made:
+
+```python
 import os
-import sys
+
+from dotenv import load_dotenv
+
+from raindropiopy.api import API, Collection, CollectionRef, Raindrop
+
+load_dotenv()
+
+with API(os.environ["RAINDROP_TOKEN"]) as api:
+
+    print("Current Collections:"
+    for collection in Collection.get_collections(api):
+        print(collection.title)
+
+    print("\nUnsorted Raindrop Bookmarks:"
+    for item in Raindrop.search(api, collection=CollectionRef.Unsorted):
+        print(item.title)
+```
+
+#### Create a New Raindrop Bookmark to a URL
+
+```python
+import os
 
 from dotenv import load_dotenv
 
@@ -95,9 +118,9 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 
 (after this has executed, go to your Raindrop.io environment (site or app) and you should see this Raindrop to python.org available)
 
-### Create a New Raindrop Collection
+#### Create a New Raindrop Collection
 
-``` python
+```python
 import os
 import sys
 from datetime import datetime
@@ -118,35 +141,18 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 
 (after this has executed, go to your Raindrop.io environment (site or app) and you should see this collection available)
 
-### Display All Bookmarks from the **Unsorted** Raindrop Collection
-
-``` python
-import os
-from dotenv import load_dotenv
-
-from raindropiopy.api import API, CollectionRef, Raindrop
-
-load_dotenv()
-
-with API(os.environ["RAINDROP_TOKEN"]) as api:
-    page = 0
-    while (items := Raindrop.search(api, collection=CollectionRef.Unsorted, page=page)):
-        for item in items:
-            print(item.title)
-        page += 1
-```
-
 ## Command-Line Interface Usage
 
-``` shell
-[.venv] % raindropiopy
+```shell
+[.v
+env] % raindropiopy
 ```
 
 Note: remember to setup `RAINDROP-TOKEN` in your environment!
 
 ## Acknowledgments
 
--   [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto).
+- [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto).
 
 ## License
 
@@ -155,6 +161,9 @@ The project is licensed under the MIT License.
 ## Release History
 
 ### Unreleased
+
+- FIXED: `Raindrop.cache.size` and `Raindrop.cache.created` attributes are now optional (RaindropIO's API doesn't always provide them).
+- FIXED: README examples corrected to reflect simpler Raindrop.search call.
 
 ### v0.0.13 - 2023-02-07
 
@@ -184,7 +193,7 @@ The project is licensed under the MIT License.
 
 - CHANGED: Added simple version method in root package:
 
-``` python
+```python
 from raindropiopy import version
 print(version())
 ```
@@ -204,7 +213,7 @@ print(version())
 - ADDED: Support use of [Vulture](https://github.com/jendrikseipp/vulture) for dead-code analysis (not in pre-commit through due to conflict with ruff's McCabe complexity metric)
 - CHANGED: Moved internal module name to match that of package name. Since we couldn't use raindroppy as a package name on PyPI due to similarities with existing packages (one of which was for a **crypto** package), we renamed this package to raindrop-io-py. In concert, the internal module is now `raindropiopy`:
 
-``` python
+```python
 from raindroiopy.api import API
 ```
 

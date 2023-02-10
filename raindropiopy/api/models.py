@@ -342,8 +342,8 @@ class Cache(BaseModel):
     """Represents the cache information of Raindrop."""
 
     status: CacheStatus
-    size: PositiveInt
-    created: datetime.datetime
+    size: PositiveInt | None = None
+    created: datetime.datetime | None = None
 
 
 class Raindrop(BaseModel):

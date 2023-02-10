@@ -1,4 +1,4 @@
-"""..."""
+"""Make ruff happy ;-)."""
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -10,7 +10,6 @@
 project = "Raindrop-IO-py"
 copyright = "2023, Peter Borocz"
 author = "Peter Borocz"
-release = "0.0.14"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -18,7 +17,7 @@ release = "0.0.14"
 extensions = []
 
 templates_path = ["_templates"]
-exclude_patterns = []
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 
 # -- Options for HTML output -------------------------------------------------

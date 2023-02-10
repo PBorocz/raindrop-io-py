@@ -29,8 +29,8 @@ test *args:
 
 # Build docs
 docs *args:
-    sphinx-build -M clean "docs/source" "docs/build"
-    sphinx-build -M html  "docs/source" "docs/build"
+    sphinx-build -M clean "docs" "docs/_build"
+    sphinx-build -M html  "docs" "docs/_build"
 
 # Pre-commit - Run all
 pre-commit-all *args:

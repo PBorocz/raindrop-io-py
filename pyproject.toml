@@ -40,7 +40,6 @@ vcrpy = "^4.2.1"
 manage = {git = "https://github.com/PBorocz/manage"}
 pexpect = "^4.8.0"
 
-
 [tool.poetry.group.docs.dependencies]
 sphinx = "^6.1.3"
 furo = "^2022.12.7"

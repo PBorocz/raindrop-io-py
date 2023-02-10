@@ -12,6 +12,7 @@ packages = [{ include = "raindropiopy" }]
 
 homepage = "https://github.com/PBorocz/raindrop-io-py"
 repository = "https://github.com/PBorocz/raindrop-io-py"
+documentation = "https://raindrop-io-py.readthedocs.io/en/latest/"
 
 [tool.poetry.scripts]
 raindrop-io-py = "raindropiopy.cli.cli:main"
@@ -51,7 +52,7 @@ markers = [
     "integration: tests that run against a live Raindrop environment, slower.",
 ]
 
-# When we're ready (from https://fpgmaas.github.io/cookiecutter-poetry/)
+# When (if?) we're ready (from https://fpgmaas.github.io/cookiecutter-poetry/)
 # [tool.mypy]
 # files = ["example_project"]
 # disallow_untyped_defs = "True"

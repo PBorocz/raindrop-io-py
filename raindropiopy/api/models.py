@@ -1,4 +1,15 @@
-"""All abstract data types to interact with Raindrop's API."""
+"""All data classes to interact with Raindrop's API.
+
+Raindrop.IO has a small set of core data entities (e.g. Raindrops aka bookmarks, Collections, Tags etc.). We
+deliver the services provided by Raindrop.IO as a set of class-based methods on these various data entities.
+
+For example, to create a new raindrop, use Raindrop.create_link(...); a collection would be Collection.create(...) etc.
+
+Every class method takes an instance of the core API, resulting in the common (although not required) pattern of:
+
+with API(os.environ["RAINDROP_TOKEN"]) as api:
+    tags = Tag.get(api)
+"""
 from __future__ import annotations
 
 import datetime

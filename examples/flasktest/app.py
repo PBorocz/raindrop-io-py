@@ -17,7 +17,7 @@ from flask import Flask, redirect, render_template_string, request
 from requests_oauthlib import OAuth2Session
 from werkzeug import Response
 
-from raindropiopy.api import API, Collection
+from raindropiopy.api import API, Collection, URL_AUTHORIZE, URL_ACCESS_TOKEN
 
 load_env()
 
@@ -59,7 +59,7 @@ def approved() -> str:
     oauth = create_oauth2session(CLIENT_ID, redirect_uri=REDIRECT_URI)
     code = request.args.get("code")
     token = oauth.fetch_token(
-        API.URL_ACCESS_TOKEN,
+        URL_ACCESS_TOKEN,
         code=code,
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
@@ -76,7 +76,7 @@ def approved() -> str:
 def login() -> Response:
     """Route called once credentials have been gathered."""
     oauth = create_oauth2session(CLIENT_ID, redirect_uri=REDIRECT_URI)
-    authorization_url, _ = oauth.authorization_url(API.URL_AUTHORIZE)
+    authorization_url, _ = oauth.authorization_url(URL_AUTHORIZE)
     return redirect(authorization_url)
 
 

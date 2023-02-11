@@ -1,14 +1,25 @@
-"""Low-level API interface to Raindrop, no application semantics, mostly core HTTP verbs."""
-from __future__ import annotations
+"""Low-level API interface to Raindrop, no application semantics, mostly core HTTP verbs.
 
+This is not intended for direct use, serving as the underlying HTTPS abstraction layer for
+calls available for the datatypes defined in models.py.
+"""
 import datetime
 import enum
 import json
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, Final, TypeVar
 
 import requests
 from requests_oauthlib import OAuth2Session
+
+# Support for generic oauth2 authentication *on behalf of another user*
+# (ie. instead of using Raindrop.IO's TEST_TOKEN)
+URL_AUTHORIZE: Final = "https://raindrop.io/oauth/authorize"
+URL_ACCESS_TOKEN: Final = "https://raindrop.io/oauth/access_token"
+URL_REFRESH: Final = "https://raindrop.io/oauth/access_token"
+
+# In py3.11, we'll be able to do 'from typing import Self' instead
+API = TypeVar("API")
 
 
 class API:
@@ -17,10 +28,6 @@ class API:
     :param token: An access token for authorization.
     :type token: string or dict.
     """
-
-    URL_AUTHORIZE = "https://raindrop.io/oauth/authorize"
-    URL_ACCESS_TOKEN = "https://raindrop.io/oauth/access_token"
-    URL_REFRESH = "https://raindrop.io/oauth/access_token"
 
     ratelimit: Optional[int] = None
     ratelimit_remaining: Optional[int] = None
@@ -64,7 +71,7 @@ class API:
             self.client_id,
             token=token,
             auto_refresh_kwargs=extra,
-            auto_refresh_url=self.URL_REFRESH,
+            auto_refresh_url=URL_REFRESH,
             token_updater=update_token,
         )
 
@@ -132,8 +139,8 @@ class API:
         :param url: The url to send request
         :type url: str
 
-        :param params: (optional) Dictionary, list of tuples or bytes to send
-            in the query string for the :class:`Request`.
+        :param params: (optional) Dictionary, list of tuples or bytes to
+            send in the query string for the :class:`Request`.
 
         :return: :class:`requests.Response` object
         :rtype: :class:`requests.Response`
@@ -201,12 +208,13 @@ class API:
         self._on_resp(ret)
         return ret
 
-    def __enter__(self) -> API:
-        """If we don't have an active session open yet, open one!."""
+    def __enter__(self) -> API:  # Note: Py3.11 upgrade to "self"
+        """Context manager use: if we don't have an active session open yet, open one!."""
         if not self.session:
             self.open()
         return self
 
     def __exit__(self, _type, _value, _traceback) -> None:  # type: ignore
-        """Once we're done with this API's scope, close the connection off."""
-        self.close()
+        """Context manager use: once we're done with this API's scope, close connection off."""
+        if self.session:
+            self.close()

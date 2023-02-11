@@ -29,8 +29,9 @@ test *args:
 
 # Build docs
 docs *args:
-    sphinx-build -M clean "docs" "docs/_build"
-    sphinx-build -M html  "docs" "docs/_build"
+    # sphinx-build -M clean docs docs/_build
+    sphinx-apidoc -f -o docs raindropiopy
+    sphinx-build -M html docs docs/_build
 
 # Pre-commit - Run all
 pre-commit-all *args:

@@ -1,14 +1,9 @@
-"""All data classes to interact with Raindrop's API.
+"""All data classes to interact with Raindrops API.
 
 Raindrop.IO has a small set of core data entities (e.g. Raindrops aka bookmarks, Collections, Tags etc.). We
 deliver the services provided by Raindrop.IO as a set of class-based methods on these various data entities.
 
 For example, to create a new raindrop, use Raindrop.create_link(...); a collection would be Collection.create(...) etc.
-
-Every class method takes an instance of the core API, resulting in the common (although not required) pattern of:
-
-with API(os.environ["RAINDROP_TOKEN"]) as api:
-    tags = Tag.get(api)
 """
 from __future__ import annotations
 
@@ -143,11 +138,11 @@ class RaindropType(enum.Enum):
 # Base Models
 ################################################################################
 class CollectionRef(BaseModel):
-    """Represents a *reference* to a Raindrop Collection (essentially a TypeVar of id: int).
+    """Represents a **reference** to a Raindrop Collection (essentially a TypeVar of id: int).
 
     Note:
-        We also instantiate three particular ``CollectionRefs`` associated with *System* Collections: "All",
-            "Trash" and "Unsorted".
+        We also instantiate three particular ``CollectionRefs`` associated with **System** Collections: 'All',
+          'Trash" and 'Unsorted".
 
         System Collections always exist and can be explicitly used to query anywhere you'd use a Collection ID.
     """
@@ -162,21 +157,21 @@ CollectionRef.Unsorted = CollectionRef(**{"$id": -1})
 
 
 class UserRef(BaseModel):
-    """Represents a *reference* to :class:`User` object."""
+    """Represents a **reference** to `User` object."""
 
     id: int = Field(None, alias="$id")
     ref: str = Field(None, alias="$user")
 
 
 class Access(BaseModel):
-    """Represents Access control level of a Collection."""
+    """Represents Access control level of a `Collection`."""
 
     level: AccessLevel
     draggable: bool
 
 
 class Collection(BaseModel):
-    """Represents a concrete Raindrop Collection."""
+    """Represents a concrete Raindrop `Collection`."""
 
     id: int = Field(None, alias="_id")
     title: str
@@ -206,17 +201,17 @@ class Collection(BaseModel):
 
     @classmethod
     def get_root_collections(cls, api: tAPI) -> list[Collection]:
-        """Get "root" Raindrop collections.
+        """Get **root** Raindrop collections.
 
         Parameters:
             api: API Handle to use for the request.
 
         Returns:
-            The (potentially empty) list of non-system, *top-level* Collections associated with the API's user.
+            The (potentially empty) list of non-system, **top-level** Collections associated with the API's user.
 
         Note:
             Since Raindrop allows for collections to be nested, the RaindropIO's API distinguishes between Collections
-            at the top-level/root of a collection hierarchy versus those all that are below the top level, aka "child"
+            at the top-level/root of a collection hierarchy versus those all that are below the top level, aka 'child'
             collections. Thus, use ``get_root_collections`` to get all Collections without parents and
             ``get_child_collections`` for all Collections with parents.
         """
@@ -226,17 +221,17 @@ class Collection(BaseModel):
 
     @classmethod
     def get_child_collections(cls, api: tAPI) -> list[Collection]:
-        """Get the "child" Raindrop collections (ie. all below root level).
+        """Get the **child** Raindrop collections (ie. all below root level).
 
         Parameters:
             api: API Handle to use for the request.
 
         Returns:
-            The (potentially empty) list of non-system, *non-top-level* Collections associated with the API's user.
+            The (potentially empty) list of non-system, **non-top-level** Collections associated with the API's user.
 
         Note:
             Since Raindrop allows for collections to be nested, the RaindropIO's API distinguishes between Collections
-            at the top-level/root of a collection hierarchy versus those all that are below the top level, aka "child"
+            at the top-level/root of a collection hierarchy versus those all that are below the top level, aka 'child'
             collections. Thus, use ``get_root_collections`` to get all Collections without parents and
             ``get_child_collections`` for all Collections with parents.
         """
@@ -252,7 +247,7 @@ class Collection(BaseModel):
             api: API Handle to use for the request.
 
         Returns:
-            The (potentially empty) list of all *non-system* Collections associated with the API's user,
+            The (potentially empty) list of all **non-system** Collections associated with the API's user,
             ie. hiding the distinction between root/child collections.
         """
         return cls.get_root_collections(api) + cls.get_child_collections(api)
@@ -297,7 +292,7 @@ class Collection(BaseModel):
 
             expanded: Optional, flag for whether or not any of the collection's sub-collections are expanded.
 
-            parent: Optional, Id of the collection's *parent* you want to create nested collections.
+            parent: Optional, Id of the collection's **parent** you want to create nested collections.
 
             public: Optional, flag for whether or not the collection should be publically available.
 
@@ -354,7 +349,7 @@ class Collection(BaseModel):
 
             expanded: Flag for whether or not any of the collection's sub-collections are expanded.
 
-            parent: Id of the collection's *parent* to set the current collection to.
+            parent: Id of the collection's **parent** to set the current collection to.
 
             public: Flag for whether or not the collection should be publically available.
 
@@ -391,7 +386,7 @@ class Collection(BaseModel):
 
     @classmethod
     def get_or_create(cls, api: tAPI, title: str) -> Collection:
-        """Get a Raindrop collection based on it's *title*, if it doesn't exist, create it.
+        """Get a Raindrop collection based on it's **title**, if it doesn't exist, create it.
 
         Parameters:
             api: API Handle to use for the request.
@@ -633,7 +628,7 @@ class Raindrop(BaseModel):
         # While, we /could/, convert to kwargs, we lose the documentation
         # and verbosity available with explicit arguments.
         #
-        # Thus, for now, we *leave* vulture out of pre-commit and
+        # Thus, for now, we **leave** vulture out of pre-commit and
         # simply run it manually as necessary (through our justfile)
 
         # Setup the args that will be passed to the underlying
@@ -660,7 +655,7 @@ class Raindrop(BaseModel):
                 args[attr] = value
 
         if collection is not None:
-            # <collection> arg could be *either* an actual collection
+            # <collection> arg could be **either** an actual collection
             # or simply an int collection "id" already, handle either:
             if isinstance(collection, (Collection, CollectionRef)):
                 args["collection"] = {"$id": collection.id}
@@ -803,7 +798,7 @@ class Raindrop(BaseModel):
                 args[attr] = value
 
         if collection is not None:
-            # <collection> arg could be *either* an actual collection
+            # <collection> arg could be **either** an actual collection
             # or simply an int collection "id" already, handle either:
             if isinstance(collection, (Collection, CollectionRef)):
                 args["collection"] = collection.id
@@ -913,7 +908,7 @@ class Tag(BaseModel):
             collection_id: Optional, Id of specific collection to limit search for all tags.
 
         Returns:
-            List of ``Tag``s.
+            List of ``Tag``.
         """
         url = URL.format(path="tags")
         if collection_id:

@@ -144,8 +144,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 ## Command-Line Interface Usage
 
 ```shell
-[.v
-env] % raindropiopy
+[.venv] % raindropiopy
 ```
 
 Note: remember to setup `RAINDROP-TOKEN` in your environment!

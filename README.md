@@ -162,6 +162,10 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+### v0.0.15 - 2023-02-11
+
+- CHANGED: `Raindrop.search_paged` is now hidden (can't see a reason to explicitly use it over `Raindrop.search`)
+- CHANGED: Several attributes that, while allowed to be set by RaindropIO's API, are now *not* able to be set by this API. For example, you shouldn't be able to change "time" by setting `created` or `last_update` fields on a Raindrop or Collection.
 - CHANGED: The `Collection`, `Raindrop` and `Tag` "remove" method is now "delete" to more accurately match with RaindropIO's API).
 
 ### v0.0.14 - 2023-02-09

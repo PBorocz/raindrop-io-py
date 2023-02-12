@@ -1,6 +1,7 @@
 """Configuration file for the Sphinx documentation builder."""
 import os
 import sys
+from importlib import metadata
 
 # Do this to allow autodoc to actually FIND our raindropiopy package..
 sys.path.insert(0, os.path.abspath("."))
@@ -8,6 +9,7 @@ sys.path.insert(0, os.path.abspath("."))
 project = "Raindrop-IO-py"
 copyright = "2023, Peter Borocz"
 author = "Peter Borocz"
+version = release = PACKAGE_VERSION = metadata.version("raindrop_io_py")
 
 extensions = [
     "sphinx.ext.autodoc",

@@ -4,16 +4,19 @@
 # Required
 version: 2
 
+# Build documentation in the docs/ directory with Sphinx
+sphinx:
+   configuration: docs/conf.py
+   builder: html
+
 # Set the version of Python and other tools you might need
 build:
   os: ubuntu-22.04
   tools:
     python: "3.10"
-
-# Build documentation in the docs/ directory with Sphinx
-sphinx:
-   configuration: docs/conf.py
-   builder: html
+  jobs:
+    pre_build:
+      - sphinx-apidoc --force --implicit-namespaces --module-first --separate --output-dir docs raindropiopy
 
 python:
   install:

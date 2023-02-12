@@ -43,7 +43,7 @@ if os.environ.get("READTHEDOCS") == "True":
                 "--module-first",
                 "--separate",
                 "--output_dir",
-                str(PROJECT_ROOT) / "docs",
+                str(PROJECT_ROOT / "docs"),
                 str(PROJECT_ROOT),
             ],
         )

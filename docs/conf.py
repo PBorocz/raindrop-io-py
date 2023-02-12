@@ -26,28 +26,28 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 
-if os.environ.get("READTHEDOCS") == "True":
-    from pathlib import Path
+# if os.environ.get("READTHEDOCS") == "True":
+#     from pathlib import Path
 
-    PROJECT_ROOT = Path(__file__).parent.parent
-    PACKAGE_ROOT = PROJECT_ROOT / "raindropiopy"
+#     PROJECT_ROOT = Path(__file__).parent.parent
+#     PACKAGE_ROOT = PROJECT_ROOT / "raindropiopy"
 
-    def run_apidoc(_):
-        """Run the Sphinx AutoDoc to actually *parse* our code."""
-        from sphinx.ext import apidoc
+#     def run_apidoc(_):
+#         """Run the Sphinx AutoDoc to actually *parse* our code."""
+#         from sphinx.ext import apidoc
 
-        apidoc.main(
-            [
-                "--force",
-                "--implicit-namespaces",
-                "--module-first",
-                "--separate",
-                "--output-dir",
-                str(PROJECT_ROOT / "docs"),
-                str(PROJECT_ROOT),
-            ],
-        )
+#         apidoc.main(
+#             [
+#                 "--force",
+#                 "--implicit-namespaces",
+#                 "--module-first",
+#                 "--separate",
+#                 "--output-dir",
+#                 str(PROJECT_ROOT / "docs"),
+#                 str(PROJECT_ROOT),
+#             ],
+#         )
 
-    def setup(app):
-        """Plug-into the RtD's build process with our method."""
-        app.connect("builder-inited", run_apidoc)
+#     def setup(app):
+#         """Plug-into the RtD's build process with our method."""
+#         app.connect("builder-inited", run_apidoc)

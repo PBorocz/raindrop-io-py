@@ -32,7 +32,7 @@ if os.environ.get("READTHEDOCS") == "True":
     PROJECT_ROOT = Path(__file__).parent.parent
     PACKAGE_ROOT = PROJECT_ROOT / "raindropiopy"
 
-    def run_apidoc():
+    def run_apidoc(_):
         """Run the Sphinx AutoDoc to actually *parse* our code."""
         from sphinx.ext import apidoc
 

@@ -1,5 +1,5 @@
 """Test that we can get the currently logged in user (ie. the one associated with the current TOKEN)."""
-from raindropiopy.api import User
+from raindropiopy import User
 from tests.api.conftest import vcr
 
 

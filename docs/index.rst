@@ -10,7 +10,7 @@ Raindrop-IO-py
    :maxdepth: 2
    :caption: Contents:
 
-   modules
+   raindropiopy
 
 Indices and tables
 ==================

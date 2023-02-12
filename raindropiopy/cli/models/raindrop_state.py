@@ -7,7 +7,7 @@ from typing import Optional, TypeVar
 
 from rich import print
 
-from raindropiopy.api import (
+from raindropiopy import (
     API,
     Collection,
     CollectionRef,

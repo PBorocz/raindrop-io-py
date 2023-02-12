@@ -9,7 +9,7 @@ from getpass import getuser
 
 from dotenv import load_dotenv
 
-from raindropiopy.api import API, Collection
+from raindropiopy import API, Collection
 
 load_dotenv()
 
@@ -27,5 +27,5 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     # section out and look it up through any Raindrop mechanism (ie.
     # app, url etc.); otherwise, we clean up after ourselves.
     print(f"Removing collection: '{title}'...", flush=True, end="")
-    Collection.remove(api, id=collection.id)
+    Collection.delete(api, id=collection.id)
     print("Done.")

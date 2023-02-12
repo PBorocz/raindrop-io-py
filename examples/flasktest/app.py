@@ -17,7 +17,7 @@ from flask import Flask, redirect, render_template_string, request
 from requests_oauthlib import OAuth2Session
 from werkzeug import Response
 
-from raindropiopy.api import API, Collection, URL_AUTHORIZE, URL_ACCESS_TOKEN
+from raindropiopy import API, Collection, URL_AUTHORIZE, URL_ACCESS_TOKEN
 
 load_env()
 
@@ -67,7 +67,7 @@ def approved() -> str:
     )
 
     with API(token, client_id=CLIENT_ID, client_secret=CLIENT_SECRET) as CNXN:
-        collections = Collection.get_roots(CNXN)
+        collections = Collection.get_root_collections(CNXN)
 
     return render_template_string(COLLECTIONS, collections=collections)
 

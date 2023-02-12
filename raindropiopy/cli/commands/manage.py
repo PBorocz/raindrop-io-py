@@ -6,7 +6,7 @@ from humanize import naturaltime
 from prompt_toolkit.completion import WordCompleter
 from rich.table import Table
 
-from raindropiopy.api.models import Collection, CollectionRef
+from raindropiopy.models import Collection, CollectionRef
 from raindropiopy.cli import (
     COLOR_TABLE_COLUMN_1,
     COLOR_TABLE_COLUMN_2,

@@ -2,15 +2,16 @@
 import datetime
 from unittest.mock import patch
 
-from raindropiopy.api import API, User
+from raindropiopy import API, User, BrokenLevel, FontColor, RaindropSort, View
 
-user = {
+test_user = {
     "_id": 1000,
     "config": {
         "broken_level": "default",
         "font_color": "sunset",
-        "font_size": 0,
-        "last_collection": -1,
+        "font_size": 20,
+        "lang": "en",
+        "last_collection": 1,  # Will/should be cast to a CollectionRef.
         "raindrops_sort": "-lastUpdate",
         "raindrops_view": "list",
     },
@@ -45,17 +46,25 @@ user = {
 def test_get() -> None:
     """Test that we can get/lookup the user."""
     api = API("dummy")
-    with patch("raindropiopy.api.api.OAuth2Session.request") as m:
-        m.return_value.json.return_value = {"user": user}
-        c = User.get(api)
+    with patch("raindropiopy.api.OAuth2Session.request") as m:
+        m.return_value.json.return_value = {"user": test_user}
+        user = User.get(api)
 
-        assert c.id == 1000
+        assert user.id == 1000
 
-        assert c.email == "mail@example.com"
-        assert c.email_MD5 == "1111111111"
-        assert c.files.size == 10000000000
-        assert c.files.used == 0
-        assert c.files.lastCheckPoint == datetime.datetime(
+        assert user.config.broken_level == BrokenLevel.default
+        assert user.config.font_color == FontColor.sunset
+        assert user.config.font_size == 20
+        assert user.config.lang == "en"
+        assert user.config.last_collection.id == 1
+        assert user.config.raindrops_sort == RaindropSort.last_update_dn
+        assert user.config.raindrops_view == View.list
+
+        assert user.email == "mail@example.com"
+        assert user.email_MD5 == "1111111111"
+        assert user.files.size == 10000000000
+        assert user.files.used == 0
+        assert user.files.lastCheckPoint == datetime.datetime(
             2020,
             1,
             1,
@@ -64,14 +73,14 @@ def test_get() -> None:
             2,
             tzinfo=datetime.timezone.utc,
         )
-        assert c.fullName == "test user"
-        assert c.groups[0].hidden is False
-        assert c.groups[0].sort == 0
-        assert c.groups[0].title == "My Collections"
-        assert list(c.groups[0].collectionids) == [2000, 3000]
-        assert c.password is True
-        assert c.pro is True
-        assert c.registered == datetime.datetime(
+        assert user.fullName == "test user"
+        assert user.groups[0].hidden is False
+        assert user.groups[0].sort == 0
+        assert user.groups[0].title == "My Collections"
+        assert list(user.groups[0].collectionids) == [2000, 3000]
+        assert user.password is True
+        assert user.pro is True
+        assert user.registered == datetime.datetime(
             2020,
             1,
             2,

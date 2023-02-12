@@ -1,13 +1,13 @@
 """Low-level API interface to Raindrop, no application semantics, mostly core HTTP verbs.
 
-This is not intended for direct use, serving as the underlying HTTPS abstraction layer for
-calls available for the datatypes defined in models.py.
+This is not intended for direct use, serving as the underlying HTTPS abstraction layer for calls
+available for the datatypes defined in models.py.
 """
 import datetime
 import enum
 import json
 from pathlib import Path
-from typing import Any, Dict, Optional, Union, Final, TypeVar
+from typing import Any, Dict, Optional, Final, TypeVar
 
 import requests
 from requests_oauthlib import OAuth2Session
@@ -19,37 +19,56 @@ URL_ACCESS_TOKEN: Final = "https://raindrop.io/oauth/access_token"
 URL_REFRESH: Final = "https://raindrop.io/oauth/access_token"
 
 # In py3.11, we'll be able to do 'from typing import Self' instead
-API = TypeVar("API")
+tAPI = TypeVar("API")
 
 
 class API:
     """Provides communication to the Raindrop.io API server.
 
-    :param token: An access token for authorization.
-    :type token: string or dict.
-    """
+    Parameters:
+        token: Either a string representing a valid RaindropIO Token.
+            This is either a TEST_TOKEN or a CLIENT token for use in OAuth in
+            which case the client_id and client_secret must also be provided.
 
-    ratelimit: Optional[int] = None
-    ratelimit_remaining: Optional[int] = None
-    ratelimit_reset: Optional[int] = None
+        token_type: Token type to be used on behalf of an oAuth connection.
+
+    Examples:
+        Can either be used directly as a context manager:
+
+        >>> api = API(token="aTestToken):
+        >>> collections = Collection.get_collections(api)
+        >>> #...
+
+        or
+
+        >>> with API(token="aTestToken) as api:
+        >>> user = User.get(api)
+        >>> #...
+    """
 
     def __init__(
         self,
-        token: Union[str, Dict[str, Any]],
+        token: str,
         client_id: Optional[str] = None,
         client_secret: Optional[str] = None,
         token_type: str = "Bearer",
     ) -> None:
-        """Instantiate an API connection to Raindrop using the credentials provided."""
+        """Instantiate an API connection to Raindrop using the token (and optional client information) provided."""
         self.token = token
         self.client_id = client_id
         self.client_secret = client_secret
         self.token_type = token_type
         self.session = None
 
+        # If rate limiting is in effect, set here (UNTESTED!)
+        self.ratelimit: Optional[int] = None
+        self.ratelimit_remaining: Optional[int] = None
+        self.ratelimit_reset: Optional[int] = None
+
         self.open()
 
     def _create_session(self) -> OAuth2Session:
+        """Handle the creation and/or authentication with oAuth handshake."""
         extra: Optional[Dict[str, Any]]
         if self.client_id and self.client_secret:
             extra = {
@@ -62,10 +81,9 @@ class API:
         def update_token(newtoken: str) -> None:
             self.token = newtoken
 
-        if isinstance(self.token, str):
-            token = {"access_token": self.token}
-        else:
-            token = self.token
+        token = (
+            {"access_token": self.token} if isinstance(self.token, str) else self.token
+        )
 
         return OAuth2Session(
             self.client_id,
@@ -76,12 +94,18 @@ class API:
         )
 
     def open(self) -> None:
-        """Open a new connection to Raindrop."""
+        """Open a new connection to Raindrop.
+
+        If there's an existing connection already, it'll be closed first.
+        """
         self.close()
         self.session = self._create_session()
 
     def close(self) -> None:
-        """Close an existing Raindrop connection."""
+        """Close an existing Raindrop connection.
+
+        Safe to call even if a new session hasn't been created yet.
+        """
         if self.session:
             self.session.close()
             self.session = None
@@ -89,21 +113,22 @@ class API:
     def _json_unknown(self, obj: Any) -> Any:
         if isinstance(obj, enum.Enum):
             return obj.value
-
         if isinstance(obj, datetime.datetime):
             return obj.isoformat()
-
         raise TypeError(
             f"Object of type {obj.__class__.__name__} is not JSON serializable",
         )
 
     def _to_json(self, obj: Any) -> Optional[str]:
+        """Handle JSON serialisation with a custom serialiser to handle enums and datetimes."""
         if obj is not None:
             return json.dumps(obj, default=self._json_unknown)
         else:
             return None
 
     def _on_resp(self, resp: Any) -> None:
+        """Handle a RaindropIO API response, first pullingrate-limiting parms in effect due to high activity levels."""
+
         def get_int(name: str) -> Optional[int]:
             value = resp.headers.get(name, None)
             if value is not None:
@@ -122,9 +147,9 @@ class API:
         if v is not None:
             self.ratelimit_reset = v
 
-        resp.raise_for_status()
+        resp.raise_for_status()  # Let requests library handle HTTP error codes returned.
 
-    def _request_headers(self) -> Dict[str, str]:
+    def _request_headers_json(self) -> Dict[str, str]:
         return {
             "Content-Type": "application/json",
         }
@@ -136,26 +161,34 @@ class API:
     ) -> requests.models.Response:
         """Send a GET request.
 
-        :param url: The url to send request
-        :type url: str
+        Parameters:
+            url: The url to send the request to.
 
-        :param params: (optional) Dictionary, list of tuples or bytes to
-            send in the query string for the :class:`Request`.
+            params: Optional dictionary of payload to be sent for the :class:`Request`.
 
-        :return: :class:`requests.Response` object
-        :rtype: :class:`requests.Response`
+        Returns:
+            :class:`requests.Response` object.
         """
         assert self.session
-        ret = self.session.get(url, headers=self._request_headers(), params=params)
+        ret = self.session.get(url, headers=self._request_headers_json(), params=params)
         self._on_resp(ret)
         return ret
 
     def put(self, url: str, json: Any = None) -> requests.models.Response:
-        """Low-level call to perform a PUT method against our present connection."""
+        """Low-level call to perform a PUT method against our present connection.
+
+        Parameters:
+            url: The url to send the PUT request to.
+
+            json: JSON object to be sent.
+
+        Returns:
+            :class:`requests.Response` object.
+        """
         json = self._to_json(json)
 
         assert self.session
-        ret = self.session.put(url, headers=self._request_headers(), data=json)
+        ret = self.session.put(url, headers=self._request_headers_json(), data=json)
         self._on_resp(ret)
         return ret
 
@@ -168,22 +201,18 @@ class API:
     ) -> requests.models.Response:
         """Upload a file by a PUT request.
 
-        :param url: The url to send request to
-        :type url: str
+        Parameters:
+            url: The url to send the PUT request to.
 
-        :param path: Path to file to be uploaded
-        :type path: Path
+            path: Path to file to be uploaded.
 
-        :param data: Dictionary, payload to be sent for the :class:`Request`,
-            e.g. {"collectionId" : aCollection.id}
-        :type data: dict
+            data: Dictionary, payload to be sent for the :class:`Request`, e.g. {"collectionId" : aCollection.id}
 
-        :param files: Dictionary, request library "files" object to be sent for the :class:`Request`,
-            e.g. {'file': (aFileName, aFileLikeObj, aContentType)}
-        :type files: dict
+            files: Dictionary, request library "files" object to be sent for the :class:`Request`,
+                e.g. {'file': (aFileName, aFileLikeObj, aContentType)}
 
-        :return: :class:`requests.Response` object
-        :rtype: :class:`requests.Response`
+        Returns:
+            :class:`requests.Response` object.
         """
         assert self.session
         ret = self.session.put(url, data=data, files=files)
@@ -191,24 +220,42 @@ class API:
         return ret
 
     def post(self, url: str, json: Any = None) -> requests.models.Response:
-        """Low-level call to perform a POST method against our present connection."""
+        """Low-level call to perform a POST method against our present connection.
+
+        Parameters:
+            url: The url to send the POST request to.
+
+            json: JSON object to be sent.
+
+        Returns:
+            :class:`requests.Response` object.
+        """
         json = self._to_json(json)
 
         assert self.session
-        ret = self.session.post(url, headers=self._request_headers(), data=json)
+        ret = self.session.post(url, headers=self._request_headers_json(), data=json)
         self._on_resp(ret)
         return ret
 
     def delete(self, url: str, json: Any = None) -> requests.models.Response:
-        """Low-level call to perform a DELETE method against our present connection."""
+        """Low-level call to perform a DELETE method against our present connection.
+
+        Parameters:
+            url: The url to send the DELETE request to.
+
+            json: JSON object to be sent.
+
+        Returns:
+            :class:`requests.Response` object.
+        """
         json = self._to_json(json)
 
         assert self.session
-        ret = self.session.delete(url, headers=self._request_headers(), data=json)
+        ret = self.session.delete(url, headers=self._request_headers_json(), data=json)
         self._on_resp(ret)
         return ret
 
-    def __enter__(self) -> API:  # Note: Py3.11 upgrade to "self"
+    def __enter__(self) -> tAPI:  # Note: Py3.11 upgrade to "self"
         """Context manager use: if we don't have an active session open yet, open one!."""
         if not self.session:
             self.open()

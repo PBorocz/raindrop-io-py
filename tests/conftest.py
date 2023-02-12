@@ -4,7 +4,7 @@ import os
 import dotenv
 import pytest
 
-from raindropiopy.api import API
+from raindropiopy import API
 
 dotenv.load_dotenv()
 

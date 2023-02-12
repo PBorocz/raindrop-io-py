@@ -1,19 +1,18 @@
 raindropiopy package
 ====================
 
-Subpackages
------------
+raindropiopy.models module
+--------------------------
 
-.. toctree::
-   :maxdepth: 4
+.. automodule:: raindropiopy.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-   raindropiopy.api
-   raindropiopy.cli
+raindropiopy.api module
+-----------------------
 
-Module contents
----------------
-
-.. automodule:: raindropiopy
+.. automodule:: raindropiopy.api
    :members:
    :undoc-members:
    :show-inheritance:

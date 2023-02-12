@@ -162,6 +162,8 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+- CHANGED: The `Collection`, `Raindrop` and `Tag` "remove" method is now "delete" to more accurately match with RaindropIO's API).
+
 ### v0.0.14 - 2023-02-09
 
 - FIXED: `Raindrop.cache.size` and `Raindrop.cache.created` attributes are now optional (RaindropIO's API doesn't always provide them).

@@ -14,7 +14,7 @@ from raindropiopy.cli import (
     prompt,
     options_as_help,
 )
-from raindropiopy.api.models import Raindrop
+from raindropiopy.models import Raindrop
 from raindropiopy.cli.commands import get_confirmation, get_from_list, is_int
 from raindropiopy.cli.models.event_loop import EventLoop
 from raindropiopy.cli.models.search_state import SearchState
@@ -133,7 +133,7 @@ def _delete_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
     _view_raindrop(el, raindrop)
     if get_confirmation(el, "Are you sure?", PROMPT_STYLE_WARNING):
         with Spinner(f"Deleting Raindrop: [italic]{raindrop.title}[/]..."):
-            Raindrop.remove(el.state.api, id=raindrop.id)
+            Raindrop.delete(el.state.api, id=raindrop.id)
 
 
 def process(el: EventLoop, search_state: SearchState) -> bool:

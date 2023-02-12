@@ -3,7 +3,7 @@
 from prompt_toolkit.completion import WordCompleter
 from rich import print
 
-# from raindropiopy.api import Collection, CollectionRef, Raindrop
+# from raindropiopy import Collection, CollectionRef, Raindrop
 from raindropiopy.cli import PROMPT_STYLE, prompt
 from raindropiopy.cli.models.search_state import SearchState, WILDCARD
 from raindropiopy.cli.commands import get_collection_s

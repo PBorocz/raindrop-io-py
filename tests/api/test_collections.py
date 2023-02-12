@@ -4,7 +4,7 @@ from getpass import getuser
 
 import requests
 
-from raindropiopy.api import Collection, CollectionRef, SystemCollection
+from raindropiopy import Collection, CollectionRef, SystemCollection
 from tests.api.conftest import vcr
 
 
@@ -15,13 +15,13 @@ def test_get_collections(api) -> None:
     (Note: we can't check on the contents since they're dependent on whose running the test!).
     """
     count_roots = 0
-    for collection in Collection.get_roots(api):
+    for collection in Collection.get_root_collections(api):
         assert collection.id
         assert collection.title
         count_roots += 1
 
     count_children = 0
-    for collection in Collection.get_childrens(api):
+    for collection in Collection.get_child_collections(api):
         assert collection.id
         assert collection.title
         count_children += 1
@@ -68,6 +68,6 @@ def test_collection_lifecycle(api) -> None:
     assert collection.title == title
 
     # Step 3: Delete...
-    Collection.remove(api, id=collection.id)
+    Collection.delete(api, id=collection.id)
     with pytest.raises(requests.exceptions.HTTPError):
         Collection.get(api, collection.id)

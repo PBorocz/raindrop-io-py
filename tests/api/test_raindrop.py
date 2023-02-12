@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 import requests
 
-from raindropiopy.api import Raindrop, RaindropType
+from raindropiopy import Raindrop, RaindropType
 from tests.api.conftest import vcr
 
 
@@ -63,8 +63,8 @@ def search_raindrops(api):
     # breakpoint() or time.sleep(10)
     yield
 
-    Raindrop.remove(api, id=raindrop_google.id)
-    Raindrop.remove(api, id=raindrop_python.id)
+    Raindrop.delete(api, id=raindrop_google.id)
+    Raindrop.delete(api, id=raindrop_python.id)
 
 
 @vcr.use_cassette()
@@ -89,7 +89,7 @@ def test_lifecycle_raindrop_link(api, sample_raindrop_link) -> None:
     assert edited_raindrop.title == title
 
     # TEST: Delete...
-    Raindrop.remove(api, id=raindrop.id)
+    Raindrop.delete(api, id=raindrop.id)
     with pytest.raises(requests.exceptions.HTTPError):
         Raindrop.get(api, raindrop.id)
 
@@ -114,7 +114,7 @@ def test_lifecycle_raindrop_file(api) -> None:
     assert raindrop.type == RaindropType.document
 
     # TEST: Delete...
-    Raindrop.remove(api, id=raindrop.id)
+    Raindrop.delete(api, id=raindrop.id)
     with pytest.raises(requests.exceptions.HTTPError):
         Raindrop.get(api, raindrop.id)
 

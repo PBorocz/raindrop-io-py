@@ -11,15 +11,14 @@ author = "Peter Borocz"
 
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon"]
 
-napoleon_google_docstring = False
+napoleon_google_docstring = True
 napoleon_use_param = False
 napoleon_use_ivar = True
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-# html_theme = "sphinx_rtd_theme"
-html_theme = "default"
+html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 
 

@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 from prompt_toolkit.completion import WordCompleter
 from tomli import load
 
-from raindropiopy.api import API, Collection, Raindrop
+from raindropiopy import API, Collection, Raindrop
 from raindropiopy.cli import (
     CONTENT_TYPES,
     PROMPT_STYLE,

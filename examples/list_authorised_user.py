@@ -6,36 +6,48 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from dotenv import load_dotenv
 
-from raindropiopy.api import API, User
+from raindropiopy import API, User
 
 load_dotenv()
+
+
+def _print(key, value):
+    print(f"{key:.<48} {value!s}")
+
 
 with API(os.environ["RAINDROP_TOKEN"]) as api:
 
     user = User.get(api)
 
     for attr in ["id", "email", "fullName", "password", "pro", "registered"]:
-        print(f"{attr:16s} {getattr(user, attr)}")
+        _print(attr, getattr(user, attr))
 
     # User configuration..
     print()
-    print("config.broken_level:    ", user.config.broken_level)
-    print("config.font_color:      ", user.config.font_color)
-    print("config.font_size:       ", user.config.font_size)
-    print("config.raindrops_view:  ", user.config.raindrops_view)
+    _print("config.broken_level", user.config.broken_level.value)
+    _print("config.font_color", user.config.font_color)
+    _print("config.font_size", user.config.font_size)
+    _print("config.lang", user.config.lang)
+    _print("config.last_collection", user.config.last_collection)
+    _print("config.raindrops_sort", user.config.raindrops_sort)
+    _print("config.raindrops_view", user.config.raindrops_view)
+    for (
+        attr,
+        value,
+    ) in user.config.internal_.items():  # (user "internal_" use only fields)
+        _print(f"config.internal_.{attr}", value)
 
     # User files..
     print()
-    print("files.used:             ", user.files.used)
-    print("files.size:             ", user.files.size)
-    print("files.lastCheckPoint:   ", user.files.lastCheckPoint)
+    _print("files.used", user.files.used)
+    _print("files.size", user.files.size)
+    _print("files.lastCheckPoint", user.files.lastCheckPoint)
 
     # User group membership
-    print()
     for group in user.groups:
-        print("groups.group.title:     ", group.title)
-        print("groups.group.title:     ", group.title)
-        print("groups.hidden:          ", group.hidden)
-        print("groups.sort:            ", group.sort)
-        print("groups.collectionids:   ", list(group.collectionids))
         print()
+        _print("groups.group.title", group.title)
+        _print("groups.group.title", group.title)
+        _print("groups.hidden", group.hidden)
+        _print("groups.sort", group.sort)
+        _print("groups.collectionids", list(group.collectionids))

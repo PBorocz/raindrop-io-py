@@ -42,7 +42,7 @@ if os.environ.get("READTHEDOCS") == "True":
                 "--implicit-namespaces",
                 "--module-first",
                 "--separate",
-                "--output_dir",
+                "--output-dir",
                 str(PROJECT_ROOT / "docs"),
                 str(PROJECT_ROOT),
             ],

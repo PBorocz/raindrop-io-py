@@ -24,8 +24,6 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
             title=title,
             tags=["abc", "def"],
         )
-        breakpoint()
-
         print("Done.")
         print(f"{raindrop.id=}")
     except Exception as exc:

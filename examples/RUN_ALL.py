@@ -7,7 +7,7 @@ import time
 def rest():
     """Sleep a second to be nice to Raindrop's API."""
     print("Resting...", end="", flush=True)
-    time.sleep(1)
+    time.sleep(2.5)
     print()
 
 

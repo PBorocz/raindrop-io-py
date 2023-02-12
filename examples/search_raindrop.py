@@ -12,14 +12,11 @@ from raindropiopy import API, Raindrop
 load_dotenv()
 
 
-def _search(api, **search_args):
+def _do_search(api, **search_args):
     """Search for all Raindrops (in Unsorted since we're not passing in a collection.id)."""
     print(f"Searching with {search_args}")
-    page = 0
-    while raindrops := Raindrop.search(api, page=page, **search_args):
-        for raindrop in raindrops:
-            print(f"Found! {raindrop.id=} {raindrop.title=}\n")
-        page += 1
+    for raindrop in Raindrop.search(api, **search_args):
+        print(f"Found! {raindrop.id=} {raindrop.title=}\n")
 
 
 with API(os.environ["RAINDROP_TOKEN"]) as api:
@@ -51,11 +48,11 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     print("Ok")
 
     # OK, now (for example), search by tag:
-    _search(api, tag="def")
+    _do_search(api, tag="def")
 
     # or, search by link domain or title:
-    _search(api, word="python.org")
-    _search(api, word="Benevolent")
+    _do_search(api, word="python.org")
+    _do_search(api, word="Benevolent")
 
     # Cleanup
     print("Removing sample Raindrop...", flush=True, end="")

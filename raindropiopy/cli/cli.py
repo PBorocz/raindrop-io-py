@@ -6,7 +6,11 @@ import os
 import sys
 from pathlib import Path
 
-import vcr  # Used when we run in "testing" mode only
+try:
+    import vcr  # Used when we run in "testing" mode only
+except ImportError:
+    vcr = None
+
 from dotenv import load_dotenv
 from rich import print
 
@@ -57,8 +61,9 @@ def main():
         cassette = root / Path("tests/cli/cassettes/test_cli_pexpect.yaml")
         assert cassette.parent.exists()
         print(f"Running in TEST MODE!: {cassette=}")
-        with vcr.use_cassette(str(cassette), filter_headers=["Authorization"]):
-            EventLoop(args).go(RaindropState.factory())
+        if vcr:
+            with vcr.use_cassette(str(cassette), filter_headers=["Authorization"]):
+                EventLoop(args).go(RaindropState.factory())
 
 
 if __name__ == "__main__":

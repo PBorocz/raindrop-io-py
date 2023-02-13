@@ -1,0 +1,24 @@
+raindropiopy package
+====================
+
+.. automodule:: raindropiopy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   raindropiopy.cli
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   raindropiopy.api
+   raindropiopy.models

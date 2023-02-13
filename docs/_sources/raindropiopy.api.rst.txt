@@ -1,0 +1,7 @@
+raindropiopy.api module
+=======================
+
+.. automodule:: raindropiopy.api
+   :members:
+   :undoc-members:
+   :show-inheritance:

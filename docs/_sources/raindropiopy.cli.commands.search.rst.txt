@@ -1,0 +1,7 @@
+raindropiopy.cli.commands.search module
+=======================================
+
+.. automodule:: raindropiopy.cli.commands.search
+   :members:
+   :undoc-members:
+   :show-inheritance:

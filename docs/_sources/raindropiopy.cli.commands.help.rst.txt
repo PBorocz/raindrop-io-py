@@ -1,0 +1,7 @@
+raindropiopy.cli.commands.help module
+=====================================
+
+.. automodule:: raindropiopy.cli.commands.help
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -4,6 +4,7 @@ Raindrop.IO has a small set of core data entities (e.g. Raindrops aka bookmarks,
 deliver the services provided by Raindrop.IO as a set of class-based methods on these various data entities.
 
 For example, to create a new raindrop, use Raindrop.create_link(...); a collection would be Collection.create(...) etc.
+
 """
 from __future__ import annotations
 

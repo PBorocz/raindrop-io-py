@@ -29,10 +29,9 @@ test *args:
 
 # Build docs
 docs *args:
-    sphinx-build -M clean docs docs/_build
-    sphinx-apidoc --force --implicit-namespaces --module-first --separate --output-dir docs raindropiopy {{args}}
-    sphinx-build -v -W -b html docs docs/_build  {{args}}
-    #sphinx-autobuild -v -W -b html docs docs/_build {{args}}
+    # sphinx-build -M clean docs
+    sphinx-apidoc --force --implicit-namespaces --module-first --separate --output-dir docs_source raindropiopy {{args}}
+    sphinx-build -v -W -b html docs_source docs  {{args}}
 
 # Pre-commit - Run all
 pre-commit-all *args:

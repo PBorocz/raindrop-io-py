@@ -5,10 +5,15 @@ import sys
 # Do this to allow autodoc to actually FIND our raindropiopy package..
 sys.path.insert(0, os.path.abspath("."))
 
-project = "Raindrop-IO-py"
+# -- Project information -----------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+
+project = "RaindropIOPY"
 copyright = "2023, Peter Borocz"
 author = "Peter Borocz"
-# version = release = PACKAGE_VERSION = metadata.version("raindrop_io_py")
+
+# -- General configuration ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
     "sphinx.ext.autodoc",
@@ -21,6 +26,10 @@ napoleon_use_ivar = True
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+
+# -- Options for HTML output -------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]

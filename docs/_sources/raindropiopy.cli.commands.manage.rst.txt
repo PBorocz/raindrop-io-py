@@ -1,7 +1,0 @@
-raindropiopy.cli.commands.manage module
-=======================================
-
-.. automodule:: raindropiopy.cli.commands.manage
-   :members:
-   :undoc-members:
-   :show-inheritance:

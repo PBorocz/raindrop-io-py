@@ -1,7 +1,0 @@
-raindropiopy.cli.cli module
-===========================
-
-.. automodule:: raindropiopy.cli.cli
-   :members:
-   :undoc-members:
-   :show-inheritance:

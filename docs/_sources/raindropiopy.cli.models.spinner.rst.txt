@@ -1,7 +1,0 @@
-raindropiopy.cli.models.spinner module
-======================================
-
-.. automodule:: raindropiopy.cli.models.spinner
-   :members:
-   :undoc-members:
-   :show-inheritance:

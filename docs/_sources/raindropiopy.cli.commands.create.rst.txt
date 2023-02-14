@@ -1,7 +1,0 @@
-raindropiopy.cli.commands.create module
-=======================================
-
-.. automodule:: raindropiopy.cli.commands.create
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -31,7 +31,7 @@ test *args:
 docs *args:
     # sphinx-build -M clean docs
     # sphinx-apidoc --force --implicit-namespaces --module-first --separate --output-dir docs_source raindropiopy {{args}}
-    sphinx-build -v -W -b html docs_source docs  {{args}}
+    sphinx-build -v -W -b html "docs" "docs/_build" {{args}}
 
 # Pre-commit - Run all
 pre-commit-all *args:

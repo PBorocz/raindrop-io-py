@@ -1,7 +1,0 @@
-raindropiopy.cli.models.create\_request module
-==============================================
-
-.. automodule:: raindropiopy.cli.models.create_request
-   :members:
-   :undoc-members:
-   :show-inheritance:

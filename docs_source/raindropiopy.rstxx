@@ -1,4 +1,4 @@
-raindropiopy package
+Raindropiopy package
 ====================
 
 API Module
@@ -6,6 +6,3 @@ API Module
 
 .. toctree::
    :maxdepth: 4
-
-   raindropiopy.api
-   raindropiopy.models

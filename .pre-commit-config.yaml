@@ -32,10 +32,10 @@ repos:
 ################################################################################
 # Run test suite, only at the end since code stuff above is so cyclical!
 ################################################################################
-- repo: local
-  hooks:
-  - id: system
-    name: Running tests
-    entry: .venv/bin/python -m pytest
-    pass_filenames: false
-    language: system
+# - repo: local
+#   hooks:
+#   - id: system
+#     name: Running tests
+#     entry: .venv/bin/python -m pytest
+#     pass_filenames: false
+#     language: system

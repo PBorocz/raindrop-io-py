@@ -12,7 +12,6 @@ author = "Peter Borocz"
 
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.autodoc.typehints",
     "sphinx.ext.napoleon",
 ]
 

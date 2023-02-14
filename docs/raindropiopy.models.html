@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>raindropiopy.models module &mdash; Raindrop-IO-py  documentation</title>
+  <title>Core Classes &mdash; Raindrop-IO-py  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,7 +18,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="raindropiopy.api module" href="raindropiopy.api.html" /> 
+    <link rel="next" title="Low-level API" href="raindropiopy.api.html" />
+    <link rel="prev" title="Raindrop-IO-py" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,37 +43,61 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">raindropiopy</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="raindropiopy.html">raindropiopy package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.API"><code class="docutils literal notranslate"><span class="pre">API</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.Access"><code class="docutils literal notranslate"><span class="pre">Access</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.AccessLevel"><code class="docutils literal notranslate"><span class="pre">AccessLevel</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.BrokenLevel"><code class="docutils literal notranslate"><span class="pre">BrokenLevel</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.Collection"><code class="docutils literal notranslate"><span class="pre">Collection</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.CollectionRef"><code class="docutils literal notranslate"><span class="pre">CollectionRef</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.FontColor"><code class="docutils literal notranslate"><span class="pre">FontColor</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.Group"><code class="docutils literal notranslate"><span class="pre">Group</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.Raindrop"><code class="docutils literal notranslate"><span class="pre">Raindrop</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.RaindropSort"><code class="docutils literal notranslate"><span class="pre">RaindropSort</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.RaindropType"><code class="docutils literal notranslate"><span class="pre">RaindropType</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.SystemCollection"><code class="docutils literal notranslate"><span class="pre">SystemCollection</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.Tag"><code class="docutils literal notranslate"><span class="pre">Tag</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.UserConfig"><code class="docutils literal notranslate"><span class="pre">UserConfig</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.UserFiles"><code class="docutils literal notranslate"><span class="pre">UserFiles</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.UserRef"><code class="docutils literal notranslate"><span class="pre">UserRef</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.View"><code class="docutils literal notranslate"><span class="pre">View</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#raindropiopy.version"><code class="docutils literal notranslate"><span class="pre">version()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="raindropiopy.html#subpackages">Subpackages</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="raindropiopy.html#submodules">Submodules</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="raindropiopy.api.html">raindropiopy.api module</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">raindropiopy.models module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Core Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.Access"><code class="docutils literal notranslate"><span class="pre">Access</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.AccessLevel"><code class="docutils literal notranslate"><span class="pre">AccessLevel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.BrokenLevel"><code class="docutils literal notranslate"><span class="pre">BrokenLevel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.Cache"><code class="docutils literal notranslate"><span class="pre">Cache</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.CacheStatus"><code class="docutils literal notranslate"><span class="pre">CacheStatus</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.Collection"><code class="docutils literal notranslate"><span class="pre">Collection</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Collection.create"><code class="docutils literal notranslate"><span class="pre">Collection.create()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Collection.delete"><code class="docutils literal notranslate"><span class="pre">Collection.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Collection.get"><code class="docutils literal notranslate"><span class="pre">Collection.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Collection.get_child_collections"><code class="docutils literal notranslate"><span class="pre">Collection.get_child_collections()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Collection.get_collections"><code class="docutils literal notranslate"><span class="pre">Collection.get_collections()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Collection.get_or_create"><code class="docutils literal notranslate"><span class="pre">Collection.get_or_create()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Collection.get_root_collections"><code class="docutils literal notranslate"><span class="pre">Collection.get_root_collections()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Collection.update"><code class="docutils literal notranslate"><span class="pre">Collection.update()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.CollectionRef"><code class="docutils literal notranslate"><span class="pre">CollectionRef</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.File"><code class="docutils literal notranslate"><span class="pre">File</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.FontColor"><code class="docutils literal notranslate"><span class="pre">FontColor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.Group"><code class="docutils literal notranslate"><span class="pre">Group</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.Raindrop"><code class="docutils literal notranslate"><span class="pre">Raindrop</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Raindrop.create_file"><code class="docutils literal notranslate"><span class="pre">Raindrop.create_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Raindrop.create_link"><code class="docutils literal notranslate"><span class="pre">Raindrop.create_link()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Raindrop.delete"><code class="docutils literal notranslate"><span class="pre">Raindrop.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Raindrop.get"><code class="docutils literal notranslate"><span class="pre">Raindrop.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Raindrop.search"><code class="docutils literal notranslate"><span class="pre">Raindrop.search()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Raindrop.update"><code class="docutils literal notranslate"><span class="pre">Raindrop.update()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.RaindropSort"><code class="docutils literal notranslate"><span class="pre">RaindropSort</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.RaindropType"><code class="docutils literal notranslate"><span class="pre">RaindropType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.SystemCollection"><code class="docutils literal notranslate"><span class="pre">SystemCollection</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.SystemCollection.get_status"><code class="docutils literal notranslate"><span class="pre">SystemCollection.get_status()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.Tag"><code class="docutils literal notranslate"><span class="pre">Tag</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Tag.delete"><code class="docutils literal notranslate"><span class="pre">Tag.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.Tag.get"><code class="docutils literal notranslate"><span class="pre">Tag.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.User.get"><code class="docutils literal notranslate"><span class="pre">User.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.UserConfig"><code class="docutils literal notranslate"><span class="pre">UserConfig</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#raindropiopy.models.UserConfig.cast_last_collection_to_ref"><code class="docutils literal notranslate"><span class="pre">UserConfig.cast_last_collection_to_ref()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.UserFiles"><code class="docutils literal notranslate"><span class="pre">UserFiles</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.UserRef"><code class="docutils literal notranslate"><span class="pre">UserRef</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raindropiopy.models.View"><code class="docutils literal notranslate"><span class="pre">View</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="raindropiopy.api.html">Low-level API</a></li>
 </ul>
 
         </div>
@@ -89,9 +114,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">raindropiopy</a></li>
-          <li class="breadcrumb-item"><a href="raindropiopy.html">raindropiopy package</a></li>
-      <li class="breadcrumb-item active">raindropiopy.models module</li>
+      <li class="breadcrumb-item active">Core Classes</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/raindropiopy.models.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -102,7 +125,7 @@
            <div itemprop="articleBody">
              
   <section id="module-raindropiopy.models">
-<span id="raindropiopy-models-module"></span><h1>raindropiopy.models module<a class="headerlink" href="#module-raindropiopy.models" title="Permalink to this heading"></a></h1>
+<span id="core-classes"></span><h1>Core Classes<a class="headerlink" href="#module-raindropiopy.models" title="Permalink to this heading"></a></h1>
 <p>All data classes to interact with Raindrops API.</p>
 <p>Raindrop.IO has a small set of core data entities (e.g. Raindrops aka bookmarks, Collections, Tags etc.). We
 deliver the services provided by Raindrop.IO as a set of class-based methods on these various data entities.</p>
@@ -112,16 +135,6 @@ deliver the services provided by Raindrop.IO as a set of class-based methods on 
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">Access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.AccessLevel" title="raindropiopy.models.AccessLevel"><span class="pre">AccessLevel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">draggable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Access" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Represents Access control level of a <cite>Collection</cite>.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Access.draggable">
-<span class="sig-name descname"><span class="pre">draggable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#raindropiopy.models.Access.draggable" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Access.level">
-<span class="sig-name descname"><span class="pre">level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.AccessLevel" title="raindropiopy.models.AccessLevel"><span class="pre">AccessLevel</span></a></em><a class="headerlink" href="#raindropiopy.models.Access.level" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -129,26 +142,6 @@ deliver the services provided by Raindrop.IO as a set of class-based methods on 
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">AccessLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.AccessLevel" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
 <p>Map the Access levels defined by Raindrop’s API.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.AccessLevel.collaborator_read">
-<span class="sig-name descname"><span class="pre">collaborator_read</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#raindropiopy.models.AccessLevel.collaborator_read" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.AccessLevel.collaborator_write">
-<span class="sig-name descname"><span class="pre">collaborator_write</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#raindropiopy.models.AccessLevel.collaborator_write" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.AccessLevel.owner">
-<span class="sig-name descname"><span class="pre">owner</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#raindropiopy.models.AccessLevel.owner" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.AccessLevel.readonly">
-<span class="sig-name descname"><span class="pre">readonly</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#raindropiopy.models.AccessLevel.readonly" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -156,64 +149,53 @@ deliver the services provided by Raindrop.IO as a set of class-based methods on 
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">BrokenLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.BrokenLevel" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Enumerate user levels.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.BrokenLevel.basic">
-<span class="sig-name descname"><span class="pre">basic</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'basic'</span></em><a class="headerlink" href="#raindropiopy.models.BrokenLevel.basic" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+</dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.BrokenLevel.default">
-<span class="sig-name descname"><span class="pre">default</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'default'</span></em><a class="headerlink" href="#raindropiopy.models.BrokenLevel.default" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="raindropiopy.models.Cache">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">Cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.CacheStatus" title="raindropiopy.models.CacheStatus"><span class="pre">CacheStatus</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PositiveInt</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Cache" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the cache information of Raindrop.</p>
+</dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.BrokenLevel.off">
-<span class="sig-name descname"><span class="pre">off</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'off'</span></em><a class="headerlink" href="#raindropiopy.models.BrokenLevel.off" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.BrokenLevel.strict">
-<span class="sig-name descname"><span class="pre">strict</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'strict'</span></em><a class="headerlink" href="#raindropiopy.models.BrokenLevel.strict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
+<dl class="py class">
+<dt class="sig sig-object py" id="raindropiopy.models.CacheStatus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">CacheStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.CacheStatus" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Represents the various states the cache of a Raindrop might be in.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="raindropiopy.models.Collection">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">Collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.UserRef" title="raindropiopy.models.UserRef"><span class="pre">UserRef</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.Access" title="raindropiopy.models.Access"><span class="pre">Access</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collaborators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NonNegativeInt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cover</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expanded</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lastUpdate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NonNegativeInt</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.View" title="raindropiopy.models.View"><span class="pre">View</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Collection" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">Collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.UserRef" title="raindropiopy.models.UserRef"><span class="pre">UserRef</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">access</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.Access" title="raindropiopy.models.Access"><span class="pre">Access</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collaborators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NonNegativeInt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cover</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expanded</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lastUpdate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NonNegativeInt</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.View" title="raindropiopy.models.View"><span class="pre">View</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Collection" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Represents a concrete Raindrop <cite>Collection</cite>.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.access">
-<span class="sig-name descname"><span class="pre">access</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.Access" title="raindropiopy.models.Access"><span class="pre">Access</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.access" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.collaborators">
-<span class="sig-name descname"><span class="pre">collaborators</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.collaborators" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.collect_internal_attributes">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collect_internal_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Collection.collect_internal_attributes" title="Permalink to this definition"></a></dt>
-<dd><p>Gather all non-recognised/unofficial attributes into a single attribute.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.color">
-<span class="sig-name descname"><span class="pre">color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.color" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.count">
-<span class="sig-name descname"><span class="pre">count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NonNegativeInt</span></em><a class="headerlink" href="#raindropiopy.models.Collection.count" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.cover">
-<span class="sig-name descname"><span class="pre">cover</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.cover" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
+<p>Represents a Raindrop <cite>Collection</cite>, ie. a group of Raindrop Bookmarks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – The id of the collection (required)</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The name of the collection.</p></li>
+<li><p><strong>user</strong> (<a class="reference internal" href="#raindropiopy.models.UserRef" title="raindropiopy.models.UserRef"><em>raindropiopy.models.UserRef</em></a>) – The user who created the collection.</p></li>
+<li><p><strong>access</strong> (<a class="reference internal" href="#raindropiopy.models.Access" title="raindropiopy.models.Access"><em>raindropiopy.models.Access</em></a><em> | </em><em>None</em>) – Describes current Access levels to the collection (eg. ReadOnly, OwnerOnly etc.).</p></li>
+<li><p><strong>collaborators</strong> (<em>list</em><em>[</em><em>Any</em><em>] </em><em>| </em><em>None</em>) – Populated with list of collaborating users iff collection is shared.</p></li>
+<li><p><strong>color</strong> (<em>str</em><em> | </em><em>None</em>) – Primary color of the collection cover.</p></li>
+<li><p><strong>count</strong> (<em>pydantic.types.NonNegativeInt</em>) – Count of Raindrops in the collection.</p></li>
+<li><p><strong>cover</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – URL of the collection’s cover.</p></li>
+<li><p><strong>created</strong> (<em>datetime.datetime</em><em> | </em><em>None</em>) – When the collection was created.</p></li>
+<li><p><strong>expanded</strong> (<em>bool</em>) – Whether the collection’s sub-collection are expanded (on the interface)</p></li>
+<li><p><strong>lastUpdate</strong> (<em>datetime.datetime</em><em> | </em><em>None</em>) – When the collection was last updated.</p></li>
+<li><p><strong>parent</strong> (<em>int</em><em> | </em><em>None</em>) – Parent ID of this is a sub-collection.</p></li>
+<li><p><strong>public</strong> (<em>bool</em><em> | </em><em>None</em>) – Are contents of this collection available to non-authenticated users?</p></li>
+<li><p><strong>sort</strong> (<em>pydantic.types.NonNegativeInt</em><em> | </em><em>None</em>) – The order of the collection. Defines the position of the collection all other collections at the same level in the tree.</p></li>
+<li><p><strong>view</strong> (<a class="reference internal" href="#raindropiopy.models.View" title="raindropiopy.models.View"><em>raindropiopy.models.View</em></a><em> | </em><em>None</em>) – Current view style of the collection, e.g. list, simple, grid etc.</p></li>
+<li><p><strong>other</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – All other attributes received from Raindrop’s API.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Attributes in <cite>other</cite> are NOT OFFICIALLY SUPPORTED!.</p>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Collection.create">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="raindropiopy.api.html#raindropiopy.api.API" title="raindropiopy.api.API"><span class="pre">API</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cover</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expanded</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.View" title="raindropiopy.models.View"><span class="pre">View</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#raindropiopy.models.Collection" title="raindropiopy.models.Collection"><span class="pre">Collection</span></a></span></span><a class="headerlink" href="#raindropiopy.models.Collection.create" title="Permalink to this definition"></a></dt>
@@ -221,13 +203,13 @@ deliver the services provided by Raindrop.IO as a set of class-based methods on 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>api</strong> – API Handle to use for the request.</p></li>
+<li><p><strong>api</strong> – Required: API Handle to use for the request.</p></li>
 <li><p><strong>cover</strong> – Optional, URL of collection’s cover (as a list but only the first entry is used).</p></li>
 <li><p><strong>expanded</strong> – Optional, flag for whether or not any of the collection’s sub-collections are expanded.</p></li>
 <li><p><strong>parent</strong> – Optional, Id of the collection’s <strong>parent</strong> you want to create nested collections.</p></li>
 <li><p><strong>public</strong> – Optional, flag for whether or not the collection should be publically available.</p></li>
 <li><p><strong>sort</strong> – Optional, sort order for Raindrops created in this collection.</p></li>
-<li><p><strong>title</strong> – Title of the collection to be created.</p></li>
+<li><p><strong>title</strong> – Required: Title of the collection to be created.</p></li>
 <li><p><strong>view</strong> – Optional, View associated with the default view to display Raindrops in this collection.</p></li>
 </ul>
 </dd>
@@ -237,11 +219,6 @@ deliver the services provided by Raindrop.IO as a set of class-based methods on 
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.created">
-<span class="sig-name descname"><span class="pre">created</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.created" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Collection.delete">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="raindropiopy.api.html#raindropiopy.api.API" title="raindropiopy.api.API"><span class="pre">API</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#raindropiopy.models.Collection.delete" title="Permalink to this definition"></a></dt>
@@ -250,7 +227,7 @@ deliver the services provided by Raindrop.IO as a set of class-based methods on 
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>api</strong> – API Handle to use for the request.</p></li>
-<li><p><strong>id</strong> – Required id of Collection to be deleted.</p></li>
+<li><p><strong>id</strong> – Id of Collection to be deleted.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -258,11 +235,6 @@ deliver the services provided by Raindrop.IO as a set of class-based methods on 
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.expanded">
-<span class="sig-name descname"><span class="pre">expanded</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#raindropiopy.models.Collection.expanded" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Collection.get">
@@ -332,11 +304,7 @@ ie. hiding the distinction between root/child collections.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>Collection with the specified collection title if it already exists or newly</dt><dd><p>created collection if it doesn’t.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>Collection with the specified collection title if it already exists or newly created collection if it doesn’t.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -362,41 +330,6 @@ collections. Thus, use <code class="docutils literal notranslate"><span class="p
 </div>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.id">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#raindropiopy.models.Collection.id" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.internal_">
-<span class="sig-name descname"><span class="pre">internal_</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#raindropiopy.models.Collection.internal_" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.lastUpdate">
-<span class="sig-name descname"><span class="pre">lastUpdate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.lastUpdate" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.parent">
-<span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.parent" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.public">
-<span class="sig-name descname"><span class="pre">public</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.public" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.sort">
-<span class="sig-name descname"><span class="pre">sort</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NonNegativeInt</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.sort" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.title">
-<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#raindropiopy.models.Collection.title" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Collection.update">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="raindropiopy.api.html#raindropiopy.api.API" title="raindropiopy.api.API"><span class="pre">API</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cover</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expanded</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.View" title="raindropiopy.models.View"><span class="pre">View</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#raindropiopy.models.Collection" title="raindropiopy.models.Collection"><span class="pre">Collection</span></a></span></span><a class="headerlink" href="#raindropiopy.models.Collection.update" title="Permalink to this definition"></a></dt>
@@ -405,7 +338,7 @@ collections. Thus, use <code class="docutils literal notranslate"><span class="p
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>api</strong> – API Handle to use for the request.</p></li>
-<li><p><strong>id</strong> – Required id of Collection to be updated.</p></li>
+<li><p><strong>id</strong> – Required, Id of Collection to be updated.</p></li>
 <li><p><strong>cover</strong> – URL of collection’s cover (as a list but only the first entry is used).</p></li>
 <li><p><strong>expanded</strong> – Flag for whether or not any of the collection’s sub-collections are expanded.</p></li>
 <li><p><strong>parent</strong> – Id of the collection’s <strong>parent</strong> to set the current collection to.</p></li>
@@ -421,16 +354,6 @@ collections. Thus, use <code class="docutils literal notranslate"><span class="p
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.user">
-<span class="sig-name descname"><span class="pre">user</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.UserRef" title="raindropiopy.models.UserRef"><span class="pre">UserRef</span></a></em><a class="headerlink" href="#raindropiopy.models.Collection.user" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Collection.view">
-<span class="sig-name descname"><span class="pre">view</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.View" title="raindropiopy.models.View"><span class="pre">View</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Collection.view" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -440,32 +363,16 @@ collections. Thus, use <code class="docutils literal notranslate"><span class="p
 <p>Represents a <strong>reference</strong> to a Raindrop Collection (essentially a TypeVar of id: int).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<dl class="simple">
-<dt>We also instantiate three particular <code class="docutils literal notranslate"><span class="pre">CollectionRefs</span></code> associated with <strong>System</strong> Collections: ‘All’,</dt><dd><p>‘Trash” and ‘Unsorted”.</p>
-</dd>
-</dl>
+<p>We also instantiate three particular <code class="docutils literal notranslate"><span class="pre">CollectionRefs</span></code> associated with <strong>System</strong> Collections: <em>All</em>, <em>Trash” and *Unsorted</em>.</p>
 <p>System Collections always exist and can be explicitly used to query anywhere you’d use a Collection ID.</p>
 </div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.CollectionRef.All">
-<span class="sig-name descname"><span class="pre">All</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">CollectionRef(id=0)</span></em><a class="headerlink" href="#raindropiopy.models.CollectionRef.All" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+</dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.CollectionRef.Trash">
-<span class="sig-name descname"><span class="pre">Trash</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">CollectionRef(id=-99)</span></em><a class="headerlink" href="#raindropiopy.models.CollectionRef.Trash" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.CollectionRef.Unsorted">
-<span class="sig-name descname"><span class="pre">Unsorted</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">CollectionRef(id=-1)</span></em><a class="headerlink" href="#raindropiopy.models.CollectionRef.Unsorted" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.CollectionRef.id">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#raindropiopy.models.CollectionRef.id" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
+<dl class="py class">
+<dt class="sig sig-object py" id="raindropiopy.models.File">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">File</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PositiveInt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.File" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the attributes associated with a file within a document-based Raindrop.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -473,16 +380,6 @@ collections. Thus, use <code class="docutils literal notranslate"><span class="p
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">FontColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.FontColor" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Enumerate user display themes available.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.FontColor.night">
-<span class="sig-name descname"><span class="pre">night</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'night'</span></em><a class="headerlink" href="#raindropiopy.models.FontColor.night" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.FontColor.sunset">
-<span class="sig-name descname"><span class="pre">sunset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sunset'</span></em><a class="headerlink" href="#raindropiopy.models.FontColor.sunset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -490,64 +387,47 @@ collections. Thus, use <code class="docutils literal notranslate"><span class="p
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">Group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NonNegativeInt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Group" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Sub-model defining a Raindrop user group.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Group.collectionids">
-<span class="sig-name descname"><span class="pre">collectionids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#raindropiopy.models.Group.collectionids" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Group.hidden">
-<span class="sig-name descname"><span class="pre">hidden</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#raindropiopy.models.Group.hidden" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Group.sort">
-<span class="sig-name descname"><span class="pre">sort</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NonNegativeInt</span></em><a class="headerlink" href="#raindropiopy.models.Group.sort" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Group.title">
-<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#raindropiopy.models.Group.title" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="raindropiopy.models.Raindrop">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">Raindrop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.Collection" title="raindropiopy.models.Collection"><span class="pre">Collection</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.CollectionRef" title="raindropiopy.models.CollectionRef"><span class="pre">CollectionRef</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">CollectionRef(id=-1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cover</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excerpt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lastUpdate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HttpUrl</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.RaindropType" title="raindropiopy.models.RaindropType"><span class="pre">RaindropType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.UserRef" title="raindropiopy.models.UserRef"><span class="pre">UserRef</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">broken</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Cache</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">File</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">important</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Raindrop" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">Raindrop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.Collection" title="raindropiopy.models.Collection"><span class="pre">Collection</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.CollectionRef" title="raindropiopy.models.CollectionRef"><span class="pre">CollectionRef</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">CollectionRef(id=-1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cover</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excerpt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lastUpdate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HttpUrl</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.RaindropType" title="raindropiopy.models.RaindropType"><span class="pre">RaindropType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.UserRef" title="raindropiopy.models.UserRef"><span class="pre">UserRef</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">broken</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.Cache" title="raindropiopy.models.Cache"><span class="pre">Cache</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.File" title="raindropiopy.models.File"><span class="pre">File</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">important</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Raindrop" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Core class of a Raindrop bookmark ‘item’.</p>
 <p>A Raindrop/bookmark can be of two major types:</p>
 <ul class="simple">
-<li><p>A “link”-based one, ie. a standard “bookmark” that points to a specific URL.</p></li>
-<li><p>A “file”-based one, into which a file (of the approved type) is uploaded and stored on the Raindrop service.</p></li>
+<li><p>A <strong>link-based</strong> one, ie. a standard “bookmark” that points to a specific URL (in the link attribute).</p></li>
+<li><p>A <strong>file-based</strong> one, into which a file (of the approved type) is uploaded and stored on the
+Raindrop service (details of which are in the file attribute).</p></li>
 </ul>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.broken">
-<span class="sig-name descname"><span class="pre">broken</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.broken" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.cache">
-<span class="sig-name descname"><span class="pre">cache</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Cache</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.cache" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.collect_internal_attributes">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collect_internal_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Raindrop.collect_internal_attributes" title="Permalink to this definition"></a></dt>
-<dd><p>Gather all non-recognised/unofficial attributes into a single attribute.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.collection">
-<span class="sig-name descname"><span class="pre">collection</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.Collection" title="raindropiopy.models.Collection"><span class="pre">Collection</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.CollectionRef" title="raindropiopy.models.CollectionRef"><span class="pre">CollectionRef</span></a></em><a class="headerlink" href="#raindropiopy.models.Raindrop.collection" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.cover">
-<span class="sig-name descname"><span class="pre">cover</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.cover" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – The id of the Raindrop.</p></li>
+<li><p><strong>collection</strong> (<a class="reference internal" href="#raindropiopy.models.Collection" title="raindropiopy.models.Collection"><em>raindropiopy.models.Collection</em></a><em> | </em><a class="reference internal" href="#raindropiopy.models.CollectionRef" title="raindropiopy.models.CollectionRef"><em>raindropiopy.models.CollectionRef</em></a>) – Collection (or CollectionRef) this Raindrop currently resides in.</p></li>
+<li><p><strong>cover</strong> (<em>str</em><em> | </em><em>None</em>) – The URL of the Raindrop’s cover.</p></li>
+<li><p><strong>created</strong> (<em>datetime.datetime</em><em> | </em><em>None</em>) – The creation datetime of the Raindrop.</p></li>
+<li><p><strong>domain</strong> (<em>str</em><em> | </em><em>None</em>) – Hostname of a link, ie. if a Raindrop has link: <cite>https://www.google.com?search=SomeThing</cite>, domain is <cite>www.google.com</cite>.</p></li>
+<li><p><strong>excerpt</strong> (<em>str</em><em> | </em><em>None</em>) – Description associated with this Raindrop (maximum length: 10k!)</p></li>
+<li><p><strong>lastUpdate</strong> (<em>datetime.datetime</em><em> | </em><em>None</em>) – When this Raindrop was last updated.</p></li>
+<li><p><strong>link</strong> (<em>pydantic.networks.HttpUrl</em><em> | </em><em>None</em>) – For a link-based Raindrop, the full URL.</p></li>
+<li><p><strong>media</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Covers list.</p></li>
+<li><p><strong>tags</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – A list of Tags associated with the Raindrop.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em> | </em><em>None</em>) – The title of the Raindrop (maximum length: 1k).</p></li>
+<li><p><strong>type</strong> (<a class="reference internal" href="#raindropiopy.models.RaindropType" title="raindropiopy.models.RaindropType"><em>raindropiopy.models.RaindropType</em></a><em> | </em><em>None</em>) – The type of the Raindrop, e.g. <em>link</em>, <em>document</em> (I haven’t tested other types)</p></li>
+<li><p><strong>user</strong> (<a class="reference internal" href="#raindropiopy.models.UserRef" title="raindropiopy.models.UserRef"><em>raindropiopy.models.UserRef</em></a><em> | </em><em>None</em>) – The user who created the Raindrop.</p></li>
+<li><p><strong>broken</strong> (<em>bool</em><em> | </em><em>None</em>) – True of the link associated with the Raindrop is not reachable anymore.</p></li>
+<li><p><strong>cache</strong> (<a class="reference internal" href="#raindropiopy.models.Cache" title="raindropiopy.models.Cache"><em>raindropiopy.models.Cache</em></a><em> | </em><em>None</em>) – Details of the permanent cache associated with the Raindrop.</p></li>
+<li><p><strong>file</strong> (<a class="reference internal" href="#raindropiopy.models.File" title="raindropiopy.models.File"><em>raindropiopy.models.File</em></a><em> | </em><em>None</em>) – Details of the file associated with a <strong>file</strong> based Raindrop.</p></li>
+<li><p><strong>important</strong> (<em>bool</em><em> | </em><em>None</em>) – True if this Raindrop is marked as a <strong>Favorite</strong>.</p></li>
+<li><p><strong>other</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – All other attributes received from Raindrop’s API.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Attributes in <cite>other</cite> are NOT OFFICIALLY SUPPORTED!.</p>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Raindrop.create_file">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="raindropiopy.api.html#raindropiopy.api.API" title="raindropiopy.api.API"><span class="pre">API</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#raindropiopy.models.Raindrop" title="raindropiopy.models.Raindrop"><span class="pre">Raindrop</span></a></span></span><a class="headerlink" href="#raindropiopy.models.Raindrop.create_file" title="Permalink to this definition"></a></dt>
@@ -570,10 +450,8 @@ If not specified, new Raindrop will be in system Collection “Unsorted”.</p><
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<dl class="simple">
-<dt>Only a limited number of file-types are supported by RaindropIO (minimally, “application/pdf”),</dt><dd><p>specifically (as of 2023-02):</p>
-</dd>
-</dl>
+<p>Only a limited number of file-types are supported by RaindropIO (minimally, “application/pdf”),
+specifically (as of 2023-02):</p>
 <ul class="simple">
 <li><p>Images (jpeg, gif, png, webp, heic)</p></li>
 <li><p>Videos (mp4, mov, wmv, webm)</p></li>
@@ -595,13 +473,13 @@ If not specified, new Raindrop will be in system Collection “Unsorted”.</p><
 <li><p><strong>collection</strong> – Optional, Collection (or CollectionRef) to place this Raindrop “into”.
 If not specified, new Raindrop will be in system Collection “Unsorted”.</p></li>
 <li><p><strong>cover</strong> – Optional, URL of the Raindrop’s “cover”.</p></li>
-<li><p><strong>excerpt</strong> – Optional, long description for the Raindrop
-(internally, Raindrop call’s it an excerpt but on the UI it’s Description).
-Maximum length is 10,000 characters.</p></li>
+<li><p><strong>excerpt</strong> – Optional, long description for the Raindrop (internally, Raindrop call’s
+it an <em>excerpt</em> but on the UI it’s <em>Description</em>). Maximum length is 10k characters.</p></li>
 <li><p><strong>important</strong> – Optional, Flag to indicate if this Raindrop should be considered important nee a favorite.</p></li>
 <li><p><strong>media</strong> – Optional, List of media dictionaries (consult RaindropIO’s API for somewhat more information.</p></li>
 <li><p><strong>order</strong> – Optional, Order of Raindrop in respective collection, ie. set to 0 to make Raindrop first.</p></li>
-<li><p><strong>pleaseParse</strong> – Optional, Flag that asks API to automatically parse metadata in the background.</p></li>
+<li><p><strong>pleaseParse</strong> – Optional, Flag that asks API to automatically parse metadata in the background
+(not exactly sure which this implies, message me if you know! ;-)</p></li>
 <li><p><strong>tags</strong> – Optional, List of tags to associated with this Raindrop.</p></li>
 <li><p><strong>title</strong> – Optional, Title to associated with this Raindrop.</p></li>
 </ul>
@@ -616,11 +494,6 @@ Maximum length is 10,000 characters.</p></li>
 by the RaindropIO service on your behalf.</p>
 </div>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.created">
-<span class="sig-name descname"><span class="pre">created</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.created" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Raindrop.delete">
@@ -639,56 +512,11 @@ by the RaindropIO service on your behalf.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.domain">
-<span class="sig-name descname"><span class="pre">domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.domain" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.excerpt">
-<span class="sig-name descname"><span class="pre">excerpt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.excerpt" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.file">
-<span class="sig-name descname"><span class="pre">file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">File</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.file" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Raindrop.get">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="raindropiopy.api.html#raindropiopy.api.API" title="raindropiopy.api.API"><span class="pre">API</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#raindropiopy.models.Raindrop" title="raindropiopy.models.Raindrop"><span class="pre">Raindrop</span></a></span></span><a class="headerlink" href="#raindropiopy.models.Raindrop.get" title="Permalink to this definition"></a></dt>
 <dd><p>Return a Raindrop bookmark based on it’s id.</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.id">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.id" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.important">
-<span class="sig-name descname"><span class="pre">important</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.important" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.internal_">
-<span class="sig-name descname"><span class="pre">internal_</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.internal_" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.lastUpdate">
-<span class="sig-name descname"><span class="pre">lastUpdate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.lastUpdate" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.link">
-<span class="sig-name descname"><span class="pre">link</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HttpUrl</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.link" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.media">
-<span class="sig-name descname"><span class="pre">media</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.media" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Raindrop.search">
@@ -712,21 +540,6 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">Collect
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.tags">
-<span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.tags" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.title">
-<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.title" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.type">
-<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.RaindropType" title="raindropiopy.models.RaindropType"><span class="pre">RaindropType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.type" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Raindrop.update">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tAPI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.Collection" title="raindropiopy.models.Collection"><span class="pre">Collection</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.CollectionRef" title="raindropiopy.models.CollectionRef"><span class="pre">CollectionRef</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cover</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excerpt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">important</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">media</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pleaseParse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#raindropiopy.models.Raindrop" title="raindropiopy.models.Raindrop"><span class="pre">Raindrop</span></a></span></span><a class="headerlink" href="#raindropiopy.models.Raindrop.update" title="Permalink to this definition"></a></dt>
@@ -743,7 +556,8 @@ Raindrop will remain in the same collection as it was.</p></li>
 <li><p><strong>link</strong> – Required, New URL to associate with this Raindrop.</p></li>
 <li><p><strong>media</strong> – Optional, Updated list of media dictionaries (consult RaindropIO’s API for somewhat more information.</p></li>
 <li><p><strong>order</strong> – Optional, Change order of Raindrop in respective collection.</p></li>
-<li><p><strong>pleaseParse</strong> – Optional, Flag that asks API to automatically parse metadata in the background.</p></li>
+<li><p><strong>pleaseParse</strong> – Optional, Flag that asks API to automatically parse metadata in the background
+(not exactly sure which this implies, message me if you know! ;-)</p></li>
 <li><p><strong>tags</strong> – Optional, New list of tags to associate with this Raindrop.</p></li>
 <li><p><strong>title</strong> – Optional, New title for this Raindrop.</p></li>
 </ul>
@@ -754,11 +568,6 @@ Raindrop will remain in the same collection as it was.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Raindrop.user">
-<span class="sig-name descname"><span class="pre">user</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.UserRef" title="raindropiopy.models.UserRef"><span class="pre">UserRef</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.Raindrop.user" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -766,46 +575,6 @@ Raindrop will remain in the same collection as it was.</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">RaindropSort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.RaindropSort" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Enumerate Raindrop sort options available.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropSort.created_dn">
-<span class="sig-name descname"><span class="pre">created_dn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'-created'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropSort.created_dn" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropSort.created_up">
-<span class="sig-name descname"><span class="pre">created_up</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'created'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropSort.created_up" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropSort.domain_dn">
-<span class="sig-name descname"><span class="pre">domain_dn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'-domain'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropSort.domain_dn" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropSort.domain_up">
-<span class="sig-name descname"><span class="pre">domain_up</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'domain'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropSort.domain_up" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropSort.last_update_dn">
-<span class="sig-name descname"><span class="pre">last_update_dn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'-lastUpdate'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropSort.last_update_dn" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropSort.last_update_up">
-<span class="sig-name descname"><span class="pre">last_update_up</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'+lastUpdate'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropSort.last_update_up" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropSort.title_dn">
-<span class="sig-name descname"><span class="pre">title_dn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'-title'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropSort.title_dn" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropSort.title_up">
-<span class="sig-name descname"><span class="pre">title_up</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'title'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropSort.title_up" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -813,35 +582,28 @@ Raindrop will remain in the same collection as it was.</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">RaindropType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.RaindropType" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Map the types of Raindrop bookmarks possible (ie. what type of content they hold).</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropType.article">
-<span class="sig-name descname"><span class="pre">article</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'article'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropType.article" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+</dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropType.audio">
-<span class="sig-name descname"><span class="pre">audio</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'audio'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropType.audio" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropType.document">
-<span class="sig-name descname"><span class="pre">document</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropType.document" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropType.image">
-<span class="sig-name descname"><span class="pre">image</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'image'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropType.image" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropType.link">
-<span class="sig-name descname"><span class="pre">link</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'link'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropType.link" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.RaindropType.video">
-<span class="sig-name descname"><span class="pre">video</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video'</span></em><a class="headerlink" href="#raindropiopy.models.RaindropType.video" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="raindropiopy.models.SystemCollection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">SystemCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NonNegativeInt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.SystemCollection" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Raindrop <strong>System</strong> collection model, ie. collections for <em>Unsorted</em>, <em>Trash</em> and <em>All</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The <em>All</em> collection contains <strong>all</strong> currently active (ie. non-Trash) Raindrops held by the User.</p></li>
+<li><p>The <em>Unsorted</em> collection contains Raindrops created that are <strong>not</strong> held within any other collection.</p></li>
+<li><p>The <em>Trash</em> collection contains Raindrops that have been recently deleted.</p></li>
+</ul>
+</div>
+<p>You won’t use this class directly on behalf of individual Raindrops, rather, its definition is on behalf of
+a simple “status” call available from the Raindrop.io API.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="raindropiopy.models.SystemCollection.get_status">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="raindropiopy.api.html#raindropiopy.api.API" title="raindropiopy.api.API"><span class="pre">API</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#raindropiopy.models.User" title="raindropiopy.models.User"><span class="pre">User</span></a></span></span><a class="headerlink" href="#raindropiopy.models.SystemCollection.get_status" title="Permalink to this definition"></a></dt>
+<dd><p>Get the count of Raindrops across all 3 <em>system</em> collections.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -850,11 +612,6 @@ Raindrop will remain in the same collection as it was.</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">Tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.Tag" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Represents existing Tags, either all or just a specific collection.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Tag.count">
-<span class="sig-name descname"><span class="pre">count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#raindropiopy.models.Tag.count" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.Tag.delete">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="raindropiopy.api.html#raindropiopy.api.API" title="raindropiopy.api.API"><span class="pre">API</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#raindropiopy.models.Tag.delete" title="Permalink to this definition"></a></dt>
@@ -886,78 +643,35 @@ Raindrop will remain in the same collection as it was.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.Tag.tag">
-<span class="sig-name descname"><span class="pre">tag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#raindropiopy.models.Tag.tag" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="raindropiopy.models.User">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">EmailStr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_MD5</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.UserFiles" title="raindropiopy.models.UserFiles"><span class="pre">UserFiles</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullName</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#raindropiopy.models.Group" title="raindropiopy.models.Group"><span class="pre">raindropiopy.models.Group</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proExpire</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">registered</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="raindropiopy.html#raindropiopy.UserConfig" title="raindropiopy.models.UserConfig"><span class="pre">UserConfig</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.User" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">EmailStr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_MD5</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.UserFiles" title="raindropiopy.models.UserFiles"><span class="pre">UserFiles</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullName</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#raindropiopy.models.Group" title="raindropiopy.models.Group"><span class="pre">raindropiopy.models.Group</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proExpire</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">registered</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.UserConfig" title="raindropiopy.models.UserConfig"><span class="pre">UserConfig</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.User" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Raindrop User model.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.config">
-<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="raindropiopy.html#raindropiopy.UserConfig" title="raindropiopy.models.UserConfig"><span class="pre">UserConfig</span></a></em><a class="headerlink" href="#raindropiopy.models.User.config" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.email">
-<span class="sig-name descname"><span class="pre">email</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EmailStr</span></em><a class="headerlink" href="#raindropiopy.models.User.email" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.email_MD5">
-<span class="sig-name descname"><span class="pre">email_MD5</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.User.email_MD5" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.files">
-<span class="sig-name descname"><span class="pre">files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#raindropiopy.models.UserFiles" title="raindropiopy.models.UserFiles"><span class="pre">UserFiles</span></a></em><a class="headerlink" href="#raindropiopy.models.User.files" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.fullName">
-<span class="sig-name descname"><span class="pre">fullName</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#raindropiopy.models.User.fullName" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="raindropiopy.models.User.get">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="raindropiopy.api.html#raindropiopy.api.API" title="raindropiopy.api.API"><span class="pre">API</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#raindropiopy.models.User" title="raindropiopy.models.User"><span class="pre">User</span></a></span></span><a class="headerlink" href="#raindropiopy.models.User.get" title="Permalink to this definition"></a></dt>
 <dd><p>Get all the information about the Raindrop user associated with the API token.</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.groups">
-<span class="sig-name descname"><span class="pre">groups</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#raindropiopy.models.Group" title="raindropiopy.models.Group"><span class="pre">raindropiopy.models.Group</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#raindropiopy.models.User.groups" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+</dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.id">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#raindropiopy.models.User.id" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.password">
-<span class="sig-name descname"><span class="pre">password</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#raindropiopy.models.User.password" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.pro">
-<span class="sig-name descname"><span class="pre">pro</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#raindropiopy.models.User.pro" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.proExpire">
-<span class="sig-name descname"><span class="pre">proExpire</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#raindropiopy.models.User.proExpire" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.User.registered">
-<span class="sig-name descname"><span class="pre">registered</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#raindropiopy.models.User.registered" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="raindropiopy.models.UserConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">UserConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">broken_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.BrokenLevel" title="raindropiopy.models.BrokenLevel"><span class="pre">BrokenLevel</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.FontColor" title="raindropiopy.models.FontColor"><span class="pre">FontColor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.CollectionRef" title="raindropiopy.models.CollectionRef"><span class="pre">CollectionRef</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raindrops_sort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.RaindropSort" title="raindropiopy.models.RaindropSort"><span class="pre">RaindropSort</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raindrops_view</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#raindropiopy.models.View" title="raindropiopy.models.View"><span class="pre">View</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.UserConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Sub-model defining a Raindrop user’s configuration.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Attributes in <cite>other</cite> are NOT OFFICIALLY SUPPORTED!.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="raindropiopy.models.UserConfig.cast_last_collection_to_ref">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast_last_collection_to_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.UserConfig.cast_last_collection_to_ref" title="Permalink to this definition"></a></dt>
+<dd><p>Cast last_collection provided as a raw int to a valid CollectionRef.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -966,21 +680,6 @@ Raindrop will remain in the same collection as it was.</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">UserFiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">used</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PositiveInt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lastCheckPoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.UserFiles" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Sub-model defining a file associated with a user (?).</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.UserFiles.lastCheckPoint">
-<span class="sig-name descname"><span class="pre">lastCheckPoint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#raindropiopy.models.UserFiles.lastCheckPoint" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.UserFiles.size">
-<span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PositiveInt</span></em><a class="headerlink" href="#raindropiopy.models.UserFiles.size" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.UserFiles.used">
-<span class="sig-name descname"><span class="pre">used</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#raindropiopy.models.UserFiles.used" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -988,16 +687,6 @@ Raindrop will remain in the same collection as it was.</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">UserRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">extra_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.UserRef" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Represents a <strong>reference</strong> to <cite>User</cite> object.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.UserRef.id">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#raindropiopy.models.UserRef.id" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.UserRef.ref">
-<span class="sig-name descname"><span class="pre">ref</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#raindropiopy.models.UserRef.ref" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -1005,26 +694,6 @@ Raindrop will remain in the same collection as it was.</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">raindropiopy.models.</span></span><span class="sig-name descname"><span class="pre">View</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#raindropiopy.models.View" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Map the names of the views for Raindrop’s API.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.View.grid">
-<span class="sig-name descname"><span class="pre">grid</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'grid'</span></em><a class="headerlink" href="#raindropiopy.models.View.grid" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.View.list">
-<span class="sig-name descname"><span class="pre">list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'list'</span></em><a class="headerlink" href="#raindropiopy.models.View.list" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.View.masonry">
-<span class="sig-name descname"><span class="pre">masonry</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'masonry'</span></em><a class="headerlink" href="#raindropiopy.models.View.masonry" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="raindropiopy.models.View.simple">
-<span class="sig-name descname"><span class="pre">simple</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'simple'</span></em><a class="headerlink" href="#raindropiopy.models.View.simple" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </section>
@@ -1033,7 +702,8 @@ Raindrop will remain in the same collection as it was.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="raindropiopy.api.html" class="btn btn-neutral float-left" title="raindropiopy.api module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Raindrop-IO-py" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="raindropiopy.api.html" class="btn btn-neutral float-right" title="Low-level API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,7 +1,7 @@
-raindropiopy.models module
-==========================
+Core Classes
+============
 
 .. automodule:: raindropiopy.models
    :members:
-   :undoc-members:
+   :ignore-module-all:
    :show-inheritance:

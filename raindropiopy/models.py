@@ -51,15 +51,15 @@ URL = "https://api.raindrop.io/rest/v1/{path}"
 ################################################################################
 # Utility methods
 ################################################################################
-def _collect_internal_attributes(cls, v):
+def _collect_other_attributes(cls, v):
     """Gather all non-recognised/unofficial non-empty attribute values into a single one."""
     skip_attrs = "_id"  # We don't need to store alias attributes again (pydantic will take care of)
-    v["internal_"] = dict()
+    v["other"] = dict()
     for attr, value in v.items():
         if attr not in cls.__fields__:
             if attr not in skip_attrs:
                 if value:
-                    v["internal_"][attr] = value
+                    v["other"][attr] = value
     return v
 
 
@@ -141,11 +141,11 @@ class RaindropType(enum.Enum):
 class CollectionRef(BaseModel):
     """Represents a **reference** to a Raindrop Collection (essentially a TypeVar of id: int).
 
-    Note:
-        We also instantiate three particular ``CollectionRefs`` associated with **System** Collections: 'All',
-          'Trash" and 'Unsorted".
+    Note: We also instantiate three particular ``CollectionRefs`` associated with **System** Collections:
+        *All*, *Trash* and *Unsorted*.
 
         System Collections always exist and can be explicitly used to query anywhere you'd use a Collection ID.
+
     """
 
     id: int = Field(None, alias="$id")
@@ -172,7 +172,30 @@ class Access(BaseModel):
 
 
 class Collection(BaseModel):
-    """Represents a concrete Raindrop `Collection`."""
+    """Represents a Raindrop `Collection`, ie. a group of Raindrop Bookmarks.
+
+    Attributes:
+        id: The id of the collection (required)
+        title: The name of the collection.
+        user: The user who created the collection.
+        access: Describes current Access levels to the collection (eg. ReadOnly, OwnerOnly etc.).
+        collaborators: Populated with list of collaborating users iff collection is shared.
+        color: Primary color of the collection cover.
+        count: Count of Raindrops in the collection.
+        cover: URL of the collection's cover.
+        created: When the collection was created.
+        expanded: Whether the collection's sub-collection are expanded (on the interface)
+        lastUpdate: When the collection was last updated.
+        parent: Parent ID of this is a sub-collection.
+        public: Are contents of this collection available to non-authenticated users?
+        sort: The order of the collection. Defines the position of the collection all other
+          collections at the same level in the tree.
+        view: Current view style of the collection, e.g. list, simple, grid etc.
+        other: All other attributes received from Raindrop's API.
+
+    Warning:
+        Attributes in `other` are NOT OFFICIALLY SUPPORTED!.
+    """
 
     id: int = Field(None, alias="_id")
     title: str
@@ -193,18 +216,18 @@ class Collection(BaseModel):
 
     # Per API Doc: "Our API response could contain other fields, not described above.
     # It's unsafe to use them in your integration! They could be removed or renamed at any time."
-    internal_: dict[str, Any] = {}
+    other: dict[str, Any] = {}
 
     @root_validator(pre=True)
-    def collect_internal_attributes(cls, v):
+    def _validator_other_attributes(cls, v):
         """Gather all non-recognised/unofficial attributes into a single attribute."""
-        return _collect_internal_attributes(cls, v)
+        return _collect_other_attributes(cls, v)
 
     @classmethod
     def get_root_collections(cls, api: tAPI) -> list[Collection]:
         """Get **root** Raindrop collections.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
         Returns:
@@ -224,7 +247,7 @@ class Collection(BaseModel):
     def get_child_collections(cls, api: tAPI) -> list[Collection]:
         """Get the **child** Raindrop collections (ie. all below root level).
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
         Returns:
@@ -244,7 +267,7 @@ class Collection(BaseModel):
     def get_collections(cls, api: tAPI) -> list[Collection]:
         """Query for all non-system collections (essentially a convenience wrapper, combining root & child Collections).
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
         Returns:
@@ -257,7 +280,7 @@ class Collection(BaseModel):
     def get(cls, api: tAPI, id: int) -> Collection:
         """Return a Raindrop Collection instance based on it's id.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
             id: Id of Collection to query for.
@@ -286,8 +309,8 @@ class Collection(BaseModel):
     ) -> Collection:
         """Create a new Raindrop collection.
 
-        Parameters:
-            api: API Handle to use for the request.
+        Args:
+            api: Required: API Handle to use for the request.
 
             cover: Optional, URL of collection's cover (as a list but only the first entry is used).
 
@@ -299,7 +322,7 @@ class Collection(BaseModel):
 
             sort: Optional, sort order for Raindrops created in this collection.
 
-            title: Title of the collection to be created.
+            title: Required: Title of the collection to be created.
 
             view: Optional, View associated with the default view to display Raindrops in this collection.
 
@@ -341,10 +364,10 @@ class Collection(BaseModel):
     ) -> Collection:
         """Update an existing Raindrop collection with any of the attribute values provided.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
-            id: Required id of Collection to be updated.
+            id: Required, Id of Collection to be updated.
 
             cover: URL of collection's cover (as a list but only the first entry is used).
 
@@ -375,10 +398,10 @@ class Collection(BaseModel):
     def delete(cls, api: tAPI, id: int) -> None:
         """Delete a Raindrop collection.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
-            id: Required id of Collection to be deleted.
+            id: Id of Collection to be deleted.
 
         Returns:
             None.
@@ -389,14 +412,14 @@ class Collection(BaseModel):
     def get_or_create(cls, api: tAPI, title: str) -> Collection:
         """Get a Raindrop collection based on it's **title**, if it doesn't exist, create it.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
             title: Title of the collection.
 
         Returns:
-            Collection with the specified collection title if it already exists or newly
-                created collection if it doesn't.
+            Collection with the specified collection title if it already exists or newly created
+              collection if it doesn't.
         """
         for collection in Collection.get_root_collections(api):
             if title.casefold() == collection.title.casefold():
@@ -416,7 +439,11 @@ class Group(BaseModel):
 
 
 class UserConfig(BaseModel):
-    """Sub-model defining a Raindrop user's configuration."""
+    """Sub-model defining a Raindrop user's configuration.
+
+    Warning:
+        Attributes in `other` are NOT OFFICIALLY SUPPORTED!.
+    """
 
     broken_level: BrokenLevel = None
     font_color: FontColor | None = None
@@ -428,7 +455,7 @@ class UserConfig(BaseModel):
 
     # Per API Doc: "Our API response could contain other fields, not described above.
     # It's unsafe to use them in your integration! They could be removed or renamed at any time."
-    internal_: dict[str, Any] = {}
+    other: dict[str, Any] = {}
 
     @validator("last_collection", pre=True)
     def cast_last_collection_to_ref(cls, v):
@@ -436,9 +463,9 @@ class UserConfig(BaseModel):
         return CollectionRef(**{"$id": v})
 
     @root_validator(pre=True)
-    def collect_internal_attributes(cls, v):
+    def _validator_other_attributes(cls, v):
         """Gather all non-recognised/unofficial attributes into a single attribute."""
-        return _collect_internal_attributes(cls, v)
+        return _collect_other_attributes(cls, v)
 
 
 class UserFiles(BaseModel):
@@ -472,7 +499,18 @@ class User(BaseModel):
 
 
 class SystemCollection(BaseModel):
-    """Raindrop System Collection model, ie. collections for Unsorted, Trash and 'All'."""
+    """Raindrop **System** collection model, ie. collections for *Unsorted*, *Trash* and *All*.
+
+    Note:
+        - The *All* collection contains **all** currently active (ie. non-Trash) Raindrops held by the User.
+
+        - The *Unsorted* collection contains Raindrops created that are **not** held within any other collection.
+
+        - The *Trash* collection contains Raindrops that have been recently deleted.
+
+    You won't use this class directly on behalf of individual Raindrops, rather, its definition is on behalf of
+    a simple "status" call available from the Raindrop.io API.
+    """
 
     id: int = Field(None, alias="_id")
     count: NonNegativeInt
@@ -491,7 +529,7 @@ class SystemCollection(BaseModel):
 
     @classmethod
     def get_status(cls, api: tAPI) -> User:
-        """Get the count of Raindrops across all 3 'system' collections."""
+        """Get the count of Raindrops across all 3 *system* collections."""
         items = api.get(URL.format(path="user/stats")).json()["items"]
         return [cls(**item) for item in items]
 
@@ -517,8 +555,34 @@ class Raindrop(BaseModel):
 
     A Raindrop/bookmark can be of two major types:
 
-    - A "link"-based one, ie. a standard "bookmark" that points to a specific URL.
-    - A "file"-based one, into which a file (of the approved type) is uploaded and stored on the Raindrop service.
+    - A **link-based** one, ie. a standard "bookmark" that points to a specific URL (in the link attribute).
+
+    - A **file-based** one, into which a file (of the approved type) is uploaded and stored on the
+      Raindrop service (details of which are in the file attribute).
+
+    Attributes:
+        id: The id of the Raindrop.
+        collection: Collection (or CollectionRef) this Raindrop currently resides in.
+        cover: The URL of the Raindrop's cover.
+        created: The creation datetime of the Raindrop.
+        domain: Hostname of a link, ie. if a Raindrop has link: `https://www.google.com?search=SomeThing`,
+          domain is `www.google.com`.
+        excerpt: Description associated with this Raindrop (maximum length: 10k!)
+        lastUpdate: When this Raindrop was last updated.
+        link: For a link-based Raindrop, the full URL.
+        media: Covers list.
+        tags: A list of Tags associated with the Raindrop.
+        title: The title of the Raindrop (maximum length: 1k).
+        type: The type of the Raindrop, e.g. *link*, *document* (I haven't tested other types)
+        user: The user who created the Raindrop.
+        broken: True of the link associated with the Raindrop is not reachable anymore.
+        cache: Details of the permanent cache associated with the Raindrop.
+        file: Details of the file associated with a **file** based Raindrop.
+        important: True if this Raindrop is marked as a **Favorite**.
+        other: All other attributes received from Raindrop's API.
+
+    Warning:
+        Attributes in `other` are NOT OFFICIALLY SUPPORTED!.
     """
 
     # "Main" fields (per https://developer.raindrop.io/v1/raindrops)
@@ -544,12 +608,12 @@ class Raindrop(BaseModel):
 
     # Per API Doc: "Our API response could contain other fields, not described above.
     # It's unsafe to use them in your integration! They could be removed or renamed at any time."
-    internal_: dict[str, Any] = {}
+    other: dict[str, Any] = {}
 
     @root_validator(pre=True)
-    def collect_internal_attributes(cls, v):
+    def _validator_other_attributes(cls, v):
         """Gather all non-recognised/unofficial attributes into a single attribute."""
-        return _collect_internal_attributes(cls, v)
+        return _collect_other_attributes(cls, v)
 
     @classmethod
     def get(cls, api: tAPI, id: int) -> Raindrop:
@@ -574,19 +638,18 @@ class Raindrop(BaseModel):
     ) -> Raindrop:
         """Create a new link-type Raindrop bookmark.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
             link: Required, URL to associate with this Raindrop.
 
             collection: Optional, Collection (or CollectionRef) to place this Raindrop "into".
-                If not specified, new Raindrop will be in system Collection "Unsorted".
+              If not specified, new Raindrop will be in system Collection "Unsorted".
 
             cover: Optional, URL of the Raindrop's "cover".
 
-            excerpt: Optional, long description for the Raindrop
-                (internally, Raindrop call's it an excerpt but on the UI it's Description).
-                Maximum length is 10,000 characters.
+            excerpt: Optional, long description for the Raindrop (internally, Raindrop call's
+              it an *excerpt* but on the UI it's *Description*). Maximum length is 10k characters.
 
             important: Optional, Flag to indicate if this Raindrop should be considered important nee a favorite.
 
@@ -594,7 +657,8 @@ class Raindrop(BaseModel):
 
             order: Optional, Order of Raindrop in respective collection, ie. set to 0 to make Raindrop first.
 
-            pleaseParse: Optional, Flag that asks API to automatically parse metadata in the background.
+            pleaseParse: Optional, Flag that asks API to automatically parse metadata in the background
+              (not exactly sure which this implies, message me if you know! ;-)
 
             tags: Optional, List of tags to associated with this Raindrop.
 
@@ -679,7 +743,7 @@ class Raindrop(BaseModel):
     ) -> Raindrop:
         """Create a new file-based Raindrop bookmark.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
             path: Required, python Path to file to be uploaded.
@@ -698,7 +762,7 @@ class Raindrop(BaseModel):
 
         Note:
             Only a limited number of file-types are supported by RaindropIO (minimally, "application/pdf"),
-                specifically (as of 2023-02):
+            specifically (as of 2023-02):
 
             - Images (jpeg, gif, png, webp, heic)
 
@@ -752,7 +816,9 @@ class Raindrop(BaseModel):
     ) -> Raindrop:
         """Update an existing Raindrop bookmark, setting any of the attribute values provided.
 
-        Parameters:
+        Args:
+            api: API Handle to use for the request.
+
             id: Required id of Raindrop to be updated.
 
             collection: Optional, Collection (or CollectionRef) to move this Raindrop "into". If not specified,
@@ -770,7 +836,8 @@ class Raindrop(BaseModel):
 
             order: Optional, Change order of Raindrop in respective collection.
 
-            pleaseParse: Optional, Flag that asks API to automatically parse metadata in the background.
+            pleaseParse: Optional, Flag that asks API to automatically parse metadata in the background
+                (not exactly sure which this implies, message me if you know! ;-)
 
             tags: Optional, New list of tags to associate with this Raindrop.
 
@@ -814,7 +881,7 @@ class Raindrop(BaseModel):
     def delete(cls, api: tAPI, id: int) -> None:
         """Delete a Raindrop bookmark.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
             id: Required id of Raindrop to be deleted.
@@ -864,7 +931,7 @@ class Raindrop(BaseModel):
     ) -> list[Raindrop]:
         """Search for Raindrops.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
             collection: Optional, ``Collection`` (or ``CollectionRef``) to search over.
@@ -905,7 +972,9 @@ class Tag(BaseModel):
     def get(cls, api: tAPI, collection_id: int = None) -> list[Tag]:
         """Get all the tags currently defined, either in a specific collections or across all collections.
 
-        Parameters:
+        Args:
+            api: API Handle to use for the request.
+
             collection_id: Optional, Id of specific collection to limit search for all tags.
 
         Returns:
@@ -921,7 +990,7 @@ class Tag(BaseModel):
     def delete(cls, api: tAPI, tags: list[str]) -> None:
         """Delete one or more Tags.
 
-        Parameters:
+        Args:
             api: API Handle to use for the request.
 
             tags: List of tags to be deleted.

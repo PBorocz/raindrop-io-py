@@ -1,7 +1,7 @@
-raindropiopy.api module
-=======================
+Low-level API
+=============
 
 .. automodule:: raindropiopy.api
    :members:
-   :undoc-members:
+   :ignore-module-all:
    :show-inheritance:

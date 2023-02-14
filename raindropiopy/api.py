@@ -1,7 +1,7 @@
 """Low-level API interface to Raindrop, no application semantics, mostly core HTTP verbs.
 
-This is not intended for direct use, serving as the underlying HTTPS abstraction layer for calls
-available for the datatypes defined in models.py.
+Except for instantiating, methods in this class are **not** intended for direct use, they serve as the underlying HTTPS
+abstraction layer for calls available for the Core Classes, ie. Collection, Raindrop etc.
 """
 import datetime
 import enum
@@ -35,15 +35,15 @@ class API:
     Examples:
         Can either be used directly as a context manager:
 
-        >>> api = API(token="aTestToken):
+        >>> api = API(token="yourTestTokenFromRaindropIO"):
         >>> collections = Collection.get_collections(api)
-        >>> #...
+        >>> # etc.
 
         or
 
-        >>> with API(token="aTestToken) as api:
+        >>> with API(token="yourTestTokenFromRaindropIO") as api:
         >>> user = User.get(api)
-        >>> #...
+        >>> # etc.
     """
 
     def __init__(

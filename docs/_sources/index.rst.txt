@@ -10,9 +10,10 @@ Raindrop-IO-py
    :maxdepth: 2
    :caption: Contents:
 
-   modules
+   raindropiopy.models
+   raindropiopy.api
 
-Indices and tables
+Indices and Tables
 ==================
 
 * :ref:`genindex`

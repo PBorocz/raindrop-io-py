@@ -149,9 +149,13 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 
 Note: remember to setup `RAINDROP-TOKEN` in your environment!
 
+## Documentation
+
+We use [Sphinx](https://www.sphinx-doc.org/en/master/index.html) with [Google-style docstrings](https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html) to document our API. Documentation is hosted by [ReadTheDocs](https://readthedocs.org/) and can be found [here](https://raindrop-io-py.readthedocs.io/en/latest/).
+
 ## Acknowledgments
 
-- [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto).
+[python-raindropio](https://github.com/atsuoishimoto/python-raindropio) from [Atsuo Ishimoto](https://github.com/atsuoishimoto).
 
 ## License
 
@@ -160,6 +164,9 @@ The project is licensed under the MIT License.
 ## Release History
 
 ### Unreleased
+
+- CHANGED: `Raindrop.create_file` to handle `collection` argument consistent with `Raindrop.create_link`, specifically, either a `Collection`, `CollectionRef` or direct integer collection_id.
+- ADDED: Beginning of documentation suite on Read-The-Docs.
 
 ### v0.0.15 - 2023-02-11
 

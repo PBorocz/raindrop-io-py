@@ -1,6 +1,5 @@
 """Top level command-line interface controller."""
 import os
-from io import StringIO
 from pathlib import Path
 from typing import Final
 
@@ -50,7 +49,6 @@ class EventLoop:
     def __init__(
         self,
         args,
-        capture: StringIO = None,
         input_=None,
         output=None,
     ) -> None:

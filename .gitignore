@@ -1,10 +1,6 @@
 # Local additions
 poetry.toml
 
-# Local Sphinx documentation
-docs_source/raindropiopy.rst
-docs_source/raindropiopy*.rst
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

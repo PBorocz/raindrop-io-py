@@ -1333,6 +1333,22 @@ lint = ["docutils-stubs", "flake8", "mypy"]
 test = ["pytest"]
 
 [[package]]
+name = "sphinxjp-themes-basicstrap"
+version = "0.5.0"
+description = "A sphinx theme for Basicstrap style. Using Twitter Bootstrap. #sphinxjp"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "sphinxjp.themes.basicstrap-0.5.0-py2.py3-none-any.whl", hash = "sha256:bd2b085e5ccb03579dcf0d6d0bc7fa5d82e107404ee1b0960bc8f805f6db81c6"},
+    {file = "sphinxjp.themes.basicstrap-0.5.0.tar.gz", hash = "sha256:f0cdb38baedfc5dc698feda8d514ba103eab131acbe72a5572bc6a3ecce1d5b4"},
+]
+
+[package.dependencies]
+setuptools = "*"
+Sphinx = "*"
+
+[[package]]
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
@@ -1712,4 +1728,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "052cde74e84cafcf9639b2819bc60c2b17f56f3eb0d0fc9929b3a3f00d304d15"
+content-hash = "ec29b2e23c2b25ec7cac41e0c25a47261ffb909c48d69bd7f0510723a167080f"

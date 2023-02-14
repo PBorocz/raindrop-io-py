@@ -29,8 +29,9 @@ test *args:
 
 # Build docs
 docs *args:
-    # sphinx-build -M clean docs
-    # sphinx-apidoc --force --implicit-namespaces --module-first --separate --output-dir docs_source raindropiopy {{args}}
+    # Note: We don't need to copy this in either a github workflow OR our 'manage' environment for releases
+    # since ReadTheDocs is configured to auto-rebuild our docs *upon each commit to our trunk branch*!
+    # This is for local use only to test out documentation updates/changes
     sphinx-build -v -W -b html "docs" "docs/_build" {{args}}
 
 # Pre-commit - Run all
@@ -39,7 +40,7 @@ pre-commit-all *args:
     @echo "Running vulture..."
     @vulture
 
-# Pre-commit - Update new configuration and run
+# Pre-commit - Update to a new pre-commit configuration and run
 pre-commit-update *args:
     @pre-commit install
     @git add .pre-commit-config.yaml

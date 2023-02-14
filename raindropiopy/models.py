@@ -699,10 +699,7 @@ class Raindrop(BaseModel):
         # Setup the args that will be passed to the underlying
         # Raindrop API, only link is absolutely required, rest are
         # optional!
-        args: dict[str, Any] = {
-            "type": RaindropType.link,
-            "link": link,
-        }
+        args: dict[str, Any] = dict(type=RaindropType.link, link=link)
 
         if pleaseParse:
             args["pleaseParse"] = {}
@@ -726,7 +723,6 @@ class Raindrop(BaseModel):
                 args["collection"] = {"$id": collection.id}
             else:
                 args["collection"] = {"$id": collection}
-
         url = URL.format(path="raindrop")
         item = api.post(url, json=args).json()["item"]
         return cls(**item)
@@ -737,7 +733,7 @@ class Raindrop(BaseModel):
         api: tAPI,
         path: Path,
         content_type: str,
-        collection: int = -1,
+        collection: Optional[Collection | CollectionRef, int] = CollectionRef.Unsorted,
         tags: list[str] | None = None,
         title: str | None = None,
     ) -> Raindrop:
@@ -751,7 +747,7 @@ class Raindrop(BaseModel):
             content_type: Required, mime-type associated with the file.
 
             collection: Optional, Collection (or CollectionRef) to place this Raindrop "into".
-                If not specified, new Raindrop will be in system Collection "Unsorted".
+              If not specified, new Raindrop will be in system Collection *Unsorted*.
 
             tags: Optional, List of tags to associated with this Raindrop.
 
@@ -775,9 +771,13 @@ class Raindrop(BaseModel):
         # Uses a different URL for file uploading..
         url = URL.format(path="raindrop/file")
 
-        # Structure here confirmed through communication with RustemM
-        # on 2022-11-29 and his subsequent update to API docs.
-        data = {"collectionId": str(collection)}
+        # NOTE: "put_file" arguments and structure here confirmed through communication
+        #       with RustemM on 2022-11-29 and his subsequent update to API docs.
+        if isinstance(collection, (Collection, CollectionRef)):
+            data = {"collectionId": str(collection.id)}
+        else:
+            data = {"collectionId": str(collection)}
+
         files = {"file": (path.name, open(path, "rb"), content_type)}
         item = api.put_file(url, path, data, files).json()["item"]
         raindrop = cls(**item)

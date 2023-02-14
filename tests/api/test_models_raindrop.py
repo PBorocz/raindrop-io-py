@@ -3,7 +3,7 @@ import datetime
 from pathlib import Path
 from unittest.mock import patch
 
-from raindropiopy import API, Raindrop, RaindropType
+from raindropiopy import API, Raindrop, RaindropType, CollectionRef
 
 raindrop = {
     "_id": 2000,
@@ -102,8 +102,8 @@ def test_create_file() -> None:
         )
         assert "data" in m.call_args[1]
         assert m.call_args[1]["data"] == {
-            "collectionId": "-1",
-        }  # ie. Unsorted collection as a string
+            "collectionId": str(CollectionRef.Unsorted.id),
+        }  # ie. Default is collection isn't specified is Unsorted
 
         assert "files" in m.call_args[1]
         assert "file" in m.call_args[1]["files"]

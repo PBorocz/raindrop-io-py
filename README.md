@@ -165,6 +165,8 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+### v0.1.0 - 2023-02-16
+
 - CHANGED: `Raindrop.create_file` to handle `collection` argument consistent with `Raindrop.create_link`, specifically, either a `Collection`, `CollectionRef` or direct integer collection_id.
 - ADDED: Beginning of documentation suite on Read-The-Docs.
 

@@ -36,8 +36,8 @@ flake8 = "^6.0.0"
 vulture = "^2.7"
 requests = "^2.28.2"
 vcrpy = "^4.2.1"
-manage = {git = "https://github.com/PBorocz/manage"}
 pexpect = "^4.8.0"
+manage = {git = "https://github.com/PBorocz/manage"}
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^6.1.3"

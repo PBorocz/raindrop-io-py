@@ -2,6 +2,15 @@ fail_fast: true
 repos:
 
 ################################################################################
+# Confirm we're not accidentally checking in large files:
+################################################################################
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: 'v2.5.0'
+  hooks:
+  - id: check-added-large-files
+    name: Running check for large files
+
+################################################################################
 # Run Ruff!
 ################################################################################
 - repo: https://github.com/charliermarsh/ruff-pre-commit
@@ -15,10 +24,10 @@ repos:
 # Ruff doesn't (yet) support ssort, thus, we need to do it ourselves.
 ################################################################################
 - repo: https://github.com/bwhmather/ssort
-  rev: v0.11.6
+  rev: 'v0.11.6'
   hooks:
-    - id: ssort
-      name: Running ssort
+  - id: ssort
+    name: Running ssort
 
 ################################################################################
 # Ruff is compatible with Black, we ensure that the line-lengths are consistent.
@@ -26,8 +35,8 @@ repos:
 - repo: https://github.com/psf/black
   rev: 5d0d5936db2ed7a01c50a374e32753e1afe9cc71
   hooks:
-    - id: black
-      name: Running black
+  - id: black
+    name: Running black
 
 ################################################################################
 # Run test suite, only at the end since code stuff above is so cyclical!

@@ -4,7 +4,9 @@
 version:
   description: Bump the version number a single patch level and commit locally
   steps:
-    - method: poetry_bump_version_patch
+    - method: poetry_bump_version
+      arguments:
+        poetry_version: patch
     - method: update_readme
       arguments:
         readme_format: md

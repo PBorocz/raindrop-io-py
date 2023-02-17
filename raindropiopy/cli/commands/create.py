@@ -209,12 +209,14 @@ def _prompt_for_request(
     el: EventLoop,
     file: bool = False,
     url: bool = False,
-    dir_path: Path | None = Path("~/Downloads/Raindrop"),
+    dir_path: Path | None = None,
 ) -> CreateRequest | None:
     """Prompt for create new Raindrop request (either link or url).
 
     Returns request or None (if not confirmed).
     """
+    if dir_path is None:
+        dir_path = Path("~/Downloads/Raindrop")
     request = CreateRequest()
 
     # Prompts differ whether or not we're creating a file or link-based Raindrop.

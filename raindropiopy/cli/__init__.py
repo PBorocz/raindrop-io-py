@@ -71,5 +71,5 @@ def options_as_help(options: list[str], depth: int = 1) -> str:
 def goodbye(console) -> None:
     """Print a nice thank you message on successful exit from any command/event-loop."""
     console.print(
-        "[italic]Thanks, Gracias, Merci, Danka, ありがとう, спасибо, Köszönöm...![/]\n",
+        "[italic]Thanks, Gracias, Merci, Danka, ありがとう, cпacи6o, Köszönöm...![/]\n",
     )

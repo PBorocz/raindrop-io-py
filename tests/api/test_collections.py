@@ -35,7 +35,7 @@ def test_system_collections(api) -> None:
     system = SystemCollection.get_status(api)
     assert system
     assert isinstance(system, list)
-    assert 3 == len(system), "Sorry, we expect to always have *3* system collections!"
+    assert len(system) == 3, "Sorry, we expect to always have *3* system collections!"
 
     for collection in system:
         # models.py adds titles for us, make sure they come through...

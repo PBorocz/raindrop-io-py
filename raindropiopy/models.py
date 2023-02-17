@@ -25,7 +25,7 @@ from pydantic import (
     validator,
 )
 
-from .api import tAPI  # ie. for typing only...
+from .api import T_API  # ie. for typing only...
 
 __all__ = [
     "Access",
@@ -185,7 +185,7 @@ class Collection(BaseModel):
         cover: URL of the collection's cover.
         created: When the collection was created.
         expanded: Whether the collection's sub-collection are expanded (on the interface)
-        lastUpdate: When the collection was last updated.
+        last_update: When the collection was last updated.
         parent: Parent ID of this is a sub-collection.
         public: Are contents of this collection available to non-authenticated users?
         sort: The order of the collection. Defines the position of the collection all other
@@ -208,7 +208,7 @@ class Collection(BaseModel):
     cover: list[str] | None = Field(default_factory=list)
     created: datetime | None
     expanded: bool = False
-    lastUpdate: datetime | None
+    last_update: datetime | None
     parent: int | None  # Id of parent collection
     public: bool | None
     sort: NonNegativeInt | None
@@ -219,12 +219,13 @@ class Collection(BaseModel):
     other: dict[str, Any] = {}
 
     @root_validator(pre=True)
-    def _validator_other_attributes(cls, v):
+    # FIXME: noqa here is because work-around in https://github.com/pydantic/pydantic/issues/568 doesn't work!
+    def _validator(cls, v):  # noqa: N805
         """Gather all non-recognised/unofficial attributes into a single attribute."""
         return _collect_other_attributes(cls, v)
 
     @classmethod
-    def get_root_collections(cls, api: tAPI) -> list[Collection]:
+    def get_root_collections(cls, api: T_API) -> list[Collection]:
         """Get **root** Raindrop collections.
 
         Args:
@@ -244,7 +245,7 @@ class Collection(BaseModel):
         return [cls(**item) for item in items]
 
     @classmethod
-    def get_child_collections(cls, api: tAPI) -> list[Collection]:
+    def get_child_collections(cls, api: T_API) -> list[Collection]:
         """Get the **child** Raindrop collections (ie. all below root level).
 
         Args:
@@ -264,7 +265,7 @@ class Collection(BaseModel):
         return [cls(**item) for item in items]
 
     @classmethod
-    def get_collections(cls, api: tAPI) -> list[Collection]:
+    def get_collections(cls, api: T_API) -> list[Collection]:
         """Query for all non-system collections (essentially a convenience wrapper, combining root & child Collections).
 
         Args:
@@ -277,7 +278,7 @@ class Collection(BaseModel):
         return cls.get_root_collections(api) + cls.get_child_collections(api)
 
     @classmethod
-    def get(cls, api: tAPI, id: int) -> Collection:
+    def get(cls, api: T_API, id: int) -> Collection:
         """Return a Raindrop Collection instance based on it's id.
 
         Args:
@@ -298,7 +299,7 @@ class Collection(BaseModel):
     @classmethod
     def create(
         cls,
-        api: tAPI,
+        api: T_API,
         title: str,
         cover: list[str] | None = None,
         expanded: bool | None = None,
@@ -352,7 +353,7 @@ class Collection(BaseModel):
     @classmethod
     def update(
         cls,
-        api: tAPI,
+        api: T_API,
         id: int,
         cover: list[str] | None = None,
         expanded: bool | None = None,
@@ -395,7 +396,7 @@ class Collection(BaseModel):
         return cls(**item)
 
     @classmethod
-    def delete(cls, api: tAPI, id: int) -> None:
+    def delete(cls, api: T_API, id: int) -> None:
         """Delete a Raindrop collection.
 
         Args:
@@ -409,7 +410,7 @@ class Collection(BaseModel):
         api.delete(URL.format(path=f"collection/{id}"), json={})
 
     @classmethod
-    def get_or_create(cls, api: tAPI, title: str) -> Collection:
+    def get_or_create(cls, api: T_API, title: str) -> Collection:
         """Get a Raindrop collection based on it's **title**, if it doesn't exist, create it.
 
         Args:
@@ -458,12 +459,12 @@ class UserConfig(BaseModel):
     other: dict[str, Any] = {}
 
     @validator("last_collection", pre=True)
-    def cast_last_collection_to_ref(cls, v):
+    def cast_last_collection_to_ref(cls, v):  # noqa: N805
         """Cast last_collection provided as a raw int to a valid CollectionRef."""
         return CollectionRef(**{"$id": v})
 
     @root_validator(pre=True)
-    def _validator_other_attributes(cls, v):
+    def _validator_other_attributes(cls, v):  # noqa: N805
         """Gather all non-recognised/unofficial attributes into a single attribute."""
         return _collect_other_attributes(cls, v)
 
@@ -473,7 +474,7 @@ class UserFiles(BaseModel):
 
     used: int
     size: PositiveInt
-    lastCheckPoint: datetime
+    last_checkpoint: datetime = Field(None, alias="lastCheckpoint")
 
 
 class User(BaseModel):
@@ -481,18 +482,18 @@ class User(BaseModel):
 
     id: int = Field(None, alias="_id")
     email: EmailStr
-    email_MD5: str | None = None
+    email_md5: str | None = Field(None, alias="email_MD5")
     files: UserFiles
-    fullName: str
+    full_name: str = Field(None, alias="fullName")
     groups: list[Group]
     password: bool
     pro: bool
-    proExpire: datetime | None = None
+    pro_expire: datetime | None = Field(None, alias="proExpire")
     registered: datetime
     config: UserConfig
 
     @classmethod
-    def get(cls, api: tAPI) -> User:
+    def get(cls, api: T_API) -> User:
         """Get all the information about the Raindrop user associated with the API token."""
         user = api.get(URL.format(path="user")).json()["user"]
         return cls(**user)
@@ -517,7 +518,7 @@ class SystemCollection(BaseModel):
     title: str | None
 
     @root_validator(pre=False)
-    def _map_systemcollection_id_to_title(cls, values):
+    def _validator(cls, values):  # noqa: N805
         """Map the hard-coded id's of the System Collections to the descriptions used on the UI."""
         _titles = {
             CollectionRef.Unsorted.id: "Unsorted",
@@ -528,7 +529,7 @@ class SystemCollection(BaseModel):
         return values
 
     @classmethod
-    def get_status(cls, api: tAPI) -> User:
+    def get_status(cls, api: T_API) -> User:
         """Get the count of Raindrops across all 3 *system* collections."""
         items = api.get(URL.format(path="user/stats")).json()["items"]
         return [cls(**item) for item in items]
@@ -568,7 +569,7 @@ class Raindrop(BaseModel):
         domain: Hostname of a link, ie. if a Raindrop has link: `https://www.google.com?search=SomeThing`,
           domain is `www.google.com`.
         excerpt: Description associated with this Raindrop (maximum length: 10k!)
-        lastUpdate: When this Raindrop was last updated.
+        last_update: When this Raindrop was last updated.
         link: For a link-based Raindrop, the full URL.
         media: Covers list.
         tags: A list of Tags associated with the Raindrop.
@@ -592,7 +593,7 @@ class Raindrop(BaseModel):
     created: datetime | None
     domain: str | None
     excerpt: str | None  # aka 'Description' on the Raindrop UI.
-    lastUpdate: datetime | None
+    last_update: datetime | None = Field(None, alias="lastUpdate")
     link: HttpUrl | None
     media: list[dict[str, Any]] | None
     tags: list[str] | None
@@ -611,12 +612,12 @@ class Raindrop(BaseModel):
     other: dict[str, Any] = {}
 
     @root_validator(pre=True)
-    def _validator_other_attributes(cls, v):
+    def _validator(cls, v):  # noqa: N805
         """Gather all non-recognised/unofficial attributes into a single attribute."""
         return _collect_other_attributes(cls, v)
 
     @classmethod
-    def get(cls, api: tAPI, id: int) -> Raindrop:
+    def get(cls, api: T_API, id: int) -> Raindrop:
         """Return a Raindrop bookmark based on it's id."""
         item = api.get(URL.format(path=f"{id}")).json()["item"]
         return cls(**item)
@@ -624,7 +625,7 @@ class Raindrop(BaseModel):
     @classmethod
     def create_link(
         cls,
-        api: tAPI,
+        api: T_API,
         link: str,
         collection: (Collection | CollectionRef, int) | None = None,
         cover: str | None = None,
@@ -632,7 +633,7 @@ class Raindrop(BaseModel):
         important: bool | None = None,
         media: list[dict[str, Any]] | None = None,
         order: int | None = None,
-        pleaseParse: bool = False,  # If set, asks API to automatically parse metadata in the background
+        please_parse: bool = False,  # If set, asks API to automatically parse metadata in the background
         tags: list[str] | None = None,
         title: str | None = None,
     ) -> Raindrop:
@@ -657,7 +658,7 @@ class Raindrop(BaseModel):
 
             order: Optional, Order of Raindrop in respective collection, ie. set to 0 to make Raindrop first.
 
-            pleaseParse: Optional, Flag that asks API to automatically parse metadata in the background
+            please_parse: Optional, Flag that asks API to automatically parse metadata in the background
               (not exactly sure which this implies, message me if you know! ;-)
 
             tags: Optional, List of tags to associated with this Raindrop.
@@ -668,7 +669,7 @@ class Raindrop(BaseModel):
             ``Raindrop`` instance created.
 
         Note:
-            We don't allow you to set either ``created`` or ``lastUpdate`` attributes. They will be set appropriately
+            We don't allow you to set either ``created`` or ``last_update`` attributes. They will be set appropriately
             by the RaindropIO service on your behalf.
         """
         # NOTE: We have small code style conflict here between Vulture
@@ -701,8 +702,8 @@ class Raindrop(BaseModel):
         # optional!
         args: dict[str, Any] = dict(type=RaindropType.link, link=link)
 
-        if pleaseParse:
-            args["pleaseParse"] = {}
+        if please_parse:
+            args["please_parse"] = {}
 
         for attr in [
             "cover",
@@ -730,7 +731,7 @@ class Raindrop(BaseModel):
     @classmethod
     def create_file(
         cls,
-        api: tAPI,
+        api: T_API,
         path: Path,
         content_type: str,
         collection: (Collection | CollectionRef, int) | None = CollectionRef.Unsorted,
@@ -801,7 +802,7 @@ class Raindrop(BaseModel):
     @classmethod
     def update(
         cls,
-        api: tAPI,
+        api: T_API,
         id: int,
         collection: (Collection | CollectionRef, int) | None = None,
         cover: str | None = None,
@@ -810,7 +811,7 @@ class Raindrop(BaseModel):
         link: str | None = None,
         media: list[dict[str, Any]] | None = None,
         order: int | None = None,
-        pleaseParse: bool | None = False,
+        please_parse: bool | None = False,
         tags: list[str] | None = None,
         title: str | None = None,
     ) -> Raindrop:
@@ -836,7 +837,7 @@ class Raindrop(BaseModel):
 
             order: Optional, Change order of Raindrop in respective collection.
 
-            pleaseParse: Optional, Flag that asks API to automatically parse metadata in the background
+            please_parse: Optional, Flag that asks API to automatically parse metadata in the background
                 (not exactly sure which this implies, message me if you know! ;-)
 
             tags: Optional, New list of tags to associate with this Raindrop.
@@ -849,8 +850,8 @@ class Raindrop(BaseModel):
         # Setup the args that will be passed to the underlying Raindrop API
         args: dict[str, Any] = {}
 
-        if pleaseParse:
-            args["pleaseParse"] = {}
+        if please_parse:
+            args["please_parse"] = {}
 
         for attr in [
             "cover",
@@ -878,7 +879,7 @@ class Raindrop(BaseModel):
         return cls(**item)
 
     @classmethod
-    def delete(cls, api: tAPI, id: int) -> None:
+    def delete(cls, api: T_API, id: int) -> None:
         """Delete a Raindrop bookmark.
 
         Args:
@@ -894,7 +895,7 @@ class Raindrop(BaseModel):
     @classmethod
     def _search_paged(
         cls,
-        api: tAPI,
+        api: T_API,
         collection: CollectionRef = CollectionRef.All,
         page: int = 0,
         perpage: int = 50,
@@ -923,7 +924,7 @@ class Raindrop(BaseModel):
     @classmethod
     def search(
         cls,
-        api: tAPI,
+        api: T_API,
         collection: Collection | CollectionRef = CollectionRef.All,
         word: str | None = None,
         tag: str | None = None,
@@ -969,7 +970,7 @@ class Tag(BaseModel):
     count: int
 
     @classmethod
-    def get(cls, api: tAPI, collection_id: int = None) -> list[Tag]:
+    def get(cls, api: T_API, collection_id: int = None) -> list[Tag]:
         """Get all the tags currently defined, either in a specific collections or across all collections.
 
         Args:
@@ -987,7 +988,7 @@ class Tag(BaseModel):
         return [Tag(**item) for item in items]
 
     @classmethod
-    def delete(cls, api: tAPI, tags: list[str]) -> None:
+    def delete(cls, api: T_API, tags: list[str]) -> None:
         """Delete one or more Tags.
 
         Args:

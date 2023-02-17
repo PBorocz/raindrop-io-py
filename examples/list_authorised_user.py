@@ -19,7 +19,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
 
     user = User.get(api)
 
-    for attr in ["id", "email", "fullName", "password", "pro", "registered"]:
+    for attr in ["id", "email", "full_name", "password", "pro", "registered"]:
         _print(attr, getattr(user, attr))
 
     # User configuration..
@@ -41,7 +41,7 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     print()
     _print("files.used", user.files.used)
     _print("files.size", user.files.size)
-    _print("files.lastCheckPoint", user.files.lastCheckPoint)
+    _print("files.last_checkpoint", user.files.last_checkpoint)
 
     # User group membership
     for group in user.groups:

@@ -49,7 +49,7 @@ def test_get() -> None:
         )
         assert c.domain == "www.example.com"
         assert c.excerpt == "excerpt text"
-        assert c.lastUpdate == datetime.datetime(
+        assert c.last_update == datetime.datetime(
             2020,
             1,
             1,

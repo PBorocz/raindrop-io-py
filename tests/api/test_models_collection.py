@@ -11,9 +11,9 @@ collection = {
     "count": 0,
     "cover": ["https://www.aRandomCover.org"],
     "created": "2020-01-01T00:00:00Z",
-    "creatorRef": {"_id": 10000, "fullName": "user name"},
+    "creatorRef": {"_id": 10000, "full_name": "user name"},
     "expanded": False,
-    "lastUpdate": "2020-01-02T00:00:00Z",
+    "last_update": "2020-01-02T00:00:00Z",
     "parent": 100,  # {"$db": "", "$id": 100, "$ref": "collections"},
     "public": False,
     "sort": 3000,
@@ -51,7 +51,7 @@ def test_get_root_collections() -> None:
                 tzinfo=datetime.timezone.utc,
             )
             assert c.expanded is False
-            assert c.lastUpdate == datetime.datetime(
+            assert c.last_update == datetime.datetime(
                 2020,
                 1,
                 2,

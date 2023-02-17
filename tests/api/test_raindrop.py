@@ -44,7 +44,7 @@ def search_raindrops(api):
         {
             "title": "ELGOOG 1234567890",
             "tags": ["ABCDEFG", "HIJKLMO"],
-            "pleaseParse": True,
+            "please_parse": True,
         },
     )
     raindrop_google = Raindrop.create_link(api, link, **args)
@@ -54,7 +54,7 @@ def search_raindrops(api):
         {
             "title": "NOHYYP 1234567890",
             "tags": ["HIJKLMO", "PQRSTUV"],
-            "pleaseParse": True,
+            "please_parse": True,
         },
     )
     raindrop_python = Raindrop.create_link(api, link, **args)

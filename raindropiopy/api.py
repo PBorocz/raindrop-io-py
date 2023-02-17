@@ -19,7 +19,7 @@ URL_ACCESS_TOKEN: Final = "https://raindrop.io/oauth/access_token"
 URL_REFRESH: Final = "https://raindrop.io/oauth/access_token"
 
 # In py3.11, we'll be able to do 'from typing import Self' instead
-tAPI = TypeVar("API")
+T_API = TypeVar("API")
 
 
 class API:
@@ -255,7 +255,7 @@ class API:
         self._on_resp(ret)
         return ret
 
-    def __enter__(self) -> tAPI:  # Note: Py3.11 upgrade to "self"
+    def __enter__(self) -> T_API:  # Note: Py3.11 upgrade to "self"
         """Context manager use: if we don't have an active session open yet, open one!."""
         if not self.session:
             self.open()

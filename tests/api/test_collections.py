@@ -38,9 +38,10 @@ def test_system_collections(api) -> None:
     assert 3 == len(system), "Sorry, we expect to always have *3* system collections!"
 
     for collection in system:
-        assert (
-            collection.title
-        )  # models.py adds titles for us, make sure they come through
+        # models.py adds titles for us, make sure they come through...
+        assert collection.title
+
+        # ...and, that they're right!
         if collection.id == CollectionRef.All.id:
             assert collection.title == "All"
         if collection.id == CollectionRef.Trash.id:

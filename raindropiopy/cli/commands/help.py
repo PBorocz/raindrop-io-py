@@ -39,7 +39,7 @@ def help_search(el: EventLoop) -> None:
             "created:<2021-07-15",
             "Put < in front of a date to find before specific date",
         ),
-        ("lastUpdate:2021-07-15", "Search for items updated in specific date"),
+        ("last_update:2021-07-15", "Search for items updated in specific date"),
         ("link:dropbox", "Find items with a certain word (or words) in the URL"),
         ("link:'crunch base'", "Find items with a certain word (or words) in the URL"),
         ("type:link", "Find by type"),

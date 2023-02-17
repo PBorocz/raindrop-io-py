@@ -80,7 +80,7 @@ select = [
        "I",                    # Isort
        "D",                    # Pydocstyle
        "UP",                   # pyupgrade
-       # "N",                  # pep8-naming
+       "N",                    # pep8-naming
        "YTT",                  # flake8-2020
        # "ANN",                # flake8-annotations
        # "S",                  # flake8-bandit
@@ -109,7 +109,11 @@ select = [
        "COM",                  # flake8-commas
        # "RUF",                # Ruff-specific rules
        ]
-ignore = ["D213", "E402", "I001"]
+ignore = [
+       "D213",
+       "E402",
+       "I001",
+       ]
 
 [tool.ruff.pydocstyle]
 # For more info, see:

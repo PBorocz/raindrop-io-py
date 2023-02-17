@@ -28,7 +28,7 @@ def _show_status(el: EventLoop) -> None:
     table = Table(title=None, show_header=False)
     table.add_column("parm", style=COLOR_TABLE_COLUMN_1, no_wrap=True)
     table.add_column("data", style=COLOR_TABLE_COLUMN_2, justify="right")
-    table.add_row("Active User", f"{el.state.user.fullName}")
+    table.add_row("Active User", f"{el.state.user.full_name}")
     table.add_row("Raindrops", f"{get_total_raindrops(el.state.collections):,d}")
     table.add_row("Collections", f"{len(el.state.collections):,d}")
     table.add_row("Tags", f"{len(el.state.tags):,d}")

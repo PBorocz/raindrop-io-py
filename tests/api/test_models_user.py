@@ -18,7 +18,7 @@ test_user = {
     "email": "mail@example.com",
     "email_MD5": "1111111111",
     "files": {
-        "lastCheckPoint": "2020-01-01T02:02:02.000Z",
+        "lastCheckpoint": "2020-01-01T02:02:02.000Z",
         "size": 10000000000,
         "used": 0,
     },
@@ -34,7 +34,6 @@ test_user = {
             "title": "My Collections",
         },
     ],
-    "lastAction": "2020-01-01T01:01:01.000Z",
     "password": True,
     "pro": True,
     "proExpire": "2022-01-01T01:01:01.000Z",
@@ -61,10 +60,10 @@ def test_get() -> None:
         assert user.config.raindrops_view == View.list
 
         assert user.email == "mail@example.com"
-        assert user.email_MD5 == "1111111111"
+        assert user.email_md5 == "1111111111"
         assert user.files.size == 10000000000
         assert user.files.used == 0
-        assert user.files.lastCheckPoint == datetime.datetime(
+        assert user.files.last_checkpoint == datetime.datetime(
             2020,
             1,
             1,
@@ -73,7 +72,7 @@ def test_get() -> None:
             2,
             tzinfo=datetime.timezone.utc,
         )
-        assert user.fullName == "test user"
+        assert user.full_name == "test user"
         assert user.groups[0].hidden is False
         assert user.groups[0].sort == 0
         assert user.groups[0].title == "My Collections"

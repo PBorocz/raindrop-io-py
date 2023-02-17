@@ -66,8 +66,8 @@ def approved() -> str:
         include_client_id=True,
     )
 
-    with API(token, client_id=CLIENT_ID, client_secret=CLIENT_SECRET) as CNXN:
-        collections = Collection.get_root_collections(CNXN)
+    with API(token, client_id=CLIENT_ID, client_secret=CLIENT_SECRET) as cnxn:
+        collections = Collection.get_root_collections(cnxn)
 
     return render_template_string(COLLECTIONS, collections=collections)
 

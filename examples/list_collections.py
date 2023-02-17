@@ -28,7 +28,7 @@ def print_collection(coll: Collection) -> None:
     _print("cover", coll.cover)
     _print("created", coll.created)
     _print("expanded", coll.expanded)
-    _print("lastUpdate", coll.lastUpdate)
+    _print("last_update", coll.last_update)
     _print("parent", coll.parent)
     _print("public", coll.public)
     _print("sort", coll.sort)

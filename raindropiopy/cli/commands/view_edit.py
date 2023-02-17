@@ -57,7 +57,7 @@ def _view_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
         tags=", ".join(raindrop.tags),
         title=raindrop.title,
         type=raindrop.type.value.title(),
-        updated=raindrop.lastUpdate.isoformat().split("T")[0],
+        updated=raindrop.last_update.isoformat().split("T")[0],
     )
     if attrs["updated"] == attrs["created"]:
         del attrs["updated"]

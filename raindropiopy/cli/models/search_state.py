@@ -55,7 +55,7 @@ class SearchState:
 
         # Do we need to show the "Collections" column?
         collection_ids = set([raindrop.collection.id for _, raindrop in self])
-        show_collection_name = True if len(collection_ids) > 1 else False
+        show_collection_name = bool(len(collection_ids) > 1)
 
         # How many tag columns do we have?
         max_tags = max([len(raindrop.tags) for _, raindrop in self])

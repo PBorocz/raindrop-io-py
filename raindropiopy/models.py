@@ -779,9 +779,10 @@ class Raindrop(BaseModel):
         else:
             data = {"collectionId": str(collection)}
 
-        files = {"file": (path.name, open(path, "rb"), content_type)}
-        item = api.put_file(url, path, data, files).json()["item"]
-        raindrop = cls(**item)
+        with open(path, "rb") as fh_:
+            files = {"file": (path.name, fh_, content_type)}
+            item = api.put_file(url, path, data, files).json()["item"]
+            raindrop = cls(**item)
 
         # The Raindrop API's "Create Raindrop From File" does not allow us to set other attributes, thus,
         # we need to check if any of the possible attributes need to be set and do so explicitly with another

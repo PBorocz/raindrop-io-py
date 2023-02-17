@@ -12,7 +12,7 @@ import enum
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import (
     BaseModel,
@@ -626,7 +626,7 @@ class Raindrop(BaseModel):
         cls,
         api: tAPI,
         link: str,
-        collection: Optional[Collection | CollectionRef, int] = None,
+        collection: (Collection | CollectionRef, int) | None = None,
         cover: str | None = None,
         excerpt: str | None = None,
         important: bool | None = None,
@@ -733,7 +733,7 @@ class Raindrop(BaseModel):
         api: tAPI,
         path: Path,
         content_type: str,
-        collection: Optional[Collection | CollectionRef, int] = CollectionRef.Unsorted,
+        collection: (Collection | CollectionRef, int) | None = CollectionRef.Unsorted,
         tags: list[str] | None = None,
         title: str | None = None,
     ) -> Raindrop:
@@ -803,7 +803,7 @@ class Raindrop(BaseModel):
         cls,
         api: tAPI,
         id: int,
-        collection: Optional[Collection | CollectionRef, int] = None,
+        collection: (Collection | CollectionRef, int) | None = None,
         cover: str | None = None,
         excerpt: str | None = None,
         important: bool | None = None,

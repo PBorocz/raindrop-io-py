@@ -7,7 +7,7 @@ import datetime
 import enum
 import json
 from pathlib import Path
-from typing import Any, Dict, Optional, Final, TypeVar
+from typing import Any, Final, TypeVar
 
 import requests
 from requests_oauthlib import OAuth2Session
@@ -49,8 +49,8 @@ class API:
     def __init__(
         self,
         token: str,
-        client_id: Optional[str] = None,
-        client_secret: Optional[str] = None,
+        client_id: str | None = None,
+        client_secret: str | None = None,
         token_type: str = "Bearer",
     ) -> None:
         """Instantiate an API connection to Raindrop using the token (and optional client information) provided."""
@@ -61,15 +61,15 @@ class API:
         self.session = None
 
         # If rate limiting is in effect, set here (UNTESTED!)
-        self.ratelimit: Optional[int] = None
-        self.ratelimit_remaining: Optional[int] = None
-        self.ratelimit_reset: Optional[int] = None
+        self.ratelimit: int | None = None
+        self.ratelimit_remaining: int | None = None
+        self.ratelimit_reset: int | None = None
 
         self.open()
 
     def _create_session(self) -> OAuth2Session:
         """Handle the creation and/or authentication with oAuth handshake."""
-        extra: Optional[Dict[str, Any]]
+        extra: dict[str, Any] | None
         if self.client_id and self.client_secret:
             extra = {
                 "client_id": self.client_id,
@@ -119,7 +119,7 @@ class API:
             f"Object of type {obj.__class__.__name__} is not JSON serializable",
         )
 
-    def _to_json(self, obj: Any) -> Optional[str]:
+    def _to_json(self, obj: Any) -> str | None:
         """Handle JSON serialisation with a custom serialiser to handle enums and datetimes."""
         if obj is not None:
             return json.dumps(obj, default=self._json_unknown)
@@ -129,7 +129,7 @@ class API:
     def _on_resp(self, resp: Any) -> None:
         """Handle a RaindropIO API response, first pullingrate-limiting parms in effect due to high activity levels."""
 
-        def get_int(name: str) -> Optional[int]:
+        def get_int(name: str) -> int | None:
             value = resp.headers.get(name, None)
             if value is not None:
                 return int(value)
@@ -149,7 +149,7 @@ class API:
 
         resp.raise_for_status()  # Let requests library handle HTTP error codes returned.
 
-    def _request_headers_json(self) -> Dict[str, str]:
+    def _request_headers_json(self) -> dict[str, str]:
         return {
             "Content-Type": "application/json",
         }
@@ -157,7 +157,7 @@ class API:
     def get(
         self,
         url: str,
-        params: Optional[Dict[Any, Any]] = None,
+        params: dict[Any, Any] | None = None,
     ) -> requests.models.Response:
         """Send a GET request.
 

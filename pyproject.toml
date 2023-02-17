@@ -1,3 +1,8 @@
+
+[project.urls]
+"Homepage" = "https://github.com/PBorocz/raindrop-io-py"
+"Documentation" = "https://raindrop-io-py.rtfd.io"
+
 [tool.poetry]
 name = "raindrop-io-py"
 version = "0.1.0"
@@ -8,9 +13,9 @@ include = ["LICENSE",]
 keywords = ["python"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/PBorocz/raindrop-io-py"
+documentation = "https://raindrop-io-py.rtfd.io"
 packages = [{ include = "raindropiopy" }]
-documentation = "https://raindrop-io-py.readthedocs.io/en/latest/"
-repository = "https://github.com/PBorocz/raindrop-io-py"
 
 [tool.poetry.scripts]
 raindrop-io-py = "raindropiopy.cli.cli:main"
@@ -74,7 +79,7 @@ select = [
        "C90",                  # Mccabe
        "I",                    # Isort
        "D",                    # Pydocstyle
-       # "UP",                 # pyupgrade
+       "UP",                   # pyupgrade
        # "N",                  # pep8-naming
        "YTT",                  # flake8-2020
        # "ANN",                # flake8-annotations

@@ -1,7 +1,7 @@
 """Abstract data types to support Raindrop CLI."""
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, TypeVar, Union
+from typing import Callable, TypeVar
 
 from raindropiopy import Collection
 
@@ -14,23 +14,25 @@ CreateRequest = TypeVar(
 class CreateRequest:
     """Encapsulate parameters required to create either a link or file-based Raindrop bookmark."""
 
-    title: str = (
-        None  # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
-    )
-    description: str = None  # Bookmark description (nee excerpt) on Raindrop, eg. "Read more on this..."
-    collection: Union[
-        str,
-        Collection,
-    ] = None  # Name of collection (or real) to store bookmark, eg. "My Documents"
-    tags: list[
-        str
-    ] = None  # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
+    # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
+    title: str = None
+
+    # Bookmark description (nee excerpt) on Raindrop, eg. "Read more on this..."
+    description: str = None
+
+    # Name of collection (or real) to store bookmark, eg. "My Documents"
+    collection: str | Collection = None
+
+    # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
+    tags: list[str] = None
 
     # One of the following needs to be specified:
-    url: str = None  # URL of link-based Raindrop to create.
-    file_path: Path = (
-        None  # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
-    )
+
+    # URL of link-based Raindrop to create.
+    url: str = None
+
+    # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
+    file_path: Path = None
 
     def name(self) -> str:
         """Return a user viewable name for request irrespective of type."""

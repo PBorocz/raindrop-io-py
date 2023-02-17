@@ -1,5 +1,5 @@
 """Top level cli.commands dunder init, mostly common methods and data types."""
-from typing import Final, Optional
+from typing import Final
 
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.styles import Style
@@ -22,7 +22,7 @@ def get_from_list(
     el: EventLoop,
     prompt_s: tuple[str],
     options: tuple[str],
-) -> Optional[str]:
+) -> str | None:
     """Mini-event loop to prompt for one or more selected options from the list provided."""
     completer: Final = WordCompleter(options)
     while True:

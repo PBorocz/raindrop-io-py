@@ -3,7 +3,7 @@ import os
 import sys
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, TypeVar
+from typing import TypeVar
 
 from rich import print
 
@@ -55,14 +55,14 @@ class RaindropState:
 
         return sorted(titles)
 
-    def find_collection(self, title: str) -> Optional[Collection]:
+    def find_collection(self, title: str) -> Collection | None:
         """Find the actual Collection object with the title provided."""
         for collection in self.collections:
             if title.casefold() == collection.title.casefold():
                 return collection
         return None
 
-    def find_collection_by_id(self, id: int) -> Optional[Collection]:
+    def find_collection_by_id(self, id: int) -> Collection | None:
         """Find the actual Collection object with the *id* provided."""
         for collection in self.collections:
             if collection.id == id:

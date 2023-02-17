@@ -2,7 +2,7 @@
 from http.client import HTTPConnection
 from pathlib import Path
 from time import sleep
-from typing import Any, Final, Optional
+from typing import Any, Final
 from urllib.parse import urlparse
 
 from prompt_toolkit.completion import WordCompleter
@@ -70,10 +70,10 @@ def _read_files(path_: Path) -> list[Path]:
     return list(path_.glob("*.pdf"))
 
 
-def __validate_url(url: str) -> Optional[str]:
+def __validate_url(url: str) -> str | None:
     """Validate the url provided, returning a message if invalid, None otherwise."""
 
-    def is_url_invalid(url: str) -> Optional[str]:
+    def is_url_invalid(url: str) -> str | None:
         try:
             parts = urlparse(url)
             if all([parts.scheme, parts.netloc]):
@@ -84,7 +84,7 @@ def __validate_url(url: str) -> Optional[str]:
             ...
         return "Sorry, that URL isn't in a valid format."
 
-    def is_site_invalid(url, timeout=2) -> Optional[str]:
+    def is_site_invalid(url, timeout=2) -> str | None:
         """Validate that the url provided actually goes to a live site, return message if not."""
         error = Exception("Sorry, unknown error encountered.")
         parser = urlparse(url)
@@ -108,7 +108,7 @@ def __validate_url(url: str) -> Optional[str]:
         return None
 
 
-def __get_url(el: EventLoop) -> Optional[str]:
+def __get_url(el: EventLoop) -> str | None:
     ev_prompt = prompt(("create", "url?"))
     while True:
         url = el.session.prompt(ev_prompt, style=PROMPT_STYLE)
@@ -125,7 +125,7 @@ def __get_url(el: EventLoop) -> Optional[str]:
                 return url
 
 
-def __get_file(el: EventLoop) -> Optional[str]:
+def __get_file(el: EventLoop) -> str | None:
     el_prompt = prompt(("create", "bulk upload file?"))
     while True:
         file_ = el.session.prompt(el_prompt, style=PROMPT_STYLE)
@@ -139,7 +139,7 @@ def __get_file(el: EventLoop) -> Optional[str]:
             return file_
 
 
-def __get_from_files(el: EventLoop, options: list[Path]) -> Optional[str]:
+def __get_from_files(el: EventLoop, options: list[Path]) -> str | None:
     el_prompt = prompt(("create", "file #?"))
     names = [fp_.name for fp_ in options]
     completer: Final = WordCompleter(names)
@@ -209,7 +209,7 @@ def _prompt_for_request(
     el: EventLoop,
     file: bool = False,
     url: bool = False,
-    dir_path: Optional[Path] = Path("~/Downloads/Raindrop"),
+    dir_path: Path | None = Path("~/Downloads/Raindrop"),
 ) -> CreateRequest | None:
     """Prompt for create new Raindrop request (either link or url).
 

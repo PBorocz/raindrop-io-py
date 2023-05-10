@@ -87,13 +87,13 @@ select = [
        # "BLE",                      # flake8-blind-except
        # "FBT",                      # flake8-boolean-trap
        "B",                          # flake8-bugbear
-       # "A",                        # flake8-builtins (yes, we use "id" as an attribute, sue me...)
+       # "A",                        # flake8-builtins (NO! We use "id" as an attribute, sue me...)
        # "C4",                       # flake8-comprehensions
        "T10",                        # flake8-debugger
        # "EM",                       # flake8-errmsg
        # "ISC",                      # flake8-implicit-str-concat
        # "ICN",                      # flake8-import-conventions
-       # "T20",                      # flake8-print (Removes all print statements!!)
+       # "T20",                      # flake8-print (NO! Removes all print statements!!)
        # "PT",                       # flake8-pytest-style
        "Q",                          # flake8-quotes
        # "RET",                      # flake8-return

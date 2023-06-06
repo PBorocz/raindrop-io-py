@@ -165,6 +165,10 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+### v0.1.1 - 2023-06-06
+
+- CHANGED: `Raindrop.search` now only takes a single search string (instead of word, tag or important), leaving search string blank results in correct wildcard search behaviour, addresses issue #4.
+
 ### v0.1.0 - 2023-02-16
 
 - CHANGED: `Raindrop.create_file` to handle `collection` argument consistent with `Raindrop.create_link`, specifically, either a `Collection`, `CollectionRef` or direct integer collection_id.

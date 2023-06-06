@@ -77,7 +77,7 @@ def get_collection_s(el: EventLoop, prompts: list[str]) -> str | None:
             el.state.get_collection_titles(exclude_unsorted=False),
         )
         if collection_s == ".":
-            return None
+            return "."  # Don't return None here so None can represent ALL collections.
 
         if collection_s:
             unrecognised_collections = list()
@@ -95,7 +95,7 @@ def get_collection_s(el: EventLoop, prompts: list[str]) -> str | None:
                 )
                 print(", ".join(unrecognised_collections))
                 print(
-                    f"[{WARNING}]We're expecting either <blank> or one of one of: "
+                    f"[{WARNING}]We're expecting either <blank>, '.' or one of one of: "
                     + ", ".join(el.state.get_collection_titles(exclude_unsorted=True)),
                 )
                 continue

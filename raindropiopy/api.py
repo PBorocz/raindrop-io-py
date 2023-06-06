@@ -127,7 +127,7 @@ class API:
             return None
 
     def _on_resp(self, resp: Any) -> None:
-        """Handle a RaindropIO API response, first pullingrate-limiting parms in effect due to high activity levels."""
+        """Handle a RaindropIO API response, first pulling rate-limiting parms in effect due to high activity levels."""
 
         def get_int(name: str) -> int | None:
             value = resp.headers.get(name, None)

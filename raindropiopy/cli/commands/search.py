@@ -1,7 +1,6 @@
 """Create a new Raindrop bookmark."""
 
 from prompt_toolkit.completion import WordCompleter
-from rich import print
 
 # from raindropiopy import Collection, CollectionRef, Raindrop
 from raindropiopy.cli import PROMPT_STYLE, prompt
@@ -42,7 +41,7 @@ def __prompt_search_terms(el: EventLoop) -> tuple[bool, str | None]:
 
 
 def _prompt_search(el: EventLoop) -> SearchState | None:
-    """Prompt for all responses necessary for a search, ie. terms and collections.
+    """Prompt for all responses necessary for a search, ie. terms and collection(s).
 
     Returns SearchState for a new search to be performed or None if we're done.
     """
@@ -51,39 +50,35 @@ def _prompt_search(el: EventLoop) -> SearchState | None:
         return None
 
     collection_s = get_collection_s(el, ("search", "collection(s)?"))
-    if collection_s == "." or collection_s is None:
+    if collection_s == ".":
         return None
 
-    search_state = (
-        SearchState()
-    )  # Holds both search request information as we as search results.
-    search_state.search = search_term_s
-    search_state.collection_s = collection_s.split()
-    return search_state
+    # Holds both search request information as well as search *results*
+    if collection_s:
+        collection_s = collection_s.split()
+    return SearchState(search=search_term_s, collection_s=collection_s)
 
 
 def process(el: EventLoop) -> None:
     """Top-level UI Controller for searching for bookmark(s)."""
     while True:
-        search_state = _prompt_search(el)
+        search_state: SearchState | None = _prompt_search(el)
 
         if search_state is None:
             return None  # We're REALLY done..
-
-        elif search_state.search == WILDCARD and not search_state.collection_s:
-            print("Sorry, wildcard search requires at least one collection.")
-            continue
 
         # Do search and display results (after which we go back for another try.
         collection_text = ", ".join(search_state.collection_s)
         if search_state.search == WILDCARD:
             # Wildcard with at least one collection:
             spinner_text = f"Finding all raindrops in {collection_text}"
+
         elif not search_state.collection_s:
             # Not a wildcard but don't have a collection specified:
             spinner_text = (
                 f"Searching for '{search_state.search}' across all collections"
             )
+
         else:
             # Not a wildcard but have collection(s) to search over:
             spinner_text = f"Searching for '{search_state.search}' in {collection_text}"

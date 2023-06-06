@@ -9,7 +9,6 @@ For example, to create a new raindrop, use Raindrop.create_link(...); a collecti
 from __future__ import annotations
 
 import enum
-import json
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -898,26 +897,19 @@ class Raindrop(BaseModel):
         cls,
         api: T_API,
         collection: CollectionRef = CollectionRef.All,
+        search: str | None = None,
         page: int = 0,
         perpage: int = 50,
-        word: str | None = None,
-        tag: str | None = None,
-        important: bool | None = None,
     ) -> list[Raindrop]:
         """Lower-level search for bookmarks on a "paged" basis.
 
-        Raindrop's search API works on a "paged" basis. This method implements
-        the underlying search reflecting paging. While the ``search`` method hides it completely.
+        Raindrop's search API works on a "paged" basis. This method implements the underlying
+        search reflecting paging (while the primary ``search`` method below hides it
+        completely).
         """
-        args: list[dict[str, Any]] = []
-        if word is not None:
-            args.append({"key": "word", "val": word})
-        if tag is not None:
-            args.append({"key": "tag", "val": tag})
-        if important is not None:
-            args.append({"key": "important", "val": important})
-
-        params = {"search": json.dumps(args), "perpage": perpage, "page": page}
+        params = {"perpage": perpage, "page": page}
+        if search:
+            params["search"] = search
         url = URL.format(path=f"raindrops/{collection.id}")
         results = api.get(url, params=params).json()
         return [cls(**item) for item in results["items"]]
@@ -927,9 +919,7 @@ class Raindrop(BaseModel):
         cls,
         api: T_API,
         collection: Collection | CollectionRef = CollectionRef.All,
-        word: str | None = None,
-        tag: str | None = None,
-        important: bool | None = None,
+        search: str | None = None,
     ) -> list[Raindrop]:
         """Search for Raindrops.
 
@@ -939,12 +929,8 @@ class Raindrop(BaseModel):
             collection: Optional, ``Collection`` (or ``CollectionRef``) to search over.
                 Defaults to ``CollectionRef.All``.
 
-            word: Optional, search string to search Raindrops for (see
+            search: Optional, search string to search Raindrops for (see
                 `Raindrop.io Search Help <https://help.raindrop.io/using-search#operators>`_ for more information.
-
-            tag: Optional, tag name to search for.
-
-            important: Optional, flag indicating if only important/favorite Raindrops should be search over (or not).
 
         Returns:
             A (potentially empty) list of Raindrops that match the search criteria provided.
@@ -955,9 +941,7 @@ class Raindrop(BaseModel):
             api,
             collection,
             page=page,
-            word=word,
-            tag=tag,
-            important=important,
+            search=search,
         ):
             results.extend(raindrops)
             page += 1

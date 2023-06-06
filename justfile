@@ -17,7 +17,7 @@ refresh_manage:
 ################################################################################
 # Run the build/release management interface
 manage *args:
-    @python manage {{args}}
+    @manage {{args}}
 
 # Run the raindrop-io-py command-line interface
 cli:

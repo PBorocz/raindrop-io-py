@@ -48,11 +48,11 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     print("Ok")
 
     # OK, now (for example), search by tag:
-    _do_search(api, tag="def")
+    _do_search(api, search="#def")
 
     # or, search by link domain or title:
-    _do_search(api, word="python.org")
-    _do_search(api, word="Benevolent")
+    _do_search(api, search="python.org")
+    _do_search(api, search="Benevolent")
 
     # Cleanup
     print("Removing sample Raindrop...", flush=True, end="")

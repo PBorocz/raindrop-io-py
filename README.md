@@ -165,6 +165,8 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+- FIXED: Per Issue #5, cache `size` may come back from Raindrop as 0 in some cases, relax pydantic type from PositiveInt to `int` (Didn't hear anything back from Rustem regarding the cases in which this can (or should?) occur).
+
 ### v0.1.1 - 2023-06-06
 
 - CHANGED: `Raindrop.search` now only takes a single search string (instead of word, tag or important), leaving search string blank results in correct wildcard search behaviour, addresses issue #4.

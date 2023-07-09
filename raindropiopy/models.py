@@ -545,8 +545,10 @@ class File(BaseModel):
 class Cache(BaseModel):
     """Represents the cache information of Raindrop."""
 
+    # Per issue #5, we can't rely on Raindrop to always return a non-zero value for `size`, thus
+    # instead of `PositiveInt`, we use `int`.
     status: CacheStatus
-    size: PositiveInt | None = None
+    size: int | None = None
     created: datetime | None = None
 
 
@@ -719,7 +721,7 @@ class Raindrop(BaseModel):
         if collection is not None:
             # <collection> arg could be **either** an actual collection
             # or simply an int collection "id" already, handle either:
-            if isinstance(collection, (Collection, CollectionRef)):
+            if isinstance(collection, Collection | CollectionRef):
                 args["collection"] = {"$id": collection.id}
             else:
                 args["collection"] = {"$id": collection}
@@ -773,7 +775,7 @@ class Raindrop(BaseModel):
 
         # NOTE: "put_file" arguments and structure here confirmed through communication
         #       with RustemM on 2022-11-29 and his subsequent update to API docs.
-        if isinstance(collection, (Collection, CollectionRef)):
+        if isinstance(collection, Collection | CollectionRef):
             data = {"collectionId": str(collection.id)}
         else:
             data = {"collectionId": str(collection)}
@@ -869,7 +871,7 @@ class Raindrop(BaseModel):
         if collection is not None:
             # <collection> arg could be **either** an actual collection
             # or simply an int collection "id" already, handle either:
-            if isinstance(collection, (Collection, CollectionRef)):
+            if isinstance(collection, Collection | CollectionRef):
                 args["collection"] = collection.id
             else:
                 args["collection"] = collection
@@ -955,7 +957,7 @@ class Tag(BaseModel):
     count: int
 
     @classmethod
-    def get(cls, api: T_API, collection_id: int = None) -> list[Tag]:
+    def get(cls, api: T_API, collection_id: int | None = None) -> list[Tag]:
         """Get all the tags currently defined, either in a specific collections or across all collections.
 
         Args:

@@ -23,20 +23,6 @@ def sample_raindrop_link():
 
 
 @pytest.fixture
-def sample_raindrop_file():
-    """Fixture to return sample raindrop data."""
-    return (
-        "https://www.google.com/",
-        {
-            "excerpt": "excerpt/description text",
-            "important": True,
-            "tags": ["abc", "def"],
-            "title": "a Title",
-        },
-    )
-
-
-@pytest.fixture
 def search_raindrops(api):
     """Fixture to setup and teardown 2 link-based raindrops for search testing."""
     link, args = (

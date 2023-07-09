@@ -165,6 +165,8 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+### v0.1.2 - 2023-07-08
+
 - FIXED: Per Issue #5, cache `size` may come back from Raindrop as 0 in some cases, relax pydantic type from PositiveInt to `int` (Didn't hear anything back from Rustem regarding the cases in which this can (or should?) occur).
 
 ### v0.1.1 - 2023-06-06

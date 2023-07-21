@@ -164,6 +164,7 @@ The project is licensed under the MIT License.
 ## Release History
 
 ### Unreleased
+### v0.1.3 - 2023-07-20
 
 - SECURITY: Update pygments to 2.15.1 to address potential security vulnerability.
 - CHANGED: Moved to py 3.11.3.

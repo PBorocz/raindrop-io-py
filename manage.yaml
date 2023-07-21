@@ -7,9 +7,11 @@ version:
     - method: poetry_bump_version
       arguments:
         poetry_version: patch
+
     - method: update_readme
       arguments:
         readme_format: md
+
     - method: git_commit_version_files
 
 build:
@@ -17,8 +19,10 @@ build:
   steps:
     - method: run_pre_commit
       echo_stdout: true
+
     - method: clean
       allow_error: true
+
     - method: build
       echo_stdout: true
 

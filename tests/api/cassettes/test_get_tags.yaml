@@ -11,25 +11,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.raindrop.io/rest/v1/tags
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA3zUS0/DMAwA4P+SI9qBjfHajY3HgIEGm3ZBCHmt11ptk8pJJLZp/x1xQHUkjx7z
-        yU7suNkbRh/rYEaBI/YMBWy8GX3szRflZmQmJWUVWtMzmYs2mNHw7ND7w0ebEwg7O+/s1bm8Rt/h
-        4LLDSUkWPQoUWZclUCf9605u0XvkIPCqw5PfT5DYbuFiK+SikzFUZAthQ1FdgDoprz8QKRE2zuU6
-        PjvGJPBUVIc+JFuK+l7wmzIZmJbXrYvabnxyRiFzx5UKaaNEN+bgA6iywgIDrGtUdek2UUyIaC8j
-        iB6JS566mnLYqjaDZq3CIlBWbd8pQ5WXkSvUU64Ig4UmmTnBY8SNGEYBkdMgYXdF0dZgg4rTaAvg
-        5GqEPkEL9ljeWbRZqcocanSqLEqmplUp+SnE3Gw4nTVpDf6DbYuBdsiqjsdv+jqnVfWTx6AmVe4Z
-        jwU9MGKlypx2O9DFBQhOvkkC06nqJ48H5y4W+jmWtMagS7RwBLgin6T7PPwAAAD//wMAqDwgC4gF
-        AAA=
+      string: '{"result":true,"items":[{"_id":"Chicken","count":47},{"_id":"Indian","count":37},{"_id":"Noodles","count":27},{"_id":"Chinese","count":23},{"_id":"*****","count":22},{"_id":"Thai","count":19},{"_id":"Dessert","count":18},{"_id":"Soup","count":16},{"_id":"Baking","count":14},{"_id":"Italian","count":14},{"_id":"Seafood","count":12},{"_id":"Mexican","count":11},{"_id":"****","count":10},{"_id":"Korean","count":10},{"_id":"Pasta","count":9},{"_id":"Testing","count":9},{"_id":"Pork","count":8},{"_id":"***","count":7},{"_id":"Asian","count":7},{"_id":"Vegetable","count":6},{"_id":"Shrimp","count":4},{"_id":"Tofu","count":4},{"_id":"Bread","count":3},{"_id":"Burmese","count":3},{"_id":"Holiday","count":3},{"_id":"Hungarian","count":3},{"_id":"Lamb","count":3},{"_id":"StickyRice","count":3},{"_id":"Turkey","count":3},{"_id":"Vietnamese","count":3},{"_id":"Beef","count":2},{"_id":"Eggplant","count":2},{"_id":"Japanese","count":2},{"_id":"Lunch","count":2},{"_id":"Paleo","count":2},{"_id":"Rice","count":2},{"_id":"**","count":1},{"_id":"African","count":1},{"_id":"American","count":1},{"_id":"Appetizer","count":1},{"_id":"BBQ","count":1},{"_id":"Brunch","count":1},{"_id":"Chili","count":1},{"_id":"French","count":1},{"_id":"Greek","count":1},{"_id":"Pizza","count":1},{"_id":"Potatoes","count":1},{"_id":"Sourdough","count":1},{"_id":"Tibet","count":1},{"_id":"Tuna","count":1},{"_id":"Turkish","count":1}]}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 79603c62ebed9840-SJC
+      - 7ea00695e972174b-SJC
       Cache-Control:
       - private
       Connection:
@@ -39,23 +31,18 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Wed, 08 Feb 2023 00:26:48 GMT
+      - Fri, 21 Jul 2023 02:31:06 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
       - chunked
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       etag:
-      - W/"588-KdwSqXmigOZGDgV24wmtw9a04kE"
+      - W/"58a-u/JAj9fIQTabHwoVXqA/SolT7hc"
       server-timing:
       - dc;desc=eu
-      - total;dur=47.817
-      set-cookie:
-      - AWSALBAPP-0=_remove_; Expires=Wed, 15 Feb 2023 00:26:48 GMT; Path=/
-      - AWSALBAPP-1=_remove_; Expires=Wed, 15 Feb 2023 00:26:48 GMT; Path=/
-      - AWSALBAPP-2=_remove_; Expires=Wed, 15 Feb 2023 00:26:48 GMT; Path=/
-      - AWSALBAPP-3=_remove_; Expires=Wed, 15 Feb 2023 00:26:48 GMT; Path=/
+      - total;dur=33.338
       x-api-cache:
       - MISS
       x-powered-by:
@@ -65,7 +52,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '1675816068'
+      - '1689906726'
     status:
       code: 200
       message: OK

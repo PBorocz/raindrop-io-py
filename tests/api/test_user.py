@@ -7,7 +7,7 @@ from tests.api.conftest import vcr
 def test_get_user(api) -> None:
     """Test that we can information on the current user.
 
-    (Note: we can't check on the contents since they're dependent on whose running the test!).
+    (Note: we can't check on the contents since they're dependent on who's running the test!).
     """
     user = User.get(api)
     assert user is not None

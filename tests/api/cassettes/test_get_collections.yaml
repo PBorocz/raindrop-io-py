@@ -11,32 +11,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.raindrop.io/rest/v1/collections
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA8yWTW/cNhCG/0ow9aEHfXBISqJ4C4IA7aFA4KiXBEGgpbhrIlpRIKlNCsP/vaC8
-        X052XcfowgF0kIThUPM+74x4C077qQ8gg5t0AibotQf58RaCCb0GCc3b982rN7bvtQrGDq9+H3XQ
-        DhLotFfOjPElSIAExmnRGwVy2fZeJ7Ax+itI6I0PkICy0xBAkni30Q7kx08J6G9jO3S62+3+2XQg
-        GZZYIMMEJh8Db+HK6SXI+dFDAlcxCgkp64oncNUt4vZ3CSin22DddQy+vc+1jxradSzmr7b7Yxog
-        Ab1uTb9d17c+vFbbOiihLCU0RdoQIimTlGa14B9gmz9+7GNBMdnfY9cG/Xicty4c1+r7aQUSgvYh
-        VXu1053YrVLa+1jX0rqjunq90T1InoCzNuy171y7WrWLCDAqe5dAO4WbuPL+8QivvdZt93ScK2e6
-        A07EA0+4CWH0Ms+nMXOtGTpnx8zY/FBNHm6m9cLntMSc1CLndb4gZSkExZqohehIUVeK07JYdKpT
-        9VKxbBxW8MAp28+Z8dISSS14/ZJWwRTLhnDJuaQiY1X5g1VoSqqUsgZrSWqJLCvK4oxVTia7t8qh
-        1p1VbOru0SnbR7TwW7moaIWXtMu1VmbU/rntTwvxc4bR67Fvg/b5ug3amTZd9m1Il9Z26cb2KeaG
-        lj965GiazLIVcdsXnSakIUxiIZFnlaDnLSIkpxJpxig7P00eJGPfWWSudWsRt6e1t8hyUaqSX9Yi
-        frSDNxv957pd/YxXvFmPvT64pfrvnwUtEYuiIDsJyItxpiliykhDqJyvjFX1Gc68ISgJk7zMCMNT
-        nI/juCxERnBOtue6kzg1O40vxvPdP+HGDs/t+PIJDGsmOPLy5RnO7UXq2IaMS8IyXvITDBFTWsVx
-        Hi+eCaRne/VhsuKI4biT9WLg3lj7xQyr9J2z3aTCs4c2sqcw5FVN61+AYTxtpUTMBy6UiJmoTjKk
-        KcGZoZAFy+r6TB/GuKqhLM5lxjPCxRFDtVV4PCh8cZrvv5i+fzZL8USUTLBfBSU2lEpSSUIyyqvH
-        UFKUBDNR8PMosaFkHqksK2h9AqXfyfv/gvx09y8AAAD//wMA0zeqw2oNAAA=
+      string: '{"result":true,"items":[{"_id":26109849,"title":"ToRead","description":"","public":false,"view":"grid","count":11,"cover":["https://up.raindrop.io/collection/thumbs/261/098/49/b066882190cb8d0597c4265bdcdc9fc3.png"],"expanded":false,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:46.040Z","created":"2022-07-23T19:09:13.565Z","lastUpdate":"2023-01-16T04:44:28.376Z","sort":26109849,"slug":"to-read","color":"#6b7271","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26109558,"title":"Recipes","description":"","public":false,"view":"simple","count":273,"cover":["https://up.raindrop.io/collection/templates/materia-flat-food-vol-1/i26.png"],"expanded":false,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-07-13T22:54:41.621Z","created":"2022-07-23T18:42:12.323Z","lastUpdate":"2023-07-13T22:51:59.318Z","sort":5,"slug":"recipes","color":"#fb6c64","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26115550,"title":"ResponsiveImages","description":"","public":false,"view":"simple","count":6,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:44.027Z","created":"2022-07-24T01:03:46.031Z","lastUpdate":"2023-06-06T19:23:44.027Z","slug":"responsive-images","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29384146,"title":"Python","description":"","public":false,"view":"list","count":5,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:41.197Z","created":"2022-11-27T19:19:14.812Z","lastUpdate":"2023-06-06T19:23:41.197Z","slug":"python","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479296,"title":"Cooking-Products","description":"","public":false,"view":"list","count":13,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:18:53.991Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-products","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479383,"title":"Cooking-Skills","description":"","public":false,"view":"list","count":8,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:21:01.854Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-skills","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true}]}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 798134dcacff9e5c-SJC
+      - 7ea00568caaa1576-SJC
       Cache-Control:
       - private
       Connection:
@@ -46,24 +31,19 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 12 Feb 2023 00:28:50 GMT
+      - Fri, 21 Jul 2023 02:30:18 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
       - chunked
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       etag:
-      - W/"d6a-yngBhI7xQw2o//KRqRVCFx+biLc"
+      - W/"b55-xZyicPPKn3eJV8F7wenNFfqOlOc"
       server-timing:
       - dc;desc=eu
-      - find_collections;dur=24.203
-      - total;dur=33.797
-      set-cookie:
-      - AWSALBAPP-0=_remove_; Expires=Sun, 19 Feb 2023 00:28:50 GMT; Path=/
-      - AWSALBAPP-1=_remove_; Expires=Sun, 19 Feb 2023 00:28:50 GMT; Path=/
-      - AWSALBAPP-2=_remove_; Expires=Sun, 19 Feb 2023 00:28:50 GMT; Path=/
-      - AWSALBAPP-3=_remove_; Expires=Sun, 19 Feb 2023 00:28:50 GMT; Path=/
+      - find_collections;dur=25.275
+      - total;dur=36.865
       x-powered-by:
       - Express
       x-ratelimit-limit:
@@ -71,7 +51,7 @@ interactions:
       x-ratelimit-remaining:
       - '119'
       x-ratelimit-reset:
-      - '1676161790'
+      - '1689906678'
     status:
       code: 200
       message: OK
@@ -86,10 +66,8 @@ interactions:
       - keep-alive
       Content-Type:
       - application/json
-      Cookie:
-      - AWSALBAPP-0=_remove_; AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.raindrop.io/rest/v1/collections/childrens
   response:
@@ -99,7 +77,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 798134e1fcc89e5c-SJC
+      - 7ea0056f897b15c8-SJC
       Cache-Control:
       - private
       Connection:
@@ -109,22 +87,17 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 12 Feb 2023 00:28:51 GMT
+      - Fri, 21 Jul 2023 02:30:19 GMT
       Server:
       - cloudflare
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       etag:
       - '"1a-M5DJziFeZJQ6A/OlOUZ7iJ8L0aY"'
       server-timing:
       - dc;desc=eu
-      - find_collections;dur=14.635
-      - total;dur=23.522
-      set-cookie:
-      - AWSALBAPP-0=_remove_; Expires=Sun, 19 Feb 2023 00:28:50 GMT; Path=/
-      - AWSALBAPP-1=_remove_; Expires=Sun, 19 Feb 2023 00:28:50 GMT; Path=/
-      - AWSALBAPP-2=_remove_; Expires=Sun, 19 Feb 2023 00:28:50 GMT; Path=/
-      - AWSALBAPP-3=_remove_; Expires=Sun, 19 Feb 2023 00:28:50 GMT; Path=/
+      - find_collections;dur=15.132
+      - total;dur=24.292
       x-powered-by:
       - Express
       x-ratelimit-limit:
@@ -132,7 +105,7 @@ interactions:
       x-ratelimit-remaining:
       - '118'
       x-ratelimit-reset:
-      - '1676161790'
+      - '1689906678'
     status:
       code: 200
       message: OK
@@ -147,35 +120,18 @@ interactions:
       - keep-alive
       Content-Type:
       - application/json
-      Cookie:
-      - AWSALBAPP-0=_remove_; AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.raindrop.io/rest/v1/collections
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA8yWTW/cNhCG/0ow9aEHfXBISqJ4C4IA7aFA4KiXBEGgpbhrIlpRIKlNCsP/vaC8
-        X052XcfowgF0kIThUPM+74x4C077qQ8gg5t0AibotQf58RaCCb0GCc3b982rN7bvtQrGDq9+H3XQ
-        DhLotFfOjPElSIAExmnRGwVy2fZeJ7Ax+itI6I0PkICy0xBAkni30Q7kx08J6G9jO3S62+3+2XQg
-        GZZYIMMEJh8Db+HK6SXI+dFDAlcxCgkp64oncNUt4vZ3CSin22DddQy+vc+1jxradSzmr7b7Yxog
-        Ab1uTb9d17c+vFbbOiihLCU0RdoQIimTlGa14B9gmz9+7GNBMdnfY9cG/Xicty4c1+r7aQUSgvYh
-        VXu1053YrVLa+1jX0rqjunq90T1InoCzNuy171y7WrWLCDAqe5dAO4WbuPL+8QivvdZt93ScK2e6
-        A07EA0+4CWH0Ms+nMXOtGTpnx8zY/FBNHm6m9cLntMSc1CLndb4gZSkExZqohehIUVeK07JYdKpT
-        9VKxbBxW8MAp28+Z8dISSS14/ZJWwRTLhnDJuaQiY1X5g1VoSqqUsgZrSWqJLCvK4oxVTia7t8qh
-        1p1VbOru0SnbR7TwW7moaIWXtMu1VmbU/rntTwvxc4bR67Fvg/b5ug3amTZd9m1Il9Z26cb2KeaG
-        lj965GiazLIVcdsXnSakIUxiIZFnlaDnLSIkpxJpxig7P00eJGPfWWSudWsRt6e1t8hyUaqSX9Yi
-        frSDNxv957pd/YxXvFmPvT64pfrvnwUtEYuiIDsJyItxpiliykhDqJyvjFX1Gc68ISgJk7zMCMNT
-        nI/juCxERnBOtue6kzg1O40vxvPdP+HGDs/t+PIJDGsmOPLy5RnO7UXq2IaMS8IyXvITDBFTWsVx
-        Hi+eCaRne/VhsuKI4biT9WLg3lj7xQyr9J2z3aTCs4c2sqcw5FVN61+AYTxtpUTMBy6UiJmoTjKk
-        KcGZoZAFy+r6TB/GuKqhLM5lxjPCxRFDtVV4PCh8cZrvv5i+fzZL8USUTLBfBSU2lEpSSUIyyqvH
-        UFKUBDNR8PMosaFkHqksK2h9AqXfyfv/gvx09y8AAAD//wMA0zeqw2oNAAA=
+      string: '{"result":true,"items":[{"_id":26109849,"title":"ToRead","description":"","public":false,"view":"grid","count":11,"cover":["https://up.raindrop.io/collection/thumbs/261/098/49/b066882190cb8d0597c4265bdcdc9fc3.png"],"expanded":false,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:46.040Z","created":"2022-07-23T19:09:13.565Z","lastUpdate":"2023-01-16T04:44:28.376Z","sort":26109849,"slug":"to-read","color":"#6b7271","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26109558,"title":"Recipes","description":"","public":false,"view":"simple","count":273,"cover":["https://up.raindrop.io/collection/templates/materia-flat-food-vol-1/i26.png"],"expanded":false,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-07-13T22:54:41.621Z","created":"2022-07-23T18:42:12.323Z","lastUpdate":"2023-07-13T22:51:59.318Z","sort":5,"slug":"recipes","color":"#fb6c64","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26115550,"title":"ResponsiveImages","description":"","public":false,"view":"simple","count":6,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:44.027Z","created":"2022-07-24T01:03:46.031Z","lastUpdate":"2023-06-06T19:23:44.027Z","slug":"responsive-images","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29384146,"title":"Python","description":"","public":false,"view":"list","count":5,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:41.197Z","created":"2022-11-27T19:19:14.812Z","lastUpdate":"2023-06-06T19:23:41.197Z","slug":"python","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479296,"title":"Cooking-Products","description":"","public":false,"view":"list","count":13,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:18:53.991Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-products","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479383,"title":"Cooking-Skills","description":"","public":false,"view":"list","count":8,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:21:01.854Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-skills","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true}]}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 798134e34ead9e5c-SJC
+      - 7ea00571d9a8fa26-SJC
       Cache-Control:
       - private
       Connection:
@@ -185,24 +141,19 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 12 Feb 2023 00:28:51 GMT
+      - Fri, 21 Jul 2023 02:30:19 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
       - chunked
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       etag:
-      - W/"d6a-yngBhI7xQw2o//KRqRVCFx+biLc"
+      - W/"b55-xZyicPPKn3eJV8F7wenNFfqOlOc"
       server-timing:
       - dc;desc=eu
-      - find_collections;dur=22.137
-      - total;dur=32.223
-      set-cookie:
-      - AWSALBAPP-0=_remove_; Expires=Sun, 19 Feb 2023 00:28:51 GMT; Path=/
-      - AWSALBAPP-1=_remove_; Expires=Sun, 19 Feb 2023 00:28:51 GMT; Path=/
-      - AWSALBAPP-2=_remove_; Expires=Sun, 19 Feb 2023 00:28:51 GMT; Path=/
-      - AWSALBAPP-3=_remove_; Expires=Sun, 19 Feb 2023 00:28:51 GMT; Path=/
+      - find_collections;dur=22.609
+      - total;dur=31.851
       x-powered-by:
       - Express
       x-ratelimit-limit:
@@ -210,7 +161,7 @@ interactions:
       x-ratelimit-remaining:
       - '117'
       x-ratelimit-reset:
-      - '1676161790'
+      - '1689906678'
     status:
       code: 200
       message: OK
@@ -225,10 +176,8 @@ interactions:
       - keep-alive
       Content-Type:
       - application/json
-      Cookie:
-      - AWSALBAPP-0=_remove_; AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.raindrop.io/rest/v1/collections/childrens
   response:
@@ -238,7 +187,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 798134e5eaaf9e5c-SJC
+      - 7ea00577bae99866-SJC
       Cache-Control:
       - private
       Connection:
@@ -248,22 +197,17 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 12 Feb 2023 00:28:51 GMT
+      - Fri, 21 Jul 2023 02:30:20 GMT
       Server:
       - cloudflare
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       etag:
       - '"1a-M5DJziFeZJQ6A/OlOUZ7iJ8L0aY"'
       server-timing:
       - dc;desc=eu
-      - find_collections;dur=14.457
-      - total;dur=22.761
-      set-cookie:
-      - AWSALBAPP-0=_remove_; Expires=Sun, 19 Feb 2023 00:28:51 GMT; Path=/
-      - AWSALBAPP-1=_remove_; Expires=Sun, 19 Feb 2023 00:28:51 GMT; Path=/
-      - AWSALBAPP-2=_remove_; Expires=Sun, 19 Feb 2023 00:28:51 GMT; Path=/
-      - AWSALBAPP-3=_remove_; Expires=Sun, 19 Feb 2023 00:28:51 GMT; Path=/
+      - find_collections;dur=14.611
+      - total;dur=23.771
       x-powered-by:
       - Express
       x-ratelimit-limit:
@@ -271,7 +215,7 @@ interactions:
       x-ratelimit-remaining:
       - '116'
       x-ratelimit-reset:
-      - '1676161790'
+      - '1689906678'
     status:
       code: 200
       message: OK

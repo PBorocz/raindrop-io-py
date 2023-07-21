@@ -11,28 +11,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.raindrop.io/rest/v1/user
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA3xTTY/bIBD9L3MtjgDbsc2p1V56adVD2kNXESJmbKMlxgKctLvKf69wPja7rerT
-        aHh+b3hveAGPYbYRRPQzEpgDehAv0BmLIRVzQA0i46wpSlpQAsE8IwhGbx8Bq0J8GLB9+ubMGEEA
-        pzzPKMtyuqFM8LXgzaooip9wIqAOKioPAoDA5N1VWBq9sK6bqiAwqj2CgC9Kf55HINDN1n5918O9
-        MhYETBjRr3bOu/b5g1dm1N5NH/t0umrdHgj03s1TAPH4AtFEm1genLXYRuPGAAQGozWOIDplAxII
-        zkcQlEB7hxKPvCmqJq9zshS8WRPe5HXBijXha8bKsqSpoE1dNOeiLOvtaXs26NPCczOHZ7TeUJrM
-        KapVVdOfcMb9MMHEe1i1YZVgTDC+onydYB57EyL6lEzCJVDG8w2rBeMiz1dNVV7pvk9aRfy/bOvG
-        zvQp7at9QR4MHkGANSEmxVt/MBpBPEIw+8miNGPnFoeNloPpB2v6IYZrJ6o+1YlEtu6AHsj1R/zV
-        op/ia2PBbu+ldnOMZ+chYMoBCIx4lFHtlt3BZUYCqM0yI+7dAd9SBFS+HeTutwyt83hdtr8AZnyN
-        +rYGO++ecJQWD5j2TGOn0ksh0LkxyvM7oASU1vJyJu9ZMkZAtU+jO1rUfTJtSyDd8uLhRaUzNqJ/
-        19y7nbEoE7Wao5NBHf41/LKnkLUeVUT9JqfF/8Xzy6T5/elrItKnxC7CJwKTCuHovD6rnU5/AAAA
-        //8DAFbgzwchBAAA
+      string: '{"result":true,"user":{"tfa":{"enabled":false},"files":{"size":10000000000,"lastCheckPoint":"2023-07-13T22:51:13.755Z","used":2496838},"_id":1006974,"avatar":"","pro":true,"name":"MadHun","fullName":"MadHun","email":"peter.borocz+raindrop@gmail.com","groups":[{"title":"Collections","hidden":false,"sort":0,"collections":[29479383,29479296,29384146,26115550,26109849,26109558]}],"lastAction":"2023-07-21T02:22:42.247Z","lastVisit":"2023-07-21T02:27:44.826Z","registered":"2022-07-23T18:12:33.975Z","lastUpdate":"2023-07-21T02:27:44.826Z","config":{"raindrops_view":"list","raindrops_hide":["simple_info","grid_highlights","grid_tags","list_cover","simple_excerpt","simple_tags"],"raindrops_buttons":["select","new_tab","preview","edit","remove"],"raindrops_search_by_score":true,"raindrops_search_incollection":true,"broken_level":"default","font_size":0,"add_default_collection":-1,"acknowledge":[],"tags_hide":false,"filters_hide":false,"mobile_add_auto_save":true,"raindrops_sort":"-created","raindrops_grid_cover_size":3,"raindrops_list_cover_right":false,"default_collection_view":"list","last_collection":26109558},"password":true}}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 79603c681a4bcf11-SJC
+      - 7ea0044408b81701-SJC
       Cache-Control:
       - private
       Connection:
@@ -42,32 +31,27 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Wed, 08 Feb 2023 00:26:49 GMT
+      - Fri, 21 Jul 2023 02:29:31 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
       - chunked
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       etag:
-      - W/"421-dgS2+umi8jcwejJswbNJhKt1eTk"
+      - W/"472-zTnxF8VAoc53PiqBQhV1qDhSVlA"
       server-timing:
       - dc;desc=eu
-      - find_user;dur=7.412
-      - total;dur=15.527
-      set-cookie:
-      - AWSALBAPP-0=_remove_; Expires=Wed, 15 Feb 2023 00:26:49 GMT; Path=/
-      - AWSALBAPP-1=_remove_; Expires=Wed, 15 Feb 2023 00:26:49 GMT; Path=/
-      - AWSALBAPP-2=_remove_; Expires=Wed, 15 Feb 2023 00:26:49 GMT; Path=/
-      - AWSALBAPP-3=_remove_; Expires=Wed, 15 Feb 2023 00:26:49 GMT; Path=/
+      - get;dur=8.381
+      - total;dur=18.406
       x-powered-by:
       - Express
       x-ratelimit-limit:
       - '120'
       x-ratelimit-remaining:
-      - '96'
+      - '118'
       x-ratelimit-reset:
-      - '1675816048'
+      - '1689906600'
     status:
       code: 200
       message: OK

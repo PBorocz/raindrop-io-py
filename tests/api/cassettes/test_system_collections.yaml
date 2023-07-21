@@ -11,20 +11,17 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.raindrop.io/rest/v1/user/stats
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA0TNwQ6CMBCE4XeZczFLiwh7ND6CJ40xFTZKsNSUciJ9d6MRvH6Z/DMjyDg9IziG
-        SRS6KG4En2dcuxZMCo2fhgg2epvUT7N8ZW3+WtcrV+mi4CRa8IxX8Ev+O8yJynpXKDQPO9yl3Xvf
-        Oxv68WCjgKFJm4x0RtWRiHXJptjkBZ2gcAu+l+ETXf5TSm8AAAD//wMAQFqqtMQAAAA=
+      string: '{"result":true,"items":[{"_id":0,"count":341},{"_id":-1,"count":25},{"_id":-99,"count":26}],"meta":{"_id":1006974,"changedBookmarksDate":"2023-07-21T02:21:03.574Z","broken":{"count":2},"pro":true}}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 79603c47fa116426-SJC
+      - 7ea0057caa1615a6-SJC
       Cache-Control:
       - private
       Connection:
@@ -34,23 +31,18 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Wed, 08 Feb 2023 00:26:44 GMT
+      - Fri, 21 Jul 2023 02:30:21 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
       - chunked
       alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - h3=":443"; ma=86400
       etag:
-      - W/"c4-/W++EgoOjUovvz3Nehz+84Ktc34"
+      - W/"c5-4AYsgG/TDCwTdhJXwHOUKyzP2ik"
       server-timing:
       - dc;desc=eu
-      - total;dur=25.407
-      set-cookie:
-      - AWSALBAPP-0=_remove_; Expires=Wed, 15 Feb 2023 00:26:44 GMT; Path=/
-      - AWSALBAPP-1=_remove_; Expires=Wed, 15 Feb 2023 00:26:44 GMT; Path=/
-      - AWSALBAPP-2=_remove_; Expires=Wed, 15 Feb 2023 00:26:44 GMT; Path=/
-      - AWSALBAPP-3=_remove_; Expires=Wed, 15 Feb 2023 00:26:44 GMT; Path=/
+      - total;dur=25.115
       x-api-cache:
       - MISS
       x-powered-by:
@@ -58,9 +50,9 @@ interactions:
       x-ratelimit-limit:
       - '120'
       x-ratelimit-remaining:
-      - '107'
+      - '115'
       x-ratelimit-reset:
-      - '1675816048'
+      - '1689906678'
     status:
       code: 200
       message: OK

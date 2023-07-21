@@ -6,7 +6,6 @@ from typing import Final
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import FileHistory
-from pyfiglet import Figlet
 from rich.console import Console
 
 from raindropiopy.cli import (
@@ -35,7 +34,7 @@ class EventLoop:
     """Top-level command-line interface controller/command-loop."""
 
     def _display_startup_banner(self) -> None:
-        banner: str = "Raindrop-io-py"
+        banner: str = "Welcome to Raindrop-io-py\n"
         welcome: str = (
             f"""{make_italic('<tab>')} to show options/complete | """
             f"""{make_italic('help')} for help | """
@@ -43,7 +42,8 @@ class EventLoop:
         )
         # We can't use self.console.print here as any the special
         # characters figlet creates will be interpreted by Rich.
-        print(Figlet(font="thin").renderText(banner))
+        # print(Figlet(font="thin").renderText(banner))
+        self.console.print(banner)
         self.console.print(welcome)
 
     def __init__(

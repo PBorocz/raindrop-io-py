@@ -165,6 +165,9 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+- SECURITY: Update pygments to 2.15.1 to address potential security vulnerability.
+- CHANGED: Moved to py 3.11.3.
+
 ### v0.1.2 - 2023-07-08
 
 - FIXED: Per Issue #5, cache `size` may come back from Raindrop as 0 in some cases, relax pydantic type from PositiveInt to `int` (Didn't hear anything back from Rustem regarding the cases in which this can (or should?) occur).

@@ -164,6 +164,10 @@ The project is licensed under the MIT License.
 ## Release History
 
 ### Unreleased
+### v0.1.5 - 2023-08-17
+
+- SECURITY: Update `certifi` to address potential security vulnerability (CVE-2023-37920) (second release attempt)
+
 ### v0.1.4 - 2023-08-17
 
 - SECURITY: Update `certifi` to address potential security vulnerability (CVE-2023-37920).

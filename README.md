@@ -164,6 +164,11 @@ The project is licensed under the MIT License.
 ## Release History
 
 ### Unreleased
+### v0.1.7 - 2023-08-22
+
+- SECURITY: Another `tornado` update to address vulnerability in parsing Content-Length from header (GHSA-qppv-j76h-2rpx).
+
+
 ### v0.1.6 - 2023-08-17
 
 - SECURITY: Update `tornado` to address vulnerability in parsing Content-Length from header (moderate severity, no CVE).

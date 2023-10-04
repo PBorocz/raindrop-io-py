@@ -164,7 +164,7 @@ The project is licensed under the MIT License.
 ## Release History
 
 ### Unreleased
-### v0.1.9 - 2023-10-03
+
 ### v0.1.8 - 2023-10-03
 
 - FIXED: Addressed error in README.md (ht to @superkeyor in [issue #7](https://github.com/PBorocz/raindrop-io-py/issues/7).

@@ -151,7 +151,9 @@ class CollectionRef(BaseModel):
 
 
 # We define the 3 "system" collections in the Raindrop environment:
-CollectionRef.All = CollectionRef(**{"$id": 0})
+CollectionRef.All = CollectionRef(
+    **{"$id": 0},
+)  # Note: "all" here does NOT include Trash.
 CollectionRef.Trash = CollectionRef(**{"$id": -99})
 CollectionRef.Unsorted = CollectionRef(**{"$id": -1})
 
@@ -190,10 +192,10 @@ class Collection(BaseModel):
         sort: The order of the collection. Defines the position of the collection all other
           collections at the same level in the tree.
         view: Current view style of the collection, e.g. list, simple, grid etc.
-        other: All other attributes received from Raindrop's API.
+        other: All other attributes received from Raindrop's API (see Warning below)
 
     Warning:
-        Attributes in `other` are NOT OFFICIALLY SUPPORTED!.
+        Attributes in `other` are *NOT* OFFICIALLY SUPPORTED...use at your own risk!
     """
 
     id: int = Field(None, alias="_id")
@@ -509,7 +511,11 @@ class SystemCollection(BaseModel):
         - The *Trash* collection contains Raindrops that have been recently deleted.
 
     You won't use this class directly on behalf of individual Raindrops, rather, its definition is on behalf of
-    a simple "status" call available from the Raindrop.io API.
+    a small set of simple "status" calls available from the Raindrop.io API, specifically:
+
+        - get_counts() -> Count of items each of the in the 3 System collections (get_counts).
+
+        - get_meta() -> "Meta" information about your environment, e.g. lastChangedDate, proLevel, # broken links etc.
     """
 
     id: int = Field(None, alias="_id")
@@ -528,10 +534,15 @@ class SystemCollection(BaseModel):
         return values
 
     @classmethod
-    def get_status(cls, api: T_API) -> User:
-        """Get the count of Raindrops across all 3 *system* collections."""
+    def get_counts(cls, api: T_API) -> User:
+        """Get the count of Raindrops in each of the 3 *system* collections."""
         items = api.get(URL.format(path="user/stats")).json()["items"]
         return [cls(**item) for item in items]
+
+    @classmethod
+    def get_meta(cls, api: T_API) -> User:
+        """Get the 'meta' slug from the root/system Collection."""
+        return api.get(URL.format(path="user/stats")).json()["meta"]
 
 
 class File(BaseModel):
@@ -785,10 +796,9 @@ class Raindrop(BaseModel):
             item = api.put_file(url, path, data, files).json()["item"]
             raindrop = cls(**item)
 
-        # The Raindrop API's "Create Raindrop From File" does not allow us to set other attributes, thus,
-        # we need to check if any of the possible attributes need to be set and do so explicitly with another
-        # call to "update" the Raindrop we just
-        # created.:
+        # Raindrop's "Create Raindrop From File" does not allow us to set other attributes,
+        # thus, we need to check if any of the possible attributes need to be set and do so
+        # explicitly with another call to "update" the Raindrop we just created.
         args: dict[str, Any] = {}
         if title is not None:
             args["title"] = title

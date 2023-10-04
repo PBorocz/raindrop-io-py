@@ -5,7 +5,7 @@
 
 [tool.poetry]
 name = "raindrop-io-py"
-version = "0.1.7"
+version = "0.1.9"
 description = "API and terminal-based CLI for Raindrop.io bookmark manager"
 authors = ["Peter Borocz <peter.borocz+raindrop-io-py@google.com>"]
 classifiers = ['License :: OSI Approved :: MIT License', 'Programming Language :: Python :: 3']
@@ -109,10 +109,11 @@ select = [
        "RUF",                        # Ruff-specific rules
        ]
 ignore = [
-       "D213",
-       "E402",
-       "I001",
-       ]
+  "D213",
+  "E402",
+  "I001",
+  "C901", # 'process' is too complex (1 case only)
+]
 
 [tool.ruff.pydocstyle]
 # For more info, see:

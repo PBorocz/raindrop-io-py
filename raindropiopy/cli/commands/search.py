@@ -4,7 +4,7 @@ from prompt_toolkit.completion import WordCompleter
 
 # from raindropiopy import Collection, CollectionRef, Raindrop
 from raindropiopy.cli import PROMPT_STYLE, prompt
-from raindropiopy.cli.models.search_state import SearchState, WILDCARD
+from raindropiopy.cli.models.search_state import SearchState
 from raindropiopy.cli.commands import get_collection_s
 from raindropiopy.cli.commands.help import help_search
 from raindropiopy.cli.commands.view_edit import process as process_view_edit
@@ -24,7 +24,7 @@ def __prompt_search_terms(el: EventLoop) -> tuple[bool, str | None]:
     completer = WordCompleter(search_tags)
     while True:
         response = el.session.prompt(
-            prompt(("search term(s)?",)),
+            prompt(("search> term(s)?",)),
             completer=completer,
             style=PROMPT_STYLE,
             complete_while_typing=True,
@@ -67,28 +67,13 @@ def process(el: EventLoop) -> None:
         if search_state is None:
             return None  # We're REALLY done..
 
-        # Do search and display results (after which we go back for another try.
-        collection_text = ", ".join(search_state.collection_s)
-        if search_state.search == WILDCARD:
-            # Wildcard with at least one collection:
-            spinner_text = f"Finding all raindrops in {collection_text}"
-
-        elif not search_state.collection_s:
-            # Not a wildcard but don't have a collection specified:
-            spinner_text = (
-                f"Searching for '{search_state.search}' across all collections"
-            )
-
-        else:
-            # Not a wildcard but have collection(s) to search over:
-            spinner_text = f"Searching for '{search_state.search}' in {collection_text}"
-
         ################################################################################
         # Do the query and display the results, transferring control over to view/edit
         ################################################################################
-        with Spinner(f"{spinner_text}..."):
+        with Spinner(search_state.spinner_text()):
             search_state.query(el)
 
+        # Display the results of the search, ie, id, title, *tags...
         search_state.display_results(el)
 
         if search_state.results:

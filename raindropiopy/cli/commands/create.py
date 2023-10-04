@@ -19,7 +19,6 @@ from raindropiopy.cli.commands import (
     get_confirmation,
     get_from_list,
     get_title,
-    get_description,
 )
 from raindropiopy.cli.models.create_request import CreateRequest
 from raindropiopy.cli.models.event_loop import EventLoop
@@ -33,8 +32,6 @@ def _create_file(api: API, request: CreateRequest) -> bool:
         args["title"] = request.title
     if request.tags:
         args["tags"] = request.tags
-    if request.description:
-        args["excerpt"] = request.description
 
     Raindrop.create_file(
         api,
@@ -53,8 +50,6 @@ def _create_link(api: API, request: CreateRequest) -> None:
         args["title"] = request.title
     if request.tags:
         args["tags"] = request.tags
-    if request.description:
-        args["excerpt"] = request.description
 
     Raindrop.create_link(
         api,
@@ -67,7 +62,7 @@ def _create_link(api: API, request: CreateRequest) -> None:
 def _read_files(path_: Path) -> list[Path]:
     """Make sure the inbound directory is good and return all PDF's in it."""
     assert path_.exists(), f"Sorry, '{path_}' doesn't exist!"
-    return list(path_.glob("*.pdf"))
+    return [fp_ for fp_ in list(path_.glob("*.pdf")) if not fp_.name.startswith("DONE")]
 
 
 def __validate_url(url: str) -> str | None:
@@ -236,13 +231,8 @@ def _prompt_for_request(
             return None
 
     # Get a Title:
-    request.title = get_title(el, ("create", "title?"))
+    request.title = get_title(el, ("create", "title?"), f"{request.file_path.stem}")
     if request.title is None:  # User asked to quit the interaction..
-        return None
-
-    # Get a Description:
-    request.description = get_description(el, ("create", "description?"))
-    if request.description is None:  # User asked to quit the interaction..
         return None
 
     # Get a Collection: (these are the same across raindrop types)
@@ -291,6 +281,9 @@ def _add_single(
     with Spinner(f"Adding Raindrop -> {request.name()}..."):
         create_method = _create_link if url else _create_file
         create_method(el.state.api, request)
+
+    # If a file-based upload, rename the file as "DONE-<foo.pdf>"
+    request.rename_file_to_done()
 
     # Be nice to raindrop.io and wait a bit..
     if interstitial:

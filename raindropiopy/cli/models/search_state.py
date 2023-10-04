@@ -16,11 +16,11 @@ WILDCARD: str = "*"
 class SearchState:
     """Encapsulates all items necessary and possible for a Raindrop *search* and associated *results*."""
 
-    # Search REQUEST:
+    # Search REQUEST
     search: str = None
     collection_s: tuple[str] = None
 
-    # Search RESULTS:
+    # Search RESULTS
     results: list[Raindrop] = None
     selected: int | None = None
 
@@ -106,10 +106,24 @@ class SearchState:
         el.console.print(table)
 
     def prompt(self) -> str:
-        """Determine the appropriate prompt "addendum" based on current search state."""
+        """Return the "addendum" to be added after the search prompt based on current search state."""
         if self.selected is not None:
             return f"{self.selected + 1}/{len(self)}"
         return f"-/{len(self)}"
+
+    def spinner_text(self) -> str:
+        """Return the spinner text to be displayed while the query is running."""
+        collection_text = ", ".join(self.collection_s)
+        if self.search == WILDCARD:
+            # Wildcard with at least one collection:
+            return f"Finding all raindrops in {collection_text}..."
+
+        elif not self.collection_s:
+            # Not a wildcard but don't have a collection specified:
+            return f"Searching for '{self.search}' across all collections..."
+
+        # Not a wildcard but have collection(s) to search over:
+        return f"Searching for '{self.search}' in {collection_text}..."
 
     def query(self, el: EventLoop):
         """Query Raindrop.io across 0, 1 or many collections for the respective search terms."""
@@ -122,7 +136,7 @@ class SearchState:
             # Set the search arguments:
             search_args: dict = {"collection": collection}
             if search != WILDCARD:
-                search_args["word"] = search
+                search_args["search"] = search
             return Raindrop.search(api, **search_args)
 
         # Query based on whether or not we have specific collection(s) to query over:

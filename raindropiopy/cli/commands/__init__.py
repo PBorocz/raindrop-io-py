@@ -40,28 +40,48 @@ def get_from_list(
     return response
 
 
-def get_title(el: EventLoop, prompts: list[str]) -> str | None:
+def get_title(
+    el: EventLoop,
+    prompts: list[str],
+    default_value: str | None = None,
+) -> str | None:
     """Mini-event loop to prompt for a raindrop Title."""
     while True:
-        title = el.session.prompt(prompt(prompts), style=PROMPT_STYLE)
+        title = el.session.prompt(
+            prompt(prompts),
+            style=PROMPT_STYLE,
+            rprompt=default_value,
+        )
         if title == "?":
             el.console.print(
                 "We need a Raindrop title here, eg. 'Home Page for xxxyyy'",
             )
+        elif title == "":
+            return default_value
         elif title == "q":
             return None
         else:
             return title
 
 
-def get_description(el: EventLoop, prompts: list[str]) -> str | None:
+def get_description(
+    el: EventLoop,
+    prompts: list[str],
+    default_value: str | None = None,
+) -> str | None:
     """Mini-event loop to prompt for a raindrop Description (nee excerpt)."""
     while True:
-        description = el.session.prompt(prompt(prompts), style=PROMPT_STYLE)
+        description = el.session.prompt(
+            prompt(prompts),
+            style=PROMPT_STYLE,
+            rprompt=default_value,
+        )
         if description == "?":
             el.console.print(
                 "We need a Raindrop description here, eg. 'This was an interesting site.'",
             )
+        elif description == "":
+            return default_value
         elif description == "q":
             return None
         else:

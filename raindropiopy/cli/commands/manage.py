@@ -1,11 +1,14 @@
 """Add/Create a new file-based bookmark to Raindrop."""
+import csv
 from datetime import datetime
+from pathlib import Path
 from typing import Final
 
 from humanize import naturaltime
 from prompt_toolkit.completion import WordCompleter
 from rich.table import Table
 
+from raindropiopy import Raindrop
 from raindropiopy.models import Collection, CollectionRef
 from raindropiopy.cli import (
     COLOR_TABLE_COLUMN_1,
@@ -15,6 +18,7 @@ from raindropiopy.cli import (
     prompt,
 )
 from raindropiopy.cli.models.event_loop import EventLoop
+from raindropiopy.cli.models.spinner import Spinner
 
 
 def get_total_raindrops(collections: list[Collection, CollectionRef]) -> int:
@@ -74,13 +78,69 @@ def show_help(el: EventLoop) -> None:
     )
 
 
+def _do_export(el: EventLoop) -> None:
+    """Export the all the meta-data of the Raindrops."""
+
+    def raindrop_csv_encoder(raindrop: Raindrop) -> dict:
+        """Convert a Raindrop instance to a dict suitable for csv export."""
+        return_ = dict()
+        for attr, _type_ in raindrop.__annotations__.items():
+            return_[attr] = getattr(raindrop, attr)
+
+        # Handle some specific conversions:
+        collection = el.state.find_collection_by_id(raindrop.collection.id)
+        return_["collection"] = (
+            collection.title if collection else raindrop.collection.id
+        )
+        return_["tags"] = ",".join(raindrop.tags)
+        return_["user"] = raindrop.user.id
+        print(type(raindrop.collection))
+        del return_["media"]
+
+        return return_
+
+    # Export on a collection by collection basis..
+    with Spinner("Querying all Raindrops..."):
+        raindrops = []
+        for collection in el.state.collections:
+            for raindrop in Raindrop.search(el.state.api, collection=collection):
+                raindrops.append(raindrop)
+
+    with Spinner("Exporting all Raindrops..."):
+        fn_export = Path("~/Downloads/raindrop-io-py.csv").expanduser()
+        fieldnames = {
+            "collection",
+            "cover",
+            "created",
+            "domain",
+            "excerpt",
+            "id",
+            "last_update",
+            "link",
+            "tags",
+            "title",
+            "type",
+            "user",
+        }
+        with open(fn_export, "w") as fh_csv:
+            writer = csv.DictWriter(
+                fh_csv,
+                fieldnames=fieldnames,
+                extrasaction="ignore",
+            )
+            writer.writeheader()
+            writer.writerows([raindrop_csv_encoder(raindrop) for raindrop in raindrops])
+    print(f"Wrote {len(raindrops)} entries to {fn_export}.")
+
+
 def process(el: EventLoop) -> None:
-    """Controller for managing the Raindrop environment, including showing statistics."""
+    """Controller for "manage" portion of the Raindrop CLI."""
     while True:
         options: Final = (
             "status",
             "collections",
             "tags",
+            "export",
             "refresh",
             "back/.",
         )
@@ -106,6 +166,8 @@ def process(el: EventLoop) -> None:
                 el.console.print(options_title)
             elif response.casefold() in ("status", "s"):
                 _show_status(el)
+            elif response.casefold() in ("export", "e"):
+                _do_export(el)
             elif response.casefold() in ("collections", "c"):
                 _show_collections(el)
             elif response.casefold() in ("tags", "t"):

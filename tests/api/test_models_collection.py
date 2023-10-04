@@ -127,10 +127,10 @@ def test_delete() -> None:
 
 
 def test_get_system_collection_status() -> None:
-    """Test the call to the "get_status" method."""
+    """Test the call to the "get_counts" method."""
     api = API("dummy")
     with patch("raindropiopy.api.OAuth2Session.request") as m:
         m.return_value.json.return_value = {"items": [system_collection]}
-        assert SystemCollection.get_status(api)[0].id == -1
-        assert SystemCollection.get_status(api)[0].title == "Unsorted"
-        assert SystemCollection.get_status(api)[0].count == 5
+        assert SystemCollection.get_counts(api)[0].id == -1
+        assert SystemCollection.get_counts(api)[0].title == "Unsorted"
+        assert SystemCollection.get_counts(api)[0].count == 5

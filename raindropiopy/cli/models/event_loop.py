@@ -11,7 +11,7 @@ from rich.console import Console
 from raindropiopy.cli import (
     PROMPT_STYLE,
     goodbye,
-    make_italic,
+    make_bold,
     options_as_help,
     prompt,
 )
@@ -36,9 +36,9 @@ class EventLoop:
     def _display_startup_banner(self) -> None:
         banner: str = "Welcome to Raindrop-io-py\n"
         welcome: str = (
-            f"""{make_italic('<tab>')} to show options/complete | """
-            f"""{make_italic('help')} for help | """
-            f"""{make_italic('Ctrl-D')}, {make_italic('exit')} or '.' to exit."""
+            f"""{make_bold('<tab>')} to show options/complete | """
+            f"""{make_bold('help')} for help | """
+            f"""{make_bold('Ctrl-D')}, {make_bold('exit')} or '{make_bold('.')}' to exit."""
         )
         # We can't use self.console.print here as any the special
         # characters figlet creates will be interpreted by Rich.

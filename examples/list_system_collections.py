@@ -19,5 +19,5 @@ def _print(c: SystemCollection) -> None:
 
 
 with API(os.environ["RAINDROP_TOKEN"]) as api:
-    for collection in SystemCollection.get_status(api):
+    for collection in SystemCollection.get_counts(api):
         _print(collection)

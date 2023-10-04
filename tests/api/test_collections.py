@@ -32,7 +32,7 @@ def test_get_collections(api) -> None:
 @vcr.use_cassette()
 def test_system_collections(api) -> None:
     """Test that we can information on the "system" collections."""
-    system = SystemCollection.get_status(api)
+    system = SystemCollection.get_counts(api)
     assert system
     assert isinstance(system, list)
     assert len(system) == 3, "Sorry, we expect to always have *3* system collections!"

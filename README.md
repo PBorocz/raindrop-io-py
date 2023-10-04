@@ -18,7 +18,7 @@ This package includes:
 
 ## Status
 
-As the API layer is based on a fork of an existing package, it's reasonably stable. However, the command-line interface (CLI) is brand new (and lacking tests, ie. "works for me!" ;-).
+As the API layer is based on a fork of an existing package, it's reasonably stable. However, the command-line interface (CLI) is brand new (and lacks tests, i.e. "works for me!" ;-).
 
 ## Requirements
 
@@ -71,7 +71,7 @@ or a wrapper script is available to run all of them, in logical order with a sma
 
 ### API Examples
 
-Here are a few examples of API usage (all of these should be able to be executed "as-is"):
+Here are a few examples of API usage. Note that I don't have testing for the examples below (yet), but *DO* for those in the examples folder!
 
 #### Display All Collections and **Unsorted** Bookmarks:
 
@@ -82,7 +82,7 @@ import os
 
 from dotenv import load_dotenv
 
-from raindropiopy.api import API, Collection, CollectionRef, Raindrop
+from raindropiopy import API, Collection, CollectionRef, Raindrop
 
 load_dotenv()
 
@@ -104,7 +104,7 @@ import os
 
 from dotenv import load_dotenv
 
-from raindropiopy.api import API, Raindrop
+from raindropiopy import API, Raindrop
 
 load_dotenv()
 
@@ -128,7 +128,7 @@ from getpass import getuser
 
 from dotenv import load_dotenv
 
-from raindropiopy.api import API, Collection
+from raindropiopy import API, Collection
 
 load_dotenv()
 
@@ -164,9 +164,19 @@ The project is licensed under the MIT License.
 ## Release History
 
 ### Unreleased
+### v0.1.9 - 2023-10-03
+### v0.1.8 - 2023-10-03
+
+- FIXED: Addressed error in README.md (ht to @superkeyor in [issue #7](https://github.com/PBorocz/raindrop-io-py/issues/7).
+- CHANGED: `SystemCollections.get_status` has been renamed to `SystemCollections.get_counts` to more accurately reflect that it only returns the counts of Raindrops in the 3 SystemCollections only.
+- ADDED: `SystemCollections.get_meta` to return the current "state" of your environment, in particular: the date-time associated with the last Raindrop change; if your account is Pro level also the number of "broken" and/or "duplicated" Raindrops in your account. 
+- ADDED: Reduced CLI startup time as CLI now keeps cached lists of Collections and Tags in conventional (but platform-specific) application state directory. If no changes to the Raindrop environment have occurred since last invocation (determined by the `get_meta` method above), previous state will be used.
+- SECURITY: Addressed `gitpython` vulnerabilities (CVE-2023-40590 and CVE-2023-41040). The former is primarily a Windows issue but `gitpython` is only used in the poetry _dev_ group for release support.
+- SECURITY: Addressed `urllib3` vulnerability (CVE-2023-43804) inherited from requests library. Similar to above, this is also only used in poetry _dev_ group for release support (thus, will attempt to segregate a bit more strongly).
+
 ### v0.1.7 - 2023-08-22
 
-- SECURITY: Another `tornado` update to address vulnerability in parsing Content-Length from header (GHSA-qppv-j76h-2rpx).
+- SECURITY: Another `tornado` update to address vulnerability in parsing Content-Length from header (has a CVE now ➡ `GHSA-qppv-j76h-2rpx`).
 
 
 ### v0.1.6 - 2023-08-17
@@ -263,7 +273,6 @@ from raindroiopy.api import API
 ```
 
 - FIXED: Sample file upload specification in `examples/create_raindrop_file.py` is now correct.
-
 
 .. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
     :alt: Documentation Status

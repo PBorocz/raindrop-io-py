@@ -137,11 +137,12 @@ def _delete_raindrop(el: EventLoop, raindrop: Raindrop) -> None:
 
 
 def process(el: EventLoop, search_state: SearchState) -> bool:
-    """Top-level UI Controller for viewing / edit a bookmark(s).
+    """Top-level UI Controller for view/edit a bookmark(s) returned from the specified search results.
 
     Return:
     - quit : Should we "quit" after this invocation?
     """
+    raindrop = None
     while True:
         response = _prompt_view_edit(el, search_state)
 
@@ -149,28 +150,49 @@ def process(el: EventLoop, search_state: SearchState) -> bool:
             raindrop = search_state.get_selected(int(response))
             _view_raindrop(el, raindrop)
 
-        elif response.casefold() in ("b", "back", ".", "q", "quit"):
+        elif response.casefold() in ("b", "back", "."):
+            return False
+
+        elif response.casefold() in ("q", "quit"):
             return True
-
-        elif response.casefold() in ("v", "view"):
-            _view_raindrop(el, raindrop)
-
-        elif response.casefold() in ("o", "open"):
-            _open_raindrop(el, raindrop)
 
         elif response.casefold() in ("l", "list"):
             search_state.display_results(el)
 
         elif response.casefold() in ("r", "requery"):
-            search_state.query(el)
+            with Spinner(search_state.spinner_text()):
+                search_state.query(el)
             search_state.display_results(el)
 
+        # The following require that a Raindrop be selected/identifier
+        elif response.casefold() in ("v", "view"):
+            if raindrop:
+                _view_raindrop(el, raindrop)
+            else:
+                print("Sorry, need to enter the number of the Raindrop to select it")
+
+        elif response.casefold() in ("o", "open"):
+            if raindrop:
+                _open_raindrop(el, raindrop)
+            else:
+                print("Sorry, need to enter the number of the Raindrop to select it")
+
+                search_state.display_results(el)
+
         elif response.casefold() in ("d", "delete"):
-            _delete_raindrop(el, raindrop)
-            search_state.query(el)
+            if raindrop:
+                _delete_raindrop(el, raindrop)
+                search_state.query(el)
+            else:
+                print("Sorry, need to enter the number of the Raindrop to select it")
+
             search_state.display_results(el)
 
         elif response.casefold() in ("e", "edit"):
-            _edit_raindrop(el, search_state, raindrop)
-            search_state.query(el)
+            if raindrop:
+                _edit_raindrop(el, search_state, raindrop)
+                search_state.query(el)
+            else:
+                print("Sorry, need to enter the number of the Raindrop to select it")
+
             search_state.display_results(el)

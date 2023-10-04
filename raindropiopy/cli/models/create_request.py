@@ -1,38 +1,37 @@
 """Abstract data types to support Raindrop CLI."""
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, TypeVar
+from typing import Callable, Self
 
 from raindropiopy import Collection
 
-CreateRequest = TypeVar(
-    "CreateRequest",
-)  # In py3.11, we'll be able to do 'from typing import Self' instead
+# CreateRequest = TypeVar(
+#     "CreateRequest",
+# )  # In py3.11, we'll be able to do 'from typing import Self' instead
 
 
 @dataclass
 class CreateRequest:
     """Encapsulate parameters required to create either a link or file-based Raindrop bookmark."""
 
-    # Bookmark title on Raindrop, eg. "This is a really cool link/doc"
+    # Title on Raindrop, eg. "This is a really cool link/doc" (required but None for easier usage)
+
     title: str = None
 
-    # Bookmark description (nee excerpt) on Raindrop, eg. "Read more on this..."
+    # Optional description (neé excerpt, neé notes) on Raindrop, eg. "Read more on this..."
     description: str = None
 
-    # Name of collection (or real) to store bookmark, eg. "My Documents"
+    # Name of collection to store bookmark, eg. "My Documents"
     collection: str | Collection = None
 
     # Optional list of tags to associate, eg. ["'aTag", "Another Tag"]
     tags: list[str] = None
 
     # One of the following needs to be specified:
-
-    # URL of link-based Raindrop to create.
-    url: str = None
-
-    # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
-    file_path: Path = None
+    url: str = None  # URL of link-based Raindrop to create.
+    file_path: Path = (
+        None  # Absolute path of file to be pushed, eg. /home/me/Documents/foo.pdf
+    )
 
     def name(self) -> str:
         """Return a user viewable name for request irrespective of type."""
@@ -50,13 +49,18 @@ class CreateRequest:
             print_method(f"URL           : {self.url}")
         elif self.file_path:
             print_method(f'File to send  : "{self.file_path}"')
+
         print_method(f"Title       : {self.title}")
-        print_method(f"Description : {self.description}")
-        print_method(f"Collection  : {self.collection}")
-        print_method(f"Tag(s)      : {self.tags}")
+
+        if self.description:
+            print_method(f"Description : {self.description}")
+        if self.collection:
+            print_method(f"Collection  : {self.collection}")
+        if self.tags:
+            print_method(f"Tag(s)      : {self.tags}")
 
     @classmethod
-    def factory(cls, entry: dict) -> CreateRequest:
+    def factory(cls, entry: dict) -> Self:
         """Return an new instance of CreateRequest based on an inbound dict, ie. from toml."""
         request: CreateRequest = CreateRequest(
             collection=entry.get("collection"),
@@ -80,19 +84,26 @@ class CreateRequest:
 
         return request
 
-    def __str__(self):
-        """Render a collection as a string (mostly for display)."""
-        return_ = list()
-        if self.title:
-            return_.append(f"Title       : {self.title}")
-        if self.url:
-            return_.append(f"URL         : {self.url}")
-        if self.file_path:
-            return_.append(f"File        : {self.file_path}")
-        if self.description:
-            return_.append(f"Description : {self.description}")
-        if self.collection:
-            return_.append(f"Collection  : {self.collection}")
-        if self.tags:
-            return_.append(f"Tag(s)      : {self.tags}")
-        return "\n".join(return_)
+    def rename_file_to_done(self) -> None:
+        """."""
+        if not self.file_path:  # Only applicable to file-based uploads
+            return
+        new_file_name = "DONE-" + self.file_path.name
+        self.file_path.rename(self.file_path.with_name(new_file_name))
+
+    # def __str__(self):
+    #     """Render a collection as a string (mostly for display)."""
+    #     return_ = list()
+    #     if self.title:
+    #         return_.append(f"Title       : {self.title}")
+    #     if self.url:
+    #         return_.append(f"URL         : {self.url}")
+    #     if self.file_path:
+    #         return_.append(f"File        : {self.file_path}")
+    #     if self.description:
+    #         return_.append(f"Description : {self.description}")
+    #     if self.collection:
+    #         return_.append(f"Collection  : {self.collection}")
+    #     if self.tags:
+    #         return_.append(f"Tag(s)      : {self.tags}")
+    #     return "\n".join(return_)

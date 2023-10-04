@@ -53,19 +53,25 @@ def make_italic(str_):
     return f"[italic]{str_}[/italic]"
 
 
+def make_bold(str_):
+    """Use Rich's rich text to make string bold."""
+    return f"[bold]{str_}[/bold]"
+
+
 def options_as_help(options: list[str], depth: int = 1) -> str:
     """Return the list of options in a nice format for display.
 
     Input options might be: ["Action"  , "SomethingElse"  , "Done"]
-    first, we convert to    ["(A)ction", "(S)omethingElse", "(D)one"]
-    then we render to      "[italic](A)nAction[/italic], "
+    then we render to       "[bold]A[/bold]ction, [bold]S[/bold]omethingElse, ..."
 
     Similarly, when called with: ["title", "tag", "back"] AND depth of *2*:
-    we convert to                ["(ti)tle", "(ta)g", "(b)ack"]
-    and then render to          "[italic](ti)tle[/italic] [italic](ta)g[/italic]..."
+    and then render to          "[bold]ti[/bold]tle, [bold]ta[/bold]g..."
     """
-    initial_letters = [f"({option[0:depth]}){option[depth:]}" for option in options]
-    return ", ".join([make_italic(option) for option in initial_letters])
+
+    def __bold_depth_letter_s(str_, depth):
+        return make_bold(str_[0:depth]) + str_[depth:]
+
+    return ", ".join([__bold_depth_letter_s(option, depth) for option in options])
 
 
 def goodbye(console) -> None:

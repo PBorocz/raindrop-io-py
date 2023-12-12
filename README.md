@@ -168,6 +168,7 @@ The project is licensed under the MIT License.
 ## Release History
 
 ### Unreleased
+### v0.2.1 - 2023-12-12
 - FIXED: Minor bug in recently updated list_collections.
 - CHANGED: Continued to remove redundant packages.
 

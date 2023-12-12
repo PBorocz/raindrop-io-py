@@ -5,24 +5,21 @@
 
 # Raindrop-IO-py
 
-Python wrapper for the API to the [Raindrop.io](https://raindrop.io) Bookmark Manager as well as a simple command-line interface to perform common operations.
+Python wrapper for the API to the [Raindrop.io](https://raindrop.io) Bookmark Manager.
+
+Capabilities include the ability to create, update, delete both link & file-based Raindrops; create, update delete Raindrop collections, tags etc.
 
 ## Background
 
-I wanted to use an existing API for the Raindrop Bookmark Manager ([python-raindropio](https://github.com/atsuoishimoto/python-raindropio)) to perform some bulk operations through a simple command-line interface. However, the API available was incomplete and didn't contain any user-interface. Thus, this is a _fork_ and significant extension of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) (ht [Atsuo Ishimoto](https://github.com/atsuoishimoto)).
-
-This package includes:
-
--   An API providing access to the Raindrop environment. For instance: create, update, delete link/file-based Raindrops; create, update delete Raindrop collections, tags etc.
--   A terminal-based user-interface that both tests the API as well as providing (me) a fast, simple interface to my Raindrop collections.
+I wanted to use an existing API for the Raindrop Bookmark Manager ([python-raindropio](https://github.com/atsuoishimoto/python-raindropio)) to perform some bulk operations through a simple command-line interface. However, the API was incomplete didn't seem actively supported anymore. Thus, this is a _fork_ and significant extension of [python-raindropio](https://github.com/atsuoishimoto/python-raindropio) (ht [Atsuo Ishimoto](https://github.com/atsuoishimoto)).
 
 ## Status
 
-As the API layer is based on a fork of an existing package, it's reasonably stable. However, the command-line interface (CLI) is brand new (and lacks tests, i.e. "works for me!" ;-).
+As the API layer is based on a fork of an existing package, it's reasonably stable.
 
 ## Requirements
 
-Requires Python 3.10 or later (well, at least I'm developing against 3.10.9).
+Requires Python 3.10 or later (well, at least we're developing against 3.11.3).
 
 ## Install
 
@@ -32,15 +29,22 @@ Requires Python 3.10 or later (well, at least I'm developing against 3.10.9).
 
 ## Setup
 
-To use this package, besides your own account on [Raindrop](https://raindrop.io), you'll need to create an `integration app` on the Raindrop.io site from which you can create API token(s).
+To use this package, you'll need two items:
 
--   Go to [<https://app.draindrop.api/settings/integrations>](https://app.raindrop.io/settings/integrations) and select `+ create new app`.
+- Somewhat obviously, your own account on [Raindrop](https://raindrop.io).
 
--   Give it a descriptive name and then select the app you just created.
+- However, to get API access to Raindrop, you'll need to create an `integration app` on [Raindrop](https://raindrop.io) site from which you can create API token(s).
 
--   Select `Create test token` and copy the token provided. Note that the basis for calling it a _test_ token is that it only gives you access to bookmarks within *your own account*. Raindrop allows you to use their API against other people's environments using oAuth (see untested/unsupported `flask_oauth.py` file in /examples)
 
--   Save your token into your environment (we use python-dotenv so a simple .env/.envrc file containing your token should suffice), for example:
+To setup your `integration app`:
+
+- Go to [<https://app.draindrop.api/settings/integrations>](https://app.raindrop.io/settings/integrations) and select `+ create new app`:
+
+- Give it a descriptive name and then select the app you just created.
+
+- Select `Create test token` and copy the token provided. Note that the basis for calling it a _test_ token is that it only gives you access to bookmarks within *your own account*. Raindrop allows you to use their API against other people's environments using oAuth (see untested/unsupported `flask_oauth.py` file in /examples)
+
+- Save your token into your environment (we use python-dotenv so a simple .env/.envrc file containing your token should suffice), for example:
 
 ```shell
 # If you use direnv or it's equivalent, place something like this in a .env file:
@@ -71,7 +75,7 @@ or a wrapper script is available to run all of them, in logical order with a sma
 
 ### API Examples
 
-Here are a few examples of API usage. Note that I don't have testing for the examples below (yet), but *DO* for those in the examples folder!
+Here are a few examples of API usage. Note that I don't have testing for the examples below (yet), but the examples folder helps significantly as it runs against your *live* Raindrop environment.
 
 #### Display All Collections and **Unsorted** Bookmarks:
 
@@ -165,9 +169,9 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 - FIXED: Inability to correctly handle "sub" or child collections. We now correctly unpack 'parent' references on querying child collections...(ht to @limaceous-bushwhacker in [issue #12](https://github.com/PBorocz/raindrop-io-py/issues/12).
-- CHANGED: Split the command-line portion of the library into a completely separate project. This reduces the size and complexity of the install for this package, allowing it to focus solely on the API interaction with Raindrop and allowing me to experiment more freely with different approaches to a command-line interface. If anyone WAS relying upon the CLI itself (hopefully not heavily), please let me know and I'll expedite the creation of the stand-alone CLI project/package.
 - FIXED: Bugs in `examples/list_collections.py` and `examples\list_authorised_user.py`) that were using old collection attribute `internal_` instead of renamed `other` (to list the _other_/non-official attributes associated with a Collection).
 - FIXED: False positives from tests associated with collections (noticed after adding test obo sub/child collections). There are a few tests not supported yet so the examples code (which runs against the live Raindrop environment is still valuable).
+- CHANGED: Split the command-line portion of the library into a completely separate project. This reduces the size and complexity of the install for this package, allowing it to focus solely on the API interaction with Raindrop and allowing me to experiment more freely with different approaches to a command-line interface. If anyone WAS relying upon the CLI itself (hopefully not heavily), please let me know and I'll expedite the creation of the stand-alone CLI project/package.
 
 ### v0.1.8 - 2023-10-03
 

@@ -81,9 +81,7 @@ class API:
         def update_token(newtoken: str) -> None:
             self.token = newtoken
 
-        token = (
-            {"access_token": self.token} if isinstance(self.token, str) else self.token
-        )
+        token = {"access_token": self.token} if isinstance(self.token, str) else self.token
 
         return OAuth2Session(
             self.client_id,

@@ -37,13 +37,13 @@ class API:
 
         >>> api = API(token="yourTestTokenFromRaindropIO"):
         >>> collections = Collection.get_collections(api)
-        >>> # etc.
+        >>> # ...
 
         or
 
         >>> with API(token="yourTestTokenFromRaindropIO") as api:
-        >>> user = User.get(api)
-        >>> # etc.
+        >>>     user = User.get(api)
+        >>>     # ...
     """
 
     def __init__(
@@ -231,7 +231,6 @@ class API:
             :class:`requests.Response` object.
         """
         json = self._to_json(json)
-
         assert self.session
         ret = self.session.post(url, headers=self._request_headers_json(), data=json)
         self._on_resp(ret)

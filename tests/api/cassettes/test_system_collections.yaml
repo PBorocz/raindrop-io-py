@@ -16,12 +16,12 @@ interactions:
     uri: https://api.raindrop.io/rest/v1/user/stats
   response:
     body:
-      string: '{"result":true,"items":[{"_id":0,"count":341},{"_id":-1,"count":25},{"_id":-99,"count":26}],"meta":{"_id":1006974,"changedBookmarksDate":"2023-07-21T02:21:03.574Z","broken":{"count":2},"pro":true}}'
+      string: '{"result":true,"items":[{"_id":0,"count":380},{"_id":-1,"count":8},{"_id":-99,"count":97}],"meta":{"_id":1006974,"changedBookmarksDate":"2023-12-11T23:59:46.765Z","broken":{"count":2},"pro":true}}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7ea0057caa1615a6-SJC
+      - 8341bf30d8c2fa72-SJC
       Cache-Control:
       - private
       Connection:
@@ -31,7 +31,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 21 Jul 2023 02:30:21 GMT
+      - Tue, 12 Dec 2023 00:10:53 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -39,10 +39,10 @@ interactions:
       alt-svc:
       - h3=":443"; ma=86400
       etag:
-      - W/"c5-4AYsgG/TDCwTdhJXwHOUKyzP2ik"
+      - W/"c4-LEi/eAlUxAhc000TaMJklEtiZiA"
       server-timing:
       - dc;desc=eu
-      - total;dur=25.115
+      - total;dur=27.384
       x-api-cache:
       - MISS
       x-powered-by:
@@ -50,9 +50,9 @@ interactions:
       x-ratelimit-limit:
       - '120'
       x-ratelimit-remaining:
-      - '115'
+      - '111'
       x-ratelimit-reset:
-      - '1689906678'
+      - '1702339864'
     status:
       code: 200
       message: OK

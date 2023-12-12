@@ -16,12 +16,12 @@ interactions:
     uri: https://api.raindrop.io/rest/v1/user
   response:
     body:
-      string: '{"result":true,"user":{"tfa":{"enabled":false},"files":{"size":10000000000,"lastCheckPoint":"2023-07-13T22:51:13.755Z","used":2496838},"_id":1006974,"avatar":"","pro":true,"name":"MadHun","fullName":"MadHun","email":"peter.borocz+raindrop@gmail.com","groups":[{"title":"Collections","hidden":false,"sort":0,"collections":[29479383,29479296,29384146,26115550,26109849,26109558]}],"lastAction":"2023-07-21T02:22:42.247Z","lastVisit":"2023-07-21T02:27:44.826Z","registered":"2022-07-23T18:12:33.975Z","lastUpdate":"2023-07-21T02:27:44.826Z","config":{"raindrops_view":"list","raindrops_hide":["simple_info","grid_highlights","grid_tags","list_cover","simple_excerpt","simple_tags"],"raindrops_buttons":["select","new_tab","preview","edit","remove"],"raindrops_search_by_score":true,"raindrops_search_incollection":true,"broken_level":"default","font_size":0,"add_default_collection":-1,"acknowledge":[],"tags_hide":false,"filters_hide":false,"mobile_add_auto_save":true,"raindrops_sort":"-created","raindrops_grid_cover_size":3,"raindrops_list_cover_right":false,"default_collection_view":"list","last_collection":26109558},"password":true}}'
+      string: '{"result":true,"user":{"tfa":{"enabled":false},"files":{"size":10000000000,"lastCheckPoint":"2023-10-01T21:47:03.246Z","used":8947690},"_id":1006974,"avatar":"","pro":true,"name":"MadHun","fullName":"MadHun","email":"peter.borocz+raindrop@gmail.com","groups":[{"title":"Collections","hidden":false,"sort":0,"collections":[29479383,29479296,29384146,26115550,26109849,26109558]}],"lastAction":"2023-12-12T00:10:55.616Z","lastVisit":"2023-12-12T00:06:55.272Z","registered":"2022-07-23T18:12:33.975Z","lastUpdate":"2023-12-12T00:10:55.616Z","config":{"raindrops_view":"list","raindrops_hide":["simple_info","grid_highlights","list_cover","simple_excerpt","simple_tags","grid_excerpt","grid_note","grid_info","list_excerpt","list_highlights","list_note"],"raindrops_buttons":["select","new_tab","preview","edit","remove"],"raindrops_search_by_score":true,"raindrops_search_incollection":true,"broken_level":"default","font_size":0,"add_default_collection":-1,"acknowledge":[],"tags_hide":false,"filters_hide":false,"mobile_add_auto_save":true,"raindrops_sort":"created","raindrops_grid_cover_size":2,"raindrops_list_cover_right":false,"default_collection_view":"list","last_collection":39866430},"password":true}}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7ea0044408b81701-SJC
+      - 8341c0406c6e9688-SJC
       Cache-Control:
       - private
       Connection:
@@ -31,7 +31,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 21 Jul 2023 02:29:31 GMT
+      - Tue, 12 Dec 2023 00:11:36 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -39,11 +39,11 @@ interactions:
       alt-svc:
       - h3=":443"; ma=86400
       etag:
-      - W/"472-zTnxF8VAoc53PiqBQhV1qDhSVlA"
+      - W/"4b9-sVYuQmkFy3ChBzxbd0sMDVZ/Q/o"
       server-timing:
       - dc;desc=eu
-      - get;dur=8.381
-      - total;dur=18.406
+      - get;dur=8.439
+      - total;dur=18.417
       x-powered-by:
       - Express
       x-ratelimit-limit:
@@ -51,7 +51,7 @@ interactions:
       x-ratelimit-remaining:
       - '118'
       x-ratelimit-reset:
-      - '1689906600'
+      - '1702339952'
     status:
       code: 200
       message: OK

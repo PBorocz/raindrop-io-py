@@ -12,8 +12,8 @@ def test_refresh() -> None:
     """Test the refresh method."""
     api = API(
         {
-            "access_token": "old",
-            "refresh_token": "bbb",
+            "access_token": "anAccessToken",
+            "refresh_token": "aRefreshToken",
             "expires_at": time.time() - 100000,
         },
     )
@@ -22,10 +22,12 @@ def test_refresh() -> None:
         resp.status_code = 200
         updated = {"access_token": "updated", "expires_at": time.time() + 100000}
         resp._content = json.dumps(updated).encode()
-
         m.return_value = resp
+
+        # Test
         api.get("https://localhost", {})
 
+        # Confirm
         refresh, local = m.call_args_list
         assert refresh[0] == ("POST", "https://raindrop.io/oauth/access_token")
         assert local[0] == ("GET", "https://localhost")

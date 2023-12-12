@@ -16,12 +16,12 @@ interactions:
     uri: https://api.raindrop.io/rest/v1/collections
   response:
     body:
-      string: '{"result":true,"items":[{"_id":26109849,"title":"ToRead","description":"","public":false,"view":"grid","count":11,"cover":["https://up.raindrop.io/collection/thumbs/261/098/49/b066882190cb8d0597c4265bdcdc9fc3.png"],"expanded":false,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:46.040Z","created":"2022-07-23T19:09:13.565Z","lastUpdate":"2023-01-16T04:44:28.376Z","sort":26109849,"slug":"to-read","color":"#6b7271","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26109558,"title":"Recipes","description":"","public":false,"view":"simple","count":273,"cover":["https://up.raindrop.io/collection/templates/materia-flat-food-vol-1/i26.png"],"expanded":false,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-07-13T22:54:41.621Z","created":"2022-07-23T18:42:12.323Z","lastUpdate":"2023-07-13T22:51:59.318Z","sort":5,"slug":"recipes","color":"#fb6c64","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26115550,"title":"ResponsiveImages","description":"","public":false,"view":"simple","count":6,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:44.027Z","created":"2022-07-24T01:03:46.031Z","lastUpdate":"2023-06-06T19:23:44.027Z","slug":"responsive-images","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29384146,"title":"Python","description":"","public":false,"view":"list","count":5,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:41.197Z","created":"2022-11-27T19:19:14.812Z","lastUpdate":"2023-06-06T19:23:41.197Z","slug":"python","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479296,"title":"Cooking-Products","description":"","public":false,"view":"list","count":13,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:18:53.991Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-products","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479383,"title":"Cooking-Skills","description":"","public":false,"view":"list","count":8,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:21:01.854Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-skills","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true}]}'
+      string: '{"result":true,"items":[{"_id":26109849,"title":"ToRead","description":"","public":false,"view":"grid","count":10,"cover":["https://up.raindrop.io/collection/thumbs/261/098/49/b066882190cb8d0597c4265bdcdc9fc3.png"],"expanded":true,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-12-11T23:56:51.279Z","created":"2022-07-23T19:09:13.565Z","lastUpdate":"2023-12-11T23:56:51.279Z","sort":26109849,"slug":"to-read","color":"#6b7271","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26109558,"title":"Recipes","description":"","public":false,"view":"simple","count":326,"cover":["https://up.raindrop.io/collection/templates/materia-flat-food-vol-1/i26.png"],"expanded":true,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-11-19T22:09:57.247Z","created":"2022-07-23T18:42:12.323Z","lastUpdate":"2023-12-11T23:59:20.038Z","sort":5,"slug":"recipes","color":"#fb6c64","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26115550,"title":"ResponsiveImages","description":"","public":false,"view":"simple","count":6,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:44.027Z","created":"2022-07-24T01:03:46.031Z","lastUpdate":"2023-06-06T19:23:44.027Z","slug":"responsive-images","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29384146,"title":"Python","description":"","public":false,"view":"list","count":5,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-09-17T23:55:23.715Z","created":"2022-11-27T19:19:14.812Z","lastUpdate":"2023-09-17T23:55:23.715Z","slug":"python","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479296,"title":"Cooking-Products","description":"","public":false,"view":"list","count":15,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-09-17T23:54:37.579Z","created":"2022-12-01T19:18:53.991Z","lastUpdate":"2023-09-17T23:54:37.579Z","slug":"cooking-products","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479383,"title":"Cooking-Skills","description":"","public":false,"view":"list","count":8,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:21:01.854Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-skills","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true}]}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7ea00568caaa1576-SJC
+      - 8341bf25caf39e52-SJC
       Cache-Control:
       - private
       Connection:
@@ -31,7 +31,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 21 Jul 2023 02:30:18 GMT
+      - Tue, 12 Dec 2023 00:10:51 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -39,19 +39,19 @@ interactions:
       alt-svc:
       - h3=":443"; ma=86400
       etag:
-      - W/"b55-xZyicPPKn3eJV8F7wenNFfqOlOc"
+      - W/"b53-Zvn3tCP73SkHVR+xKe40yQyTz9M"
       server-timing:
       - dc;desc=eu
-      - find_collections;dur=25.275
-      - total;dur=36.865
+      - find_collections;dur=22.071
+      - total;dur=31.827
       x-powered-by:
       - Express
       x-ratelimit-limit:
       - '120'
       x-ratelimit-remaining:
-      - '119'
+      - '115'
       x-ratelimit-reset:
-      - '1689906678'
+      - '1702339864'
     status:
       code: 200
       message: OK
@@ -72,40 +72,43 @@ interactions:
     uri: https://api.raindrop.io/rest/v1/collections/childrens
   response:
     body:
-      string: '{"result":true,"items":[]}'
+      string: '{"result":true,"items":[{"_id":39866550,"title":"SubRecipes","description":"","user":{"$ref":"users","$id":1006974},"parent":{"$ref":"collections","$id":26109558},"public":false,"view":"list","count":0,"cover":[],"sort":-1,"expanded":true,"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-12-11T23:59:19.578Z","created":"2023-12-11T23:59:19.578Z","lastUpdate":"2023-12-11T23:59:19.578Z","slug":"sub-recipes","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":39866430,"title":"ToReadSubCollection","description":"","user":{"$ref":"users","$id":1006974},"parent":{"$ref":"collections","$id":26109849},"public":false,"view":"list","count":2,"cover":[],"sort":-1,"expanded":true,"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-12-11T23:56:51.279Z","created":"2023-12-11T23:33:57.577Z","lastUpdate":"2023-12-11T23:56:51.279Z","slug":"to-read-sub-collection","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":39866552,"title":"Another
+        Nested","description":"","user":{"$ref":"users","$id":1006974},"parent":{"$ref":"collections","$id":39866430},"public":false,"view":"list","count":0,"cover":[],"sort":-1,"expanded":true,"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-12-11T23:59:46.386Z","created":"2023-12-11T23:59:46.387Z","lastUpdate":"2023-12-11T23:59:46.387Z","slug":"another-nested","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true}]}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7ea0056f897b15c8-SJC
+      - 8341bf2b1ffdcfb8-SJC
       Cache-Control:
       - private
       Connection:
       - keep-alive
-      Content-Length:
-      - '26'
+      Content-Encoding:
+      - gzip
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 21 Jul 2023 02:30:19 GMT
+      - Tue, 12 Dec 2023 00:10:52 GMT
       Server:
       - cloudflare
+      Transfer-Encoding:
+      - chunked
       alt-svc:
       - h3=":443"; ma=86400
       etag:
-      - '"1a-M5DJziFeZJQ6A/OlOUZ7iJ8L0aY"'
+      - W/"5ef-HihIJuAJwvEhbcEO9ujnnIVKDi4"
       server-timing:
       - dc;desc=eu
-      - find_collections;dur=15.132
-      - total;dur=24.292
+      - find_collections;dur=21.933
+      - total;dur=31.501
       x-powered-by:
       - Express
       x-ratelimit-limit:
       - '120'
       x-ratelimit-remaining:
-      - '118'
+      - '114'
       x-ratelimit-reset:
-      - '1689906678'
+      - '1702339864'
     status:
       code: 200
       message: OK
@@ -126,12 +129,12 @@ interactions:
     uri: https://api.raindrop.io/rest/v1/collections
   response:
     body:
-      string: '{"result":true,"items":[{"_id":26109849,"title":"ToRead","description":"","public":false,"view":"grid","count":11,"cover":["https://up.raindrop.io/collection/thumbs/261/098/49/b066882190cb8d0597c4265bdcdc9fc3.png"],"expanded":false,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:46.040Z","created":"2022-07-23T19:09:13.565Z","lastUpdate":"2023-01-16T04:44:28.376Z","sort":26109849,"slug":"to-read","color":"#6b7271","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26109558,"title":"Recipes","description":"","public":false,"view":"simple","count":273,"cover":["https://up.raindrop.io/collection/templates/materia-flat-food-vol-1/i26.png"],"expanded":false,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-07-13T22:54:41.621Z","created":"2022-07-23T18:42:12.323Z","lastUpdate":"2023-07-13T22:51:59.318Z","sort":5,"slug":"recipes","color":"#fb6c64","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26115550,"title":"ResponsiveImages","description":"","public":false,"view":"simple","count":6,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:44.027Z","created":"2022-07-24T01:03:46.031Z","lastUpdate":"2023-06-06T19:23:44.027Z","slug":"responsive-images","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29384146,"title":"Python","description":"","public":false,"view":"list","count":5,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:41.197Z","created":"2022-11-27T19:19:14.812Z","lastUpdate":"2023-06-06T19:23:41.197Z","slug":"python","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479296,"title":"Cooking-Products","description":"","public":false,"view":"list","count":13,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:18:53.991Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-products","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479383,"title":"Cooking-Skills","description":"","public":false,"view":"list","count":8,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:21:01.854Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-skills","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true}]}'
+      string: '{"result":true,"items":[{"_id":26109849,"title":"ToRead","description":"","public":false,"view":"grid","count":10,"cover":["https://up.raindrop.io/collection/thumbs/261/098/49/b066882190cb8d0597c4265bdcdc9fc3.png"],"expanded":true,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-12-11T23:56:51.279Z","created":"2022-07-23T19:09:13.565Z","lastUpdate":"2023-12-11T23:56:51.279Z","sort":26109849,"slug":"to-read","color":"#6b7271","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26109558,"title":"Recipes","description":"","public":false,"view":"simple","count":326,"cover":["https://up.raindrop.io/collection/templates/materia-flat-food-vol-1/i26.png"],"expanded":true,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-11-19T22:09:57.247Z","created":"2022-07-23T18:42:12.323Z","lastUpdate":"2023-12-11T23:59:20.038Z","sort":5,"slug":"recipes","color":"#fb6c64","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":26115550,"title":"ResponsiveImages","description":"","public":false,"view":"simple","count":6,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-06-06T19:23:44.027Z","created":"2022-07-24T01:03:46.031Z","lastUpdate":"2023-06-06T19:23:44.027Z","slug":"responsive-images","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29384146,"title":"Python","description":"","public":false,"view":"list","count":5,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-09-17T23:55:23.715Z","created":"2022-11-27T19:19:14.812Z","lastUpdate":"2023-09-17T23:55:23.715Z","slug":"python","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479296,"title":"Cooking-Products","description":"","public":false,"view":"list","count":15,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-09-17T23:54:37.579Z","created":"2022-12-01T19:18:53.991Z","lastUpdate":"2023-09-17T23:54:37.579Z","slug":"cooking-products","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":29479383,"title":"Cooking-Skills","description":"","public":false,"view":"list","count":8,"cover":[],"expanded":false,"sort":0,"user":{"$ref":"users","$id":1006974},"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-03-19T00:57:42.594Z","created":"2022-12-01T19:21:01.854Z","lastUpdate":"2023-03-29T22:38:12.274Z","slug":"cooking-skills","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true}]}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7ea00571d9a8fa26-SJC
+      - 8341bf2d194015c6-SJC
       Cache-Control:
       - private
       Connection:
@@ -141,7 +144,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 21 Jul 2023 02:30:19 GMT
+      - Tue, 12 Dec 2023 00:10:52 GMT
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -149,19 +152,19 @@ interactions:
       alt-svc:
       - h3=":443"; ma=86400
       etag:
-      - W/"b55-xZyicPPKn3eJV8F7wenNFfqOlOc"
+      - W/"b53-Zvn3tCP73SkHVR+xKe40yQyTz9M"
       server-timing:
       - dc;desc=eu
-      - find_collections;dur=22.609
-      - total;dur=31.851
+      - find_collections;dur=23.680
+      - total;dur=33.675
       x-powered-by:
       - Express
       x-ratelimit-limit:
       - '120'
       x-ratelimit-remaining:
-      - '117'
+      - '113'
       x-ratelimit-reset:
-      - '1689906678'
+      - '1702339864'
     status:
       code: 200
       message: OK
@@ -182,40 +185,43 @@ interactions:
     uri: https://api.raindrop.io/rest/v1/collections/childrens
   response:
     body:
-      string: '{"result":true,"items":[]}'
+      string: '{"result":true,"items":[{"_id":39866550,"title":"SubRecipes","description":"","user":{"$ref":"users","$id":1006974},"parent":{"$ref":"collections","$id":26109558},"public":false,"view":"list","count":0,"cover":[],"sort":-1,"expanded":true,"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-12-11T23:59:19.578Z","created":"2023-12-11T23:59:19.578Z","lastUpdate":"2023-12-11T23:59:19.578Z","slug":"sub-recipes","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":39866430,"title":"ToReadSubCollection","description":"","user":{"$ref":"users","$id":1006974},"parent":{"$ref":"collections","$id":26109849},"public":false,"view":"list","count":2,"cover":[],"sort":-1,"expanded":true,"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-12-11T23:56:51.279Z","created":"2023-12-11T23:33:57.577Z","lastUpdate":"2023-12-11T23:56:51.279Z","slug":"to-read-sub-collection","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true},{"_id":39866552,"title":"Another
+        Nested","description":"","user":{"$ref":"users","$id":1006974},"parent":{"$ref":"collections","$id":39866430},"public":false,"view":"list","count":0,"cover":[],"sort":-1,"expanded":true,"creatorRef":{"_id":1006974,"name":"MadHun","email":""},"lastAction":"2023-12-11T23:59:46.386Z","created":"2023-12-11T23:59:46.387Z","lastUpdate":"2023-12-11T23:59:46.387Z","slug":"another-nested","access":{"for":1006974,"level":4,"root":false,"draggable":true},"author":true}]}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7ea00577bae99866-SJC
+      - 8341bf2ee8971749-SJC
       Cache-Control:
       - private
       Connection:
       - keep-alive
-      Content-Length:
-      - '26'
+      Content-Encoding:
+      - gzip
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 21 Jul 2023 02:30:20 GMT
+      - Tue, 12 Dec 2023 00:10:52 GMT
       Server:
       - cloudflare
+      Transfer-Encoding:
+      - chunked
       alt-svc:
       - h3=":443"; ma=86400
       etag:
-      - '"1a-M5DJziFeZJQ6A/OlOUZ7iJ8L0aY"'
+      - W/"5ef-HihIJuAJwvEhbcEO9ujnnIVKDi4"
       server-timing:
       - dc;desc=eu
-      - find_collections;dur=14.611
-      - total;dur=23.771
+      - find_collections;dur=22.102
+      - total;dur=31.037
       x-powered-by:
       - Express
       x-ratelimit-limit:
       - '120'
       x-ratelimit-remaining:
-      - '116'
+      - '112'
       x-ratelimit-reset:
-      - '1689906678'
+      - '1702339864'
     status:
       code: 200
       message: OK

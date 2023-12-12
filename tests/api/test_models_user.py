@@ -70,7 +70,7 @@ def test_get() -> None:
             2,
             2,
             2,
-            tzinfo=datetime.timezone.utc,
+            tzinfo=datetime.UTC,
         )
         assert user.full_name == "test user"
         assert user.groups[0].hidden is False
@@ -86,5 +86,5 @@ def test_get() -> None:
             1,
             1,
             1,
-            tzinfo=datetime.timezone.utc,
+            tzinfo=datetime.UTC,
         )

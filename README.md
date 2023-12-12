@@ -169,7 +169,7 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 ### v0.2.0 - 2023-12-12
-- FIXED: Inability to correctly handle "sub" or child collections. We now correctly unpack 'parent' references on querying child collections...(ht to @limaceous-bushwhacker in [issue #12](https://github.com/PBorocz/raindrop-io-py/issues/12).
+- FIXED: Inability to correctly handle "sub" or child collections. We now correctly unpack 'parent' references on querying child collections...(ht to @limaceous-bushwhacker in [issue #12](https://github.com/PBorocz/raindrop-io-py/issues/12)).
 - FIXED: Bugs in `examples/list_collections.py` and `examples\list_authorised_user.py`) that were using old collection attribute `internal_` instead of renamed `other` (to list the _other_/non-official attributes associated with a Collection).
 - FIXED: False positives from tests associated with collections (noticed after adding test obo sub/child collections). There are a few tests not supported yet so the examples code (which runs against the live Raindrop environment is still valuable).
 - CHANGED: Split the command-line portion of the library into a completely separate project. This reduces the size and complexity of the install for this package, allowing it to focus solely on the API interaction with Raindrop and allowing me to experiment more freely with different approaches to a command-line interface. If anyone WAS relying upon the CLI itself (hopefully not heavily), please let me know and I'll expedite the creation of the stand-alone CLI project/package.

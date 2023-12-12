@@ -76,7 +76,7 @@ def test_get_root_collections(mock_api) -> None:
             0,
             0,
             0,
-            tzinfo=datetime.timezone.utc,
+            tzinfo=datetime.UTC,
         )
         assert collection.expanded is False
         assert collection.last_update == datetime.datetime(
@@ -86,11 +86,9 @@ def test_get_root_collections(mock_api) -> None:
             0,
             0,
             0,
-            tzinfo=datetime.timezone.utc,
+            tzinfo=datetime.UTC,
         )
-        assert (
-            collection.parent is None
-        )  # This IS the parent collection, thus, it has no parent itself!
+        assert collection.parent is None  # This IS the parent collection, thus, it has no parent itself!
         assert collection.public is False
         assert collection.sort == 3000
         assert collection.title == "aCollectionTitle"
@@ -180,7 +178,6 @@ def tst_create(mock_api) -> None:
     FIXME: Add test for trying to create a collection that's already there.
     """
     with patch("requests_oauthlib.OAuth2Session.request") as patched_request:
-
         mock_response = Mock(headers={"X-RateLimit-Limit": "100"})
         mock_response.json.return_value = {"item": COLLECTION}
         patched_request.return_value = mock_response

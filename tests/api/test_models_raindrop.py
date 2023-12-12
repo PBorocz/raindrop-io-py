@@ -45,7 +45,7 @@ def test_get() -> None:
             0,
             0,
             0,
-            tzinfo=datetime.timezone.utc,
+            tzinfo=datetime.UTC,
         )
         assert c.domain == "www.example.com"
         assert c.excerpt == "excerpt text"
@@ -56,7 +56,7 @@ def test_get() -> None:
             1,
             1,
             1,
-            tzinfo=datetime.timezone.utc,
+            tzinfo=datetime.UTC,
         )
         assert c.link == "https://www.example.com/"
         assert c.media == []
@@ -89,7 +89,6 @@ def test_create_file() -> None:
     api = API("dummy")
     content_type = "text/plain"
     with patch("raindropiopy.api.OAuth2Session.request") as m:
-
         # FIXME: Note that for now, we're *not* testing the ability to
         #        set either a title or tags on the following
         #        file-based create call (even though the capability is

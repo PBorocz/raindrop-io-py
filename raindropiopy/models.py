@@ -55,11 +55,23 @@ def _collect_other_attributes(cls, v):
     skip_attrs = "_id"  # We don't need to store alias attributes again (pydantic will take care of)
     v["other"] = dict()
     for attr, value in v.items():
-        if attr not in cls.__fields__:
-            if attr not in skip_attrs:
-                if value:
-                    v["other"][attr] = value
+        if value and attr not in cls.__fields__ and attr not in skip_attrs:
+            v["other"][attr] = value
     return v
+
+
+def _resolve_parent_reference(parent_reference: dict) -> int:
+    """Convert a Raindrop.IO parent reference dict to just the respective ID of the parent collection.
+
+    For a child collection that has a parent, the reference to the parent received from Raindrop.IO is:
+
+    {"$id": 12345678, "$ref": 'collections'}.
+
+    We don't need the $ref part (at least I don't believe so), so simply pull the $id key.
+    """
+    if isinstance(parent_reference, int):
+        return parent_reference
+    return parent_reference.get("$id")
 
 
 ################################################################################
@@ -189,8 +201,8 @@ class Collection(BaseModel):
         last_update: When the collection was last updated.
         parent: Parent ID of this is a sub-collection.
         public: Are contents of this collection available to non-authenticated users?
-        sort: The order of the collection. Defines the position of the collection all other
-          collections at the same level in the tree.
+        sort: The order of the collection. Defines the position of the collection against
+          all other collections at the same level in the tree (only used for sub-collections?)
         view: Current view style of the collection, e.g. list, simple, grid etc.
         other: All other attributes received from Raindrop's API (see Warning below)
 
@@ -212,12 +224,17 @@ class Collection(BaseModel):
     last_update: datetime | None
     parent: int | None  # Id of parent collection
     public: bool | None
-    sort: NonNegativeInt | None
+    sort: int | None
     view: View | None
 
     # Per API Doc: "Our API response could contain other fields, not described above.
     # It's unsafe to use them in your integration! They could be removed or renamed at any time."
     other: dict[str, Any] = {}
+
+    # Used to convert parent reference's of sub-collections to simply id's of the respective parent collection.
+    _extract_parent_id = validator("parent", pre=True, allow_reuse=True)(
+        _resolve_parent_reference,
+    )
 
     @root_validator(pre=True)
     # FIXME: noqa here is because work-around in https://github.com/pydantic/pydantic/issues/568 doesn't work!
@@ -238,7 +255,7 @@ class Collection(BaseModel):
         Note:
             Since Raindrop allows for collections to be nested, the RaindropIO's API distinguishes between Collections
             at the top-level/root of a collection hierarchy versus those all that are below the top level, aka 'child'
-            collections. Thus, use ``get_root_collections`` to get all Collections without parents and
+            or 'sub' collections. Thus, use ``get_root_collections`` to get all Collections without parents and
             ``get_child_collections`` for all Collections with parents.
         """
         ret = api.get(URL.format(path="collections"))

@@ -19,10 +19,6 @@ refresh_manage:
 manage *args:
     @manage {{args}}
 
-# Run the raindrop-io-py command-line interface
-cli:
-    @python raindropiopy/cli/cli.py
-
 # Run tests
 test *args:
     @python -m pytest {{args}}
@@ -46,8 +42,7 @@ pre-commit-update *args:
     @git add .pre-commit-config.yaml
     @just pre-commit-all {{args}}
 
-# In lieu of a formal integration test suite, run samples against live
-# Raindrop environment. This also keeps us honest wrt quality of example code :-)
+# In lieu of a formal integration test suite, run samples against live Raindrop environment.
 examples:
     # Listed in order of complexity, list_* are read-only, rest make changes.
     # We try to be nice to Raindrop by resting between each file.

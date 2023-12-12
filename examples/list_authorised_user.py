@@ -34,8 +34,8 @@ with API(os.environ["RAINDROP_TOKEN"]) as api:
     for (
         attr,
         value,
-    ) in user.config.internal_.items():  # (user "internal_" use only fields)
-        _print(f"config.internal_.{attr}", value)
+    ) in user.config.other.items():  # (user "internal_" use only fields)
+        _print(f"config.other.{attr}", value)
 
     # User files..
     print()

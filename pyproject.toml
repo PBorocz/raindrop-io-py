@@ -17,9 +17,6 @@ homepage = "https://github.com/PBorocz/raindrop-io-py"
 documentation = "https://raindrop-io-py.rtfd.io"
 packages = [{ include = "raindropiopy" }]
 
-[tool.poetry.scripts]
-raindrop-io-py = "raindropiopy.cli.cli:main"
-
 [tool.poetry.dependencies]
 python = ">=3.11,<4.0"
 python-dotenv = "^1.0.0"
@@ -28,14 +25,12 @@ pydantic = "^1.10.4"
 email-validator = "^2.1.0.post1"
 
 [tool.poetry.group.dev.dependencies]
-python-language-server = "^0.36.2"
 pre-commit = "^2.21.0"
 pytest = "^7.2.1"
-flake8 = "^6.0.0"
 vulture = "^2.7"
 requests = "^2.28.2"
 vcrpy = "^4.2.1"
-pexpect = "^4.8.0"
+fawltydeps = "^0.13.3"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^6.1.3"

@@ -11,7 +11,7 @@ from raindropiopy import API, Collection
 load_dotenv()
 
 
-def print_collection(coll: Collection) -> None:
+def print_collection(collection: Collection) -> None:
     """Print the collection, somewhat nicely."""
     fprint = lambda key, value: print(f"{key:.<24} {value!s}")  # noqa: E731
 
@@ -21,7 +21,7 @@ def print_collection(coll: Collection) -> None:
     fprint("parent", collection.parent)
     fprint("access.draggable", collection.access.draggable)
     fprint("access.level", collection.access.level.value)
-    fprint("collectionaborators", collection.collectionaborators)
+    fprint("collaborators", collection.collaborators)
     fprint("color", collection.color)
     fprint("count", collection.count)
     fprint("cover", collection.cover)

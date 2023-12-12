@@ -42,6 +42,10 @@ pre-commit-update *args:
     @git add .pre-commit-config.yaml
     @just pre-commit-all {{args}}
 
+# Run fawltydeps to assess package usage vs. installation.
+fawltydeps *args:
+    time fawltydeps --detailed {{args}}
+
 # In lieu of a formal integration test suite, run samples against live Raindrop environment.
 examples:
     # Listed in order of complexity, list_* are read-only, rest make changes.

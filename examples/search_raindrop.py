@@ -20,7 +20,6 @@ def _do_search(api, **search_args):
 
 
 with API(os.environ["RAINDROP_TOKEN"]) as api:
-
     # Create a sample Raindrop to be searched for:
     link = "https://www.python.org/"
     title = "Our Benevolent Dictators Creation"

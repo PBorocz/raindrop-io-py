@@ -1,6 +1,0 @@
-# NOTE: This is ONLY for Emacs editing support, NOT for pre-commit or github actions!!
-# Thus, we need to keep the configuration as consistent as possible (in fact, this
-# can be "tighter" than pyproject.toml)
-[flake8]
-    max-line-length = 120
-    max-complexity = 13

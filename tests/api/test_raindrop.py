@@ -118,31 +118,21 @@ def test_search(api, search_raindrops) -> None:
 
     # TEST: Can we search by "word"?
     results = Raindrop.search(api, search="ELGOOG")  # Title
-    assert (
-        len(results) == 1
-    ), f"Sorry, expected 1 for 'ELGOOG' but got the following {_print(results)}"
+    assert len(results) == 1, f"Sorry, expected 1 for 'ELGOOG' but got the following {_print(results)}"
 
     # TEST: Can we search by "word"?
     results = Raindrop.search(api, search="ELGOOG")  # Title
-    assert (
-        len(results) == 1
-    ), f"Sorry, expected 1 for 'ELGOOG' but got the following {_print(results)}"
+    assert len(results) == 1, f"Sorry, expected 1 for 'ELGOOG' but got the following {_print(results)}"
 
     results = Raindrop.search(api, search="1234567890")
-    assert (
-        len(results) == 2
-    ), f"Sorry, expected 2 for '1234567890' but got the following {_print(results)}"
+    assert len(results) == 2, f"Sorry, expected 2 for '1234567890' but got the following {_print(results)}"
 
     # TEST: Can we search by "tag"?
     results = Raindrop.search(api, search="#ABCDEFG")
-    assert (
-        len(results) == 1
-    ), f"Sorry, expected 1 for tag 'ABCDEFG' but got the following {_print(results)}"
+    assert len(results) == 1, f"Sorry, expected 1 for tag 'ABCDEFG' but got the following {_print(results)}"
 
     results = Raindrop.search(api, search="#HIJKLMO")
-    assert (
-        len(results) == 2
-    ), f"Sorry, expected 2 for tag 'HIJKLMO' but got the following {_print(results)}"
+    assert len(results) == 2, f"Sorry, expected 2 for tag 'HIJKLMO' but got the following {_print(results)}"
 
     # TEST: What happens if we search with NO parameters? We should get back ALL the bookmarks
     #       associated with the current test token's environment, including the test ones.
@@ -151,6 +141,4 @@ def test_search(api, search_raindrops) -> None:
     # Confirm that *at least* the 2 test cases are also in the results (at least in case
     # previous tests left leftover entries)
     found = sum(map(lambda raindrop: "1234567890" in raindrop.title, results))
-    assert (
-        found >= 2
-    ), "Sorry, expected to find the 2 entries we setup in the test for wildcard search but didn't!"
+    assert found >= 2, "Sorry, expected to find the 2 entries we setup in the test for wildcard search but didn't!"

@@ -16,7 +16,6 @@ def _print(key, value):
 
 
 with API(os.environ["RAINDROP_TOKEN"]) as api:
-
     user = User.get(api)
 
     for attr in ["id", "email", "full_name", "password", "pro", "registered"]:

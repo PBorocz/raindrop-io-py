@@ -11,7 +11,6 @@ from raindropiopy import API, Raindrop
 load_dotenv()
 
 with API(os.environ["RAINDROP_TOKEN"]) as api:
-
     # Create a new Raindrop..
     link = "https://www.python.org/"
     print(f"Creating Raindrop: '{link}'...", flush=True, end="")

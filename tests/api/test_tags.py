@@ -12,6 +12,4 @@ def test_get_tags(api) -> None:
     all_tags = Tag.get(api, CollectionRef.All.id)
     assert all_tags is not None
     assert isinstance(all_tags, list)
-    assert (
-        len(all_tags) > 0
-    ), "Sorry, we expect to have at least *1* tag for this user?!"
+    assert len(all_tags) > 0, "Sorry, we expect to have at least *1* tag for this user?!"

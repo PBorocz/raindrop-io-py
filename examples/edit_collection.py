@@ -11,7 +11,6 @@ from raindropiopy import API, Collection
 load_dotenv()
 
 with API(os.environ["RAINDROP_TOKEN"]) as api:
-
     # Create a new collection..
     title = "abcdef"
     print(f"Creating collection: '{title}'...", flush=True, end="")

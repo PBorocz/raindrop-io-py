@@ -18,7 +18,6 @@ author = "Peter Borocz"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
-    "sphinxjp.themes.basicstrap",
 ]
 
 napoleon_google_docstring = True
@@ -33,4 +32,8 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_static_path = ["_static"]
-html_theme = "basicstrap"
+
+
+# -- Theming -----------------------------------------------------------------
+html_theme = "sphinxdoc"
+html_theme_options = {"sidebarwidth": 400}

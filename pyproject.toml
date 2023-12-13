@@ -34,9 +34,7 @@ fawltydeps = "^0.13.3"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.2.6"
-sphinx-rtd-theme = "^2.0.0"
 sphinx-autobuild = "^2021.3.14"
-sphinxjp-themes-basicstrap = "^0.5.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

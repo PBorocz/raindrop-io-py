@@ -529,11 +529,7 @@ class SystemCollection(BaseModel):
         - The *Trash* collection contains Raindrops that have been recently deleted.
 
     You won't use this class directly on behalf of individual Raindrops, rather, its definition is on behalf of
-    a small set of simple "status" calls available from the Raindrop.io API, specifically:
-
-        - get_counts() -> Count of items each of the in the 3 System collections (get_counts).
-
-        - get_meta() -> "Meta" information about your environment, e.g. lastChangedDate, proLevel, # broken links etc.
+    a small set of simple "status" calls available from the Raindrop.io API, specifically `get_counts` and `get_meta`.
     """
 
     id: int = Field(None, alias="_id")
@@ -552,14 +548,23 @@ class SystemCollection(BaseModel):
         return values
 
     @classmethod
-    def get_counts(cls, api: T_API) -> User:
+    def get_counts(cls, api: T_API) -> list[Collection]:
         """Get the count of Raindrops in each of the 3 *system* collections."""
         items = api.get(URL.format(path="user/stats")).json()["items"]
         return [cls(**item) for item in items]
 
     @classmethod
-    def get_meta(cls, api: T_API) -> User:
-        """Get the 'meta' slug from the root/system Collection."""
+    def get_meta(cls, api: T_API) -> dict:
+        """Get the 'meta' slug from the root/system Collection.
+
+        Contains information about:
+
+        - Last date/time any bookmark was changed.
+
+        - The number of broken links in bookmarks.
+
+        - If your account is a "pro" level.
+        """
         return api.get(URL.format(path="user/stats")).json()["meta"]
 
 

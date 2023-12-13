@@ -11,11 +11,11 @@ from raindropiopy import API, SystemCollection
 load_dotenv()
 
 
-def _print(c: SystemCollection) -> None:
+def _print(collection: SystemCollection) -> None:
     print("---------------------------------------------------")
-    print("id:    ", c.id)
-    print("title: ", c.title)
-    print("count: ", c.count)
+    print("id:    ", collection.id)
+    print("title: ", collection.title)
+    print("count: ", collection.count)
 
 
 with API(os.environ["RAINDROP_TOKEN"]) as api:

@@ -18,6 +18,7 @@ def run(path_name):
 
 
 # Order: the first 3 are READ-ONLY, followed by Collection examples and then Raindrop ones.
+run("examples/get_meta.py")
 run("examples/list_authorised_user.py")
 run("examples/list_collections.py")
 run("examples/list_tags.py")

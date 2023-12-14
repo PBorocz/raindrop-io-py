@@ -1,6 +1,9 @@
 """Test all the methods in the Raindrop Collection API."""
 import datetime
+import json
 from unittest.mock import patch, Mock
+
+import pytest
 
 from raindropiopy import AccessLevel, Collection, SystemCollection, View
 
@@ -149,6 +152,76 @@ def test_get_system_collection_status(mock_api) -> None:
         assert SystemCollection.get_counts(mock_api)[0].id == -1
         assert SystemCollection.get_counts(mock_api)[0].title == "Unsorted"
         assert SystemCollection.get_counts(mock_api)[0].count == 5
+
+
+def test_parent_dereferencing() -> None:
+    """Test that we can correct 'de-reference' a parent."""
+    base = {
+        "_id": 1001,
+        "access": {"draggable": True, "for": 10000, "level": 4, "root": False},
+        "author": True,
+        "count": 0,
+        "cover": ["https://www.aRandomCover.org"],
+        "created": "2020-01-01T00:00:00Z",
+        "creatorRef": {"_id": 10000, "full_name": "user name"},
+        "expanded": False,
+        "last_update": "2020-01-02T00:00:00Z",
+        "public": False,
+        "sort": 3000,
+        "title": "aSubCollectionTitle",
+        "user": {"$db": "", "$id": 10000, "$ref": "users"},
+        "view": "list",
+    }
+
+    # Test
+    Collection(**base)
+
+    base["parent"] = {"$db": "", "$id": 1000, "$ref": "collections"}
+    Collection(**base)
+
+    base["parent"] = 123456789
+    Collection(**base)
+
+    with pytest.raises(AttributeError):
+        base["parent"] = ["123456789", "ABC"]
+        Collection(**base)
+
+    # Example of collection taken from raindropiocli's state capability.
+    state_json = """{
+        "id": 39866550,
+        "title": "SubCollection",
+        "user": {
+            "id": 1006974,
+            "ref": null
+        },
+        "access": {
+            "level": 4,
+            "draggable": true
+        },
+        "collaborators": [],
+        "color": null,
+        "count": 0,
+        "cover": [],
+        "created": "2023-12-11T23:59:19.578000+00:00",
+        "expanded": true,
+        "last_update": null,
+        "parent": 26109558,
+        "public": false,
+        "sort": -1,
+        "view": "list",
+        "other": {
+            "creatorRef": {
+                "_id": 1006974,
+                "name": "MadHun",
+                "email": ""
+            },
+            "lastAction": "2023-12-11T23:59:19.578Z",
+            "lastUpdate": "2023-12-11T23:59:19.578Z",
+            "slug": "sub-collection",
+            "author": true
+        }
+    }"""
+    Collection(**json.loads(state_json))
 
 
 # FIXME: Need to figure out how to mock better, as is, this test is meaningless.

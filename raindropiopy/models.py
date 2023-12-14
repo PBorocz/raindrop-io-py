@@ -61,7 +61,7 @@ def _collect_other_attributes(cls, v):
     return v
 
 
-def _resolve_parent_reference(parent_reference: dict) -> int:
+def _resolve_parent_reference(parent_reference: dict | int | None) -> int | None:
     """Convert a Raindrop.IO parent reference dict to just the respective ID of the parent collection.
 
     For a child collection that has a parent, the reference to the parent received from Raindrop.IO is:
@@ -70,7 +70,9 @@ def _resolve_parent_reference(parent_reference: dict) -> int:
 
     We don't need the $ref part (at least I don't believe so), so simply pull the $id key.
     """
-    if isinstance(parent_reference, int):
+    if parent_reference is None:
+        return None
+    elif isinstance(parent_reference, int):
         return parent_reference
     return parent_reference.get("$id")
 
@@ -223,7 +225,7 @@ class Collection(BaseModel):
     created: datetime | None
     expanded: bool = False
     last_update: datetime | None
-    parent: int | None  # Id of parent collection
+    parent: int | None  # Id of parent collection (if any)
     public: bool | None
     sort: int | None
     view: View | None

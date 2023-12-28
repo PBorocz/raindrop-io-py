@@ -1,0 +1,8 @@
+excerpt  # unused variable (raindropiopy/models.py:669)
+important  # unused variable (raindropiopy/models.py:670)
+media  # unused variable (raindropiopy/models.py:671)
+order  # unused variable (raindropiopy/models.py:672)
+excerpt  # unused variable (raindropiopy/models.py:841)
+important  # unused variable (raindropiopy/models.py:842)
+media  # unused variable (raindropiopy/models.py:844)
+order  # unused variable (raindropiopy/models.py:845)

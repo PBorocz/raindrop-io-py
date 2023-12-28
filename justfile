@@ -33,8 +33,6 @@ docs *args:
 # Pre-commit - Run all
 pre-commit-all *args:
     @pre-commit run --all-files {{args}}
-    @echo "Running vulture..."
-    @vulture
 
 # Pre-commit - Update to a new pre-commit configuration and run
 pre-commit-update *args:

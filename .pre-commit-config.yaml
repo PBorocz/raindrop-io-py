@@ -37,6 +37,15 @@ repos:
     name: Running check for large files
 
 ################################################################################
+# Confirm we don't have unused code:
+################################################################################
+repos:
+  - repo: https://github.com/jendrikseipp/vulture
+    rev: 'v2.3'  # or any later Vulture version
+    hooks:
+      - id: vulture
+
+################################################################################
 # Run test suite, only at the end since code stuff above is so cyclical!
 ################################################################################
 # - repo: local

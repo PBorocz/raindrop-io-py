@@ -706,37 +706,11 @@ class Raindrop(BaseModel):
             ``Raindrop`` instance created.
 
         Note:
-            We don't allow you to set either ``created`` or ``last_update`` attributes. They will be set appropriately
-            by the RaindropIO service on your behalf.
+            We don't allow you to set either ``created`` or ``last_update`` attributes. They will be
+            set appropriately by the RaindropIO service on your behalf.
         """
-        # NOTE: We have small code style conflict here between Vulture
-        # and Ruff, specifically:
-
-        # Vulture will report all the optional variables above as
-        # "unused". This is clearly technically true as their only
-        # appearance below is as a string to the arg below from which
-        # we take the actual value of the inbound argument from
-        # locals(), instead of referring to the argument explicitly.
-        #
-        # However, converting all of these to a (rather lengthy set)
-        # of simple statements like:
-        #
-        # if <arg> is not None:
-        #     args[<arg>] = <arg>
-        #
-        # keeps Vulture happy but now trips the McCabe complexity
-        # metric(!) implemented in our Ruff pre-commit pass due to the
-        # number of conditionals in a single method!
-        #
-        # While, we /could/, convert to kwargs, we lose the documentation
-        # and verbosity available with explicit arguments.
-        #
-        # Thus, for now, we **leave** vulture out of pre-commit and
-        # simply run it manually as necessary (through our justfile)
-
-        # Setup the args that will be passed to the underlying
-        # Raindrop API, only link is absolutely required, rest are
-        # optional!
+        # Setup the args that will be passed to the underlying Raindrop API, only link is
+        # absolutely required, rest are optional!
         args: dict[str, Any] = dict(type=RaindropType.link, link=link)
 
         if please_parse:

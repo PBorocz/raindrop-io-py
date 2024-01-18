@@ -169,9 +169,13 @@ The project is licensed under the MIT License.
 
 ### Unreleased
 
+### 0.2.2 - 2024-01-18
+
 - INTERNAL: Create whitelist obo vulture to one set of method arguments that are used dynamically.
 
 - INTERNAL: Moved from stand-alone manage.yaml to incorporate manage commands directly in pyproject.toml (based on manage's 0.2.0 release). Remove manage from local install (run from pipx instead).
+
+- FIXED: Addressed error in nested Collections, handling case of parent reference as either a dict, an int or None.
 
 ### v0.2.1 - 2023-12-12
 - FIXED: Minor bug in recently updated list_collections.

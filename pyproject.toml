@@ -5,8 +5,8 @@
 
 [tool.poetry]
 name = "raindrop-io-py"
-version = "0.2.1"
-description = "API and terminal-based CLI for Raindrop.io bookmark manager"
+version = "0.2.2"
+description = "API for Raindrop.io bookmark manager"
 authors = ["Peter Borocz <peter.borocz+raindrop-io-py@google.com>"]
 classifiers = ['License :: OSI Approved :: MIT License', 'Programming Language :: Python :: 3']
 include = ["LICENSE",]
@@ -119,49 +119,113 @@ paths = ["raindropiopy", "examples", "vulture_whitelist.py"]
 requires = ["poetry-core>=1.0.0", "setuptools"]
 build-backend = "poetry.core.masonry.api"
 
-################################################################################
-[tool.manage.recipes.bump_version]
-description = "Bump the version number (default: patch) and commit locally"
+# ##############################################################################
+# PoeThePoet
+# ##############################################################################
+[tool.poe]
+verbosity = 2
 
-[[tool.manage.recipes.bump_version.steps]]
-  method = "poetry_bump_version"
-  arguments = { bump_rule = "patch" }
-
-[[tool.manage.recipes.bump_version.steps]]
-  method = "update_readme"
-  readme_format = "md"
-
-[[tool.manage.recipes.bump_version.steps]]
-  method = "git_commit_version_files"
+[tool.poe.tasks]
+#-------------------------------------------------------------------------------
+# 0: GENERAL Tasks
+#-------------------------------------------------------------------------------
+# test = "pytest"
+# run = "poetry run manage"
 
 #-------------------------------------------------------------------------------
-[tool.manage.recipes.build]
-description = "Build our distribution"
-
-[[tool.manage.recipes.build.steps]]
-  method = "run_pre_commit"
-  echo_stdout = true
-
-[[tool.manage.recipes.build.steps]]
-  method = "clean"
-  allow_error = true
-
-[[tool.manage.recipes.build.steps]]
-  method = "build"
-  echo_stdout = true
+# 1: Version update (aka "bump")
+#-------------------------------------------------------------------------------
+VERSION = [
+  "_poetry_version",
+  "_update_readme_version",
+  "_git_add_version",
+  "_git_commit",
+]
+_update_readme_version = "update_readme_version" # Uses pyproject.toml to update README.md
+_git_add_version	   = "git add pyproject.toml README.md"
+_git_commit			   = "git commit -m 'Bump step commit (from poe)'"
 
 #-------------------------------------------------------------------------------
-[tool.manage.recipes.publish]
-description = "Release a new version of our package to PyPI"
+# 2: Build
+#-------------------------------------------------------------------------------
+BUILD = [
+  "_clean",
+  "_pre_commit",
+  "_poetry_lock_check",
+  "_poetry_lock_update",
+  "_poetry_build",
+]
+_clean				= "rm -rf build *.egg-info"
+_pre_commit			= "pre-commit run --all-files"
+_poetry_lock_check	= "poetry check --lock"
+_poetry_lock_update	= "poetry lock --no-update"
+_poetry_build		= "poetry build"
 
-[[tool.manage.recipes.publish.steps]]
-  method = "git_create_tag"
+#-------------------------------------------------------------------------------
+# 3: Release
+#-------------------------------------------------------------------------------
+RELEASE	= [
+  "_git_create_tag",
+  "_git_push_to_github",
+  "_publish_to_pypi",
+  "_git_create_release",
+]
+_git_push_to_github	= "git push --follow-tags"
+_publish_to_pypi = "poetry publish"
 
-[[tool.manage.recipes.publish.steps]]
-  method = "git_push_to_github"
+#-------------------------------------------------------------------------------
+# Support targets.
+#-------------------------------------------------------------------------------
+[tool.poe.tasks._poetry_version]
+shell = "poetry version $bump_level"
 
-[[tool.manage.recipes.publish.steps]]
-  method = "publish_to_pypi"
+[[tool.poe.tasks._poetry_version.args]]
+  name    = "bump_level"
+  help    = "The semantic version to push new version to, eg. patch, minor, major etc."
+  default = "patch"
 
-[[tool.manage.recipes.publish.steps]]
-  method = "git_create_release"
+[tool.poe.tasks._git_create_tag]
+interpreter = "fish"
+shell = """
+  set version (grep "version =" pyproject.toml | head -1 | awk -F'\"' '{print $2}')
+  git tag -a $version --message $version
+"""
+
+[tool.poe.tasks._git_create_release]
+interpreter = "fish"
+shell = """
+  set version (grep "version =" pyproject.toml | head -1 | awk -F'\"' '{print $2}')
+  gh release create "$version" --title "$version"
+"""
+
+#-------------------------------------------------------------------------------
+# [tool.manage.recipes.build]
+# description = "Build our distribution"
+
+# [[tool.manage.recipes.build.steps]]
+#   method = "run_pre_commit"
+#   echo_stdout = true
+
+# [[tool.manage.recipes.build.steps]]
+#   method = "clean"
+#   allow_error = true
+
+# [[tool.manage.recipes.build.steps]]
+#   method = "build"
+#   echo_stdout = true
+
+#-------------------------------------------------------------------------------
+# [tool.manage.recipes.publish]
+# description = "Release a new version of our package to PyPI"
+
+# [[tool.manage.recipes.publish.steps]]
+#   method = "git_create_tag"
+
+# [[tool.manage.recipes.publish.steps]]
+#   method = "git_push_to_github"
+
+# [[tool.manage.recipes.publish.steps]]
+#   method = "publish_to_pypi"
+
+# [[tool.manage.recipes.publish.steps]]
+#   method = "git_create_release"
